@@ -1,13 +1,11 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import PageTransition from "../../components/PageTransition/PageTransition";
 import "./Nav.css";
 
 export default function Nav(): React.ReactElement {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const [transitionTarget, setTransitionTarget] = useState<"events" | "home">("events");
   const pathname = usePathname();
   const router = useRouter();
   const toggleRef = useRef<HTMLButtonElement | null>(null);
@@ -18,17 +16,13 @@ export default function Nav(): React.ReactElement {
     if (pathname === "/events" || isTransitioning) return;
 
     setIsOpen(false);
-    setTransitionTarget("events");
     setIsTransitioning(true);
-    transitionTimeoutRef.current = window.setTimeout(() => {
-      router.push("/events");
-    }, 720);
+    window.dispatchEvent(new CustomEvent("ecell:events-transition"));
   };
 
   const openHome = () => {
     if (pathname === "/" || isTransitioning) return;
 
-    setTransitionTarget("home");
     setIsTransitioning(true);
     transitionTimeoutRef.current = window.setTimeout(() => {
       router.push("/");
@@ -130,8 +124,6 @@ export default function Nav(): React.ReactElement {
           </button>
         </div>
       </nav>
-
-      <PageTransition active={isTransitioning} targetView={transitionTarget} />
 
       <div
         ref={dropdownRef}
