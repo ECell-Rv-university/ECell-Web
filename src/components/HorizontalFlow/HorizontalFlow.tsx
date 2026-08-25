@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
-import { gsap, ScrollTrigger } from "@/src/utils/gsapSetup";
+import { gsap } from "@/src/utils/gsapSetup";
 import "./HorizontalFlow.css";
 
 interface HorizontalFlowProps {
