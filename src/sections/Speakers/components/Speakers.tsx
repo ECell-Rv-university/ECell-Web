@@ -189,7 +189,6 @@ export default function Speakers(): React.ReactElement {
     if (!section || !panel) return;
 
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const isMobile = window.matchMedia("(max-width: 767px)").matches;
 
     const ctx = gsap.context(() => {
       // ── Transition Light ──
