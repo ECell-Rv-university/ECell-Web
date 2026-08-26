@@ -37,12 +37,18 @@ export default function Nav(): React.ReactElement {
   };
 
   useEffect(() => {
-    if (!isTransitioning) return;
-    const expectedPath = transitionTarget === "home" ? "/" : "/events";
-    if (pathname === expectedPath) {
+  if (!isTransitioning) return;
+
+  const expectedPath = transitionTarget === "home" ? "/" : "/events";
+
+  if (pathname === expectedPath) {
+    const timeoutId = window.setTimeout(() => {
       setIsTransitioning(false);
-    }
-  }, [pathname, isTransitioning, transitionTarget]);
+    }, 0);
+
+    return () => window.clearTimeout(timeoutId);
+  }
+}, [pathname, isTransitioning, transitionTarget]);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
