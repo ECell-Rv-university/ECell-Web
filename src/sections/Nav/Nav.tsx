@@ -33,16 +33,12 @@ export default function Nav(): React.ReactElement {
   useEffect(() => {
   if (!isTransitioning) return;
 
-  const expectedPath = transitionTarget === "home" ? "/" : "/events";
+  const timeoutId = window.setTimeout(() => {
+    setIsTransitioning(false);
+  }, 0);
 
-  if (pathname === expectedPath) {
-    const timeoutId = window.setTimeout(() => {
-      setIsTransitioning(false);
-    }, 0);
-
-    return () => window.clearTimeout(timeoutId);
-  }
-}, [pathname, isTransitioning, transitionTarget]);
+  return () => window.clearTimeout(timeoutId);
+}, [pathname, isTransitioning]);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -79,7 +75,6 @@ export default function Nav(): React.ReactElement {
         // sessionStorage unavailable (e.g. private browsing) — proceed anyway,
         // scroll just won't be resolved after navigation in that edge case.
       }
-      setTransitionTarget("home");
       setIsTransitioning(true);
       transitionTimeoutRef.current = window.setTimeout(() => {
         router.push("/");
