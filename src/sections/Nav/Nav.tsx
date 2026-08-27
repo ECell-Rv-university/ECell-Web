@@ -1,18 +1,46 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
 import { usePathname, useRouter } from "next/navigation";
+import LogoModal from "../../components/LogoModal/LogoModal";
 import PageTransition from "../../components/PageTransition/PageTransition";
 import "./Nav.css";
 
 export default function Nav(): React.ReactElement {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [isTransitioning, setIsTransitioning] = useState(false);
-  const [transitionTarget, setTransitionTarget] = useState<"events" | "home">("events");
   const pathname = usePathname();
   const router = useRouter();
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isLogoModalOpen, setIsLogoModalOpen] = useState<boolean>(false);
+  const [isLogoInNav, setIsLogoInNav] = useState<boolean>(false);
+  const [hasDismissedHint, setHasDismissedHint] = useState<boolean>(false);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [transitionTarget, setTransitionTarget] = useState<"events" | "home">("events");
   const toggleRef = useRef<HTMLButtonElement | null>(null);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
   const transitionTimeoutRef = useRef<number | null>(null);
+
+  const handleLogoClick = () => {
+    setIsLogoModalOpen(true);
+    setHasDismissedHint(true);
+  };
+
+  useEffect(() => {
+    if (pathname !== "/") {
+      setIsLogoInNav(true);
+      return;
+    }
+
+    setIsLogoInNav(false);
+
+    const handleLogoInNav = (e: CustomEvent<{ inNav: boolean }>) => {
+      setIsLogoInNav(Boolean(e.detail?.inNav));
+    };
+
+    window.addEventListener("ecell:logo-in-nav" as any, handleLogoInNav);
+
+    return () => {
+      window.removeEventListener("ecell:logo-in-nav" as any, handleLogoInNav);
+    };
+  }, [pathname]);
 
   const openEvents = () => {
     if (pathname === "/events" || isTransitioning) return;
@@ -84,17 +112,47 @@ export default function Nav(): React.ReactElement {
     };
   }, [isOpen]);
 
+  const showHint = isLogoInNav && !hasDismissedHint && !isLogoModalOpen;
+
   return (
     <>
       <nav>
-        <button
-          className="logo nav__logo-container nav__logo-button"
-          onClick={pathname === "/" ? () => window.location.reload() : openHome}
-          type="button"
-          aria-label={pathname === "/" ? "Reload homepage" : "Return to homepage"}
-        >
-          <div className="nav__logo-icon-target" />
-        </button>
+        <div className="nav__logo-group">
+          <button
+            className="logo nav__logo-container nav__logo-button"
+            onClick={handleLogoClick}
+            type="button"
+            aria-label="View our logo symbolism"
+            title="Click to view our logo story"
+          >
+            <div className="nav__logo-icon-target" />
+          </button>
+
+          {/* Sleek inline hint aligned horizontally with the logo */}
+          <button
+            type="button"
+            className={`nav__logo-hint ${showHint ? "is-visible" : ""}`}
+            onClick={handleLogoClick}
+            aria-label="Click to explore our logo story"
+          >
+            <svg
+              className="nav__logo-hint-arrow"
+              viewBox="0 0 20 12"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M18 6H2M2 6L6 2M2 6L6 10"
+                stroke="currentColor"
+                strokeWidth="1.6"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+            <span className="nav__logo-hint-text">Click to explore</span>
+          </button>
+        </div>
+
         <div className="nav-right">
           <button
             className={`nav-events-link ${pathname === "/events" ? "is-active" : ""}`}
@@ -130,6 +188,8 @@ export default function Nav(): React.ReactElement {
           </button>
         </div>
       </nav>
+
+      <LogoModal isOpen={isLogoModalOpen} onClose={() => setIsLogoModalOpen(false)} />
 
       <PageTransition active={isTransitioning} targetView={transitionTarget} />
 
