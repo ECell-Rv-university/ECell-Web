@@ -7,7 +7,7 @@ interface StaticImageAsset {
   blurHeight?: number;
 }
 
-declare module "*.png" {
+declare module "*.webp" {
   const source: StaticImageAsset;
   export default source;
 }

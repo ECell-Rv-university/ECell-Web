@@ -17,6 +17,7 @@ export default function Nav(): React.ReactElement {
   const toggleRef = useRef<HTMLButtonElement | null>(null);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
   const transitionTimeoutRef = useRef<number | null>(null);
+  const PENDING_SCROLL_KEY = "nav:pendingScrollTarget";
 
   const handleLogoClick = () => {
     setIsLogoModalOpen(true);
@@ -46,22 +47,28 @@ export default function Nav(): React.ReactElement {
     if (pathname === "/events" || isTransitioning) return;
 
     setIsOpen(false);
-    setTransitionTarget("events");
     setIsTransitioning(true);
-    transitionTimeoutRef.current = window.setTimeout(() => {
-      router.push("/events");
-    }, 720);
+    window.dispatchEvent(new CustomEvent("ecell:events-transition"));
   };
 
   const openHome = () => {
     if (pathname === "/" || isTransitioning) return;
 
-    setTransitionTarget("home");
     setIsTransitioning(true);
     transitionTimeoutRef.current = window.setTimeout(() => {
       router.push("/");
     }, 720);
   };
+
+  useEffect(() => {
+  if (!isTransitioning) return;
+
+  const timeoutId = window.setTimeout(() => {
+    setIsTransitioning(false);
+  }, 0);
+
+  return () => window.clearTimeout(timeoutId);
+}, [pathname, isTransitioning]);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -88,6 +95,23 @@ export default function Nav(): React.ReactElement {
 
   const scrollToSection = (id: string) => {
     setIsOpen(false);
+
+  
+    if (pathname !== "/") {
+      if (isTransitioning) return;
+      try {
+        sessionStorage.setItem(PENDING_SCROLL_KEY, id);
+      } catch {
+        // sessionStorage unavailable (e.g. private browsing) — proceed anyway,
+        // scroll just won't be resolved after navigation in that edge case.
+      }
+      setIsTransitioning(true);
+      transitionTimeoutRef.current = window.setTimeout(() => {
+        router.push("/");
+      }, 720);
+      return;
+    }
+
     const el = document.getElementById(id);
     if (el) {
       const navigationEvent = new CustomEvent<{ targetId: string }>("horizontal-flow:navigate", {
@@ -102,6 +126,121 @@ export default function Nav(): React.ReactElement {
       }
     }
   };
+
+  useEffect(() => {
+    if (pathname !== "/") return;
+
+    let pending: string | null = null;
+    try {
+      pending = sessionStorage.getItem(PENDING_SCROLL_KEY);
+    } catch {
+      pending = null;
+    }
+    if (!pending) return;
+
+    // NOTE: the stored target is intentionally NOT removed here. StrictMode
+    // remounts effects in development, so consuming the key on mount would
+    // lose it on the second run. It is cleared only once the scroll settles.
+
+    const targetId = pending;
+
+    const clearPendingTarget = () => {
+      try {
+        sessionStorage.removeItem(PENDING_SCROLL_KEY);
+      } catch {
+        // ignore
+      }
+    };
+
+    let ticks = 0;
+    let scrollAttempts = 0;
+    let ticksSinceScroll = 0;
+    let settled = false;
+    const maxTicks = 120; // ~12s at 100ms intervals — covers the entry loader plus late mounting
+    const maxScrollAttempts = 4; // initial try + retries if something snaps the page back to the top
+
+    const requestNavigation = (el: HTMLElement) => {
+      scrollAttempts += 1;
+      ticksSinceScroll = 0;
+
+      const navigationEvent = new CustomEvent<{ targetId: string }>("horizontal-flow:navigate", {
+        detail: { targetId },
+        cancelable: true,
+      });
+      window.dispatchEvent(navigationEvent);
+
+      // Sections inside the pinned horizontal flow claim the event and scroll
+      // themselves; everything else uses standard anchor scrolling.
+      if (!navigationEvent.defaultPrevented) {
+        el.scrollIntoView({ behavior: "smooth" });
+      }
+    };
+
+    const intervalId = window.setInterval(() => {
+      ticks += 1;
+
+      if (settled) {
+        window.clearInterval(intervalId);
+        clearPendingTarget();
+        return;
+      }
+
+      const el = document.getElementById(targetId);
+
+      // Target not mounted yet — keep waiting briefly, then give up.
+      if (!el) {
+        if (ticks >= maxTicks) {
+          window.clearInterval(intervalId);
+          clearPendingTarget();
+        }
+        return;
+      }
+
+      // While the entry loader holds body overflow hidden the viewport cannot
+      // scroll at all: any programmatic scroll is clamped straight back to the
+      // top and silently lost, leaving the page parked above the requested
+      // section. Wait for that lock to lift before moving anywhere.
+      if (document.body.style.overflow === "hidden") {
+        if (ticks >= maxTicks) {
+          window.clearInterval(intervalId);
+          clearPendingTarget();
+        }
+        return;
+      }
+
+      const reachedTarget = scrollAttempts > 0 && (window.scrollY > 40 || el.getBoundingClientRect().top < 160);
+
+      if (reachedTarget) {
+        // The scroll stuck — we are at/near the section or clearly en route.
+        settled = true;
+        return;
+      }
+
+      if (scrollAttempts === 0) {
+        requestNavigation(el);
+        return;
+      }
+
+      ticksSinceScroll += 1;
+
+      // Something yanked the page back to the top after our scroll (e.g. the
+      // homepage's post-loader reset). Re-issue the scroll a few times so the
+      // user still lands on the requested section.
+      if (ticksSinceScroll >= 3 && scrollAttempts < maxScrollAttempts) {
+        requestNavigation(el);
+        return;
+      }
+
+      if (scrollAttempts >= maxScrollAttempts || ticks >= maxTicks) {
+        window.clearInterval(intervalId);
+        // Last resort: snap instantly so the user still lands on the section.
+        el.scrollIntoView();
+        clearPendingTarget();
+      }
+    }, 100);
+
+    return () => window.clearInterval(intervalId);
+  }, [pathname]);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -212,7 +351,7 @@ export default function Nav(): React.ReactElement {
           ABOUT ECELL
         </a>
         <a
-          href="#whyjoin"
+          href="#why-join"
           onClick={(e) => {
             e.preventDefault();
             scrollToSection("why-join");
