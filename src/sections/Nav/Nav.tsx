@@ -9,7 +9,7 @@ export default function Nav(): React.ReactElement {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isLogoModalOpen, setIsLogoModalOpen] = useState<boolean>(false);
-  const [isLogoInNav, setIsLogoInNav] = useState<boolean>(false);
+  const [isLogoInNavOnHome, setIsLogoInNavOnHome] = useState<boolean>(false);
   const [hasDismissedHint, setHasDismissedHint] = useState<boolean>(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const toggleRef = useRef<HTMLButtonElement | null>(null);
@@ -23,21 +23,17 @@ export default function Nav(): React.ReactElement {
   };
 
   useEffect(() => {
-    if (pathname !== "/") {
-      setIsLogoInNav(true);
-      return;
-    }
+    if (pathname !== "/") return;
 
-    setIsLogoInNav(false);
-
-    const handleLogoInNav = (e: CustomEvent<{ inNav: boolean }>) => {
-      setIsLogoInNav(Boolean(e.detail?.inNav));
+    const handleLogoInNav = (event: Event) => {
+      const customEvent = event as CustomEvent<{ inNav?: boolean }>;
+      setIsLogoInNavOnHome(Boolean(customEvent.detail?.inNav));
     };
 
-    window.addEventListener("ecell:logo-in-nav" as any, handleLogoInNav);
+    window.addEventListener("ecell:logo-in-nav", handleLogoInNav);
 
     return () => {
-      window.removeEventListener("ecell:logo-in-nav" as any, handleLogoInNav);
+      window.removeEventListener("ecell:logo-in-nav", handleLogoInNav);
     };
   }, [pathname]);
 
@@ -47,15 +43,6 @@ export default function Nav(): React.ReactElement {
     setIsOpen(false);
     setIsTransitioning(true);
     window.dispatchEvent(new CustomEvent("ecell:events-transition"));
-  };
-
-  const openHome = () => {
-    if (pathname === "/" || isTransitioning) return;
-
-    setIsTransitioning(true);
-    transitionTimeoutRef.current = window.setTimeout(() => {
-      router.push("/");
-    }, 720);
   };
 
   useEffect(() => {
@@ -249,6 +236,7 @@ export default function Nav(): React.ReactElement {
     };
   }, [isOpen]);
 
+  const isLogoInNav = pathname !== "/" || isLogoInNavOnHome;
   const showHint = isLogoInNav && !hasDismissedHint && !isLogoModalOpen;
 
   return (
