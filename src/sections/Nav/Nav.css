@@ -29,6 +29,12 @@ nav a {
   letter-spacing: 0.02em;
 }
 
+.nav__logo-group {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
 .nav__logo-button {
   display: block;
   padding: 0;
@@ -36,6 +42,13 @@ nav a {
   background: transparent;
   color: inherit;
   cursor: pointer;
+  transition: transform 200ms ease, opacity 200ms ease;
+  border-radius: 8px;
+}
+
+.nav__logo-button:hover {
+  transform: scale(1.06);
+  opacity: 0.95;
 }
 
 .nav__logo-button:focus-visible {
@@ -47,6 +60,61 @@ nav a {
   width: 64px;
   height: 64px;
   flex-shrink: 0;
+}
+
+/* Sleek unboxed logo hint aligned horizontally with the logo */
+.nav__logo-hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  border: 0;
+  padding: 4px 0;
+  color: var(--nav-accent, #c5c5c5);
+  font-family: var(--font-inter), sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(-6px);
+  transition: opacity 320ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 320ms cubic-bezier(0.16, 1, 0.3, 1),
+    color 180ms ease;
+}
+
+.nav__logo-hint.is-visible {
+  opacity: 0.85;
+  pointer-events: auto;
+  transform: translateX(0);
+}
+
+.nav__logo-hint:hover {
+  opacity: 1;
+  color: var(--fg);
+}
+
+.nav__logo-hint:focus-visible {
+  outline: 2px solid var(--fg);
+  outline-offset: 3px;
+}
+
+.nav__logo-hint-arrow {
+  width: 14px;
+  height: 10px;
+  flex-shrink: 0;
+  color: currentColor;
+  transition: transform 200ms ease;
+}
+
+.nav__logo-hint:hover .nav__logo-hint-arrow {
+  transform: translateX(-3px);
+}
+
+.nav__logo-hint-text {
+  white-space: nowrap;
 }
 
 .nav-right {
@@ -255,10 +323,11 @@ nav a {
     font-size: 12px;
   }
 
-  .chapters-dropdown {
-    top: 58px;
-    right: max(20px, env(safe-area-inset-right));
-    max-width: calc(100vw - 40px);
+  .nav__logo-hint-text {
+    display: none;
   }
 
+  .nav__logo-hint {
+    padding: 6px 8px;
+  }
 }

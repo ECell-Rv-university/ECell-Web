@@ -202,7 +202,18 @@ export default function FloatingLogo(): React.ReactElement {
       if (navLabelEl) {
         navLabelEl.style.opacity = `${smoothstep(0.35, 0.85, rawT)}`;
       }
+
+      // --- Notify when logo is fully settled in navbar ---
+      const inNavNow = rawT > 0.95;
+      if (inNavNow !== lastInNavState) {
+        lastInNavState = inNavNow;
+        window.dispatchEvent(
+          new CustomEvent("ecell:logo-in-nav", { detail: { inNav: inNavNow } })
+        );
+      }
     };
+
+    let lastInNavState = false;
 
     if (isMobile) {
       updateLogo();
