@@ -2,7 +2,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import LogoModal from "../../components/LogoModal/LogoModal";
-import PageTransition from "../../components/PageTransition/PageTransition";
 import "./Nav.css";
 
 export default function Nav(): React.ReactElement {
@@ -13,7 +12,6 @@ export default function Nav(): React.ReactElement {
   const [isLogoInNav, setIsLogoInNav] = useState<boolean>(false);
   const [hasDismissedHint, setHasDismissedHint] = useState<boolean>(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const [transitionTarget, setTransitionTarget] = useState<"events" | "home">("events");
   const toggleRef = useRef<HTMLButtonElement | null>(null);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
   const transitionTimeoutRef = useRef<number | null>(null);
@@ -329,8 +327,6 @@ export default function Nav(): React.ReactElement {
       </nav>
 
       <LogoModal isOpen={isLogoModalOpen} onClose={() => setIsLogoModalOpen(false)} />
-
-      <PageTransition active={isTransitioning} targetView={transitionTarget} />
 
       <div
         ref={dropdownRef}
