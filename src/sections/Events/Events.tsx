@@ -11,31 +11,56 @@ import "./Events.css";
 import Image, { StaticImageData } from "next/image";
 
 export interface GalleryItem {
-  caption: string;
+  number: string;
+  category: string;
+  title: string;
+  description: string;
+  date: string;
+  venue: string;
   src: StaticImageData | string;
   alt: string;
 }
 
 const GALLERY_ITEMS: GalleryItem[] = [
   {
-    caption: "Argonyx Hackathon - September 2025",
+    number: "01",
+    category: "EVENT",
+    title: "ARGONYX HACKATHON",
+    description: "A technical hackathon bringing students and builders together to explore, build, and deploy ambitious solutions.",
+    date: "18 SEP 2025",
+    venue: "RV UNIVERSITY",
     src: argonyx,
-    alt: "Workshop",
+    alt: "Argonyx Hackathon",
   },
   {
-    caption: "Winter Tech Talk - Winter 2025",
+    number: "02",
+    category: "EVENT",
+    title: "WINTER TECH TALK",
+    description: "A technical session bringing students together to explore emerging technologies and frameworks shaping the future.",
+    date: "12 DEC 2025",
+    venue: "RV UNIVERSITY",
     src: winterTechTalk,
-    alt: "Founders Panel",
+    alt: "Winter Tech Talk",
   },
   {
-    caption: "Talk Startup With Me - Spring 2026",
+    number: "03",
+    category: "EVENT",
+    title: "TALK STARTUP WITH ME",
+    description: "From problem discovery to your first pitch — learn practical venture building directly from experienced founders.",
+    date: "24 MAR 2026",
+    venue: "RV UNIVERSITY",
     src: talkStartupWithMe,
-    alt: "Hackathon",
+    alt: "Talk Startup With Me",
   },
   {
-    caption: "Argonyx 2.0 - September 2025",
+    number: "04",
+    category: "EVENT",
+    title: "ARGONYX 2.0",
+    description: "Build, break and reimagine. A 36-hour sprint for visionary student creators, engineers, and designers.",
+    date: "18 SEP 2026",
+    venue: "RV UNIVERSITY",
     src: argonyx2,
-    alt: "Argonyx 2.0 event",
+    alt: "Argonyx 2.0",
   },
 ];
 
@@ -44,7 +69,6 @@ export default function Events(): React.ReactElement {
   const introRef = useRef<HTMLDivElement | null>(null);
   const galleryRef = useRef<HTMLDivElement | null>(null);
   const sceneRef = useRef<HTMLDivElement | null>(null);
-  const captionRef = useRef<HTMLDivElement | null>(null);
   const transitionRef = useRef<HTMLDivElement | null>(null);
   const exitGlowRef = useRef<HTMLDivElement | null>(null);
   const bgPanelRef = useRef<HTMLDivElement | null>(null);
@@ -55,19 +79,17 @@ export default function Events(): React.ReactElement {
     const items = itemsRef.current.filter((item): item is HTMLDivElement => Boolean(item));
     const section = sectionRef.current;
     const scene = sceneRef.current;
-    const caption = captionRef.current;
     const intro = introRef.current;
     const gallery = galleryRef.current;
     const transition = transitionRef.current;
     const exitGlow = exitGlowRef.current;
     const bgPanel = bgPanelRef.current;
     const bgInner = bgInnerRef.current;
-    if (!section || !scene || !caption || !items.length) return undefined;
+    if (!section || !scene || !items.length) return undefined;
 
     const isMobile = window.matchMedia("(max-width: 768px)").matches;
 
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      caption.textContent = GALLERY_ITEMS[0].caption;
       if (bgPanel) gsap.set(bgPanel, { x: 0, y: 0, scale: 1, rotate: 0 });
       if (intro) gsap.set(intro, { autoAlpha: 1 });
       return undefined;
@@ -84,22 +106,15 @@ export default function Events(): React.ReactElement {
     const sceneZSetter = gsap.quickSetter(scene, "z", "px");
 
     items.forEach((item, index) => {
-      const isRightSide = index % 2 === 0;
-      const xOffset = isRightSide
-        ? (isMobile ? "20%" : "35%")
-        : (isMobile ? "-20%" : "-35%");
       const zOffset = -(index * zSpacing);
 
       zValues[index] = zOffset;
-      item.style.transform = `translate3d(${xOffset}, 0px, ${zOffset}px)`;
+      item.style.transform = `translate3d(0px, 0px, ${zOffset}px)`;
     });
 
     const camera = { z: 0 };
-    let activeIndex = -1;
     const updateScene = () => {
       sceneZSetter(camera.z);
-      let nearest = 0;
-      let nearestDistance = Infinity;
 
       for (let i = 0; i < items.length; i++) {
         const relativeZ = zValues[i] + camera.z;
@@ -125,17 +140,6 @@ export default function Events(): React.ReactElement {
 
         opacitySetters[i](alpha);
         items[i].style.visibility = alpha > 0 ? "visible" : "hidden";
-
-        const absZ = Math.abs(relativeZ);
-        if (relativeZ <= 300 && absZ < nearestDistance) {
-          nearest = i;
-          nearestDistance = absZ;
-        }
-      }
-
-      if (nearest !== activeIndex) {
-        activeIndex = nearest;
-        caption.textContent = GALLERY_ITEMS[nearest].caption;
       }
     };
 
@@ -173,52 +177,23 @@ export default function Events(): React.ReactElement {
         },
       });
 
-      /* Phase 1: Background image flies in from top-right to center */
+      /* Phase 1: Background image stays full-bleed */
       if (bgPanel) {
         gsap.set(bgPanel, {
-          xPercent: 100,
-          yPercent: -100,
-          scale: 0.88,
-          rotate: -8,
-          borderRadius: "36px",
-          opacity: 0,
+          xPercent: 0,
+          yPercent: 0,
+          scale: 1,
+          rotate: 0,
+          borderRadius: "0px",
+          opacity: 1,
         });
 
         if (bgInner) {
           gsap.set(bgInner, {
-            scale: 1.12,
-            x: "-4%",
-            y: "4%",
-          });
-        }
-
-        journey.to(
-          bgPanel,
-          {
-            xPercent: 0,
-            yPercent: 0,
             scale: 1,
-            rotate: 0,
-            borderRadius: "0px",
-            opacity: 1,
-            duration: 1.0,
-            ease: "power3.out",
-          },
-          0
-        );
-
-        if (bgInner) {
-          journey.to(
-            bgInner,
-            {
-              scale: 1.02,
-              x: "0%",
-              y: "0%",
-              duration: 1.0,
-              ease: "power3.out",
-            },
-            0
-          );
+            x: "0%",
+            y: "0%",
+          });
         }
       }
 
@@ -273,17 +248,6 @@ export default function Events(): React.ReactElement {
         {
           autoAlpha: 0,
           yPercent: -20,
-          duration: 0.5,
-          ease: "power2.inOut",
-        },
-        exitStart - 0.1
-      );
-
-      journey.to(
-        caption,
-        {
-          autoAlpha: 0,
-          y: 20,
           duration: 0.5,
           ease: "power2.inOut",
         },
@@ -349,34 +313,45 @@ export default function Events(): React.ReactElement {
         <h2>Our Legacy</h2>
       </div>
       <div className="events-3d-wrapper" ref={galleryRef}>
-        <div className="events-caption-container">
-          <div className="events-caption-text" ref={captionRef} id="active-caption">
-            Scroll Down to Explore
-          </div>
-        </div>
-
         <div className="events-scene" ref={sceneRef} id="scene">
           {GALLERY_ITEMS.map((item, idx) => {
+            const isRightSide = idx % 2 === 0;
             return (
               <div
                 key={idx}
-                className="events-gallery-item"
-                data-caption={item.caption}
+                className={`events-gallery-item ${isRightSide ? "is-right" : "is-left"}`}
                 style={{ position: "absolute" }}
                 ref={(el) => {
                   itemsRef.current[idx] = el;
                 }}
               >
-                <Image
-                  src={item.src}
-                  alt={item.alt}
-                  fill
-                  sizes="(max-width: 768px) 78vw, 32vw"
-                  quality={85}
-                  priority
-                  loading="eager"
-                  draggable={false}
-                />
+                <div className="events-card-info">
+                  <div className="events-card-tag">
+                    {item.number} / {item.category}
+                  </div>
+
+                  <h3 className="events-card-title">{item.title}</h3>
+
+                  <p className="events-card-desc">{item.description}</p>
+
+                  <div className="events-card-meta">
+                    <span className="events-card-date">{item.date}</span>
+                    <span className="events-card-venue">{item.venue}</span>
+                  </div>
+                </div>
+
+                <div className="events-card-media">
+                  <Image
+                    src={item.src}
+                    alt={item.alt}
+                    fill
+                    sizes="(max-width: 768px) 85vw, 36vw"
+                    quality={85}
+                    priority
+                    loading="eager"
+                    draggable={false}
+                  />
+                </div>
               </div>
             );
           })}
