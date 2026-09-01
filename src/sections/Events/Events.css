@@ -152,8 +152,8 @@
   left: clamp(2rem, 8vw, 11rem);
   top: 52%;
   transform: translateY(-50%);
-  width: clamp(280px, 32vw, 440px);
-  max-width: 42vw;
+  width: min(420px, 34vw);
+  max-width: 420px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -181,6 +181,7 @@
   color: #ffffff;
   letter-spacing: 0.04em;
   margin: 0;
+  max-width: 380px;
   word-break: break-word;
 }
 
@@ -190,6 +191,7 @@
   line-height: 1.6;
   color: rgba(255, 255, 255, 0.8);
   margin: 0;
+  max-width: 400px;
 }
 
 .events-card-meta {

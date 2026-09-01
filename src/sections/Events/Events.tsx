@@ -120,26 +120,32 @@ export default function Events(): React.ReactElement {
         const relativeZ = zValues[i] + camera.z;
 
         // Asymmetric alpha curve:
-        // - Deep background (<-3500px): invisible
-        // - Approach (-3500px to -1500px): smooth ramp in
-        // - Hero view (-1500px to 150px): 100% crisp solid opacity
-        // - Passing camera (150px to 550px): smooth rapid fade out BEFORE hitting 800px singularity
-        // - Past viewer (>=550px): hidden (prevents Chrome 3D singularity & GPU texture dropping)
+        // - Deep background (<-2200px): invisible (prevents clutter)
+        // - Background stack approach (-2200px to -1400px): fades into subtle preview (0 -> 25%)
+        // - Stack preview (-1400px to -700px): stays subtle at 25-30% opacity behind active card
+        // - Focus transition (-700px to -200px): smooth ramp to full hero focus (30% -> 100%)
+        // - Active hero view (-200px to 150px): 100% crisp solid opacity
+        // - Passing camera (150px to 500px): smooth rapid fade out BEFORE hitting singularity
+        // - Past viewer (>=500px): hidden
         let alpha = 0;
-        if (relativeZ < -3500) {
+        if (relativeZ < -2200) {
           alpha = 0;
-        } else if (relativeZ < -1500) {
-          alpha = (relativeZ + 3500) / 2000;
+        } else if (relativeZ < -1400) {
+          alpha = ((relativeZ + 2200) / 800) * 0.25;
+        } else if (relativeZ < -700) {
+          alpha = 0.25 + ((relativeZ + 1400) / 700) * 0.05;
+        } else if (relativeZ < -200) {
+          alpha = 0.3 + ((relativeZ + 700) / 500) * 0.7;
         } else if (relativeZ <= 150) {
           alpha = 1;
-        } else if (relativeZ < 550) {
-          alpha = 1 - (relativeZ - 150) / 400;
+        } else if (relativeZ < 500) {
+          alpha = 1 - (relativeZ - 150) / 350;
         } else {
           alpha = 0;
         }
 
         opacitySetters[i](alpha);
-        items[i].style.visibility = alpha > 0 ? "visible" : "hidden";
+        items[i].style.visibility = alpha > 0.01 ? "visible" : "hidden";
       }
     };
 
@@ -177,23 +183,52 @@ export default function Events(): React.ReactElement {
         },
       });
 
-      /* Phase 1: Background image stays full-bleed */
+      /* Phase 1: Background image flies in from top-right to center */
       if (bgPanel) {
         gsap.set(bgPanel, {
-          xPercent: 0,
-          yPercent: 0,
-          scale: 1,
-          rotate: 0,
-          borderRadius: "0px",
-          opacity: 1,
+          xPercent: 100,
+          yPercent: -100,
+          scale: 0.88,
+          rotate: -8,
+          borderRadius: "36px",
+          opacity: 0,
         });
 
         if (bgInner) {
           gsap.set(bgInner, {
-            scale: 1,
-            x: "0%",
-            y: "0%",
+            scale: 1.12,
+            x: "-4%",
+            y: "4%",
           });
+        }
+
+        journey.to(
+          bgPanel,
+          {
+            xPercent: 0,
+            yPercent: 0,
+            scale: 1,
+            rotate: 0,
+            borderRadius: "0px",
+            opacity: 1,
+            duration: 1.0,
+            ease: "power3.out",
+          },
+          0
+        );
+
+        if (bgInner) {
+          journey.to(
+            bgInner,
+            {
+              scale: 1.02,
+              x: "0%",
+              y: "0%",
+              duration: 1.0,
+              ease: "power3.out",
+            },
+            0
+          );
         }
       }
 
