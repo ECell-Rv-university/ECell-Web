@@ -1,8 +1,26 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
+import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import LogoModal from "../../components/LogoModal/LogoModal";
 import "./Nav.css";
+
+const PENDING_SCROLL_KEY = "nav:pendingScrollTarget";
+
+function navigateToSection(id: string): void {
+  const element = document.getElementById(id);
+  if (!element) return;
+
+  const navigationEvent = new CustomEvent<{ targetId: string }>("horizontal-flow:navigate", {
+    detail: { targetId: id },
+    cancelable: true,
+  });
+  window.dispatchEvent(navigationEvent);
+
+  if (!navigationEvent.defaultPrevented && !element.closest(".horizontal-flow-panel")) {
+    element.scrollIntoView({ behavior: "smooth" });
+  }
+}
 
 export default function Nav(): React.ReactElement {
   const pathname = usePathname();
@@ -15,7 +33,6 @@ export default function Nav(): React.ReactElement {
   const toggleRef = useRef<HTMLButtonElement | null>(null);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
   const transitionTimeoutRef = useRef<number | null>(null);
-  const PENDING_SCROLL_KEY = "nav:pendingScrollTarget";
 
   const handleLogoClick = () => {
     setIsLogoModalOpen(true);
@@ -43,6 +60,15 @@ export default function Nav(): React.ReactElement {
     setIsOpen(false);
     setIsTransitioning(true);
     window.dispatchEvent(new CustomEvent("ecell:events-transition"));
+  };
+
+  const openHome = () => {
+    if (pathname === "/" || isTransitioning) return;
+
+    setIsTransitioning(true);
+    transitionTimeoutRef.current = window.setTimeout(() => {
+      router.push("/");
+    }, 720);
   };
 
   useEffect(() => {
@@ -92,25 +118,28 @@ export default function Nav(): React.ReactElement {
       }
       setIsTransitioning(true);
       transitionTimeoutRef.current = window.setTimeout(() => {
-        router.push("/");
+        router.push(`/#${id}`);
       }, 720);
       return;
     }
 
-    const el = document.getElementById(id);
-    if (el) {
-      const navigationEvent = new CustomEvent<{ targetId: string }>("horizontal-flow:navigate", {
-        detail: { targetId: id },
-        cancelable: true,
-      });
-      window.dispatchEvent(navigationEvent);
-
-      // Sections outside the pinned horizontal flow still use standard anchor scrolling.
-      if (!navigationEvent.defaultPrevented) {
-        el.scrollIntoView({ behavior: "smooth" });
-      }
+    if (window.location.hash !== `#${id}`) {
+      window.history.pushState(null, "", `/#${id}`);
     }
+    navigateToSection(id);
   };
+
+  useEffect(() => {
+    if (pathname !== "/") return;
+
+    const handlePopState = () => {
+      const targetId = window.location.hash.slice(1);
+      if (targetId) navigateToSection(targetId);
+    };
+
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, [pathname]);
 
   useEffect(() => {
     if (pathname !== "/") return;
@@ -121,13 +150,14 @@ export default function Nav(): React.ReactElement {
     } catch {
       pending = null;
     }
-    if (!pending) return;
+
+    const hashTarget = window.location.hash.slice(1);
+    const targetId = hashTarget || pending;
+    if (!targetId) return;
 
     // NOTE: the stored target is intentionally NOT removed here. StrictMode
     // remounts effects in development, so consuming the key on mount would
     // lose it on the second run. It is cleared only once the scroll settles.
-
-    const targetId = pending;
 
     const clearPendingTarget = () => {
       try {
@@ -141,6 +171,7 @@ export default function Nav(): React.ReactElement {
     let scrollAttempts = 0;
     let ticksSinceScroll = 0;
     let settled = false;
+    let navigationHandled = false;
     const maxTicks = 120; // ~12s at 100ms intervals — covers the entry loader plus late mounting
     const maxScrollAttempts = 4; // initial try + retries if something snaps the page back to the top
 
@@ -157,8 +188,12 @@ export default function Nav(): React.ReactElement {
       // Sections inside the pinned horizontal flow claim the event and scroll
       // themselves; everything else uses standard anchor scrolling.
       if (!navigationEvent.defaultPrevented) {
-        el.scrollIntoView({ behavior: "smooth" });
+        if (!el.closest(".horizontal-flow-panel")) {
+          el.scrollIntoView({ behavior: "smooth" });
+        }
       }
+
+      navigationHandled = navigationEvent.defaultPrevented || !el.closest(".horizontal-flow-panel");
     };
 
     const intervalId = window.setInterval(() => {
@@ -193,7 +228,8 @@ export default function Nav(): React.ReactElement {
         return;
       }
 
-      const reachedTarget = scrollAttempts > 0 && (window.scrollY > 40 || el.getBoundingClientRect().top < 160);
+      const reachedTarget = scrollAttempts > 0 && navigationHandled &&
+        (window.scrollY > 40 || el.getBoundingClientRect().top < 160);
 
       if (reachedTarget) {
         // The scroll stuck — we are at/near the section or clearly en route.
@@ -219,7 +255,9 @@ export default function Nav(): React.ReactElement {
       if (scrollAttempts >= maxScrollAttempts || ticks >= maxTicks) {
         window.clearInterval(intervalId);
         // Last resort: snap instantly so the user still lands on the section.
-        el.scrollIntoView();
+        if (!el.closest(".horizontal-flow-panel")) {
+          el.scrollIntoView();
+        }
         clearPendingTarget();
       }
     }, 100);
@@ -252,6 +290,15 @@ export default function Nav(): React.ReactElement {
           >
             <div className="nav__logo-icon-target" />
           </button>
+          {pathname === "/events" && (
+            <button
+            className="nav-events-link nav-home-link"
+            onClick={openHome}
+            type="button"
+           >
+            ← Home
+          </button>
+          )}
 
           {/* Sleek inline hint aligned horizontally with the logo */}
           <button
@@ -322,8 +369,8 @@ export default function Nav(): React.ReactElement {
         className={`chapters-dropdown ${isOpen ? "open" : ""}`}
         aria-hidden={!isOpen}
       >
-        <a
-          href="#aboutSection"
+        <Link
+          href="/#aboutSection"
           onClick={(e) => {
             e.preventDefault();
             scrollToSection("aboutSection");
@@ -333,9 +380,9 @@ export default function Nav(): React.ReactElement {
           className="dropdown-about-link"
         >
           ABOUT ECELL
-        </a>
-        <a
-          href="#why-join"
+        </Link>
+        <Link
+          href="/#why-join"
           onClick={(e) => {
             e.preventDefault();
             scrollToSection("why-join");
@@ -345,9 +392,9 @@ export default function Nav(): React.ReactElement {
           className="dropdown-team-link"
         >
           WHY JOIN ECELL
-        </a>
-        <a
-          href="#teamSection"
+        </Link>
+        <Link
+          href="/#teamSection"
           onClick={(e) => {
             e.preventDefault();
             scrollToSection("teamSection");
@@ -357,9 +404,9 @@ export default function Nav(): React.ReactElement {
           className="dropdown-team-link"
         >
           THE TEAM
-        </a>
-        <a
-          href="#eventsSection"
+        </Link>
+        <Link
+          href="/#eventsSection"
           onClick={(e) => {
             e.preventDefault();
             scrollToSection("eventsSection");
@@ -369,9 +416,9 @@ export default function Nav(): React.ReactElement {
           className="dropdown-events-link"
         >
           EVENTS
-        </a>
-        <a
-          href="#sponsors"
+        </Link>
+        <Link
+          href="/#sponsors"
           onClick={(e) => {
             e.preventDefault();
             scrollToSection("sponsors");
@@ -381,9 +428,9 @@ export default function Nav(): React.ReactElement {
           className="dropdown-sponsors-link"
         >
           PARTNERS & SPONSORS
-        </a>
-        <a
-          href="#speakers"
+        </Link>
+        <Link
+          href="/#speakers"
           onClick={(e) => {
             e.preventDefault();
             scrollToSection("speakers");
@@ -393,9 +440,9 @@ export default function Nav(): React.ReactElement {
           className="dropdown-speakers-link"
         >
           PREVIOUS SPEAKERS
-        </a>
-        <a
-          href="#community"
+        </Link>
+        <Link
+          href="/#community"
           onClick={(e) => {
             e.preventDefault();
             scrollToSection("community");
@@ -405,9 +452,9 @@ export default function Nav(): React.ReactElement {
           className="dropdown-footer-link"
         >
           WHATSAPP COMMUNITY
-        </a>
-        <a
-          href="#footer"
+        </Link>
+        <Link
+          href="/#footer"
           onClick={(e) => {
             e.preventDefault();
             scrollToSection("footer");
@@ -417,7 +464,7 @@ export default function Nav(): React.ReactElement {
           className="dropdown-footer-link"
         >
           FOOTER
-        </a>
+        </Link>
       </div>
     </>
   );
