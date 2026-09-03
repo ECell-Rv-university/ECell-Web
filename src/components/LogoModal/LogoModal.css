@@ -1,0 +1,425 @@
+/* Logo Showcase Modal Styles */
+
+.logo-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(8, 8, 8, 0.90);
+  backdrop-filter: blur(28px) saturate(180%);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
+  padding: 32px 24px;
+  overflow: hidden;
+  user-select: none;
+  cursor: pointer;
+  animation: logoModalFadeIn 280ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.logo-modal-overlay.closing {
+  animation: logoModalFadeOut 240ms cubic-bezier(0.7, 0, 0.84, 0) forwards;
+}
+
+@keyframes logoModalFadeIn {
+  0% {
+    opacity: 0;
+    backdrop-filter: blur(0px);
+    -webkit-backdrop-filter: blur(0px);
+  }
+  100% {
+    opacity: 1;
+    backdrop-filter: blur(28px) saturate(180%);
+    -webkit-backdrop-filter: blur(28px) saturate(180%);
+  }
+}
+
+@keyframes logoModalFadeOut {
+  0% {
+    opacity: 1;
+    backdrop-filter: blur(28px) saturate(180%);
+    -webkit-backdrop-filter: blur(28px) saturate(180%);
+  }
+  100% {
+    opacity: 0;
+    backdrop-filter: blur(0px);
+    -webkit-backdrop-filter: blur(0px);
+  }
+}
+
+/* Ambient Radial Glow */
+.logo-modal-ambient {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(600px, 85vw);
+  height: min(600px, 85vw);
+  background: radial-gradient(circle, rgba(142, 240, 54, 0.08) 0%, rgba(255, 255, 255, 0.03) 35%, transparent 65%);
+  pointer-events: none;
+  border-radius: 50%;
+  filter: blur(40px);
+}
+
+/* Top Center Header "OUR LOGO" */
+.logo-modal-header {
+  position: absolute;
+  top: 44px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: default;
+  z-index: 2;
+  animation: logoHeaderSlideDown 360ms cubic-bezier(0.16, 1, 0.3, 1) backwards;
+}
+
+@keyframes logoHeaderSlideDown {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -18px);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+.logo-modal-title {
+  font-family: var(--font-archivo), sans-serif;
+  font-size: clamp(24px, 3.8vw, 34px);
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  color: #ffffff;
+  margin: 0;
+  text-align: center;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8), 0 0 30px rgba(255, 255, 255, 0.2);
+}
+
+/* Close button */
+.logo-modal-close {
+  position: absolute;
+  top: 32px;
+  right: 32px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  color: #bababa;
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-family: var(--font-inter), sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: all 180ms ease;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.logo-modal-close:hover {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.32);
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+.logo-modal-close:focus-visible {
+  outline: 2px solid #8ef036;
+  outline-offset: 2px;
+}
+
+/* Central Stage Area */
+.logo-modal-stage {
+  position: relative;
+  width: min(840px, 92vw);
+  height: min(480px, 64vh);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: default;
+  margin-top: 20px;
+}
+
+/* Centerpiece Logo (Balanced & Refined Proportion) */
+.logo-modal-centerpiece {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: clamp(160px, 20vw, 230px);
+  height: clamp(160px, 20vw, 230px);
+  animation: logoCenterScale 440ms cubic-bezier(0.16, 1, 0.3, 1) backwards;
+  animation-delay: 80ms;
+}
+
+@keyframes logoCenterScale {
+  0% {
+    opacity: 0;
+    transform: scale(0.75);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.logo-symbol-glow {
+  position: absolute;
+  inset: -20%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.16) 0%, transparent 68%);
+  pointer-events: none;
+  filter: blur(20px);
+}
+
+.logo-symbol-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  filter: drop-shadow(0 12px 28px rgba(0, 0, 0, 0.8)) drop-shadow(0 0 20px rgba(255, 255, 255, 0.2));
+}
+
+.logo-symbol-path {
+  fill: #ffffff;
+  transition: filter 200ms ease;
+}
+
+/* Annotations */
+.logo-annotation {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+  z-index: 5;
+  animation: annotationFadeIn 450ms cubic-bezier(0.16, 1, 0.3, 1) backwards;
+}
+
+@keyframes annotationFadeIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.annotation-text {
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-archivo), var(--font-inter), sans-serif;
+  color: #8ef036;
+  text-shadow: 0 0 16px rgba(142, 240, 54, 0.4), 0 2px 10px rgba(0, 0, 0, 0.9);
+  white-space: nowrap;
+}
+
+.annotation-text span {
+  font-size: clamp(14px, 1.8vw, 20px);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+
+.annotation-text strong {
+  font-size: clamp(15px, 2vw, 22px);
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.annotation-arrow {
+  overflow: visible;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.8));
+}
+
+/* 1. Left Annotation: The Flow of Innovation (Pointing to First Wave) */
+.annotation-left {
+  left: 5%;
+  top: 30%;
+  transform: translateY(-50%);
+  animation-delay: 180ms;
+}
+
+.annotation-left .annotation-text {
+  text-align: left;
+  margin-right: 8px;
+}
+
+.arrow-left {
+  width: clamp(85px, 11vw, 135px);
+  height: clamp(55px, 7.5vw, 85px);
+  transform: translateY(6px);
+}
+
+/* 2. Right Annotation: Minimal, Yet Memorable */
+.annotation-right {
+  right: 5%;
+  top: 36%;
+  transform: translateY(-50%);
+  animation-delay: 240ms;
+}
+
+.annotation-right .annotation-text {
+  text-align: left;
+  margin-left: 8px;
+}
+
+.arrow-right {
+  width: clamp(80px, 10vw, 130px);
+  height: clamp(55px, 7.5vw, 85px);
+  transform: translateY(-6px);
+}
+
+/* 3. Bottom Annotation: Unity in Momentum */
+.annotation-bottom {
+  bottom: 0%;
+  left: 50%;
+  transform: translateX(-50%);
+  flex-direction: column;
+  align-items: center;
+  animation-delay: 300ms;
+}
+
+.annotation-bottom .annotation-text {
+  text-align: center;
+  margin-top: 4px;
+}
+
+.arrow-bottom {
+  width: clamp(50px, 6vw, 75px);
+  height: clamp(60px, 7.5vw, 85px);
+  transform: translateX(2px);
+}
+
+/* Footer dismissal tip */
+.logo-modal-footer-tip {
+  position: absolute;
+  bottom: 22px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-inter), sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.4);
+  text-transform: uppercase;
+  animation: logoModalFadeIn 500ms ease backwards;
+  animation-delay: 380ms;
+}
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+  .logo-modal-stage {
+    width: 96vw;
+    height: 60vh;
+  }
+
+  .annotation-left {
+    left: 2%;
+    top: 32%;
+  }
+
+  .annotation-right {
+    right: 2%;
+    top: 32%;
+  }
+
+  .annotation-bottom {
+    bottom: -2%;
+  }
+}
+
+@media (max-width: 640px) {
+  .logo-modal-overlay {
+    padding: 20px 16px;
+  }
+
+  .logo-modal-header {
+    top: 22px;
+  }
+
+  .logo-modal-close {
+    top: 18px;
+    right: 16px;
+    padding: 6px 10px;
+  }
+
+  .logo-modal-close-text {
+    display: none;
+  }
+
+  .logo-modal-stage {
+    width: 100%;
+    height: 64vh;
+    margin-top: 36px;
+  }
+
+  .logo-modal-centerpiece {
+    width: 160px;
+    height: 160px;
+  }
+
+  .annotation-left {
+    left: 2px;
+    top: 64%;
+    flex-direction: column-reverse;
+    align-items: flex-start;
+  }
+
+  .annotation-left .annotation-text {
+    margin-right: 0;
+    margin-top: 4px;
+  }
+
+  .arrow-left {
+    width: 70px;
+    height: 48px;
+    transform: none;
+  }
+
+  .annotation-right {
+    right: 2px;
+    top: 22%;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+
+  .annotation-right .annotation-text {
+    margin-left: 0;
+    margin-top: 4px;
+    text-align: right;
+  }
+
+  .arrow-right {
+    width: 70px;
+    height: 48px;
+    transform: none;
+  }
+
+  .annotation-bottom {
+    bottom: -4%;
+  }
+
+  .arrow-bottom {
+    width: 44px;
+    height: 52px;
+  }
+
+  .annotation-text span {
+    font-size: 13px;
+  }
+
+  .annotation-text strong {
+    font-size: 14px;
+  }
+
+  .logo-modal-footer-tip {
+    bottom: 12px;
+    font-size: 10px;
+  }
+}
