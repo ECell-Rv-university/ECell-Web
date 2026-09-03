@@ -43,3 +43,10 @@ next-env.d.ts
 .idea
 
 .agents
+
+# Local AI tooling
+.freebuff/
+AGENTS.md
+CLAUDE.md
+
+

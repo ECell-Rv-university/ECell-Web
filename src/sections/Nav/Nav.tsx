@@ -5,6 +5,23 @@ import { usePathname, useRouter } from "next/navigation";
 import LogoModal from "../../components/LogoModal/LogoModal";
 import "./Nav.css";
 
+const PENDING_SCROLL_KEY = "nav:pendingScrollTarget";
+
+function navigateToSection(id: string): void {
+  const element = document.getElementById(id);
+  if (!element) return;
+
+  const navigationEvent = new CustomEvent<{ targetId: string }>("horizontal-flow:navigate", {
+    detail: { targetId: id },
+    cancelable: true,
+  });
+  window.dispatchEvent(navigationEvent);
+
+  if (!navigationEvent.defaultPrevented && !element.closest(".horizontal-flow-panel")) {
+    element.scrollIntoView({ behavior: "smooth" });
+  }
+}
+
 export default function Nav(): React.ReactElement {
   const pathname = usePathname();
   const router = useRouter();
@@ -16,7 +33,6 @@ export default function Nav(): React.ReactElement {
   const toggleRef = useRef<HTMLButtonElement | null>(null);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
   const transitionTimeoutRef = useRef<number | null>(null);
-  const PENDING_SCROLL_KEY = "nav:pendingScrollTarget";
 
   const handleLogoClick = () => {
     setIsLogoModalOpen(true);
@@ -107,20 +123,23 @@ export default function Nav(): React.ReactElement {
       return;
     }
 
-    const el = document.getElementById(id);
-    if (el) {
-      const navigationEvent = new CustomEvent<{ targetId: string }>("horizontal-flow:navigate", {
-        detail: { targetId: id },
-        cancelable: true,
-      });
-      window.dispatchEvent(navigationEvent);
-
-      // Sections outside the pinned horizontal flow still use standard anchor scrolling.
-      if (!navigationEvent.defaultPrevented && !el.closest(".horizontal-flow-panel")) {
-        el.scrollIntoView({ behavior: "smooth" });
-      }
+    if (window.location.hash !== `#${id}`) {
+      window.history.pushState(null, "", `/#${id}`);
     }
+    navigateToSection(id);
   };
+
+  useEffect(() => {
+    if (pathname !== "/") return;
+
+    const handlePopState = () => {
+      const targetId = window.location.hash.slice(1);
+      if (targetId) navigateToSection(targetId);
+    };
+
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, [pathname]);
 
   useEffect(() => {
     if (pathname !== "/") return;

@@ -1,8 +1,9 @@
 "use client";
 
 import Image, { StaticImageData } from "next/image";
+import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { gsap, ScrollTrigger } from "@/src/utils/gsapSetup";
+import { gsap } from "@/src/utils/gsapSetup";
 import talkStartupWithMe from "../assets/events/events_photo/TalkStartupWithMe.webp";
 import winterTechTalk from "../assets/events/events_photo/WinterTechTalk.webp";
 import argonyx from "../assets/events/events_photo/argonyx.webp";
@@ -476,9 +477,9 @@ export default function EventsArchive(): React.ReactElement {
       <footer className="events-footer">
         <span>ECELL RV UNIVERSITY</span>
         <span>BUILD / FAIL / LEARN / REPEAT</span>
-        <a className="events-footer-home" href="/" aria-label="Back to homepage">
+        <Link className="events-footer-home" href="/" aria-label="Back to homepage">
           ← HOME
-        </a>
+        </Link>
       </footer>
     </main>
   );
