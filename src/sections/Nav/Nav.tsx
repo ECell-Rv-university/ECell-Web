@@ -33,7 +33,6 @@ export default function Nav(): React.ReactElement {
   const toggleRef = useRef<HTMLButtonElement | null>(null);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
   const transitionTimeoutRef = useRef<number | null>(null);
-  const PENDING_SCROLL_KEY = "nav:pendingScrollTarget";
 
   const handleLogoClick = () => {
     setIsLogoModalOpen(true);
@@ -61,6 +60,15 @@ export default function Nav(): React.ReactElement {
     setIsOpen(false);
     setIsTransitioning(true);
     window.dispatchEvent(new CustomEvent("ecell:events-transition"));
+  };
+
+  const openHome = () => {
+    if (pathname === "/" || isTransitioning) return;
+
+    setIsTransitioning(true);
+    transitionTimeoutRef.current = window.setTimeout(() => {
+      router.push("/");
+    }, 720);
   };
 
   useEffect(() => {
