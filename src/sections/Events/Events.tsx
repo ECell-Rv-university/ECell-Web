@@ -9,6 +9,7 @@ import desktopTeamBg from "../../assets/events/background/pcTeam.webp";
 import mobileTeamBg from "../../assets/events/background/phone.webp";
 import "./Events.css";
 import Image, { StaticImageData } from "next/image";
+import Link from "next/link";
 
 export interface GalleryItem {
   number: string;
@@ -17,8 +18,9 @@ export interface GalleryItem {
   description: string;
   date: string;
   venue: string;
-  src: StaticImageData | string;
-  alt: string;
+  src?: StaticImageData | string;
+  alt?: string;
+  isCta?: boolean;
 }
 
 const GALLERY_ITEMS: GalleryItem[] = [
@@ -62,6 +64,15 @@ const GALLERY_ITEMS: GalleryItem[] = [
     src: argonyx2,
     alt: "Argonyx 2.0",
   },
+  {
+    number: "05",
+    category: "ARCHIVE",
+    title: "EXPLORE ALL EVENTS",
+    description: "From problem discovery to flagship summits — explore our full calendar of past hackathons and upcoming founder sessions.",
+    date: "ALL EDITIONS",
+    venue: "RV UNIVERSITY",
+    isCta: true,
+  },
 ];
 
 export default function Events(): React.ReactElement {
@@ -74,6 +85,11 @@ export default function Events(): React.ReactElement {
   const bgPanelRef = useRef<HTMLDivElement | null>(null);
   const bgInnerRef = useRef<HTMLDivElement | null>(null);
   const itemsRef = useRef<(HTMLDivElement | null)[]>([]);
+
+  const handleEventsRedirect = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    window.dispatchEvent(new CustomEvent("ecell:events-transition"));
+  };
 
   useEffect(() => {
     const items = itemsRef.current.filter((item): item is HTMLDivElement => Boolean(item));
@@ -96,7 +112,7 @@ export default function Events(): React.ReactElement {
     }
 
     const zSpacing = 1500;
-    const exitStart = 5;
+    const exitStart = 6.4;
     const exitDuration = 0.7;
 
     // Cache z-offsets as numbers — avoids parsing dataset.z on every frame
@@ -175,7 +191,7 @@ export default function Events(): React.ReactElement {
         scrollTrigger: {
           trigger: section,
           start: "top top",
-          end: isMobile ? "+=420%" : "+=520%",
+          end: isMobile ? "+=520%" : "+=640%",
           scrub: 0.8,
           pin: true,
           anticipatePin: 1,
@@ -258,12 +274,16 @@ export default function Events(): React.ReactElement {
       }
 
       /* Phase 3: 3D gallery camera flythrough */
-      journey.to(camera, {
-        z: (GALLERY_ITEMS.length - 1) * zSpacing + 800,
-        duration: 4,
-        ease: "none",
-        onUpdate: updateScene,
-      }, 1.4);
+      journey.to(
+        camera,
+        {
+          z: (GALLERY_ITEMS.length - 1) * zSpacing + 800,
+          duration: 5.0,
+          ease: "none",
+          onUpdate: updateScene,
+        },
+        1.4
+      );
 
       /* Exit animations */
       journey.to(
@@ -305,7 +325,7 @@ export default function Events(): React.ReactElement {
         journey.fromTo(
           exitGlow,
           { autoAlpha: 0, scaleX: 0.7 },
-          { autoAlpha: 1, scaleX: 1.2, duration: 0.8, ease: "power1.out" },
+          { autoAlpha: 1, scaleX: 1.2, duration: exitDuration, ease: "power1.out" },
           exitStart
         );
       }
@@ -375,23 +395,52 @@ export default function Events(): React.ReactElement {
                   </div>
                 </div>
 
-                <div className="events-card-media">
-                  <Image
-                    src={item.src}
-                    alt={item.alt}
-                    fill
-                    sizes="(max-width: 768px) 85vw, 36vw"
-                    quality={85}
-                    priority
-                    loading="eager"
-                    draggable={false}
-                  />
+                <div className={`events-card-media ${item.isCta ? "events-card-media--cta" : ""}`}>
+                  {item.isCta ? (
+                    <Link
+                      href="/events"
+                      className="events-cta-card-link"
+                      id="eventsExploreAllCta"
+                      onClick={handleEventsRedirect}
+                    >
+                      <div className="events-cta-card-inner">
+                        <span className="events-cta-card-badge">ECELL RVU · ARCHIVE</span>
+                        <div className="events-cta-card-main">
+                          <span className="events-cta-card-title">
+                            EXPLORE ALL EVENTS
+                            <span className="events-cta-card-arrow" aria-hidden="true">→</span>
+                          </span>
+                          <p className="events-cta-card-sub">
+                            Browse talks, hackathons, and upcoming founder sessions
+                          </p>
+                        </div>
+                        <div className="events-cta-card-button">
+                          <span>VIEW ARCHIVE</span>
+                          <span className="events-cta-btn-icon" aria-hidden="true">↗</span>
+                        </div>
+                      </div>
+                    </Link>
+                  ) : (
+                    item.src && (
+                      <Image
+                        src={item.src}
+                        alt={item.alt || ""}
+                        fill
+                        sizes="(max-width: 768px) 85vw, 36vw"
+                        quality={85}
+                        priority
+                        loading="eager"
+                        draggable={false}
+                      />
+                    )
+                  )}
                 </div>
               </div>
             );
           })}
         </div>
       </div>
+
       <div className="events-exit-glow" ref={exitGlowRef} aria-hidden="true" />
     </section>
   );

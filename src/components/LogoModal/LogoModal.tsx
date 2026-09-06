@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useRef } from "react";
 import "./LogoModal.css";
 
 interface LogoModalProps {
@@ -14,13 +14,24 @@ export default function LogoModal({
 }: LogoModalProps): React.ReactElement | null {
   const [internalOpen, setInternalOpen] = useState(false);
   const [isAnimatingOut, setIsAnimatingOut] = useState(false);
+  const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const isControlled = controlledIsOpen !== undefined;
   const isOpen = isControlled ? controlledIsOpen : internalOpen;
 
+  const clearCloseTimer = useCallback(() => {
+    if (closeTimerRef.current !== null) {
+      clearTimeout(closeTimerRef.current);
+      closeTimerRef.current = null;
+    }
+  }, []);
+
   const handleClose = useCallback(() => {
+    if (closeTimerRef.current !== null) return;
+
     setIsAnimatingOut(true);
-    setTimeout(() => {
+    closeTimerRef.current = setTimeout(() => {
+      closeTimerRef.current = null;
       setIsAnimatingOut(false);
       if (isControlled && controlledOnClose) {
         controlledOnClose();
@@ -30,8 +41,11 @@ export default function LogoModal({
     }, 280);
   }, [isControlled, controlledOnClose]);
 
+  useEffect(() => clearCloseTimer, [clearCloseTimer]);
+
   useEffect(() => {
     const handleOpenEvent = () => {
+      clearCloseTimer();
       setIsAnimatingOut(false);
       if (isControlled && controlledOnClose) {
         // Parent will manage
@@ -44,7 +58,7 @@ export default function LogoModal({
     return () => {
       window.removeEventListener("ecell:open-logo-modal", handleOpenEvent);
     };
-  }, [isControlled, controlledOnClose]);
+  }, [isControlled, controlledOnClose, clearCloseTimer]);
 
   useEffect(() => {
     if (!isOpen) return;

@@ -62,8 +62,7 @@ const EVENTS: EventItem[] = [
     month: "SEP 2025",
     type: "Hackathons",
     title: "Argonyx Hackathon",
-    description:
-      "A hands-on hackathon for ambitious builders and bold ideas.",
+    description: "A hands-on hackathon for ambitious builders and bold ideas.",
     image: argonyx,
     status: "ARCHIVE",
   },
@@ -174,7 +173,9 @@ export default function EventsArchive(): React.ReactElement {
 
   const visibleEvents = useMemo(() => {
     const base =
-      filter === "All" ? upcomingEvents : upcomingEvents.filter((e) => e.type === filter);
+      filter === "All"
+        ? upcomingEvents
+        : upcomingEvents.filter((e) => e.type === filter);
     return base;
   }, [filter, upcomingEvents]);
 
@@ -300,7 +301,10 @@ export default function EventsArchive(): React.ReactElement {
     return () => ctx.revert();
   }, []);
 
-  const jsonLd = useMemo(() => buildStructuredData(upcomingEvents), [upcomingEvents]);
+  const jsonLd = useMemo(
+    () => buildStructuredData(upcomingEvents),
+    [upcomingEvents],
+  );
 
   return (
     <main className="events-page">
@@ -338,7 +342,10 @@ export default function EventsArchive(): React.ReactElement {
 
         <div className="events-feature-wrap">
           <article className="events-feature">
-            <div className="events-feature-art" style={{ position: "relative" }}>
+            <div
+              className="events-feature-art"
+              style={{ position: "relative" }}
+            >
               <Image
                 src={featuredEvent.image}
                 alt={featuredEvent.title}
@@ -348,11 +355,10 @@ export default function EventsArchive(): React.ReactElement {
                 priority
                 loading="eager"
               />
-              <span>
-                UPCOMING · {featuredEvent.type.toUpperCase()}
-              </span>
+              <span>UPCOMING · {featuredEvent.type.toUpperCase()}</span>
               <strong>
-                {featuredEvent.title.split(" ").slice(0, -1).join(" ") || featuredEvent.title}
+                {featuredEvent.title.split(" ").slice(0, -1).join(" ") ||
+                  featuredEvent.title}
                 <br />
                 <em>{featuredEvent.title.split(" ").slice(-1)}</em>
               </strong>
@@ -360,7 +366,9 @@ export default function EventsArchive(): React.ReactElement {
             <div className="events-feature-bottom">
               <div>
                 <h2>{featuredEvent.title}</h2>
-                <p>{formatEventDate(featuredEvent)} · RV UNIVERSITY, BENGALURU</p>
+                <p>
+                  {formatEventDate(featuredEvent)} · RV UNIVERSITY, BENGALURU
+                </p>
               </div>
               <b>↗</b>
             </div>
@@ -477,7 +485,11 @@ export default function EventsArchive(): React.ReactElement {
       <footer className="events-footer">
         <span>ECELL RV UNIVERSITY</span>
         <span>BUILD / FAIL / LEARN / REPEAT</span>
-        <Link className="events-footer-home" href="/" aria-label="Back to homepage">
+        <Link
+          className="events-footer-home"
+          href="/"
+          aria-label="Back to homepage"
+        >
           ← HOME
         </Link>
       </footer>
