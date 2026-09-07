@@ -5,6 +5,7 @@ import talkStartupWithMe from "../../assets/events/events_photo/TalkStartupWithM
 import winterTechTalk from "../../assets/events/events_photo/WinterTechTalk.webp";
 import argonyx from "../../assets/events/events_photo/argonyx.webp";
 import argonyx2 from "../../assets/events/events_photo/argoynx2.webp";
+import moreEvents from "../../assets/events/events_photo/cta.png";
 import desktopTeamBg from "../../assets/events/background/pcTeam.webp";
 import mobileTeamBg from "../../assets/events/background/phone.webp";
 import "./Events.css";
@@ -403,17 +404,17 @@ export default function Events(): React.ReactElement {
                       id="eventsExploreAllCta"
                       onClick={handleEventsRedirect}
                     >
+                      <Image
+                        className="events-cta-card-image"
+                        src={moreEvents}
+                        alt=""
+                        fill
+                        sizes="(max-width: 768px) 85vw, 36vw"
+                        quality={85}
+                        draggable={false}
+                      />
                       <div className="events-cta-card-inner">
                         <span className="events-cta-card-badge">ECELL RVU · ARCHIVE</span>
-                        <div className="events-cta-card-main">
-                          <span className="events-cta-card-title">
-                            EXPLORE ALL EVENTS
-                            <span className="events-cta-card-arrow" aria-hidden="true">→</span>
-                          </span>
-                          <p className="events-cta-card-sub">
-                            Browse talks, hackathons, and upcoming founder sessions
-                          </p>
-                        </div>
                         <div className="events-cta-card-button">
                           <span>VIEW ARCHIVE</span>
                           <span className="events-cta-btn-icon" aria-hidden="true">↗</span>
