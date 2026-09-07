@@ -22,6 +22,11 @@ declare module "*.jpeg" {
   export default source;
 }
 
+declare module "*.png" {
+  const source: StaticImageAsset;
+  export default source;
+}
+
 declare module "*.webp" {
   const source: StaticImageAsset;
   export default source;
