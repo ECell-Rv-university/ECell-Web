@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Nav from "@/src/sections/Nav/Nav";
 import EventsArchive from "@/src/components/EventsArchive";
-import PageTransition from "@/src/components/PageTransition/PageTransition";
 
 const SITE_URL = "https://ecell-rvu.vercel.app";
 
@@ -40,7 +39,6 @@ export default function EventsPage() {
     <>
       <Nav />
       <EventsArchive />
-      <PageTransition />
     </>
   );
 }

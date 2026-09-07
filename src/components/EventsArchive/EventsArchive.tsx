@@ -4,10 +4,10 @@ import Image, { StaticImageData } from "next/image";
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { gsap } from "@/src/utils/gsapSetup";
-import talkStartupWithMe from "../assets/events/events_photo/TalkStartupWithMe.webp";
-import winterTechTalk from "../assets/events/events_photo/WinterTechTalk.webp";
-import argonyx from "../assets/events/events_photo/argonyx.webp";
-import argonyx2 from "../assets/events/events_photo/argoynx2.webp";
+import talkStartupWithMe from "@/src/assets/events/events_photo/TalkStartupWithMe.webp";
+import winterTechTalk from "@/src/assets/events/events_photo/WinterTechTalk.webp";
+import argonyx from "@/src/assets/events/events_photo/argonyx.webp";
+import argonyx2 from "@/src/assets/events/events_photo/argoynx2.webp";
 import "./EventsArchive.css";
 
 /* =====================================================
@@ -181,8 +181,7 @@ export default function EventsArchive(): React.ReactElement {
 
   /* --- Scroll to events grid when "VIEW ALL" is clicked --- */
   const scrollToEvents = () => {
-    const el = document.getElementById("events");
-    if (el) el.scrollIntoView({ behavior: "smooth" });
+    cardsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
   /* --- GSAP entrance animations --- */
@@ -307,7 +306,7 @@ export default function EventsArchive(): React.ReactElement {
   );
 
   return (
-    <main className="events-page">
+    <main className="events-page events-page--archive-grid">
       {/* Structured data for Google rich results */}
       <script
         type="application/ld+json"
