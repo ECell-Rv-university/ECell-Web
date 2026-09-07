@@ -35,6 +35,7 @@
   object-fit: cover;
   display: block;
   backface-visibility: hidden;
+  filter: grayscale(100%);
 }
 
 .events-bg-panel img.events-bg-mobile {
@@ -133,22 +134,98 @@
 
 .events-gallery-item {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 32vw;
-  height: 55vh;
-  margin-top: -27.5vh;
-  margin-left: -16vw;
-  border-radius: 12px;
-  overflow: hidden;
-  /* Avoid box-shadow & contain: paint in 3D context to prevent layer invalidation */
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  pointer-events: auto;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  pointer-events: none;
   will-change: transform, opacity;
   backface-visibility: hidden;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 0;
 }
 
-.events-gallery-item img {
+.events-card-info {
+  position: absolute;
+  left: clamp(2rem, 8vw, 11rem);
+  top: 52%;
+  transform: translateY(-50%);
+  width: min(420px, 34vw);
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: left;
+  z-index: 2;
+  gap: clamp(1.2rem, 1.8vw, 1.8rem);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  pointer-events: auto;
+}
+
+.events-card-tag {
+  font-size: clamp(0.9rem, 1.1vw, 1.15rem);
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: rgba(255, 255, 255, 0.75);
+  text-transform: uppercase;
+}
+
+.events-card-title {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: clamp(1.8rem, 2.8vw, 2.75rem);
+  font-weight: 800;
+  line-height: 1.15;
+  text-transform: uppercase;
+  color: #ffffff;
+  letter-spacing: 0.04em;
+  margin: 0;
+  max-width: 380px;
+  word-break: break-word;
+}
+
+.events-card-desc {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: clamp(0.95rem, 1.2vw, 1.25rem);
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0;
+  max-width: 400px;
+}
+
+.events-card-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: clamp(0.9rem, 1.15vw, 1.15rem);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #ffffff;
+}
+
+.events-card-venue {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.events-card-media {
+  position: absolute;
+  right: clamp(2.5rem, 8vw, 11rem);
+  top: 50%;
+  transform: translateY(-50%);
+  width: clamp(280px, 32vw, 440px);
+  height: clamp(340px, 52vh, 480px);
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: #141414;
+  box-shadow: 0 20px 48px -10px rgba(0, 0, 0, 0.7);
+  pointer-events: auto;
+}
+
+.events-card-media img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -156,27 +233,6 @@
   pointer-events: none;
   user-select: none;
   -webkit-user-drag: none;
-}
-
-/* --- Bottom Caption --- */
-.events-caption-container {
-  position: absolute;
-  bottom: 3.5rem;
-  left: 0;
-  width: 100%;
-  text-align: center;
-  z-index: 10;
-  pointer-events: none;
-}
-
-.events-caption-text {
-  font-size: 1.2rem;
-  letter-spacing: 2px;
-  font-weight: 500;
-  text-transform: uppercase;
-  transition: opacity 0.3s ease;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
-  color: #ffffff;
 }
 
 /* --- Exit Glow Transition --- */
@@ -191,6 +247,161 @@
   pointer-events: none;
   z-index: 15;
   opacity: 0;
+}
+
+/* --- CTA Card in 3D Gallery (where the images are) --- */
+.events-card-media--cta {
+  background: radial-gradient(circle at 75% 25%, rgba(255, 255, 255, 0.09) 0%, #111112 60%, #0a0a0b 100%);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  box-shadow: 0 24px 60px -12px rgba(0, 0, 0, 0.85), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  transition: border-color 0.35s ease, box-shadow 0.35s ease, transform 0.35s ease;
+}
+
+.events-card-media--cta:hover {
+  border-color: rgba(255, 255, 255, 0.45);
+  box-shadow: 0 30px 70px -10px rgba(0, 0, 0, 0.95), 0 0 32px rgba(255, 255, 255, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  transform: translateY(-52%);
+}
+
+.events-cta-card-link {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+  padding: clamp(1.6rem, 2.4vw, 2.4rem);
+  text-decoration: none;
+  color: #ffffff;
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.events-cta-card-link::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    180deg,
+    rgba(5, 8, 10, 0.58) 0%,
+    rgba(5, 8, 10, 0.2) 34%,
+    rgba(5, 8, 10, 0.88) 100%
+  );
+  pointer-events: none;
+}
+
+.events-cta-card-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  object-fit: cover;
+  object-position: center;
+  filter: saturate(0.85) contrast(1.05);
+  transition: transform 0.6s ease, filter 0.6s ease;
+}
+
+.events-cta-card-link:hover .events-cta-card-image {
+  transform: scale(1.05);
+  filter: saturate(1) contrast(1.05);
+}
+
+.events-cta-card-inner {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  width: 100%;
+  position: relative;
+  z-index: 2;
+}
+
+.events-cta-card-badge {
+  display: inline-block;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: clamp(0.72rem, 0.9vw, 0.85rem);
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: rgba(255, 255, 255, 0.6);
+  text-transform: uppercase;
+}
+
+.events-cta-card-main {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  margin-top: auto;
+  margin-bottom: 1.2rem;
+}
+
+.events-cta-card-title {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: clamp(1.35rem, 1.9vw, 1.8rem);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.events-cta-card-arrow {
+  display: inline-block;
+  color: #ffffff;
+  font-size: 1.15em;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.events-cta-card-link:hover .events-cta-card-arrow {
+  transform: translateX(6px);
+}
+
+.events-cta-card-sub {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: clamp(0.82rem, 1vw, 0.95rem);
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0;
+}
+
+.events-cta-card-button {
+  margin-top: auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.9rem 1.4rem;
+  background: #ffffff;
+  color: #070707;
+  border-radius: 9999px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: clamp(0.78rem, 0.9vw, 0.88rem);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  box-shadow: 0 8px 24px -6px rgba(255, 255, 255, 0.25);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.events-cta-card-link:hover .events-cta-card-button {
+  background: #000000;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px -4px rgba(0, 0, 0, 0.9), 0 0 20px rgba(255, 255, 255, 0.2);
+}
+
+.events-cta-btn-icon {
+  font-size: 1.15em;
+  line-height: 1;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.events-cta-card-link:hover .events-cta-btn-icon {
+  transform: translate(3px, -3px);
 }
 
 @media (max-width: 768px) {
@@ -237,13 +448,13 @@
   }
 
   .events-scene {
-    top: 7vh;
+    top: 4vh;
     transform-style: preserve-3d;
     will-change: transform;
   }
 
   .events-intro {
-    top: clamp(4.75rem, 10vh, 6.5rem);
+    top: clamp(3.8rem, 7.5vh, 4.8rem);
     left: 1.25rem;
     max-width: min(15rem, calc(100vw - 2.5rem));
   }
@@ -254,37 +465,99 @@
   }
 
   .events-intro h2 {
-    font-size: clamp(2.8rem, 13vw, 4.2rem);
+    font-size: clamp(2.4rem, 11vw, 3.8rem);
   }
 
   .events-gallery-item {
-    width: min(78vw, 20rem);
-    height: clamp(220px, 40svh, 22rem);
-    margin-left: min(-39vw, -10rem);
-    margin-top: clamp(-11rem, -20svh, -7rem);
-    border-radius: 10px;
-    transition: none;
-    contain: layout;
+    inset: auto;
+    top: 50%;
+    left: 50%;
+    width: min(88vw, 380px);
+    height: auto;
+    margin-left: min(-44vw, -190px);
+    margin-top: -30svh;
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 1.1rem;
+    align-items: stretch;
   }
 
-  .events-gallery-item:hover {
-    border-color: rgba(255, 255, 255, 0.1);
+  .events-card-media {
+    position: static;
+    transform: none;
+    width: 100%;
+    height: clamp(170px, 24svh, 210px);
+    border-radius: 12px;
   }
 
-  .events-caption-container {
-    bottom: max(1.25rem, env(safe-area-inset-bottom));
-    padding: 0 1.5rem;
+  .events-card-info {
+    position: static;
+    transform: none;
+    width: 100%;
+    max-width: 100%;
+    left: auto;
+    top: auto;
+    gap: 0.85rem;
   }
 
-  .events-caption-text {
-    max-width: 19rem;
-    margin: 0 auto;
-    font-size: clamp(0.7rem, 2.8vw, 0.85rem);
-    letter-spacing: 0.12em;
-    line-height: 1.45;
+  .events-card-tag {
+    font-size: 0.85rem;
+  }
+
+  .events-card-title {
+    font-size: clamp(1.4rem, 6vw, 1.85rem);
+  }
+
+  .events-card-desc {
+    font-size: clamp(0.9rem, 3.6vw, 1.05rem);
+    line-height: 1.55;
+  }
+
+  .events-card-meta {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 0.3rem;
+    font-size: 0.88rem;
+  }
+
+  .events-card-date {
+    font-size: 0.88rem;
+  }
+
+  .events-card-venue {
+    font-size: 0.78rem;
   }
 
   .events-exit-glow {
     height: 120px;
+  }
+
+  .events-card-media--cta {
+    height: clamp(200px, 32svh, 260px);
+    min-height: 0;
+  }
+
+  .events-cta-card-link {
+    padding: 1.25rem 1.25rem;
+  }
+
+  .events-cta-card-main {
+    margin-top: 0.6rem;
+    margin-bottom: 0.6rem;
+  }
+
+  .events-cta-card-title {
+    font-size: 1.2rem;
+  }
+
+  .events-cta-card-sub {
+    font-size: 0.8rem;
+  }
+
+  .events-cta-card-button {
+    margin-top: auto;
+    padding: 0.75rem 1.15rem;
+    font-size: 0.76rem;
   }
 }
