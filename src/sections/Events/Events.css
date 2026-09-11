@@ -1,4 +1,5 @@
 .events-section {
+  --events-gutter: clamp(1.5rem, 6vw, 6rem);
   position: relative;
   height: 100vh;
   height: 100dvh;
@@ -86,7 +87,7 @@
 .events-intro {
   position: absolute;
   top: clamp(2rem, 5vw, 4.5rem);
-  left: clamp(1.5rem, 6vw, 6rem);
+  left: var(--events-gutter);
   z-index: 12;
   max-width: 28rem;
   pointer-events: none;
@@ -149,11 +150,11 @@
 
 .events-card-info {
   position: absolute;
-  left: clamp(2rem, 8vw, 11rem);
+  left: var(--events-gutter);
   top: 52%;
   transform: translateY(-50%);
-  width: min(420px, 34vw);
-  max-width: 420px;
+  width: min(440px, 36vw);
+  max-width: 440px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -181,7 +182,7 @@
   color: #ffffff;
   letter-spacing: 0.04em;
   margin: 0;
-  max-width: 380px;
+  max-width: 100%;
   word-break: break-word;
 }
 
@@ -191,7 +192,7 @@
   line-height: 1.6;
   color: rgba(255, 255, 255, 0.8);
   margin: 0;
-  max-width: 400px;
+  max-width: 100%;
 }
 
 .events-card-meta {
@@ -212,7 +213,7 @@
 
 .events-card-media {
   position: absolute;
-  right: clamp(2.5rem, 8vw, 11rem);
+  right: var(--events-gutter);
   top: 50%;
   transform: translateY(-50%);
   width: clamp(280px, 32vw, 440px);
@@ -406,6 +407,7 @@
 
 @media (max-width: 768px) {
   .events-section {
+    --events-gutter: 1.25rem;
     /* Keep the pinned scene stable while the mobile browser chrome moves. */
     min-height: 100svh;
     min-height: -webkit-fill-available;
@@ -455,7 +457,7 @@
 
   .events-intro {
     top: clamp(3.8rem, 7.5vh, 4.8rem);
-    left: 1.25rem;
+    left: var(--events-gutter);
     max-width: min(15rem, calc(100vw - 2.5rem));
   }
 
