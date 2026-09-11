@@ -1,5 +1,5 @@
 .events-section {
-  --events-gutter: clamp(1.5rem, 6vw, 6rem);
+  --events-gutter: max(clamp(1.5rem, 5.5vw, 5.5rem), calc((100vw - 1320px) / 2));
   position: relative;
   height: 100vh;
   height: 100dvh;
@@ -405,9 +405,81 @@
   transform: translate(3px, -3px);
 }
 
+@media (max-width: 1024px) and (min-width: 769px) {
+  .events-section {
+    --events-gutter: clamp(1.5rem, 4.5vw, 3.2rem);
+  }
+
+  .events-intro {
+    top: clamp(2rem, 4vw, 3.2rem);
+    max-width: 22rem;
+  }
+
+  .events-intro h2 {
+    font-size: clamp(2.2rem, 4.5vw, 3.4rem);
+  }
+
+  .events-card-info {
+    width: min(380px, 40vw);
+    max-width: 380px;
+    gap: clamp(0.9rem, 1.3vw, 1.4rem);
+  }
+
+  .events-card-title {
+    font-size: clamp(1.4rem, 2.3vw, 1.95rem);
+  }
+
+  .events-card-desc {
+    font-size: clamp(0.85rem, 1.1vw, 1rem);
+    line-height: 1.5;
+  }
+
+  .events-card-tag {
+    font-size: 0.85rem;
+  }
+
+  .events-card-meta {
+    font-size: 0.9rem;
+  }
+
+  .events-card-media {
+    width: clamp(260px, 32vw, 360px);
+    height: clamp(300px, 44vh, 400px);
+    border-radius: 12px;
+  }
+}
+
+@media (min-width: 769px) and (max-height: 720px) {
+  .events-intro {
+    top: 1.5rem;
+  }
+
+  .events-intro h2 {
+    font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+  }
+
+  .events-card-info {
+    top: 53%;
+    gap: 0.75rem;
+  }
+
+  .events-card-title {
+    font-size: clamp(1.3rem, 2vw, 1.75rem);
+  }
+
+  .events-card-desc {
+    font-size: 0.85rem;
+    line-height: 1.45;
+  }
+
+  .events-card-media {
+    height: clamp(260px, 44vh, 340px);
+  }
+}
+
 @media (max-width: 768px) {
   .events-section {
-    --events-gutter: 1.25rem;
+    --events-gutter: clamp(1rem, 4vw, 1.5rem);
     /* Keep the pinned scene stable while the mobile browser chrome moves. */
     min-height: 100svh;
     min-height: -webkit-fill-available;
@@ -450,37 +522,38 @@
   }
 
   .events-scene {
-    top: 4vh;
+    top: 0;
+    height: 100%;
     transform-style: preserve-3d;
     will-change: transform;
   }
 
   .events-intro {
-    top: clamp(3.8rem, 7.5vh, 4.8rem);
+    top: clamp(3.2rem, 6.5vh, 4.2rem);
     left: var(--events-gutter);
-    max-width: min(15rem, calc(100vw - 2.5rem));
+    max-width: min(16rem, calc(100vw - 2.5rem));
   }
 
   .events-intro span {
-    margin-bottom: 0.55rem;
+    margin-bottom: 0.45rem;
     font-size: 0.62rem;
   }
 
   .events-intro h2 {
-    font-size: clamp(2.4rem, 11vw, 3.8rem);
+    font-size: clamp(2.2rem, 9.5vw, 3.4rem);
   }
 
   .events-gallery-item {
     inset: auto;
-    top: 50%;
+    top: clamp(6.8rem, 16svh, 8.5rem);
     left: 50%;
-    width: min(88vw, 380px);
+    width: min(88vw, 400px);
     height: auto;
-    margin-left: min(-44vw, -190px);
-    margin-top: -30svh;
+    margin-left: min(-44vw, -200px);
+    margin-top: 0;
     display: flex;
     flex-direction: column-reverse;
-    gap: 1.1rem;
+    gap: clamp(0.75rem, 2vh, 1.1rem);
     align-items: stretch;
   }
 
@@ -488,7 +561,7 @@
     position: static;
     transform: none;
     width: 100%;
-    height: clamp(170px, 24svh, 210px);
+    height: clamp(160px, 23svh, 210px);
     border-radius: 12px;
   }
 
@@ -499,32 +572,33 @@
     max-width: 100%;
     left: auto;
     top: auto;
-    gap: 0.85rem;
+    gap: clamp(0.5rem, 1.4vh, 0.85rem);
   }
 
   .events-card-tag {
-    font-size: 0.85rem;
+    font-size: 0.82rem;
   }
 
   .events-card-title {
-    font-size: clamp(1.4rem, 6vw, 1.85rem);
+    font-size: clamp(1.3rem, 5.2vw, 1.75rem);
+    line-height: 1.15;
   }
 
   .events-card-desc {
-    font-size: clamp(0.9rem, 3.6vw, 1.05rem);
-    line-height: 1.55;
+    font-size: clamp(0.85rem, 3.2vw, 0.98rem);
+    line-height: 1.5;
   }
 
   .events-card-meta {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    padding-top: 0.3rem;
-    font-size: 0.88rem;
+    padding-top: 0.2rem;
+    font-size: 0.85rem;
   }
 
   .events-card-date {
-    font-size: 0.88rem;
+    font-size: 0.85rem;
   }
 
   .events-card-venue {
@@ -532,34 +606,123 @@
   }
 
   .events-exit-glow {
-    height: 120px;
+    height: 100px;
   }
 
   .events-card-media--cta {
-    height: clamp(200px, 32svh, 260px);
+    height: clamp(190px, 28svh, 240px);
     min-height: 0;
   }
 
   .events-cta-card-link {
-    padding: 1.25rem 1.25rem;
+    padding: clamp(1rem, 3vw, 1.35rem);
   }
 
   .events-cta-card-main {
-    margin-top: 0.6rem;
-    margin-bottom: 0.6rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
   }
 
   .events-cta-card-title {
-    font-size: 1.2rem;
+    font-size: clamp(1.05rem, 3.8vw, 1.25rem);
   }
 
   .events-cta-card-sub {
-    font-size: 0.8rem;
+    font-size: 0.78rem;
   }
 
   .events-cta-card-button {
     margin-top: auto;
-    padding: 0.75rem 1.15rem;
-    font-size: 0.76rem;
+    padding: 0.7rem 1.1rem;
+    font-size: 0.74rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .events-intro {
+    top: 2.8rem;
+  }
+
+  .events-intro h2 {
+    font-size: clamp(1.9rem, 8.5vw, 2.6rem);
+  }
+
+  .events-gallery-item {
+    top: clamp(6.2rem, 14svh, 7.5rem);
+    width: 90vw;
+    margin-left: -45vw;
+    gap: 0.65rem;
+  }
+
+  .events-card-media {
+    height: clamp(145px, 20svh, 175px);
+  }
+
+  .events-card-info {
+    gap: 0.45rem;
+  }
+
+  .events-card-title {
+    font-size: clamp(1.15rem, 4.6vw, 1.4rem);
+  }
+
+  .events-card-desc {
+    font-size: 0.8rem;
+    line-height: 1.4;
+  }
+
+  .events-card-tag {
+    font-size: 0.75rem;
+  }
+
+  .events-card-meta {
+    font-size: 0.78rem;
+  }
+
+  .events-card-media--cta {
+    height: clamp(165px, 24svh, 200px);
+  }
+
+  .events-cta-card-link {
+    padding: 0.85rem 0.95rem;
+  }
+
+  .events-cta-card-button {
+    padding: 0.6rem 0.95rem;
+    font-size: 0.7rem;
+  }
+}
+
+@media (max-width: 768px) and (max-height: 640px) {
+  .events-intro {
+    top: 1.8rem;
+  }
+
+  .events-intro span {
+    margin-bottom: 0.2rem;
+  }
+
+  .events-intro h2 {
+    font-size: 1.8rem;
+  }
+
+  .events-gallery-item {
+    top: 5rem;
+    gap: 0.5rem;
+  }
+
+  .events-card-media {
+    height: 125px;
+  }
+
+  .events-card-info {
+    gap: 0.4rem;
+  }
+
+  .events-card-desc {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 }
