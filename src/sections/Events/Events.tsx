@@ -201,7 +201,10 @@ export default function Events(): React.ReactElement {
         scrollTrigger: {
           trigger: section,
           start: "top top",
-          end: isMobile ? "+=520%" : "+=640%",
+          end: () =>
+            window.matchMedia("(max-width: 768px)").matches
+              ? "+=520%"
+              : "+=640%",
           scrub: 0.8,
           pin: true,
           anticipatePin: 1,
