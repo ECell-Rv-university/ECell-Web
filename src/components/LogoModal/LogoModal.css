@@ -240,7 +240,7 @@
 
 /* 1. Left Annotation: The Flow of Innovation (Pointing to First Wave) */
 .annotation-left {
-  left: 5%;
+  left: -1%;
   top: 30%;
   transform: translateY(-50%);
   animation-delay: 180ms;
@@ -259,7 +259,7 @@
 
 /* 2. Right Annotation: Minimal, Yet Memorable */
 .annotation-right {
-  right: 5%;
+  right: 4%;
   top: 36%;
   transform: translateY(-50%);
   animation-delay: 240ms;
@@ -278,7 +278,7 @@
 
 /* 3. Bottom Annotation: Unity in Momentum */
 .annotation-bottom {
-  bottom: 0%;
+  bottom: -15%;
   left: 50%;
   transform: translateX(-50%);
   flex-direction: column;
