@@ -16,12 +16,27 @@
   height: 100vh;
   height: 100dvh;
   width: 100%;
+  margin-top: -100vh;
+  margin-top: -100dvh;
   overflow: hidden;
-  background: var(--story-panel);
+  background: transparent;
   color: var(--story-text);
   font-family: var(--story-body);
   perspective: 1400px;
   perspective-origin: 50% 80%;
+  pointer-events: none;
+}
+
+.story-backdrop {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 75% 24%, rgba(244, 244, 242, 0.06), transparent 25%),
+    var(--bg, #1a1a1a);
+  pointer-events: none;
+  opacity: 0;
+  z-index: 1;
+  will-change: opacity;
 }
 
 .story-reveal ::selection {
@@ -178,5 +193,13 @@
   }
   .story-reveal-text h2 {
     font-size: clamp(3rem, 15vw, 6.5rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .story-reveal {
+    margin-top: 0;
+    background: var(--bg, #1a1a1a);
+    pointer-events: auto;
   }
 }

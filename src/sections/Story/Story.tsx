@@ -50,6 +50,7 @@ export default function Story({
   const revealTextInnerRef = useRef<HTMLDivElement | null>(null);
   const storyRevealTextRef = useRef<HTMLDivElement | null>(null);
   const eyebrowRef = useRef<HTMLDivElement | null>(null);
+  const backdropRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const reveal = revealRef.current;
@@ -58,6 +59,7 @@ export default function Story({
     const revealTextInner = revealTextInnerRef.current;
     const storyRevealText = storyRevealTextRef.current;
     const eyebrowEl = eyebrowRef.current;
+    const backdrop = backdropRef.current;
 
     if (!reveal || !imagePanel || !revealTextInner) return;
 
@@ -75,6 +77,7 @@ export default function Story({
       });
       if (image) gsap.set(image, { scale: 1 });
       if (storyRevealText) gsap.set(storyRevealText, { opacity: 0 });
+      if (backdrop) gsap.set(backdrop, { opacity: 1 });
       return;
     }
 
@@ -105,23 +108,24 @@ export default function Story({
 
         gsap.set(revealTextInner, { x: containerWidth });
         if (storyRevealText) gsap.set(storyRevealText, { opacity: 0 });
+        if (backdrop) gsap.set(backdrop, { opacity: 1 });
 
         gsap.set(imagePanel, {
-          x: "100%",
+          x: "0%",
           y: "0%",
-          scale: isMobileCond ? 0.84 : 0.88,
-          rotate: -3,
-          rotateY: -8,
-          borderRadius: isMobileCond ? "24px" : "36px",
-          filter: "blur(6px) brightness(0.78)",
-          boxShadow: "0 30px 80px rgba(0, 0, 0, 0.75), inset 0 1px 1px rgba(255, 255, 255, 0.2)",
-          opacity: 0.9,
+          scale: 1,
+          rotate: 0,
+          rotateY: 0,
+          borderRadius: "0px",
+          filter: "blur(0px) brightness(1)",
+          boxShadow: "none",
+          opacity: 1,
         });
 
         if (image) {
           gsap.set(image, {
-            scale: 1.12,
-            x: "-3%",
+            scale: 1,
+            x: "0%",
           });
         }
 
@@ -224,37 +228,6 @@ export default function Story({
           },
         });
 
-        tl.to(
-          imagePanel,
-          {
-            x: "0%",
-            y: "0%",
-            scale: 1,
-            rotate: 0,
-            rotateY: 0,
-            borderRadius: "0px",
-            filter: "blur(0px) brightness(1)",
-            boxShadow: "0 0 0 rgba(0, 0, 0, 0), inset 0 0 0 rgba(255, 255, 255, 0)",
-            opacity: 1,
-            duration: 0.62,
-            ease: "power3.out",
-          },
-          0.04
-        );
-
-        if (image) {
-          tl.to(
-            image,
-            {
-              scale: 1,
-              x: "0%",
-              duration: 0.62,
-              ease: "power3.out",
-            },
-            0.04
-          );
-        }
-
         if (storyRevealText) {
           tl.to(
             storyRevealText,
@@ -292,23 +265,6 @@ export default function Story({
           );
         }
 
-        tl.to(
-          imagePanel,
-          {
-            x: "-100%",
-            y: "0%",
-            scale: isMobileCond ? 0.78 : 0.82,
-            rotate: 3,
-            rotateY: 8,
-            borderRadius: isMobileCond ? "24px" : "36px",
-            filter: "blur(12px) brightness(0.38)",
-            opacity: 0,
-            duration: 0.45,
-            ease: "power3.in",
-          },
-          2.06
-        );
-
         return () => {
           if (tickerCallback) gsap.ticker.remove(tickerCallback);
           if (tl.scrollTrigger) tl.scrollTrigger.kill();
@@ -336,6 +292,7 @@ export default function Story({
 
   return (
     <section className="story-reveal" ref={revealRef} id="storyReveal">
+      <div className="story-backdrop" ref={backdropRef} aria-hidden="true" />
       <div className="story-image-panel" ref={imagePanelRef} id="imagePanel">
         <div ref={imageRef} className="story-image-inner" style={{ position: "relative", width: "100%", height: "100%" }}>
           <Image src={storyBackground} alt="Story background" fill sizes="100vw" quality={100} style={{ objectFit: "cover" }} />
