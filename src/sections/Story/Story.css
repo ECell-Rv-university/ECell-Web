@@ -3,8 +3,8 @@
    ============================================================ */
 
 .story-reveal {
-  --story-bg: var(--bgcolor, #1a1a1a);
-  --story-panel: var(--bg-2, #111111);
+  --story-bg: var(--bg, #1a1a1a);
+  --story-panel: var(--bg, #1a1a1a);
   --story-text: var(--fg, #f4f4f2);
   --story-muted: var(--primarycolor, #bababa);
   --story-accent: var(--fg, #f4f4f2);
@@ -17,7 +17,7 @@
   height: 100dvh;
   width: 100%;
   overflow: hidden;
-  background: var(--story-panel);
+  background: var(--story-bg);
   color: var(--story-text);
   font-family: var(--story-body);
   perspective: 1400px;
@@ -83,7 +83,7 @@
   will-change: transform, border-radius, box-shadow;
   z-index: 2;
   overflow: hidden;
-  background: var(--story-panel);
+  background: var(--story-bg);
 }
 
 .story-image-inner {
