@@ -71,10 +71,12 @@ export default function Story({
         y: 0,
         scale: 1,
         rotate: 0,
-        filter: "blur(0px)",
+        borderRadius: "0px",
+        boxShadow: "none",
+        filter: "none",
       });
-      if (image) gsap.set(image, { scale: 1 });
-      if (storyRevealText) gsap.set(storyRevealText, { opacity: 0 });
+      if (image) gsap.set(image, { scale: 1, x: 0 });
+      if (storyRevealText) gsap.set(storyRevealText, { opacity: 1 });
       return;
     }
 
@@ -107,21 +109,21 @@ export default function Story({
         if (storyRevealText) gsap.set(storyRevealText, { opacity: 0 });
 
         gsap.set(imagePanel, {
-          x: "100%",
+          x: isMobileCond ? "45vw" : "55vw",
           y: "0%",
-          scale: isMobileCond ? 0.84 : 0.88,
-          rotate: -3,
-          rotateY: -8,
-          borderRadius: isMobileCond ? "24px" : "36px",
-          filter: "blur(6px) brightness(0.78)",
-          boxShadow: "0 30px 80px rgba(0, 0, 0, 0.75), inset 0 1px 1px rgba(255, 255, 255, 0.2)",
-          opacity: 0.9,
+          scale: isMobileCond ? 0.74 : 0.65,
+          rotate: 0,
+          rotateY: 0,
+          borderRadius: isMobileCond ? "20px" : "28px",
+          boxShadow: "0 25px 70px rgba(0, 0, 0, 0.45)",
+          opacity: 1,
+          transformOrigin: "center right",
         });
 
         if (image) {
           gsap.set(image, {
-            scale: 1.12,
-            x: "-3%",
+            scale: 1.15,
+            x: "-5%",
           });
         }
 
@@ -214,7 +216,7 @@ export default function Story({
           scrollTrigger: {
             trigger: reveal,
             start: "top top",
-            end: isMobileCond ? "+=250%" : "+=300%",
+            end: isMobileCond ? "+=280%" : "+=340%",
             scrub: 0.8,
             pin: true,
             anticipatePin: 1,
@@ -230,16 +232,12 @@ export default function Story({
             x: "0%",
             y: "0%",
             scale: 1,
-            rotate: 0,
-            rotateY: 0,
             borderRadius: "0px",
-            filter: "blur(0px) brightness(1)",
-            boxShadow: "0 0 0 rgba(0, 0, 0, 0), inset 0 0 0 rgba(255, 255, 255, 0)",
-            opacity: 1,
-            duration: 0.62,
-            ease: "power3.out",
+            boxShadow: "0 0 0 rgba(0, 0, 0, 0)",
+            duration: 0.95,
+            ease: "power2.out",
           },
-          0.04
+          0
         );
 
         if (image) {
@@ -248,18 +246,18 @@ export default function Story({
             {
               scale: 1,
               x: "0%",
-              duration: 0.62,
-              ease: "power3.out",
+              duration: 0.95,
+              ease: "power2.out",
             },
-            0.04
+            0
           );
         }
 
         if (storyRevealText) {
           tl.to(
             storyRevealText,
-            { opacity: 1, duration: 0.15, ease: "power1.out" },
-            0.6
+            { opacity: 1, duration: 0.2, ease: "power1.out" },
+            0.95
           );
         }
 
@@ -270,25 +268,25 @@ export default function Story({
             duration: 1.6,
             ease: "none",
           },
-          0.6
+          0.95
         )
           .fromTo(
             eyebrowEl,
             { opacity: 0, y: 10 },
             { opacity: 1, y: 0, duration: 0.2, ease: "power1.out" },
-            0.7
+            1.05
           )
           .to(
             eyebrowEl,
             { opacity: 0, y: -10, duration: 0.2, ease: "power1.in" },
-            1.95
+            2.38
           );
 
         if (storyRevealText) {
           tl.to(
             storyRevealText,
-            { opacity: 0, duration: 0.15, ease: "power1.in" },
-            2.08
+            { opacity: 0, duration: 0.2, ease: "power1.in" },
+            2.5
           );
         }
 
@@ -297,16 +295,14 @@ export default function Story({
           {
             x: "-100%",
             y: "0%",
-            scale: isMobileCond ? 0.78 : 0.82,
-            rotate: 3,
-            rotateY: 8,
-            borderRadius: isMobileCond ? "24px" : "36px",
-            filter: "blur(12px) brightness(0.38)",
+            scale: isMobileCond ? 0.8 : 0.85,
+            borderRadius: isMobileCond ? "20px" : "28px",
+            boxShadow: "0 25px 70px rgba(0, 0, 0, 0.45)",
             opacity: 0,
-            duration: 0.45,
-            ease: "power3.in",
+            duration: 0.5,
+            ease: "power2.in",
           },
-          2.06
+          2.52
         );
 
         return () => {
