@@ -1,4 +1,5 @@
 .events-section {
+  --events-bg: var(--bg, #1a1a1a);
   --events-gutter: max(clamp(1.5rem, 5.5vw, 5.5rem), calc((100vw - 1320px) / 2));
   position: relative;
   height: 100vh;
@@ -6,7 +7,7 @@
   min-height: 100vh;
   min-height: 100dvh;
   overflow: hidden;
-  background: #070707;
+  background: var(--events-bg);
   color: #fff;
 }
 
@@ -19,7 +20,7 @@
   transform-origin: top right;
   backface-visibility: hidden;
   will-change: transform;
-  background: #0a0a0a;
+  background: var(--events-bg);
 }
 
 .events-bg-inner {
@@ -76,10 +77,8 @@
   z-index: 20;
   pointer-events: none;
   opacity: 0;
-  background:
-    radial-gradient(circle at 50% 100%, rgba(255, 255, 255, 0.18), transparent 32%),
-    linear-gradient(180deg, #09090a 0%, #20201f 58%, #0a0a0b 100%);
-  box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.2);
+  background: var(--events-bg);
+  box-shadow: none;
   transform: translateZ(0);
 }
 
