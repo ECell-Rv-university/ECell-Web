@@ -109,14 +109,14 @@ export default function Story({
         if (storyRevealText) gsap.set(storyRevealText, { opacity: 0 });
 
         gsap.set(imagePanel, {
-          x: isMobileCond ? "45vw" : "55vw",
+          x: isMobileCond ? "78%" : "72%",
           y: "0%",
           scale: isMobileCond ? 0.74 : 0.65,
           rotate: 0,
           rotateY: 0,
           borderRadius: isMobileCond ? "20px" : "28px",
           boxShadow: "0 25px 70px rgba(0, 0, 0, 0.45)",
-          opacity: 1,
+          opacity: 0,
           transformOrigin: "center right",
         });
 
@@ -229,12 +229,22 @@ export default function Story({
         tl.to(
           imagePanel,
           {
+            opacity: 1,
+            duration: 0.25,
+            ease: "power1.out",
+          },
+          0
+        );
+
+        tl.to(
+          imagePanel,
+          {
             x: "0%",
             y: "0%",
             scale: 1,
             borderRadius: "0px",
             boxShadow: "0 0 0 rgba(0, 0, 0, 0)",
-            duration: 0.95,
+            duration: 1.0,
             ease: "power2.out",
           },
           0
@@ -246,7 +256,7 @@ export default function Story({
             {
               scale: 1,
               x: "0%",
-              duration: 0.95,
+              duration: 1.0,
               ease: "power2.out",
             },
             0
@@ -257,7 +267,7 @@ export default function Story({
           tl.to(
             storyRevealText,
             { opacity: 1, duration: 0.2, ease: "power1.out" },
-            0.95
+            1.0
           );
         }
 
@@ -268,7 +278,7 @@ export default function Story({
             duration: 1.6,
             ease: "none",
           },
-          0.95
+          1.0
         )
           .fromTo(
             eyebrowEl,
