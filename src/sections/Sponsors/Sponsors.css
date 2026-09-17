@@ -4,7 +4,7 @@
   background: var(--bg);
   overflow: hidden;
   will-change: transform, opacity;
-  border-top: 0.5px solid var(--line);
+  border-top: none;
   isolation: isolate;
   perspective: 1200px;
   perspective-origin: 50% 40%;
@@ -39,6 +39,7 @@
 }
 
 .sponsors-divider-line {
+  display: none;
   position: absolute;
   top: 0;
   left: 8%;
