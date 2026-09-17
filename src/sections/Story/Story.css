@@ -20,8 +20,6 @@
   background: var(--story-bg);
   color: var(--story-text);
   font-family: var(--story-body);
-  perspective: 1400px;
-  perspective-origin: 50% 80%;
 }
 
 .story-reveal ::selection {
@@ -73,12 +71,11 @@
   color: var(--story-text);
 }
 
-/* Image panel: rises through the bottom edge of the viewport with 3D depth. */
+/* Image panel: smooth right-to-left glide and expand */
 .story-image-panel {
   position: absolute;
   inset: 0;
-  transform-origin: center bottom;
-  transform-style: preserve-3d;
+  transform-origin: center right;
   backface-visibility: hidden;
   will-change: transform, border-radius, box-shadow;
   z-index: 2;
