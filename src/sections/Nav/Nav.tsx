@@ -72,14 +72,14 @@ export default function Nav(): React.ReactElement {
   };
 
   useEffect(() => {
-  if (!isTransitioning) return;
+    if (!isTransitioning) return;
 
-  const timeoutId = window.setTimeout(() => {
-    setIsTransitioning(false);
-  }, 0);
+    const timeoutId = window.setTimeout(() => {
+      setIsTransitioning(false);
+    }, 0);
 
-  return () => window.clearTimeout(timeoutId);
-}, [pathname, isTransitioning]);
+    return () => window.clearTimeout(timeoutId);
+  }, [pathname, isTransitioning]);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -107,7 +107,7 @@ export default function Nav(): React.ReactElement {
   const scrollToSection = (id: string) => {
     setIsOpen(false);
 
-  
+
     if (pathname !== "/") {
       if (isTransitioning) return;
       try {
@@ -292,37 +292,36 @@ export default function Nav(): React.ReactElement {
           </button>
           {pathname === "/events" && (
             <button
-            className="nav-events-link nav-home-link"
-            onClick={openHome}
-            type="button"
-           >
-            ← Home
-          </button>
-          )}
-
-          {/* Sleek inline hint aligned horizontally with the logo */}
-          <button
-            type="button"
-            className={`nav__logo-hint ${showHint ? "is-visible" : ""}`}
-            onClick={handleLogoClick}
-            aria-label="Click to explore our logo story"
-          >
-            <svg
-              className="nav__logo-hint-arrow"
-              viewBox="0 0 20 12"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
+              className="nav-events-link nav-home-link"
+              onClick={openHome}
+              type="button"
             >
-              <path
-                d="M18 6H2M2 6L6 2M2 6L6 10"
-                stroke="currentColor"
-                strokeWidth="1.6"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-            <span className="nav__logo-hint-text">Click to explore</span>
-          </button>
+              ← Home
+            </button>
+          )}
+            <button
+              type="button"
+              className={`nav__logo-hint ${showHint ? "is-visible" : ""}`}
+              onClick={handleLogoClick}
+              aria-label="Click to explore our logo story"
+            >
+              <svg
+                className="nav__logo-hint-arrow"
+                viewBox="0 0 20 12"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M18 6H2M2 6L6 2M2 6L6 10"
+                  stroke="currentColor"
+                  strokeWidth="1.6"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+
+              <span className="nav__logo-hint-text">Click to explore</span>
+            </button>
         </div>
 
         <div className="nav-right">

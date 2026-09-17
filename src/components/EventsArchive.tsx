@@ -362,7 +362,9 @@ export default function EventsArchive(): React.ReactElement {
                 <h2>{featuredEvent.title}</h2>
                 <p>{formatEventDate(featuredEvent)} · RV UNIVERSITY, BENGALURU</p>
               </div>
-              <b>↗</b>
+              <a href="https://unstop.com/hackathons/argonyx26-rv-university-1748836?utm_medium=Share&utm_source=akashsin3510&utm_campaign=Online_coding_challenge" target="_blank" rel="noopener noreferrer">
+                ↗
+              </a>
             </div>
           </article>
         </div>
