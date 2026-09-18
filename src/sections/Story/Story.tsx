@@ -84,17 +84,8 @@ export default function Story({
 
     // --- Shared Lenis smooth scroll (desktop only) ---
     const lenisHandle = isMobile ? null : acquireLenis();
-    const lenis = lenisHandle?.instance ?? null;
     let disposed = false;
     let tickerCallback: ((time: number, deltaTime: number) => void) | null = null;
-
-    const scrollUpdateHandler = () => {
-      ScrollTrigger.update();
-    };
-
-    if (lenis) {
-      lenis.on("scroll", scrollUpdateHandler);
-    }
 
     const mm = gsap.matchMedia();
 
@@ -333,9 +324,6 @@ export default function Story({
 
       mm.revert();
 
-      if (lenis) {
-        lenis.off("scroll", scrollUpdateHandler);
-      }
       lenisHandle?.release();
     };
   }, [eyebrow, headlineMain, headlineAccent]);
