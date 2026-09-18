@@ -3,7 +3,7 @@
 import Image, { StaticImageData } from "next/image";
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { gsap } from "@/src/utils/gsapSetup";
+import { gsap, ScrollTrigger } from "@/src/utils/gsapSetup";
 import talkStartupWithMe from "../assets/events/events_photo/TalkStartupWithMe.webp";
 import winterTechTalk from "../assets/events/events_photo/WinterTechTalk.webp";
 import argonyx from "../assets/events/events_photo/argonyx.webp";
@@ -37,7 +37,7 @@ const EVENTS: EventItem[] = [
       "Build, break and reimagine. A hands-on challenge for ambitious builders.",
     image: argonyx2,
     status: "UPCOMING",
-    link: "/Argonyx-26",
+    link: "/events/argonyx-26",
   },
   {
     date: "TBA",
@@ -48,7 +48,7 @@ const EVENTS: EventItem[] = [
       "Pitch your idea, get real feedback, and take your next step as a builder.",
     image: argonyx,
     status: "UPCOMING",
-    link: "/Pitch-e-thon",
+    link: "/events/pitch-e-thon",
   },
   {
     date: "TBA",
@@ -59,7 +59,7 @@ const EVENTS: EventItem[] = [
       "A flagship gathering for ideas, founders, and the people building what comes next.",
     image: argonyx,
     status: "UPCOMING",
-    link: "/E-Summit",
+    link: "/events/e-summit",
   },
   {
     date: "TBA",
@@ -225,6 +225,36 @@ export default function EventsArchive(): React.ReactElement {
   };
 
   /* =====================================================
+     SCROLL RESET ON MOUNT
+  ===================================================== */
+
+  useEffect(() => {
+    const htmlEl = document.documentElement;
+    const origScroll = htmlEl.style.scrollBehavior;
+    htmlEl.style.scrollBehavior = "auto";
+    window.scrollTo(0, 0);
+    document.body.scrollTop = 0;
+    htmlEl.scrollTop = 0;
+
+    const frameId = window.requestAnimationFrame(() => {
+      window.scrollTo(0, 0);
+      document.body.scrollTop = 0;
+      htmlEl.scrollTop = 0;
+      htmlEl.style.scrollBehavior = origScroll;
+      try {
+        ScrollTrigger.refresh();
+      } catch {
+        // ignore
+      }
+    });
+
+    return () => {
+      window.cancelAnimationFrame(frameId);
+      htmlEl.style.scrollBehavior = origScroll;
+    };
+  }, []);
+
+  /* =====================================================
      GSAP ENTRANCE ANIMATIONS
   ===================================================== */
 
@@ -239,7 +269,7 @@ export default function EventsArchive(): React.ReactElement {
 
     const initializeAnimations = () => {
       ctx = gsap.context(() => {
-        /* Hero elements */
+        /* Hero elements - animate immediately on mount */
 
         const heroElements =
           heroRef.current?.querySelectorAll(
@@ -259,16 +289,12 @@ export default function EventsArchive(): React.ReactElement {
               duration: 0.7,
               stagger: 0.1,
               ease: "power3.out",
-
-              scrollTrigger: {
-                trigger: heroRef.current,
-                start: "top 85%",
-              },
+              clearProps: "transform",
             },
           );
         }
 
-        /* Featured card */
+        /* Featured card - animate immediately on mount */
 
         const featureCard =
           heroRef.current?.querySelector(
@@ -289,11 +315,7 @@ export default function EventsArchive(): React.ReactElement {
               rotate: 1.5,
               duration: 0.8,
               ease: "power3.out",
-
-              scrollTrigger: {
-                trigger: featureCard,
-                start: "top 88%",
-              },
+              clearProps: "transform",
             },
           );
         }
@@ -318,11 +340,12 @@ export default function EventsArchive(): React.ReactElement {
               duration: 0.5,
               stagger: 0.08,
               ease: "power2.out",
-
               scrollTrigger: {
                 trigger: calendarRef.current,
-                start: "top 80%",
+                start: "top 85%",
+                once: true,
               },
+              clearProps: "transform",
             },
           );
         }
@@ -347,11 +370,12 @@ export default function EventsArchive(): React.ReactElement {
               duration: 0.6,
               stagger: 0.12,
               ease: "power3.out",
-
               scrollTrigger: {
                 trigger: cardsRef.current,
-                start: "top 80%",
+                start: "top 85%",
+                once: true,
               },
+              clearProps: "transform",
             },
           );
         }
@@ -376,22 +400,25 @@ export default function EventsArchive(): React.ReactElement {
               duration: 0.5,
               stagger: 0.06,
               ease: "power2.out",
-
               scrollTrigger: {
                 trigger: archiveRef.current,
-                start: "top 82%",
+                start: "top 85%",
+                once: true,
               },
+              clearProps: "transform",
             },
           );
         }
 
         /*
-         * Recalculate the layout after the browser has
-         * completed the initial render and image/layout
-         * calculations.
+         * Recalculate ScrollTrigger after layout pass
          */
         window.setTimeout(() => {
-          window.dispatchEvent(new Event("resize"));
+          try {
+            ScrollTrigger.refresh();
+          } catch {
+            // ignore
+          }
         }, 100);
       });
     };
@@ -407,6 +434,11 @@ export default function EventsArchive(): React.ReactElement {
     return () => {
       window.cancelAnimationFrame(frame);
       ctx?.revert();
+      try {
+        ScrollTrigger.getAll().forEach((t) => t.kill());
+      } catch {
+        // ignore
+      }
     };
   }, []);
 
@@ -486,7 +518,17 @@ export default function EventsArchive(): React.ReactElement {
 
         <div className="events-feature-wrap">
 
-          <article className="events-feature">
+          <article className={`events-feature ${featuredEvent.link ? "events-feature--clickable" : ""}`} style={{ position: "relative" }}>
+
+            {featuredEvent.link && (
+              <Link
+                href={featuredEvent.link}
+                className="events-feature-overlay-link"
+                aria-label={`View details for ${featuredEvent.title}`}
+              >
+                View details for {featuredEvent.title}
+              </Link>
+            )}
 
             <div
               className="events-feature-art"
@@ -494,7 +536,6 @@ export default function EventsArchive(): React.ReactElement {
                 position: "relative",
               }}
             >
-
               <Image
                 src={featuredEvent.image}
                 alt={featuredEvent.title}
@@ -533,7 +574,13 @@ export default function EventsArchive(): React.ReactElement {
               <div>
 
                 <h2>
-                  {featuredEvent.title}
+                  {featuredEvent.link ? (
+                    <Link href={featuredEvent.link} style={{ color: "inherit", textDecoration: "none", position: "relative", zIndex: 9 }}>
+                      {featuredEvent.title}
+                    </Link>
+                  ) : (
+                    featuredEvent.title
+                  )}
                 </h2>
 
                 <p>
@@ -547,6 +594,8 @@ export default function EventsArchive(): React.ReactElement {
                 href="https://unstop.com/hackathons/argonyx26-rv-university-1748836?utm_medium=Share&utm_source=akashsin3510&utm_campaign=Online_coding_challenge"
                 target="_blank"
                 rel="noopener noreferrer"
+                style={{ position: "relative", zIndex: 10 }}
+                aria-label="Register on Unstop"
               >
                 ↗
               </a>
@@ -694,53 +743,35 @@ export default function EventsArchive(): React.ReactElement {
 
             return (
               <article
-                className="events-card"
+                className={`events-card ${event.link ? "events-card--clickable" : ""}`}
                 key={event.title}
+                style={{ position: "relative" }}
               >
+
+                {event.link && (
+                  <Link
+                    href={event.link}
+                    className="events-card-overlay-link"
+                    aria-label={`View details for ${event.title}`}
+                  >
+                    View details for {event.title}
+                  </Link>
+                )}
 
                 <div
                   className="events-card-image"
                   style={{ position: "relative" }}
                 >
+                  <Image
+                    src={event.image}
+                    alt={event.title}
+                    fill
+                    sizes="(max-width: 700px) 90vw, 45vw"
+                  />
 
-                  {event.link ? (
-                    <Link
-                      href={event.link}
-                      style={{
-                        position: "absolute",
-                        inset: 0,
-                        zIndex: 10,
-                        display: "block",
-                      }}
-                    >
-
-                      <Image
-                        src={event.image}
-                        alt={event.title}
-                        fill
-                        sizes="(max-width: 700px) 90vw, 45vw"
-                      />
-
-                      <span>
-                        {event.type}
-                      </span>
-
-                    </Link>
-                  ) : (
-                    <>
-                      <Image
-                        src={event.image}
-                        alt={event.title}
-                        fill
-                        sizes="(max-width: 700px) 90vw, 45vw"
-                      />
-
-                      <span>
-                        {event.type}
-                      </span>
-                    </>
-                  )}
-
+                  <span>
+                    {event.type}
+                  </span>
                 </div>
 
                 <div className="events-card-info">
@@ -748,7 +779,13 @@ export default function EventsArchive(): React.ReactElement {
                   <div>
 
                     <h2>
-                      {event.title}
+                      {event.link ? (
+                        <Link href={event.link} style={{ color: "inherit", textDecoration: "none", position: "relative", zIndex: 9 }}>
+                          {event.title}
+                        </Link>
+                      ) : (
+                        event.title
+                      )}
                     </h2>
 
                     <p>

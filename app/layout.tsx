@@ -4,6 +4,7 @@ import Script from "next/script";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import PageTransition from "@/src/components/PageTransition/PageTransition";
+import RouteScrollManager from "@/src/components/RouteScrollManager";
 import "./globals.css";
 
 const archivo = Archivo({
@@ -234,6 +235,7 @@ export default function RootLayout({
             `,
           }}
         />
+        <RouteScrollManager />
         {children}
         <PageTransition />
         <Analytics />

@@ -279,7 +279,7 @@ export default function Nav(): React.ReactElement {
 
   return (
     <>
-      <nav>
+      <nav className="site-nav">
         <div className="nav__logo-group">
           <button
             className="logo nav__logo-container nav__logo-button"

@@ -3,7 +3,7 @@
   --nav-accent-hover: rgba(197, 197, 197, 0.12);
 }
 
-nav {
+.site-nav {
   position: fixed;
   top: 0;
   left: 0;
@@ -23,8 +23,8 @@ nav {
   gap: 24px;
 }
 
-nav button,
-nav a {
+.site-nav button,
+.site-nav a {
     pointer-events: auto;
 }
 
@@ -337,7 +337,7 @@ nav a {
 }
 
 @media (max-width: 768px) {
-  nav {
+  .site-nav {
     padding: 18px max(20px, env(safe-area-inset-right)) 18px max(20px, env(safe-area-inset-left));
   }
 

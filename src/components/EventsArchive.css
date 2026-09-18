@@ -124,6 +124,19 @@
     transform: rotate(0) translateY(-5px)
 }
 
+.events-feature--clickable {
+    cursor: pointer;
+}
+
+.events-feature-overlay-link {
+    position: absolute;
+    inset: 0;
+    z-index: 8;
+    display: block;
+    text-indent: -9999px;
+    overflow: hidden;
+}
+
 .events-feature-art {
     position: relative;
     height: 270px;
@@ -324,6 +337,19 @@
 .events-card:hover {
     transform: translateY(-5px);
     border-color: var(--event-paper)
+}
+
+.events-card--clickable {
+    cursor: pointer;
+}
+
+.events-card-overlay-link {
+    position: absolute;
+    inset: 0;
+    z-index: 8;
+    display: block;
+    text-indent: -9999px;
+    overflow: hidden;
 }
 
 .events-card-image {
