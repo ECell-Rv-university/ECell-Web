@@ -1,29 +1,22 @@
 import Lenis from "lenis";
+import { gsap, ScrollTrigger } from "./gsapSetup";
 
 const lenisOptions = {
-  duration: 1.2,
-  easing: (t: number) => 1 - Math.pow(1 - t, 4),
+  lerp: 0.08,
+  wheelMultiplier: 0.75,
   smoothWheel: true,
+  syncTouch: false,
 };
 
 let sharedLenis: Lenis | null = null;
-let animationFrameId: number | null = null;
+let tickerCallback: ((time: number) => void) | null = null;
+let scrollCallback: (() => void) | null = null;
 let consumerCount = 0;
 
-function raf(time: number): void {
-  if (!sharedLenis || consumerCount === 0) {
-    animationFrameId = null;
-    return;
-  }
-
-  sharedLenis.raf(time);
-  animationFrameId = window.requestAnimationFrame(raf);
-}
-
 /**
- * Acquire the app-wide Lenis instance. The instance and its RAF loop are
- * shared so mounting multiple smooth-scroll consumers can never create
- * competing Lenis instances or animation loops.
+ * Acquire the app-wide Lenis instance. The instance and its GSAP ticker loop
+ * are shared so mounting multiple smooth-scroll consumers can never create
+ * competing Lenis instances or desynchronized animation loops.
  */
 export function acquireLenis(): {
   instance: Lenis;
@@ -31,13 +24,22 @@ export function acquireLenis(): {
 } {
   if (!sharedLenis) {
     sharedLenis = new Lenis(lenisOptions);
+
+    // Keep GSAP ScrollTrigger in lockstep with Lenis smooth scroll
+    scrollCallback = () => {
+      ScrollTrigger.update();
+    };
+    sharedLenis.on("scroll", scrollCallback);
+
+    // Drive Lenis RAF loop from GSAP's unified ticker
+    tickerCallback = (time: number) => {
+      sharedLenis?.raf(time * 1000);
+    };
+    gsap.ticker.add(tickerCallback);
+    gsap.ticker.lagSmoothing(0);
   }
 
   consumerCount += 1;
-
-  if (animationFrameId === null) {
-    animationFrameId = window.requestAnimationFrame(raf);
-  }
 
   let released = false;
 
@@ -48,17 +50,22 @@ export function acquireLenis(): {
       released = true;
       consumerCount = Math.max(0, consumerCount - 1);
 
-      if (consumerCount === 0 && animationFrameId !== null) {
-        window.cancelAnimationFrame(animationFrameId);
-        animationFrameId = null;
-      }
+      if (consumerCount === 0) {
+        if (tickerCallback) {
+          gsap.ticker.remove(tickerCallback);
+          tickerCallback = null;
+        }
 
-      // Lenis attaches input listeners when constructed. Destroy the idle
-      // instance so routes without a smooth-scroll consumer keep native scroll.
-      if (consumerCount === 0 && sharedLenis) {
-        sharedLenis.destroy();
-        sharedLenis = null;
+        if (sharedLenis) {
+          if (scrollCallback) {
+            sharedLenis.off("scroll", scrollCallback);
+            scrollCallback = null;
+          }
+          sharedLenis.destroy();
+          sharedLenis = null;
+        }
       }
     },
   };
 }
+
