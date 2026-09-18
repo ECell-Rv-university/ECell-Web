@@ -33,6 +33,7 @@
   font-weight: 600;
   color: var(--event-gray);
   margin: 0 0 1.6rem;
+  text-align: left;
 }
 
 .event-detail-page .eyebrow__rule {
@@ -146,6 +147,15 @@
 }
 
 .event-detail-page .topbar__nav {
+  position: static;
+  top: auto;
+  left: auto;
+  right: auto;
+  width: auto;
+  padding: 0;
+  margin: 0;
+  mix-blend-mode: normal;
+  pointer-events: auto;
   display: flex;
   align-items: center;
   gap: 1.8rem;
@@ -177,7 +187,11 @@
 }
 
 .event-detail-page .hero {
+  position: relative;
+  height: auto;
+  min-height: auto;
   padding: 5.5rem 1.5rem 6rem;
+  text-align: left;
 }
 
 .event-detail-page .hero__grid {
@@ -274,10 +288,14 @@
 }
 
 .event-detail-page .about {
+  position: relative;
+  height: auto;
+  min-height: auto;
   padding: 6rem 1.5rem;
   border-top: 1px solid var(--event-line);
   max-width: 1180px;
   margin: 0 auto;
+  text-align: left;
 }
 
 .event-detail-page .about__grid {

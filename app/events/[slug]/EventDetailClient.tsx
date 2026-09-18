@@ -27,6 +27,12 @@ export default function EventDetailClient({ event }: EventDetailClientProps): Re
       htmlEl.style.scrollBehavior = origScrollBehavior;
     });
 
+    const timerId = window.setTimeout(() => {
+      window.scrollTo(0, 0);
+      document.body.scrollTop = 0;
+      htmlEl.scrollTop = 0;
+    }, 60);
+
     const handleAnchorClick = (e: MouseEvent) => {
       const link = (e.target as Element).closest<HTMLAnchorElement>('a[href^="#"]');
       const href = link?.getAttribute("href");
@@ -49,6 +55,7 @@ export default function EventDetailClient({ event }: EventDetailClientProps): Re
     document.addEventListener("click", handleAnchorClick);
     return () => {
       window.cancelAnimationFrame(frameId);
+      window.clearTimeout(timerId);
       htmlEl.style.scrollBehavior = origScrollBehavior;
       document.removeEventListener("click", handleAnchorClick);
     };
