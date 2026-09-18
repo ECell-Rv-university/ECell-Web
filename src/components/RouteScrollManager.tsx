@@ -35,19 +35,16 @@ export default function RouteScrollManager(): null {
     // 1. Force instant scroll behavior
     htmlEl.style.scrollBehavior = "auto";
     window.scrollTo(0, 0);
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" as ScrollBehavior });
     document.body.scrollTop = 0;
     htmlEl.scrollTop = 0;
 
-    // 2. Perform a second check on next frame to counter any late browser layout shifts
+    // 2. Perform checks on animation frames to counter any late browser layout shifts
     const frameId = requestAnimationFrame(() => {
-      window.scrollTo(0, 0);
+      window.scrollTo({ top: 0, left: 0, behavior: "instant" as ScrollBehavior });
       document.body.scrollTop = 0;
       htmlEl.scrollTop = 0;
 
-      // 3. Restore original smooth scroll setting
-      htmlEl.style.scrollBehavior = originalScrollBehavior;
-
-      // 4. Update GSAP ScrollTrigger to match the fresh viewport metrics
       try {
         ScrollTrigger.refresh();
       } catch {
@@ -55,8 +52,16 @@ export default function RouteScrollManager(): null {
       }
     });
 
+    const timerId = window.setTimeout(() => {
+      window.scrollTo({ top: 0, left: 0, behavior: "instant" as ScrollBehavior });
+      document.body.scrollTop = 0;
+      htmlEl.scrollTop = 0;
+      htmlEl.style.scrollBehavior = originalScrollBehavior;
+    }, 150);
+
     return () => {
       cancelAnimationFrame(frameId);
+      window.clearTimeout(timerId);
       htmlEl.style.scrollBehavior = originalScrollBehavior;
     };
   }, [pathname]);

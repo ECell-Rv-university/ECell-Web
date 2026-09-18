@@ -19,6 +19,17 @@
   -webkit-font-smoothing: antialiased;
 }
 
+/* Override bare h1/h2/h3 from global.css so event detail headings
+   aren't crushed by the global line-height: 0.94 */
+.event-detail-page h1,
+.event-detail-page h2,
+.event-detail-page h3 {
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  font-weight: 800;
+  text-wrap: unset;
+}
+
 .event-detail-page a {
   color: inherit;
 }
@@ -289,39 +300,54 @@
 
 .event-detail-page .about {
   position: relative;
+  width: 100%;
   height: auto;
   min-height: auto;
-  padding: 6rem 1.5rem;
+  padding: 7rem 1.5rem;
   border-top: 1px solid var(--event-line);
+  text-align: left;
+}
+
+.event-detail-page .about__inner {
   max-width: 1180px;
   margin: 0 auto;
-  text-align: left;
 }
 
 .event-detail-page .about__grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 3rem;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 4.5rem;
+  align-items: start;
 }
 
 .event-detail-page .about__headline {
   margin: 0;
   font-weight: 800;
-  letter-spacing: -0.02em;
-  line-height: 1.05;
-  font-size: clamp(1.9rem, 1.4rem + 2vw, 2.8rem);
+  letter-spacing: -0.03em;
+  line-height: 1.08;
+  font-size: clamp(2.4rem, 1.6rem + 2.8vw, 3.8rem);
+}
+
+.event-detail-page .about__headline .hero__accent {
+  display: block;
+  margin-top: 0.35rem;
 }
 
 .event-detail-page .about__text p {
-  margin: 0 0 1.1rem;
+  margin: 0 0 1.4rem;
   max-width: var(--measure);
+  font-size: 1.08rem;
+  line-height: 1.75;
+  color: rgba(244, 243, 239, 0.9);
 }
 
 .event-detail-page .about__text .muted {
   color: var(--event-gray);
-  font-size: 0.92rem;
+  font-size: 0.94rem;
+  line-height: 1.65;
   border-left: 2px solid var(--event-line);
-  padding-left: 0.9rem;
+  padding-left: 1rem;
+  margin-top: 1.6rem;
 }
 
 .event-detail-page .ledger {
@@ -482,7 +508,7 @@
 
   .event-detail-page .about__grid {
     grid-template-columns: 1fr;
-    gap: 1.8rem;
+    gap: 2.5rem;
   }
 
   .event-detail-page .ledger__row {

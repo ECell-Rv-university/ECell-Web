@@ -434,6 +434,11 @@ export default function EventsArchive(): React.ReactElement {
     return () => {
       window.cancelAnimationFrame(frame);
       ctx?.revert();
+      try {
+        ScrollTrigger.getAll().forEach((t) => t.kill());
+      } catch {
+        // ignore
+      }
     };
   }, []);
 

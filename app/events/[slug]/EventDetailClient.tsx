@@ -12,26 +12,36 @@ interface EventDetailClientProps {
 
 export default function EventDetailClient({ event }: EventDetailClientProps): React.ReactElement {
   useEffect(() => {
+    // Kill any lingering ScrollTriggers from previous routes to prevent layout clamping
+    try {
+      if (typeof window !== "undefined") {
+        // @ts-expect-error ScrollTrigger may be on window or imported
+        if (window.ScrollTrigger) window.ScrollTrigger.getAll().forEach((t: { kill: () => void }) => t.kill());
+      }
+    } catch {
+      // ignore
+    }
+
     // Force immediate instant scroll to top on navigation to ensure hero section is displayed
     const htmlEl = document.documentElement;
     const origScrollBehavior = htmlEl.style.scrollBehavior;
     htmlEl.style.scrollBehavior = "auto";
-    window.scrollTo(0, 0);
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" as ScrollBehavior });
     document.body.scrollTop = 0;
     htmlEl.scrollTop = 0;
 
     const frameId = window.requestAnimationFrame(() => {
-      window.scrollTo(0, 0);
+      window.scrollTo({ top: 0, left: 0, behavior: "instant" as ScrollBehavior });
       document.body.scrollTop = 0;
       htmlEl.scrollTop = 0;
-      htmlEl.style.scrollBehavior = origScrollBehavior;
     });
 
     const timerId = window.setTimeout(() => {
-      window.scrollTo(0, 0);
+      window.scrollTo({ top: 0, left: 0, behavior: "instant" as ScrollBehavior });
       document.body.scrollTop = 0;
       htmlEl.scrollTop = 0;
-    }, 60);
+      htmlEl.style.scrollBehavior = origScrollBehavior;
+    }, 120);
 
     const handleAnchorClick = (e: MouseEvent) => {
       const link = (e.target as Element).closest<HTMLAnchorElement>('a[href^="#"]');
@@ -133,21 +143,23 @@ export default function EventDetailClient({ event }: EventDetailClientProps): Re
         </section>
 
         <section className="about" id="about">
-          <p className="eyebrow">
-            <span className="eyebrow__rule" />
-            {event.aboutEyebrow}
-          </p>
+          <div className="about__inner">
+            <p className="eyebrow">
+              <span className="eyebrow__rule" />
+              {event.aboutEyebrow}
+            </p>
 
-          <div className="about__grid">
-            <h2 className="about__headline">
-              {event.aboutHeadline}
-              <span className="hero__accent">{event.aboutHeadlineAccent}</span>
-            </h2>
+            <div className="about__grid">
+              <h2 className="about__headline">
+                {event.aboutHeadline}
+                <span className="hero__accent">{event.aboutHeadlineAccent}</span>
+              </h2>
 
-            <div className="about__text">
-              <p>{event.aboutDescription}</p>
+              <div className="about__text">
+                <p>{event.aboutDescription}</p>
 
-              {event.aboutNote && <p className="muted">{event.aboutNote}</p>}
+                {event.aboutNote && <p className="muted">{event.aboutNote}</p>}
+              </div>
             </div>
           </div>
         </section>
