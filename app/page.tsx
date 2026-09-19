@@ -19,7 +19,18 @@ import GameLauncher from "@/src/components/GameLauncher/GameLauncher";
 import Team from "@/src/sections/Team/Team";
 
 export default function Home() {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(() => {
+    // Only show the loader on the very first visit in this session.
+    // When navigating back from /events, skip it entirely.
+    if (typeof window !== "undefined") {
+      try {
+        return !sessionStorage.getItem("ecell:loaderPlayed");
+      } catch {
+        return true;
+      }
+    }
+    return true;
+  });
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -44,6 +55,11 @@ export default function Home() {
 
   const handleLoaderComplete = () => {
     setLoading(false);
+    try {
+      sessionStorage.setItem("ecell:loaderPlayed", "1");
+    } catch {
+      // sessionStorage unavailable
+    }
     if (typeof window !== "undefined") {
       let hasPendingScroll = Boolean(window.location.hash && window.location.hash.length > 1);
       try {
