@@ -1,5 +1,5 @@
 import type { StaticImageData } from "next/image";
-import argonyx2 from "../assets/events/events_photo/argoynx2.webp";
+import cta from "../assets/events/events_photo/cta.webp";
 import argonyx from "../assets/events/events_photo/argonyx.webp";
 
 export interface LedgerItem {
@@ -52,7 +52,7 @@ export const EVENTS_DATA: Record<string, EventDetailData> = {
     heroHeadline: "Build something",
     heroAccent: " that ships.",
     heroBody:
-      "One venue, one clock, twenty-four hours. Pick a problem worth solving, build a real working solution, and pitch it to judges who care about execution — not just slides. Run by VIKSHA, The Entrepreneurship Cell, and IEEE at RV University.",
+      "One venue, one clock, twenty-four hours. Pick a problem worth solving, build a real working solution, and pitch it to judges who care about execution — not just slides. Run by  The Entrepreneurship Cell, VIKSHA, and IEEE at RV University.",
     aboutEyebrow: "What is Argonyx",
     aboutHeadline: "Not another",
     aboutHeadlineAccent: " idea deck.",
@@ -71,7 +71,7 @@ export const EVENTS_DATA: Record<string, EventDetailData> = {
     registrationHeadline: "Bring a team.",
     registrationAccent: "Leave with a build.",
     registrationHint: "Opens the official registration page in a new tab.",
-    image: argonyx2,
+    image: cta,
     ledger: [
       {
         number: "01",
@@ -96,8 +96,8 @@ export const EVENTS_DATA: Record<string, EventDetailData> = {
     ],
     organizers: [
       "RV University",
-      "VIKSHA",
       "The Entrepreneurship Cell, RV University",
+      "VIKSHA",
       "IEEE RV University",
     ],
     contacts: [

@@ -1,0 +1,103 @@
+.chapters-dropdown {
+  position: fixed;
+  top: 64px;
+  right: 32px;
+  z-index: 59;
+  display: none;
+  min-width: 236px;
+  padding: 10px;
+  overflow: hidden;
+  background: linear-gradient(145deg, rgba(35, 35, 35, 0.96), rgba(13, 13, 13, 0.98));
+  border: 1px solid rgba(197, 197, 197, 0.28);
+  border-radius: 12px;
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.chapters-dropdown.open {
+  display: block;
+}
+
+.chapters-dropdown::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 16px;
+  right: 16px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--nav-accent), transparent);
+}
+
+.chapters-dropdown a {
+  position: relative;
+  display: block;
+  padding: 12px 14px;
+  font-size: 13px;
+  border-radius: 7px;
+  transition: background 180ms ease, padding-left 180ms ease, color 180ms ease;
+}
+
+.chapters-dropdown a:hover {
+  background: rgba(255, 255, 255, 0.06);
+  padding-left: 18px;
+}
+
+.dropdown-events-link {
+  color: var(--nav-accent) !important;
+  font-weight: 600;
+}
+
+.dropdown-events-link:hover {
+  background: var(--nav-accent-hover) !important;
+}
+
+.dropdown-about-link {
+  color: var(--nav-accent) !important;
+  font-weight: 600;
+}
+
+.dropdown-about-link:hover {
+  background: var(--nav-accent-hover) !important;
+}
+
+.dropdown-team-link {
+  color: var(--nav-accent) !important;
+  font-weight: 600;
+}
+
+.dropdown-team-link:hover {
+  background: var(--nav-accent-hover) !important;
+}
+
+.dropdown-sponsors-link {
+  color: var(--nav-accent) !important;
+  font-weight: 600;
+}
+
+.dropdown-sponsors-link:hover {
+  background: var(--nav-accent-hover) !important;
+}
+
+.dropdown-speakers-link {
+  color: var(--nav-accent) !important;
+  font-weight: 600;
+}
+
+.dropdown-speakers-link:hover {
+  background: var(--nav-accent-hover) !important;
+}
+
+.dropdown-footer-link {
+  color: var(--nav-accent) !important;
+  font-weight: 600;
+}
+
+.dropdown-footer-link:hover {
+  background: var(--nav-accent-hover) !important;
+}
+
+.chapters-dropdown a:focus-visible {
+  outline: 2px solid var(--fg);
+  outline-offset: 3px;
+}
