@@ -36,6 +36,21 @@ export function useChaptersMenu() {
     };
   }, [isOpen]);
 
+  // Close on Escape key while open
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setIsOpen(false);
+        toggleRef.current?.focus();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isOpen]);
+
   const toggle = () => setIsOpen((prev) => !prev);
   const close = () => setIsOpen(false);
 

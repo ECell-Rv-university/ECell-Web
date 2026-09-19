@@ -36,16 +36,23 @@ export function useSectionNavigation({ closeMenu }: UseSectionNavigationOptions)
 
     closeMenu();
     setIsTransitioning(true);
-    window.dispatchEvent(new CustomEvent("ecell:events-transition"));
+    window.dispatchEvent(
+      new CustomEvent("ecell:page-transition", {
+        detail: { url: "/events", title: "EVENTS" },
+      })
+    );
   };
 
   const openHome = () => {
     if (pathname === "/" || isTransitioning) return;
 
+    closeMenu();
     setIsTransitioning(true);
-    transitionTimeoutRef.current = window.setTimeout(() => {
-      router.push("/");
-    }, 720);
+    window.dispatchEvent(
+      new CustomEvent("ecell:page-transition", {
+        detail: { url: "/", title: "HOME" },
+      })
+    );
   };
 
   const scrollToSection = (id: string) => {
@@ -60,9 +67,11 @@ export function useSectionNavigation({ closeMenu }: UseSectionNavigationOptions)
         // scroll just won't be resolved after navigation in that edge case.
       }
       setIsTransitioning(true);
-      transitionTimeoutRef.current = window.setTimeout(() => {
-        router.push(`/#${id}`);
-      }, 720);
+      window.dispatchEvent(
+        new CustomEvent("ecell:page-transition", {
+          detail: { url: `/#${id}`, title: "E-CELL" },
+        })
+      );
       return;
     }
 

@@ -23,10 +23,18 @@ export default function RouteScrollManager(): null {
     }
     prevPathnameRef.current = pathname;
 
-    // Check if the URL has an anchor hash
+    // Check if the URL has an anchor hash or a stored pending scroll target
     const hash = window.location.hash;
     if (hash && hash.length > 1) {
       return;
+    }
+
+    try {
+      if (sessionStorage.getItem("nav:pendingScrollTarget")) {
+        return;
+      }
+    } catch {
+      // ignore
     }
 
     const htmlEl = document.documentElement;

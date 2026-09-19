@@ -98,7 +98,7 @@ export default function GameLauncher(): React.ReactElement {
     <aside className={`game-launcher ${isOpen ? "game-launcher--open" : ""} ${isClosing ? "game-launcher--closing" : ""}`}>
       {isOpen && (
         <>
-          <div className="game-launcher__backdrop" aria-hidden="true" />
+          <div className="game-launcher__backdrop" aria-hidden="true" onClick={closeWindow} />
           <section className={`game-window ${selectedGame ? "game-window--playing" : "game-window--selection"}`} role="dialog" aria-labelledby="game-window-title">
             <header className="game-window__header">
               <div>

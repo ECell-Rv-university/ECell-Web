@@ -30,7 +30,7 @@ export default function LogoHint({ visible, onClick }: LogoHintProps): React.Rea
         />
       </svg>
 
-      <span className="nav__logo-hint-text">Click to explore</span>
+      <span className="nav__logo-hint-text">Explore logo</span>
     </button>
   );
 }

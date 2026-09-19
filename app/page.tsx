@@ -45,9 +45,22 @@ export default function Home() {
   const handleLoaderComplete = () => {
     setLoading(false);
     if (typeof window !== "undefined") {
-      window.scrollTo(0, 0);
-      setTimeout(() => {
+      let hasPendingScroll = Boolean(window.location.hash && window.location.hash.length > 1);
+      try {
+        if (!hasPendingScroll && sessionStorage.getItem("nav:pendingScrollTarget")) {
+          hasPendingScroll = true;
+        }
+      } catch {
+        // sessionStorage unavailable
+      }
+
+      if (!hasPendingScroll) {
         window.scrollTo(0, 0);
+      }
+      setTimeout(() => {
+        if (!hasPendingScroll) {
+          window.scrollTo(0, 0);
+        }
         ScrollTrigger.refresh();
       }, 50);
     }

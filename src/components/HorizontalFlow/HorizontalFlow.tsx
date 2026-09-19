@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef } from "react";
 import { gsap } from "@/src/utils/gsapSetup";
+import { scrollToTarget } from "@/src/utils/lenis";
 import "./HorizontalFlow.css";
 
 interface HorizontalFlowProps {
@@ -54,7 +55,7 @@ export default function HorizontalFlow({ children }: HorizontalFlowProps): React
         const progress = panelIndex / lastPanelIndex;
         const scrollPosition = scrollTrigger.start + (scrollTrigger.end - scrollTrigger.start) * progress;
         event.preventDefault();
-        window.scrollTo({ top: scrollPosition, behavior: "smooth" });
+        scrollToTarget(scrollPosition);
       };
 
       window.addEventListener("horizontal-flow:navigate", navigateToPanel);

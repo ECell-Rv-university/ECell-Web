@@ -8,6 +8,7 @@ export default function Nav(): React.ReactElement {
   const pathname = usePathname();
   const [isLogoModalOpen, setIsLogoModalOpen] = useState<boolean>(false);
   const [isLogoInNavOnHome, setIsLogoInNavOnHome] = useState<boolean>(false);
+  const [isAboutVisible, setIsAboutVisible] = useState<boolean>(false);
   const [hasDismissedHint, setHasDismissedHint] = useState<boolean>(false);
 
   const handleLogoClick = () => {
@@ -30,15 +31,53 @@ export default function Nav(): React.ReactElement {
     };
   }, [pathname]);
 
-  // Hint is home-only: never shown on any other route, even if this Nav is imported there.
+  // Track the About section. The hint should ONLY appear during the About section
+  // where the logo docks, and must NEVER bleed into subsequent sections like Events.
+  useEffect(() => {
+    if (pathname !== "/") return;
+
+    const aboutEl = document.getElementById("aboutSection");
+    if (!aboutEl || typeof IntersectionObserver === "undefined") return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsAboutVisible(entry.isIntersecting);
+        // If user scrolls past the About section downward, permanently dismiss hint
+        if (!entry.isIntersecting && entry.boundingClientRect.top < 0) {
+          setHasDismissedHint(true);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    observer.observe(aboutEl);
+    return () => observer.disconnect();
+  }, [pathname]);
+
+  // Hint is home-only, visible ONLY while in the About section where the logo enters the nav.
   const showHint =
-    pathname === "/" && isLogoInNavOnHome && !hasDismissedHint && !isLogoModalOpen;
+    pathname === "/" &&
+    isLogoInNavOnHome &&
+    isAboutVisible &&
+    !hasDismissedHint &&
+    !isLogoModalOpen;
+
+  // Auto-dismiss after 4.5 seconds so it doesn't linger
+  useEffect(() => {
+    if (!showHint) return;
+
+    const timer = window.setTimeout(() => {
+      setHasDismissedHint(true);
+    }, 4500);
+
+    return () => window.clearTimeout(timer);
+  }, [showHint]);
 
   return (
     <>
       <NavBar
         onLogoClick={handleLogoClick}
-        logoHint={<LogoHint visible={showHint} onClick={handleLogoClick} />}
+        logoHint={pathname === "/" ? <LogoHint visible={showHint} onClick={handleLogoClick} /> : undefined}
       />
       <LogoModal isOpen={isLogoModalOpen} onClose={() => setIsLogoModalOpen(false)} />
     </>

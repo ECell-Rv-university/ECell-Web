@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { PENDING_SCROLL_KEY, navigateToSection } from "./navUtils";
+import { scrollToTarget } from "../../utils/lenis";
 
 export function useHomeScroll(): void {
   const pathname = usePathname();
@@ -64,10 +65,10 @@ export function useHomeScroll(): void {
       window.dispatchEvent(navigationEvent);
 
       // Sections inside the pinned horizontal flow claim the event and scroll
-      // themselves; everything else uses standard anchor scrolling.
+      // themselves; everything else uses coordinated smooth scrolling.
       if (!navigationEvent.defaultPrevented) {
         if (!el.closest(".horizontal-flow-panel")) {
-          el.scrollIntoView({ behavior: "smooth" });
+          scrollToTarget(el);
         }
       }
 
@@ -106,8 +107,13 @@ export function useHomeScroll(): void {
         return;
       }
 
-      const reachedTarget = scrollAttempts > 0 && navigationHandled &&
-        (window.scrollY > 40 || el.getBoundingClientRect().top < 160);
+      const panel = el.closest<HTMLElement>(".horizontal-flow-panel");
+      const reachedTarget =
+        scrollAttempts > 0 &&
+        navigationHandled &&
+        (panel
+          ? Math.abs(panel.getBoundingClientRect().left) < 140
+          : Math.abs(el.getBoundingClientRect().top) < 140);
 
       if (reachedTarget) {
         // The scroll stuck — we are at/near the section or clearly en route.
@@ -125,7 +131,7 @@ export function useHomeScroll(): void {
       // Something yanked the page back to the top after our scroll (e.g. the
       // homepage's post-loader reset). Re-issue the scroll a few times so the
       // user still lands on the requested section.
-      if (ticksSinceScroll >= 3 && scrollAttempts < maxScrollAttempts) {
+      if (ticksSinceScroll >= 4 && scrollAttempts < maxScrollAttempts) {
         requestNavigation(el);
         return;
       }
@@ -134,7 +140,7 @@ export function useHomeScroll(): void {
         window.clearInterval(intervalId);
         // Last resort: snap instantly so the user still lands on the section.
         if (!el.closest(".horizontal-flow-panel")) {
-          el.scrollIntoView();
+          scrollToTarget(el, { immediate: true });
         }
         clearPendingTarget();
       }
