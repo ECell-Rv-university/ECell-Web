@@ -273,7 +273,7 @@ export default function EventsArchive(): React.ReactElement {
 
         const heroElements =
           heroRef.current?.querySelectorAll(
-            ".events-eyebrow, .events-hero h1, .events-hero-intro, .events-actions",
+            ".ea-eyebrow, .ea-hero h1, .ea-hero-intro, .ea-actions",
           );
 
         if (heroElements?.length) {
@@ -298,7 +298,7 @@ export default function EventsArchive(): React.ReactElement {
 
         const featureCard =
           heroRef.current?.querySelector(
-            ".events-feature",
+            ".ea-feature",
           );
 
         if (featureCard) {
@@ -324,7 +324,7 @@ export default function EventsArchive(): React.ReactElement {
 
         const dateElements =
           calendarRef.current?.querySelectorAll(
-            ".events-date",
+            ".ea-date",
           );
 
         if (dateElements?.length) {
@@ -354,7 +354,7 @@ export default function EventsArchive(): React.ReactElement {
 
         const cardElements =
           cardsRef.current?.querySelectorAll(
-            ".events-card",
+            ".ea-card",
           );
 
         if (cardElements?.length) {
@@ -384,7 +384,7 @@ export default function EventsArchive(): React.ReactElement {
 
         const archiveElements =
           archiveRef.current?.querySelectorAll(
-            ".events-archive-row",
+            ".ea-archive-row",
           );
 
         if (archiveElements?.length) {
@@ -456,7 +456,7 @@ export default function EventsArchive(): React.ReactElement {
   ===================================================== */
 
   return (
-    <main className="events-page">
+    <main className="ea-page">
 
       {/* Structured data for Google rich results */}
 
@@ -472,12 +472,12 @@ export default function EventsArchive(): React.ReactElement {
       ================================================= */}
 
       <section
-        className="events-hero"
+        className="ea-hero"
         ref={heroRef}
       >
-        <div className="events-hero-copy">
+        <div className="ea-hero-copy">
 
-          <p className="events-eyebrow">
+          <p className="ea-eyebrow">
             <span />
             EVENTS &amp; WORKSHOPS
           </p>
@@ -488,24 +488,24 @@ export default function EventsArchive(): React.ReactElement {
             ideas <em>get moving.</em>
           </h1>
 
-          <p className="events-hero-intro">
+          <p className="ea-hero-intro">
             Talks, workshops, hackathons and founder
             sessions for people who want to build
             something real. Pick an event, bring a
             question, and leave with something started.
           </p>
 
-          <div className="events-actions">
+          <div className="ea-actions">
 
             <a
-              className="events-button events-button--primary"
+              className="ea-button ea-button--primary"
               href="#events"
             >
               EXPLORE EVENTS <span>→</span>
             </a>
 
             <a
-              className="events-button"
+              className="ea-button"
               href="#calendar"
             >
               BROWSE CALENDAR <span>↓</span>
@@ -516,14 +516,14 @@ export default function EventsArchive(): React.ReactElement {
 
         {/* Featured Event */}
 
-        <div className="events-feature-wrap">
+        <div className="ea-feature-wrap">
 
-          <article className={`events-feature ${featuredEvent.link ? "events-feature--clickable" : ""}`} style={{ position: "relative" }}>
+          <article className={`ea-feature ${featuredEvent.link ? "ea-feature--clickable" : ""}`} style={{ position: "relative" }}>
 
             {featuredEvent.link && (
               <Link
                 href={featuredEvent.link}
-                className="events-feature-overlay-link"
+                className="ea-feature-overlay-link"
                 aria-label={`View details for ${featuredEvent.title}`}
               >
                 View details for {featuredEvent.title}
@@ -531,7 +531,7 @@ export default function EventsArchive(): React.ReactElement {
             )}
 
             <div
-              className="events-feature-art"
+              className="ea-feature-art"
               style={{
                 position: "relative",
               }}
@@ -569,7 +569,7 @@ export default function EventsArchive(): React.ReactElement {
 
             </div>
 
-            <div className="events-feature-bottom">
+            <div className="ea-feature-bottom">
 
               <div>
 
@@ -612,13 +612,13 @@ export default function EventsArchive(): React.ReactElement {
       ================================================= */}
 
       <section
-        className="events-content"
+        className="ea-content"
         id="calendar"
       >
 
         {/* Calendar */}
 
-        <div className="events-section-head">
+        <div className="ea-section-head">
 
           <span>
             THE CALENDAR
@@ -634,16 +634,16 @@ export default function EventsArchive(): React.ReactElement {
         </div>
 
         <div
-          className="events-calendar"
+          className="ea-calendar"
           ref={calendarRef}
         >
 
-          <div className="events-calendar-track">
+          <div className="ea-calendar-track">
 
             {upcomingEvents.map(
               (event, index) => (
                 <button
-                  className={`events-date ${
+                  className={`ea-date ${
                     selectedDate === index
                       ? "is-active"
                       : ""
@@ -683,7 +683,7 @@ export default function EventsArchive(): React.ReactElement {
         {/* Upcoming Events */}
 
         <div
-          className="events-section-head"
+          className="ea-section-head"
           id="events"
         >
 
@@ -692,7 +692,7 @@ export default function EventsArchive(): React.ReactElement {
           </span>
 
           <button
-            className="events-view-all-btn"
+            className="ea-view-all-btn"
             type="button"
             onClick={scrollToEvents}
           >
@@ -704,7 +704,7 @@ export default function EventsArchive(): React.ReactElement {
         {/* Filters */}
 
         <div
-          className="events-filters"
+          className="ea-filters"
           aria-label="Filter events"
         >
 
@@ -730,7 +730,7 @@ export default function EventsArchive(): React.ReactElement {
         {/* Event Grid */}
 
         <div
-          className="events-grid"
+          className="ea-grid"
           ref={cardsRef}
         >
 
@@ -743,7 +743,7 @@ export default function EventsArchive(): React.ReactElement {
 
             return (
               <article
-                className={`events-card ${event.link ? "events-card--clickable" : ""}`}
+                className={`ea-card ${event.link ? "ea-card--clickable" : ""}`}
                 key={event.title}
                 style={{ position: "relative" }}
               >
@@ -751,7 +751,7 @@ export default function EventsArchive(): React.ReactElement {
                 {event.link && (
                   <Link
                     href={event.link}
-                    className="events-card-overlay-link"
+                    className="ea-card-overlay-link"
                     aria-label={`View details for ${event.title}`}
                   >
                     View details for {event.title}
@@ -759,7 +759,7 @@ export default function EventsArchive(): React.ReactElement {
                 )}
 
                 <div
-                  className="events-card-image"
+                  className="ea-card-image"
                   style={{ position: "relative" }}
                 >
                   <Image
@@ -774,7 +774,7 @@ export default function EventsArchive(): React.ReactElement {
                   </span>
                 </div>
 
-                <div className="events-card-info">
+                <div className="ea-card-info">
 
                   <div>
 
@@ -813,11 +813,11 @@ export default function EventsArchive(): React.ReactElement {
         ================================================= */}
 
         <div
-          className="events-archive"
+          className="ea-archive"
           ref={archiveRef}
         >
 
-          <div className="events-section-head">
+          <div className="ea-section-head">
 
             <span>
               PREVIOUS EVENTS
@@ -835,7 +835,7 @@ export default function EventsArchive(): React.ReactElement {
           {archivedEvents.map(
             (event, index) => (
               <div
-                className="events-archive-row"
+                className="ea-archive-row"
                 key={event.title}
               >
 
@@ -867,7 +867,7 @@ export default function EventsArchive(): React.ReactElement {
           FOOTER
       ================================================= */}
 
-      <footer className="events-footer">
+      <footer className="ea-footer">
 
         <span>
           ECELL RV UNIVERSITY
@@ -878,7 +878,7 @@ export default function EventsArchive(): React.ReactElement {
         </span>
 
         <Link
-          className="events-footer-home"
+          className="ea-footer-home"
           href="/"
           aria-label="Back to homepage"
         >

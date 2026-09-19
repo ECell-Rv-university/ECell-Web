@@ -78,7 +78,6 @@ export default function EventDetailClient({ event }: EventDetailClientProps): Re
           <Link className="topbar__mark" href="/events">
             <span className="arrow">←</span> BACK
           </Link>
-
           <nav className="topbar__nav">
             <a href="#about">About</a>
             <a href="#details">Details</a>

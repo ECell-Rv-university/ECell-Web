@@ -1,4 +1,4 @@
-.events-page {
+.ea-page {
     --event-bg: var(--bg, #1a1a1a);
     --event-panel: var(--bg, #1a1a1a);
     --event-paper: var(--fg, #f4f4f2);
@@ -12,9 +12,9 @@
     color: var(--event-paper)
 }
 
-.events-hero,
-.events-content,
-.events-footer {
+.ea-hero,
+.ea-content,
+.ea-footer {
     position: relative;
     z-index: 1;
     max-width: 1360px;
@@ -22,7 +22,7 @@
     padding-inline: clamp(24px, 6vw, 88px)
 }
 
-.events-hero {
+.ea-hero {
     min-height: clamp(680px, 84vh, 850px);
     padding-top: clamp(135px, 17vh, 190px);
     display: grid;
@@ -31,7 +31,7 @@
     align-items: start
 }
 
-.events-eyebrow {
+.ea-eyebrow {
     display: flex;
     align-items: center;
     gap: 12px;
@@ -41,13 +41,13 @@
     letter-spacing: .28em
 }
 
-.events-eyebrow span {
+.ea-eyebrow span {
     width: 26px;
     height: 1px;
     background: var(--event-muted)
 }
 
-.events-hero h1 {
+.ea-hero h1 {
     max-width: 800px;
     margin-top: 30px;
     font-size: clamp(4.7rem, 9vw, 9.2rem);
@@ -55,14 +55,14 @@
     line-height: .82
 }
 
-.events-hero h1 em {
+.ea-hero h1 em {
     color: var(--event-accent);
     font-family: var(--font-fraunces), Georgia, serif;
     font-weight: 400;
     letter-spacing: -.06em
 }
 
-.events-hero-intro {
+.ea-hero-intro {
     max-width: 475px;
     margin-top: 42px;
     color: var(--event-muted);
@@ -70,14 +70,14 @@
     line-height: 1.65
 }
 
-.events-actions {
+.ea-actions {
     display: flex;
     flex-wrap: wrap;
     gap: 22px;
     margin-top: 28px
 }
 
-.events-button {
+.ea-button {
     display: inline-flex;
     gap: 14px;
     align-items: center;
@@ -88,20 +88,20 @@
     letter-spacing: .17em
 }
 
-.events-button span {
+.ea-button span {
     color: var(--event-accent);
     font-size: 1rem
 }
 
-.events-button--primary {
+.ea-button--primary {
     border-color: var(--event-accent)
 }
 
-.events-button:hover span {
+.ea-button:hover span {
     transform: translateX(4px)
 }
 
-.events-feature-wrap {
+.ea-feature-wrap {
     position: relative;
     min-height: 500px;
     display: flex;
@@ -109,7 +109,7 @@
     justify-content: center
 }
 
-.events-feature {
+.ea-feature {
     position: relative;
     z-index: 1;
     width: min(500px, 100%);
@@ -120,15 +120,15 @@
     transition: transform .35s ease
 }
 
-.events-feature:hover {
+.ea-feature:hover {
     transform: rotate(0) translateY(-5px)
 }
 
-.events-feature--clickable {
+.ea-feature--clickable {
     cursor: pointer;
 }
 
-.events-feature-overlay-link {
+.ea-feature-overlay-link {
     position: absolute;
     inset: 0;
     z-index: 8;
@@ -137,31 +137,31 @@
     overflow: hidden;
 }
 
-.events-feature-art {
+.ea-feature-art {
     position: relative;
     height: 270px;
     overflow: hidden
 }
 
-.events-feature-art:after {
+.ea-feature-art:after {
     content: "";
     position: absolute;
     inset: 0;
     background: linear-gradient(180deg, transparent 35%, rgba(13, 13, 13, .9))
 }
 
-.events-feature-art img {
+.ea-feature-art img {
     object-fit: cover;
     filter: saturate(.72) contrast(1.05)
 }
 
-.events-feature-art span,
-.events-feature-art strong {
+.ea-feature-art span,
+.ea-feature-art strong {
     position: absolute;
     z-index: 1
 }
 
-.events-feature-art span {
+.ea-feature-art span {
     top: 16px;
     left: 16px;
     color: var(--event-muted);
@@ -169,7 +169,7 @@
     letter-spacing: .18em
 }
 
-.events-feature-art strong {
+.ea-feature-art strong {
     right: 20px;
     bottom: 18px;
     font-size: clamp(2.4rem, 4vw, 3.5rem);
@@ -178,42 +178,42 @@
     text-align: right
 }
 
-.events-feature-art strong em {
+.ea-feature-art strong em {
     color: var(--event-accent);
     font-family: var(--font-fraunces), Georgia, serif;
     font-weight: 400
 }
 
-.events-feature-bottom {
+.ea-feature-bottom {
     display: flex;
     justify-content: space-between;
     gap: 18px;
     padding: 20px 5px 5px
 }
 
-.events-feature-bottom h2 {
+.ea-feature-bottom h2 {
     font-size: 2rem;
     letter-spacing: -.06em
 }
 
-.events-feature-bottom p {
+.ea-feature-bottom p {
     margin-top: 10px;
     color: var(--event-muted);
     font-size: .58rem;
     letter-spacing: .13em
 }
 
-.events-feature-bottom>b {
+.ea-feature-bottom>b {
     align-self: end;
     color: var(--event-accent);
     font-size: 1.5rem
 }
 
-.events-content {
+.ea-content {
     padding-bottom: 110px
 }
 
-.events-section-head {
+.ea-section-head {
     display: flex;
     justify-content: space-between;
     padding: 17px 0;
@@ -224,12 +224,12 @@
     letter-spacing: .22em
 }
 
-.events-calendar {
+.ea-calendar {
     margin: 50px 0 115px;
     overflow: hidden
 }
 
-.events-calendar-track {
+.ea-calendar-track {
     position: relative;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -237,7 +237,7 @@
     padding-top: 28px
 }
 
-.events-calendar-track:before {
+.ea-calendar-track:before {
     content: "";
     position: absolute;
     top: 64px;
@@ -247,7 +247,7 @@
     background: var(--event-line)
 }
 
-.events-date {
+.ea-date {
     position: relative;
     z-index: 1;
     border: 0;
@@ -257,19 +257,19 @@
     cursor: pointer
 }
 
-.events-date strong {
+.ea-date strong {
     display: block;
     font-size: 3.4rem;
     font-weight: 400;
     letter-spacing: -.08em
 }
 
-.events-date span {
+.ea-date span {
     font-size: .6rem;
     letter-spacing: .16em
 }
 
-.events-date i {
+.ea-date i {
     display: block;
     width: 16px;
     height: 16px;
@@ -279,29 +279,29 @@
     background: var(--event-bg)
 }
 
-.events-date b {
+.ea-date b {
     color: var(--event-paper);
     font-size: .75rem;
     font-weight: 500
 }
 
-.events-date.is-active {
+.ea-date.is-active {
     color: var(--event-paper)
 }
 
-.events-date.is-active i {
+.ea-date.is-active i {
     border-color: var(--event-accent);
     background: var(--event-accent)
 }
 
-.events-filters {
+.ea-filters {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
     margin: 30px 0
 }
 
-.events-filters button {
+.ea-filters button {
     padding: 10px 15px;
     border: 1px solid var(--event-line);
     border-radius: 999px;
@@ -314,36 +314,36 @@
     text-transform: uppercase
 }
 
-.events-filters button:hover,
-.events-filters button.is-active {
+.ea-filters button:hover,
+.ea-filters button.is-active {
     border-color: var(--event-paper);
     background: var(--event-paper);
     color: var(--event-bg)
 }
 
-.events-grid {
+.ea-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 16px
 }
 
-.events-card {
+.ea-card {
     padding: 12px;
     border: 1px solid var(--event-line);
     background: rgba(17, 17, 17, .72);
     transition: transform .3s, border-color .3s
 }
 
-.events-card:hover {
+.ea-card:hover {
     transform: translateY(-5px);
     border-color: var(--event-paper)
 }
 
-.events-card--clickable {
+.ea-card--clickable {
     cursor: pointer;
 }
 
-.events-card-overlay-link {
+.ea-card-overlay-link {
     position: absolute;
     inset: 0;
     z-index: 8;
@@ -352,31 +352,31 @@
     overflow: hidden;
 }
 
-.events-card-image {
+.ea-card-image {
     position: relative;
     height: 250px;
     overflow: hidden
 }
 
-.events-card-image:after {
+.ea-card-image:after {
     content: "";
     position: absolute;
     inset: 0;
     background: linear-gradient(180deg, transparent 48%, rgba(16, 16, 16, .72))
 }
 
-.events-card-image img {
+.ea-card-image img {
     object-fit: cover;
     filter: saturate(.7);
     transition: transform .6s ease, filter .6s ease
 }
 
-.events-card:hover img {
+.ea-card:hover img {
     transform: scale(1.06);
     filter: saturate(1)
 }
 
-.events-card-image span {
+.ea-card-image span {
     position: absolute;
     z-index: 1;
     bottom: 18px;
@@ -387,26 +387,26 @@
     text-transform: uppercase
 }
 
-.events-card-info {
+.ea-card-info {
     display: grid;
     grid-template-columns: 1fr auto;
     gap: 18px;
     padding: 20px 8px 10px
 }
 
-.events-card-info h2 {
+.ea-card-info h2 {
     font-size: 1.7rem;
     letter-spacing: -.06em
 }
 
-.events-card-info p {
+.ea-card-info p {
     margin-top: 8px;
     color: var(--event-muted);
     font-size: .76rem;
     line-height: 1.55
 }
 
-.events-card-info time {
+.ea-card-info time {
     color: var(--event-muted);
     font-size: .6rem;
     letter-spacing: .12em;
@@ -414,11 +414,11 @@
     white-space: nowrap
 }
 
-.events-archive {
+.ea-archive {
     margin-top: 135px
 }
 
-.events-archive-row {
+.ea-archive-row {
     display: grid;
     grid-template-columns: 60px 1fr auto 25px;
     align-items: center;
@@ -428,28 +428,28 @@
     transition: padding .25s, color .25s
 }
 
-.events-archive-row:hover {
+.ea-archive-row:hover {
     padding-left: 14px;
     color: var(--event-accent)
 }
 
-.events-archive-row>span,
-.events-archive-row small {
+.ea-archive-row>span,
+.ea-archive-row small {
     color: var(--event-muted);
     font-size: .62rem;
     letter-spacing: .15em
 }
 
-.events-archive-row strong {
+.ea-archive-row strong {
     font-size: 1.35rem;
     letter-spacing: -.04em
 }
 
-.events-archive-row b {
+.ea-archive-row b {
     color: var(--event-accent)
 }
 
-.events-footer {
+.ea-footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -461,11 +461,11 @@
     letter-spacing: .18em
 }
 
-.events-footer span:last-child {
+.ea-footer span:last-child {
     color: var(--event-paper)
 }
 
-.events-footer-home {
+.ea-footer-home {
     color: var(--event-accent);
     font-size: .6rem;
     letter-spacing: .18em;
@@ -475,12 +475,12 @@
     transition: border-color .25s, color .25s
 }
 
-.events-footer-home:hover {
+.ea-footer-home:hover {
     border-color: var(--event-paper);
     color: var(--event-paper)
 }
 
-.events-view-all-btn {
+.ea-view-all-btn {
     background: none;
     border: 0;
     color: var(--event-accent);
@@ -491,90 +491,90 @@
     transition: color .2s
 }
 
-.events-view-all-btn:hover {
+.ea-view-all-btn:hover {
     color: var(--event-paper)
 }
 
 @media (max-width:900px) {
-    .events-hero {
+    .ea-hero {
         grid-template-columns: 1fr;
         min-height: auto;
         padding-top: 125px;
         padding-bottom: 90px
     }
 
-    .events-feature-wrap {
+    .ea-feature-wrap {
         min-height: 460px
     }
 
-    .events-grid {
+    .ea-grid {
         grid-template-columns: 1fr
     }
 }
 
 @media (max-width:600px) {
 
-    .events-hero,
-    .events-content,
-    .events-footer {
+    .ea-hero,
+    .ea-content,
+    .ea-footer {
         padding-inline: 5vw
     }
 
-    .events-hero h1 {
+    .ea-hero h1 {
         font-size: clamp(4rem, 17vw, 6rem)
     }
 
-    .events-hero-intro {
+    .ea-hero-intro {
         margin-top: 28px;
         font-size: .95rem
     }
 
-    .events-feature-wrap {
+    .ea-feature-wrap {
         min-height: 400px
     }
 
-    .events-feature-art {
+    .ea-feature-art {
         height: 205px
     }
 
-    .events-calendar {
+    .ea-calendar {
         margin-bottom: 85px
     }
 
-    .events-calendar-track {
+    .ea-calendar-track {
         grid-template-columns: repeat(4, 175px);
         overflow-x: auto;
         padding-bottom: 12px
     }
 
-    .events-calendar-track:before {
+    .ea-calendar-track:before {
         left: 8px;
         right: 8px
     }
 
-    .events-card-info {
+    .ea-card-info {
         grid-template-columns: 1fr
     }
 
-    .events-card-info time {
+    .ea-card-info time {
         text-align: left
     }
 
-    .events-archive-row {
+    .ea-archive-row {
         grid-template-columns: 38px 1fr 22px
     }
 
-    .events-archive-row small {
+    .ea-archive-row small {
         grid-column: 2
     }
 
-    .events-footer {
+    .ea-footer {
         flex-wrap: wrap;
         gap: 10px
     }
 
-    .events-footer span:last-child,
-    .events-footer-home {
+    .ea-footer span:last-child,
+    .ea-footer-home {
         width: 100%
     }
 }

@@ -5,7 +5,7 @@ import talkStartupWithMe from "../../assets/events/events_photo/TalkStartupWithM
 import winterTechTalk from "../../assets/events/events_photo/WinterTechTalk.webp";
 import argonyx from "../../assets/events/events_photo/argonyx.webp";
 import argonyx2 from "../../assets/events/events_photo/argoynx2.webp";
-import moreEvents from "../../assets/events/events_photo/cta.png";
+import moreEvents from "../../assets/events/events_photo/cta.webp";
 import desktopTeamBg from "../../assets/events/background/pcTeam.webp";
 import mobileTeamBg from "../../assets/events/background/phone.webp";
 import "./Events.css";
