@@ -7,6 +7,7 @@ import "./Gallery.css";
 import type Lenis from "lenis";
 import { acquireLenis } from "@/src/utils/lenis";
 import { gsap, ScrollTrigger } from "@/src/utils/gsapSetup";
+import DepthCarousel, { type DepthCarouselItem } from "./DepthCarousel";
 
 /* ── Photo Imports ── */
 import img_opening_1 from "@/src/assets/Argonyx26/opening/image.png";
@@ -479,9 +480,18 @@ function Lightbox({
   currentIndex: number;
   totalCount: number;
 }) {
+  const [isFullscreen, setIsFullscreen] = React.useState(false);
+
+  /* keyboard + scroll lock */
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
+      if (e.key === "Escape") {
+        if (document.fullscreenElement) {
+          document.exitFullscreen().catch(() => {});
+        } else {
+          onClose();
+        }
+      }
       if (e.key === "ArrowLeft") onPrev();
       if (e.key === "ArrowRight") onNext();
     };
@@ -493,41 +503,95 @@ function Lightbox({
     };
   }, [onClose, onPrev, onNext]);
 
+  /* track fullscreen changes */
+  useEffect(() => {
+    const onFsChange = () => setIsFullscreen(!!document.fullscreenElement);
+    document.addEventListener("fullscreenchange", onFsChange);
+    return () => document.removeEventListener("fullscreenchange", onFsChange);
+  }, []);
+
+  const toggleFullscreen = () => {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().catch(() => {});
+    } else {
+      document.exitFullscreen().catch(() => {});
+    }
+  };
+
   return (
-    <div className="lightbox-overlay" onClick={onClose} role="dialog" aria-modal="true">
-      <div className="lightbox-inner" onClick={(e) => e.stopPropagation()}>
-        <button className="lightbox-close" onClick={onClose} aria-label="Close Lightbox">
-          ✕
+    <div
+      className="lightbox-overlay"
+      onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+      aria-label="Photo lightbox"
+    >
+      <div
+        className="lightbox-inner"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* ── Close ── */}
+        <button className="lightbox-close" onClick={onClose} aria-label="Close lightbox">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
         </button>
+
+        {/* ── Fullscreen toggle ── */}
         <button
-          className="lightbox-nav lightbox-nav--prev"
-          onClick={onPrev}
-          aria-label="Previous Photo"
+          className="lightbox-fullscreen-btn"
+          onClick={toggleFullscreen}
+          aria-label={isFullscreen ? "Exit fullscreen" : "Enter fullscreen"}
+          title={isFullscreen ? "Exit fullscreen" : "Enter fullscreen"}
         >
-          ←
+          {isFullscreen ? (
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="8 3 3 3 3 8" /><line x1="3" y1="3" x2="10" y2="10" />
+              <polyline points="16 3 21 3 21 8" /><line x1="21" y1="3" x2="14" y2="10" />
+              <polyline points="8 21 3 21 3 16" /><line x1="3" y1="21" x2="10" y2="14" />
+              <polyline points="16 21 21 21 21 16" /><line x1="21" y1="21" x2="14" y2="14" />
+            </svg>
+          ) : (
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="15 3 21 3 21 9" /><line x1="21" y1="3" x2="14" y2="10" />
+              <polyline points="9 21 3 21 3 15" /><line x1="3" y1="21" x2="10" y2="14" />
+            </svg>
+          )}
         </button>
+
+        {/* ── Prev ── */}
+        <button className="lightbox-nav lightbox-nav--prev" onClick={onPrev} aria-label="Previous photo">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="15 18 9 12 15 6" />
+          </svg>
+        </button>
+
+        {/* ── Image ── */}
         <div className="lightbox-image-wrap">
           <Image
             src={photo.src}
             alt={photo.alt}
             fill
-            sizes="95vw"
+            sizes="100vw"
             style={{ objectFit: "contain" }}
-            quality={92}
+            quality={95}
             priority
           />
         </div>
-        <button
-          className="lightbox-nav lightbox-nav--next"
-          onClick={onNext}
-          aria-label="Next Photo"
-        >
-          →
+
+        {/* ── Next ── */}
+        <button className="lightbox-nav lightbox-nav--next" onClick={onNext} aria-label="Next photo">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="9 18 15 12 9 6" />
+          </svg>
         </button>
+
+        {/* ── Bottom bar ── */}
         <div className="lightbox-bottom-bar">
           <p className="lightbox-caption">{photo.alt}</p>
           <span className="lightbox-counter">
-            {currentIndex + 1} / {totalCount}
+            {String(currentIndex + 1).padStart(2, "0")} / {String(totalCount).padStart(2, "0")}
           </span>
         </div>
       </div>
@@ -926,48 +990,22 @@ export default function GalleryClient() {
               </div>
             </div>
 
-            <div className="gallery-grid">
-              {section.photos.map((photo, idx) => (
-                <button
-                  key={`${section.id}-${idx}`}
-                  type="button"
-                  className="gallery-card"
-                  onClick={() => openLightbox(section.id, idx)}
-                  aria-label={`View ${photo.alt}`}
-                >
-                  <div className="gallery-card__media">
-                    <Image
-                      src={photo.src}
-                      alt={photo.alt}
-                      fill
-                      sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                      style={{ objectFit: "cover" }}
-                      quality={75}
-                      loading="lazy"
-                    />
-                    <div className="gallery-card__overlay">
-                      <span className="gallery-card__zoom-icon" aria-hidden="true">
-                        <svg
-                          width="22"
-                          height="22"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        >
-                          <circle cx="11" cy="11" r="8" />
-                          <line x1="21" y1="21" x2="16.65" y2="16.65" />
-                          <line x1="11" y1="8" x2="11" y2="14" />
-                          <line x1="8" y1="11" x2="14" y2="11" />
-                        </svg>
-                      </span>
-                    </div>
-                  </div>
-                </button>
-              ))}
-            </div>
+            <DepthCarousel
+              items={section.photos.map(
+                (p): DepthCarouselItem => ({ image: p.src, alt: p.alt })
+              )}
+              depth={220}
+              spread={90}
+              tilt={22}
+              tiltDirection="right"
+              perspective={1400}
+              visibleCards={4}
+              falloff={0.2}
+              blur={6}
+              autoplay
+              loop
+              onCardClick={(idx) => openLightbox(section.id, idx)}
+            />
           </section>
         ))}
       </main>

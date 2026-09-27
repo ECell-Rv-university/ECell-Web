@@ -1,0 +1,190 @@
+/* ────────────────────────────────────────────────
+   DepthCarousel.css  –  3-D fan / depth carousel
+   ──────────────────────────────────────────────── */
+
+/* Root wrapper */
+.dc-root {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.75rem;
+  padding: 2rem 0 1.5rem;
+  user-select: none;
+}
+
+/* ── Scene ── */
+/* ── Scene ── */
+.dc-scene {
+  position: relative;
+  width: 100%;
+  /* card-width clamp(320px,46vw,640px) at 3:2 → height clamp(213px,30.6vw,427px) */
+  height: clamp(213px, 30.6vw, 427px);
+  transform-style: preserve-3d;
+  cursor: grab;
+  touch-action: pan-y;
+}
+.dc-scene:active { cursor: grabbing; }
+
+/* ── Card – landscape 3:2 rectangle ── */
+.dc-card {
+  position: absolute;
+  top: 0;
+  left: clamp(2rem, 5vw, 5rem);
+  /* landscape: wider than tall */
+  width: clamp(320px, 46vw, 640px);
+  aspect-ratio: 3 / 2;
+  height: auto;
+  border: none;
+  padding: 0;
+  background: none;
+  border-radius: 12px;
+  overflow: hidden;
+  transform-style: preserve-3d;
+  transform-origin: center center;
+  transition:
+    transform 0.55s cubic-bezier(0.34, 1.22, 0.64, 1),
+    opacity   0.45s ease,
+    filter    0.45s ease;
+  will-change: transform, opacity, filter;
+  box-shadow:
+    0 8px 40px rgba(0, 0, 0, 0.55),
+    0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+.dc-card--active {
+  box-shadow:
+    0 20px 70px rgba(0, 0, 0, 0.7),
+    0 4px 14px rgba(0, 0, 0, 0.5),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+
+.dc-card__inner {
+  position: relative;
+  width: 100%;
+  /* height 0 + padding-bottom keeps aspect-ratio for position:absolute children */
+  height: 100%;
+}
+
+/* Subtle shimmer on the front card */
+.dc-card__shine {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.07) 0%,
+    transparent 50%,
+    rgba(255, 255, 255, 0.03) 100%
+  );
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+/* ── Controls row ── */
+.dc-controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0 clamp(2rem, 5vw, 5rem);
+}
+
+/* Prev / Next buttons */
+.dc-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.18s ease;
+  backdrop-filter: blur(6px);
+}
+.dc-btn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: scale(1.1);
+}
+.dc-btn:active:not(:disabled) { transform: scale(0.96); }
+.dc-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* Dots */
+.dc-dots {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  max-width: 240px;
+}
+
+.dc-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.25);
+  cursor: pointer;
+  padding: 0;
+  flex-shrink: 0;
+  transition: background 0.2s ease, transform 0.2s ease, width 0.25s ease;
+}
+.dc-dot--active {
+  background: #fff;
+  width: 22px;
+  border-radius: 3px;
+}
+
+/* Counter */
+.dc-counter {
+  margin: 0;
+  padding: 0 clamp(2rem, 5vw, 5rem);
+  font-family: var(--font-inter, sans-serif);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.4);
+  line-height: 1;
+}
+.dc-counter__current { color: rgba(255, 255, 255, 0.85); }
+.dc-counter__sep { margin: 0 2px; }
+
+/* ── Responsive ── */
+@media (max-width: 860px) {
+  /* card: clamp(260px,56vw,480px) → height = *2/3 = clamp(173px,37.3vw,320px) */
+  .dc-scene {
+    height: clamp(173px, 37.3vw, 320px);
+  }
+  .dc-card {
+    width: clamp(260px, 56vw, 480px);
+    border-radius: 10px;
+  }
+}
+
+@media (max-width: 640px) {
+  /* card: clamp(220px,68vw,360px) → height = *2/3 = clamp(147px,45.3vw,240px) */
+  .dc-scene {
+    height: clamp(147px, 45.3vw, 240px);
+  }
+  .dc-card {
+    left: 1rem;
+    width: clamp(220px, 68vw, 360px);
+    border-radius: 8px;
+  }
+  .dc-dots {
+    max-width: 160px;
+  }
+}
+
+/* Respect reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .dc-card { transition: none !important; }
+  .dc-dot  { transition: none !important; }
+}
