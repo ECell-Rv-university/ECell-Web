@@ -9,7 +9,7 @@ import spiralImg1 from "@/src/assets/Argonyx26/inaugration/ing1.png";
 import spiralImg2 from "@/src/assets/Argonyx26/inaugration/eventLeads.png";
 import spiralImg3 from "@/src/assets/Argonyx26/coding-session-1/image.png";
 import spiralImg4 from "@/src/assets/Argonyx26/MentorsSessions/apoorv1.png";
-import spiralImg5 from "@/src/assets/Argonyx26/judges/image.png";
+import spiralImg5 from "@/src/assets/Argonyx26/judges/image copy 5.png";
 import spiralImg6 from "@/src/assets/Argonyx26/roun2/image.png";
 import spiralImg7 from "@/src/assets/Argonyx26/round2Walk/image.png";
 import spiralImg8 from "@/src/assets/Argonyx26/lunch/lunch1.png";
