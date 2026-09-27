@@ -1,7 +1,7 @@
 import type { StaticImageData } from "next/image";
 import cta from "../assets/events/events_photo/cta.webp";
 import argonyx from "../assets/events/events_photo/argonyx.webp";
-import argonyxHeroPhoto from "../assets/Argonyx26/inaugration/ing1.png";
+import argonyxHeroPhoto from "../assets/Argonyx26/inaugration/ing1.webp";
 
 export interface LedgerItem {
   number: string;
