@@ -365,22 +365,131 @@
   border-color: var(--gal-white);
 }
 
-.gallery-filter-btn--team {
-  border-color: rgba(245, 158, 11, 0.35);
-  color: #fbbf24;
-}
-
-.gallery-filter-btn--team:hover {
-  background: rgba(245, 158, 11, 0.15);
-  border-color: #f59e0b;
-  color: #fef3c7;
-}
-
 /* ── MAIN CONTENT ── */
 .gallery-main {
   max-width: 1280px;
   margin: 0 auto;
   padding: 0 1.5rem;
+}
+
+/* ── E-CELL TEAM SPOTLIGHT SECTION ── */
+.gallery-ecell-section {
+  padding: 4.5rem 0 3.5rem;
+  border-bottom: 1px solid var(--gal-line);
+  position: relative;
+}
+
+.gallery-ecell-header {
+  position: relative;
+  z-index: 1;
+  margin-bottom: 2.25rem;
+}
+
+.gallery-ecell-title-row {
+  display: flex;
+  align-items: baseline;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.75rem;
+}
+
+.gallery-ecell-title {
+  font-size: clamp(2rem, 1.5rem + 2vw, 3rem);
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  margin: 0;
+  color: var(--gal-white);
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.gallery-ecell-title__accent {
+  font-family: var(--font-serif-italic);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 0.65em;
+  color: var(--gal-gray);
+  letter-spacing: normal;
+}
+
+.gallery-ecell-desc {
+  color: var(--gal-gray);
+  font-size: 1.05rem;
+  max-width: 65ch;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ── E-CELL TEAM GRID ── */
+.gallery-ecell-grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.75rem;
+}
+
+@media (max-width: 880px) {
+  .gallery-ecell-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+
+.gallery-ecell-card {
+  position: relative;
+  aspect-ratio: 16 / 10.5;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #181817;
+  border: 1px solid rgba(244, 243, 239, 0.12);
+  cursor: pointer;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.3s ease,
+              box-shadow 0.4s ease;
+  outline: none;
+}
+
+.gallery-ecell-card:hover,
+.gallery-ecell-card:focus-visible {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.75);
+}
+
+.gallery-ecell-card__image-wrap {
+  position: absolute;
+  inset: 0;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.gallery-ecell-card:hover .gallery-ecell-card__image-wrap {
+  transform: scale(1.035);
+}
+
+.gallery-ecell-card__overlay {
+  position: absolute;
+  inset: auto 0 0 0;
+  padding: 3rem 1.5rem 1.35rem;
+  background: linear-gradient(to top, rgba(17, 17, 16, 0.96) 0%, rgba(17, 17, 16, 0.65) 55%, transparent 100%);
+  z-index: 2;
+}
+
+.gallery-ecell-card__title {
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  margin: 0 0 0.3rem;
+  color: var(--gal-white);
+}
+
+.gallery-ecell-card__subtitle {
+  font-size: 0.88rem;
+  color: var(--gal-gray);
+  margin: 0;
+  line-height: 1.4;
 }
 
 /* ── SECTION ── */
@@ -558,31 +667,8 @@
   transform: scale(1.1) rotate(90deg);
 }
 
-/* ── Fullscreen button – beside close ── */
-.lightbox-fullscreen-btn {
-  position: absolute;
-  top: 1.25rem;
-  right: 4.75rem;
-  z-index: 10;
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  background: rgba(12, 12, 12, 0.75);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  color: rgba(255, 255, 255, 0.9);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
-}
-.lightbox-fullscreen-btn:hover {
-  background: rgba(255, 255, 255, 0.15);
-  border-color: rgba(255, 255, 255, 0.5);
-  transform: scale(1.1);
-}
+
+
 
 /* ── Prev / Next – screen-edge positioned ── */
 .lightbox-nav {
@@ -1005,16 +1091,5 @@
   }
 }
 
-/* ── Native browser fullscreen: keep lightbox on top ── */
-:fullscreen .lightbox-overlay,
-:-webkit-full-screen .lightbox-overlay {
-  z-index: 2147483647; /* max possible z-index */
-  position: fixed;
-  inset: 0;
-}
 
-/* Ensure overlay renders above everything in fullscreen */
-:fullscreen body,
-:-webkit-full-screen body {
-  overflow: hidden;
-}
+

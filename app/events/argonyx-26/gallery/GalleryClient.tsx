@@ -330,6 +330,10 @@ import img_winners_317 from "@/src/assets/Argonyx26/Winners/image copy 2.webp";
 import img_winners_318 from "@/src/assets/Argonyx26/Winners/image copy 3.webp";
 import img_winners_319 from "@/src/assets/Argonyx26/Winners/image copy 4.webp";
 
+/* ── E-Cell Team Photos ── */
+import ecellTeam1 from "@/src/assets/Argonyx26/Teams/ECell.webp";
+import ecellTeam2 from "@/src/assets/Argonyx26/Teams/Ecell2.webp";
+
 /* ── Team Argonyx Photo ── */
 import teamArgonyx from "@/src/assets/Argonyx26/Teams/TeamArgonyx.webp";
 
@@ -791,19 +795,12 @@ function Lightbox({
   currentIndex: number;
   totalCount: number;
 }) {
-  const overlayRef = React.useRef<HTMLDivElement>(null);
-  const [isFullscreen, setIsFullscreen] = React.useState(false);
+  const overlayRef = useRef<HTMLDivElement | null>(null);
 
   /* Keyboard + scroll lock */
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        if (document.fullscreenElement) {
-          document.exitFullscreen().catch(() => {});
-        } else {
-          onClose();
-        }
-      }
+      if (e.key === "Escape") onClose();
       if (e.key === "ArrowLeft") onPrev();
       if (e.key === "ArrowRight") onNext();
     };
@@ -815,38 +812,10 @@ function Lightbox({
     };
   }, [onClose, onPrev, onNext]);
 
-  /* Track browser fullscreen state */
-  useEffect(() => {
-    const onFsChange = () => setIsFullscreen(!!document.fullscreenElement);
-    document.addEventListener("fullscreenchange", onFsChange);
-    document.addEventListener("webkitfullscreenchange", onFsChange);
-    return () => {
-      document.removeEventListener("fullscreenchange", onFsChange);
-      document.removeEventListener("webkitfullscreenchange", onFsChange);
-    };
-  }, []);
-
-  const toggleFullscreen = () => {
-    const el = overlayRef.current;
-    if (!el) return;
-    if (!document.fullscreenElement) {
-      (el.requestFullscreen?.() ??
-        /* Safari */ (el as unknown as { webkitRequestFullscreen: () => Promise<void> }).webkitRequestFullscreen?.())
-        ?.catch(() => {});
-    } else {
-      (document.exitFullscreen?.() ??
-        /* Safari */ (document as unknown as { webkitExitFullscreen: () => void }).webkitExitFullscreen?.());
-    }
-  };
-
-  /* Click on black backdrop → close; click on image → toggle fullscreen */
+  /* Click on black backdrop → close */
   const handleOverlayClick = (e: React.MouseEvent) => {
     const target = e.target as HTMLElement;
-    if (target.closest("button") || target.closest(".lightbox-bottom-bar")) return;
-    if (target.tagName === "IMG") {
-      toggleFullscreen();
-      return;
-    }
+    if (target.closest("button") || target.closest(".lightbox-bottom-bar") || target.tagName === "IMG") return;
     onClose();
   };
 
@@ -866,13 +835,9 @@ function Lightbox({
           alt={photo.alt}
           fill
           sizes="100vw"
-          style={{
-            objectFit: "contain",
-            cursor: isFullscreen ? "zoom-out" : "zoom-in",
-          }}
+          style={{ objectFit: "contain" }}
           quality={95}
           priority
-          onClick={toggleFullscreen}
         />
       </div>
 
@@ -888,27 +853,6 @@ function Lightbox({
         </svg>
       </button>
 
-      {/* ── Fullscreen toggle ── */}
-      <button
-        className="lightbox-fullscreen-btn"
-        onClick={toggleFullscreen}
-        aria-label={isFullscreen ? "Exit fullscreen" : "Fullscreen"}
-        title={isFullscreen ? "Exit fullscreen" : "Fullscreen"}
-      >
-        {isFullscreen ? (
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <polyline points="8 3 3 3 3 8" /><line x1="3" y1="3" x2="10" y2="10" />
-            <polyline points="16 3 21 3 21 8" /><line x1="21" y1="3" x2="14" y2="10" />
-            <polyline points="8 21 3 21 3 16" /><line x1="3" y1="21" x2="10" y2="14" />
-            <polyline points="16 21 21 21 21 16" /><line x1="21" y1="21" x2="14" y2="14" />
-          </svg>
-        ) : (
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <polyline points="15 3 21 3 21 9" /><line x1="21" y1="3" x2="14" y2="10" />
-            <polyline points="9 21 3 21 3 15" /><line x1="3" y1="21" x2="10" y2="14" />
-          </svg>
-        )}
-      </button>
 
       {/* ── Prev ── */}
       <button className="lightbox-nav lightbox-nav--prev" onClick={onPrev} aria-label="Previous photo">
@@ -976,6 +920,17 @@ export default function GalleryClient() {
             alt: "Team Argonyx '26 — Organised by ECell, IEEE and VIKSHA Coding Club · RV University",
           },
         ]
+      : lightboxSection === "ecell-team"
+      ? [
+          {
+            src: ecellTeam1,
+            alt: "ECell RVU Core Team — Argonyx '26 Organizers",
+          },
+          {
+            src: ecellTeam2,
+            alt: "ECell RVU Organizing Committee — Argonyx '26 Execution Crew",
+          },
+        ]
       : currentSection?.photos || [];
 
   const goLightboxPrev = useCallback(() => {
@@ -997,6 +952,19 @@ export default function GalleryClient() {
         const targetTop = stageTop + window.innerHeight * 2.1;
         if (lenisRef.current) {
           lenisRef.current.scrollTo(targetTop, { duration: 1.6 });
+        } else {
+          window.scrollTo({ top: targetTop, behavior: "smooth" });
+        }
+      }
+      return;
+    }
+
+    if (sectionId === "ecell-team") {
+      const el = sectionRefs.current["ecell-team"];
+      if (el) {
+        const targetTop = el.getBoundingClientRect().top + window.scrollY - 80;
+        if (lenisRef.current) {
+          lenisRef.current.scrollTo(targetTop, { duration: 1.2 });
         } else {
           window.scrollTo({ top: targetTop, behavior: "smooth" });
         }
@@ -1314,6 +1282,13 @@ export default function GalleryClient() {
           >
             All
           </button>
+          <button
+            type="button"
+            className={`gallery-filter-btn ${activeFilter === "ecell-team" ? "is-active" : ""}`}
+            onClick={() => scrollToSection("ecell-team")}
+          >
+            ECell Team
+          </button>
           {GALLERY_SECTIONS.map((s) => (
             <button
               key={s.id}
@@ -1326,16 +1301,115 @@ export default function GalleryClient() {
           ))}
           <button
             type="button"
-            className="gallery-filter-btn gallery-filter-btn--team"
+            className={`gallery-filter-btn ${activeFilter === "team-photo" ? "is-active" : ""}`}
             onClick={() => scrollToSection("team-photo")}
           >
-            ♥ Team Photo
+            Team Photo
           </button>
         </div>
       </nav>
 
       {/* ── CHRONOLOGICAL SECTIONS ── */}
       <main className="gallery-main">
+        {/* ── E-CELL TEAM SPOTLIGHT (BEFORE DAY 1 ARRIVAL) ── */}
+        {(activeFilter === "all" || activeFilter === "ecell-team") && (
+          <section
+            id="gallery-ecell-team"
+            className="gallery-ecell-section"
+            ref={(el) => {
+              sectionRefs.current["ecell-team"] = el;
+            }}
+          >
+            <div className="gallery-ecell-header">
+              <div className="gallery-ecell-header__left">
+                <p className="gallery-eyebrow">
+                  <span className="gallery-eyebrow__rule" />
+                  THE ARCHITECTS &amp; ORGANIZERS · E-CELL RVU
+                </p>
+                <div className="gallery-ecell-title-row">
+                  <h2 className="gallery-ecell-title">
+                    ECell Team
+                    <span className="gallery-ecell-title__accent">
+                      Behind Argonyx &apos;26
+                    </span>
+                  </h2>
+                </div>
+                <p className="gallery-ecell-desc">
+                  The visionary student leaders, organizers, and creators from RV University&apos;s
+                  Entrepreneurship Cell who conceptualized, planned, and brought Argonyx &apos;26
+                  to life.
+                </p>
+              </div>
+            </div>
+
+            <div className="gallery-ecell-grid">
+              {/* Card 1: Core Leadership */}
+              <div
+                className="gallery-ecell-card"
+                onClick={() => openLightbox("ecell-team", 0)}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    openLightbox("ecell-team", 0);
+                  }
+                }}
+                aria-label="View ECell Team photo 1 full screen"
+              >
+                <div className="gallery-ecell-card__image-wrap">
+                  <Image
+                    src={ecellTeam1}
+                    alt="ECell RVU Core Team — Argonyx '26 Organizers"
+                    fill
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    style={{ objectFit: "cover" }}
+                    priority
+                  />
+                </div>
+                <div className="gallery-ecell-card__overlay">
+                  <h3 className="gallery-ecell-card__title">ECell Core Team</h3>
+                  <p className="gallery-ecell-card__subtitle">
+                    The student leaders driving entrepreneurship &amp; innovation at RVU
+                  </p>
+                </div>
+              </div>
+
+              {/* Card 2: Operations & Crew */}
+              <div
+                className="gallery-ecell-card"
+                onClick={() => openLightbox("ecell-team", 1)}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    openLightbox("ecell-team", 1);
+                  }
+                }}
+                aria-label="View ECell Team photo 2 full screen"
+              >
+                <div className="gallery-ecell-card__image-wrap">
+                  <Image
+                    src={ecellTeam2}
+                    alt="ECell RVU Organizing Committee — Argonyx '26 Execution Crew"
+                    fill
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    style={{ objectFit: "cover" }}
+                    priority
+                  />
+                </div>
+                <div className="gallery-ecell-card__overlay">
+                  <h3 className="gallery-ecell-card__title">Organizing Committee</h3>
+                  <p className="gallery-ecell-card__subtitle">
+                    Event leads, stage managers, operations, and technical crew
+                  </p>
+                </div>
+              </div>
+            </div>
+          </section>
+        )}
+
         {filteredSections.map((section, sIdx) => (
           <section
             key={section.id}
