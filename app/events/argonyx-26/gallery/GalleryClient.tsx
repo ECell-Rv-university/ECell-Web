@@ -4,6 +4,9 @@ import React, { useState, useEffect, useCallback, useRef } from "react";
 import Image, { StaticImageData } from "next/image";
 import Link from "next/link";
 import "./Gallery.css";
+import type Lenis from "lenis";
+import { acquireLenis } from "@/src/utils/lenis";
+import { gsap, ScrollTrigger } from "@/src/utils/gsapSetup";
 
 /* ── Photo Imports ── */
 import img_opening_1 from "@/src/assets/Argonyx26/opening/image.png";
@@ -179,6 +182,12 @@ import img_valedictory_170 from "@/src/assets/Argonyx26/veridictoryCeremony/imag
 import img_valedictory_171 from "@/src/assets/Argonyx26/veridictoryCeremony/image.png";
 /* ── Team Argonyx Photo ── */
 import teamArgonyx from "@/src/assets/Argonyx26/Teams/TeamArgonyx.png";
+
+/* ── Hero Showcase Photos (strictly from Argonyx26 folder) ── */
+import heroStagePhoto from "@/src/assets/Argonyx26/opening/op2.png";
+import heroWelcomePhoto from "@/src/assets/Argonyx26/opening/reg.png";
+import heroHackingPhoto from "@/src/assets/Argonyx26/coding-session-1/image.png";
+import heroAudiencePhoto from "@/src/assets/Argonyx26/round2Walk/image.png";
 
 /* ────────────────────────────── GALLERY DATA ────────────────────────────── */
 
@@ -532,13 +541,16 @@ export default function GalleryClient() {
   const [activeFilter, setActiveFilter] = useState<string>("all");
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const [lightboxSection, setLightboxSection] = useState<string | null>(null);
-  const [loveVisible, setLoveVisible] = useState(false);
-  const [teamPhotoRevealed, setTeamPhotoRevealed] = useState(false);
-  const [showFooter, setShowFooter] = useState(false);
 
   const sectionRefs = useRef<Record<string, HTMLElement | null>>({});
-  const loveTextRef = useRef<HTMLDivElement | null>(null);
-  const teamPhotoRef = useRef<HTMLDivElement | null>(null);
+  const topbarRef = useRef<HTMLElement | null>(null);
+  const lenisRef = useRef<Lenis | null>(null);
+  const finaleStageRef = useRef<HTMLDivElement | null>(null);
+  const finalePinRef = useRef<HTMLDivElement | null>(null);
+  const loveLayerRef = useRef<HTMLDivElement | null>(null);
+  const teamLayerRef = useRef<HTMLDivElement | null>(null);
+  const teamImgWrapRef = useRef<HTMLDivElement | null>(null);
+  const teamOverlayRef = useRef<HTMLDivElement | null>(null);
 
   const allPhotos = GALLERY_SECTIONS.flatMap((s) =>
     s.photos.map((p) => ({ ...p, sectionId: s.id }))
@@ -574,20 +586,29 @@ export default function GalleryClient() {
   }, [lightboxIndex, currentPhotos.length]);
 
   const scrollToSection = (sectionId: string) => {
+    setActiveFilter(sectionId);
     if (sectionId === "team-photo") {
-      const teamEl = teamPhotoRef.current;
-      if (teamEl) {
-        teamEl.scrollIntoView({ behavior: "smooth", block: "start" });
+      if (finaleStageRef.current) {
+        const stageTop =
+          finaleStageRef.current.getBoundingClientRect().top + window.scrollY;
+        const targetTop = stageTop + window.innerHeight * 2.1;
+        if (lenisRef.current) {
+          lenisRef.current.scrollTo(targetTop, { duration: 1.6 });
+        } else {
+          window.scrollTo({ top: targetTop, behavior: "smooth" });
+        }
       }
       return;
     }
 
-    setActiveFilter(sectionId);
     const el = sectionRefs.current[sectionId];
     if (el) {
-      setTimeout(() => {
-        el.scrollIntoView({ behavior: "smooth", block: "start" });
-      }, 80);
+      const targetTop = el.getBoundingClientRect().top + window.scrollY - 80;
+      if (lenisRef.current) {
+        lenisRef.current.scrollTo(targetTop, { duration: 1.2 });
+      } else {
+        window.scrollTo({ top: targetTop, behavior: "smooth" });
+      }
     }
   };
 
@@ -602,145 +623,251 @@ export default function GalleryClient() {
     return () => clearTimeout(t);
   }, []);
 
-  /* ── Intersection Observer for 'With Love' text and team photo ── */
+  /* ── GSAP ScrollTrigger + Lenis for Team Photo Transition ── */
   useEffect(() => {
-    const loveEl = loveTextRef.current;
-    const teamEl = teamPhotoRef.current;
-    if (!loveEl || !teamEl) return;
+    const isMobile = window.matchMedia("(max-width: 767px)").matches;
+    const lenisHandle = isMobile ? null : acquireLenis();
+    if (lenisHandle) {
+      lenisRef.current = lenisHandle.instance;
+    }
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.target === loveEl && entry.isIntersecting) {
-            setLoveVisible(true);
-          }
-          if (entry.target === teamEl && entry.isIntersecting) {
-            setTeamPhotoRevealed(true);
-          }
-        });
-      },
-      { threshold: 0.15 }
-    );
-
-    observer.observe(loveEl);
-    observer.observe(teamEl);
-
-    return () => observer.disconnect();
-  }, []);
-
-  /* ── Show footer when scrolling up from team photo or anywhere on page ── */
-  useEffect(() => {
-    let lastY = window.scrollY;
-    let ticking = false;
-
-    const onScroll = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          const currentY = window.scrollY;
-          const diff = currentY - lastY;
-
-          // If scrolled up by more than 6px
-          if (diff < -6) {
-            setShowFooter(true);
-          } else if (diff > 8) {
-            // Scrolling down hides footer to view photos unobstructed
-            setShowFooter(false);
-          }
-
-          lastY = currentY;
-          ticking = false;
-        });
-        ticking = true;
+    const ctx = gsap.context(() => {
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (reduceMotion) {
+        if (teamLayerRef.current) {
+          gsap.set(teamLayerRef.current, { yPercent: 0, scale: 1, borderRadius: 0 });
+        }
+        return;
       }
-    };
 
-    // Also detect wheel events for trackpad/mousewheel up at document edges
-    const onWheel = (e: WheelEvent) => {
-      if (e.deltaY < -15) {
-        setShowFooter(true);
-      } else if (e.deltaY > 15) {
-        setShowFooter(false);
+      if (!finaleStageRef.current || !finalePinRef.current || !teamLayerRef.current) return;
+
+      // Initial positions
+      gsap.set(loveLayerRef.current, {
+        opacity: 1,
+        scale: 1,
+        y: 0,
+      });
+
+      gsap.set(teamLayerRef.current, {
+        yPercent: 100,
+        scale: 0.86,
+        borderRadius: "28px",
+        boxShadow: "0 35px 90px rgba(0, 0, 0, 0.9), 0 0 50px rgba(245, 158, 11, 0.12)",
+        transformOrigin: "center bottom",
+      });
+
+      const imgEl = teamImgWrapRef.current?.querySelector("img");
+      if (imgEl) {
+        gsap.set(imgEl, { scale: 1.18, transformOrigin: "center center" });
       }
-    };
 
-    // Touch events for mobile
-    let touchStartY = 0;
-    const onTouchStart = (e: TouchEvent) => {
-      touchStartY = e.touches[0].clientY;
-    };
-    const onTouchMove = (e: TouchEvent) => {
-      const currentTouchY = e.touches[0].clientY;
-      const diff = currentTouchY - touchStartY;
-      if (diff > 25) {
-        setShowFooter(true); // pulled down -> scrolling up
-      } else if (diff < -25) {
-        setShowFooter(false);
+      if (teamOverlayRef.current) {
+        gsap.set(teamOverlayRef.current, { opacity: 0, y: 35 });
       }
-    };
 
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("wheel", onWheel, { passive: true });
-    window.addEventListener("touchstart", onTouchStart, { passive: true });
-    window.addEventListener("touchmove", onTouchMove, { passive: true });
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: finaleStageRef.current,
+          start: "top top",
+          end: "+=220%",
+          pin: finalePinRef.current,
+          scrub: 0.8,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+        },
+      });
+
+      // 0. Remove topbar from last photo (glide up & fade out)
+      if (topbarRef.current) {
+        tl.to(
+          topbarRef.current,
+          {
+            yPercent: -100,
+            opacity: 0,
+            duration: 0.25,
+            ease: "power2.inOut",
+          },
+          0
+        );
+      }
+
+      // 1. "With love" layer gently lifts and dissolves away
+      if (loveLayerRef.current) {
+        tl.to(
+          loveLayerRef.current,
+          {
+            opacity: 0,
+            y: -60,
+            scale: 0.94,
+            duration: 0.35,
+            ease: "power2.inOut",
+          },
+          0
+        );
+      }
+
+      // 2. Team photo rises up from bottom to full screen
+      tl.to(
+        teamLayerRef.current,
+        {
+          yPercent: 0,
+          scale: 1,
+          borderRadius: "0px",
+          boxShadow: "0 0 0 rgba(0, 0, 0, 0)",
+          duration: 0.75,
+          ease: "power2.out",
+        },
+        0.15
+      );
+
+      // 3. Parallax image inside frame settles from 1.18 to 1.0
+      if (imgEl) {
+        tl.to(
+          imgEl,
+          {
+            scale: 1.0,
+            duration: 0.75,
+            ease: "power2.out",
+          },
+          0.15
+        );
+      }
+
+      // 4. Badge and team credit emerge smoothly
+      if (teamOverlayRef.current) {
+        tl.to(
+          teamOverlayRef.current,
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.35,
+            ease: "power3.out",
+          },
+          0.65
+        );
+      }
+    }, finaleStageRef);
+
+    const refreshTimer = setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 400);
 
     return () => {
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("wheel", onWheel);
-      window.removeEventListener("touchstart", onTouchStart);
-      window.removeEventListener("touchmove", onTouchMove);
+      clearTimeout(refreshTimer);
+      ctx.revert();
+      lenisHandle?.release();
+      lenisRef.current = null;
     };
   }, []);
 
   return (
     <div className="gallery-page">
       {/* ── TOP BAR ── */}
-      <header className="gallery-topbar">
+      <header className="gallery-topbar" ref={topbarRef}>
         <div className="gallery-topbar__inner">
           <Link className="gallery-topbar__back" href="/events/argonyx-26">
             <span className="arrow">←</span> ARGONYX &apos;26
           </Link>
-          <div className="gallery-topbar__right">
-            <span className="gallery-topbar__count">{totalCount} Photos</span>
-            <button
-              type="button"
-              className="gallery-topbar__team-btn"
-              onClick={() => scrollToSection("team-photo")}
-              aria-label="Jump to Team Argonyx photo"
-            >
-              ♥ Team Argonyx
-            </button>
-          </div>
         </div>
       </header>
 
       {/* ── HERO ── */}
       <section className="gallery-hero">
         <div className="gallery-hero__inner">
-          <p className="gallery-eyebrow">
-            <span className="gallery-eyebrow__rule" />
-            Photo Gallery · Argonyx &apos;26
-          </p>
-          <h1 className="gallery-hero__headline">
-            Moments from
-            <span className="gallery-hero__accent"> the floor.</span>
-          </h1>
-          <p className="gallery-hero__body">
-            Highlights from the 24-hour national hackathon sprint at RV University — from opening
-            arrival and keynote ceremonies to midnight coding, mentor reviews, live pitch defenses,
-            and the podium finale.
-          </p>
-          <div className="gallery-hero__meta-strip">
-            <div className="gallery-hero__meta-item">
-              <span className="gallery-hero__meta-num">{totalCount}</span>
-              <span className="gallery-hero__meta-lbl">Total Moments</span>
+          <div className="gallery-hero__content">
+            <p className="gallery-eyebrow">
+              <span className="gallery-eyebrow__rule" />
+              Photo Gallery · Argonyx &apos;26
+            </p>
+            <h1 className="gallery-hero__headline">
+              Moments from
+              <span className="gallery-hero__accent"> the floor.</span>
+            </h1>
+            <p className="gallery-hero__body">
+              Highlights from the 24-hour national hackathon sprint at RV University — from opening
+              arrival and keynote ceremonies to midnight coding, mentor reviews, live pitch defenses,
+              and the podium finale.
+            </p>
+          </div>
+
+          {/* ── HERO SHOWCASE COLLAGE (Photos from Argonyx folder only) ── */}
+          <div className="gallery-hero__showcase" aria-label="Argonyx '26 photo collage">
+            {/* Center / Main stage photo */}
+            <div className="gallery-showcase__card gallery-showcase__card--main">
+              <Image
+                src={heroStagePhoto}
+                alt="Argonyx '26 Keynote Auditorium Stage"
+                fill
+                sizes="(max-width: 1024px) 80vw, 45vw"
+                style={{ objectFit: "cover" }}
+                priority
+              />
+              <div className="gallery-showcase__main-gradient" />
             </div>
-            <div className="gallery-hero__meta-item">
-              <span className="gallery-hero__meta-num">{GALLERY_SECTIONS.length}</span>
-              <span className="gallery-hero__meta-lbl">Chronological Chapters</span>
+
+            {/* Left tilted photo with 'IDEAS PEOPLE PROGRESS' accent */}
+            <div className="gallery-showcase__left-wrap">
+              <div className="gallery-showcase__tag gallery-showcase__tag--left">
+                <span>IDEAS</span>
+                <span>PEOPLE</span>
+                <span>PROGRESS</span>
+              </div>
+              <div className="gallery-showcase__card gallery-showcase__card--left">
+                <Image
+                  src={heroWelcomePhoto}
+                  alt="Argonyx '26 Welcome Banner and Registration"
+                  fill
+                  sizes="(max-width: 1024px) 35vw, 18vw"
+                  style={{ objectFit: "cover" }}
+                  priority
+                />
+              </div>
             </div>
-            <div className="gallery-hero__meta-item">
-              <span className="gallery-hero__meta-num">24h</span>
-              <span className="gallery-hero__meta-lbl">Continuous Sprint</span>
+
+            {/* Top-right tilted photo */}
+            <div className="gallery-showcase__card gallery-showcase__card--top-right">
+              <Image
+                src={heroHackingPhoto}
+                alt="Hackers sprinting at laptops"
+                fill
+                sizes="(max-width: 1024px) 35vw, 18vw"
+                style={{ objectFit: "cover" }}
+                priority
+              />
+            </div>
+
+            {/* Bottom-right photo with 'MORE THAN A HACKATHON' accent */}
+            <div className="gallery-showcase__right-wrap">
+              <div className="gallery-showcase__tag gallery-showcase__tag--right">
+                <span>MORE</span>
+                <span>THAN A</span>
+                <span className="gallery-showcase__tag-accent">HACKATHON</span>
+                <svg
+                  className="gallery-showcase__brush"
+                  viewBox="0 0 140 14"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M3 10C40 3 95 4 137 8"
+                    stroke="#f59e0b"
+                    strokeWidth="3"
+                    strokeLinecap="round"
+                  />
+                </svg>
+              </div>
+              <div className="gallery-showcase__card gallery-showcase__card--bottom-right">
+                <Image
+                  src={heroAudiencePhoto}
+                  alt="Hackathon audience and demo showcase"
+                  fill
+                  sizes="(max-width: 1024px) 35vw, 18vw"
+                  style={{ objectFit: "cover" }}
+                  priority
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -754,7 +881,7 @@ export default function GalleryClient() {
             className={`gallery-filter-btn ${activeFilter === "all" ? "is-active" : ""}`}
             onClick={() => setActiveFilter("all")}
           >
-            All ({totalCount})
+            All
           </button>
           {GALLERY_SECTIONS.map((s) => (
             <button
@@ -763,7 +890,7 @@ export default function GalleryClient() {
               className={`gallery-filter-btn ${activeFilter === s.id ? "is-active" : ""}`}
               onClick={() => scrollToSection(s.id)}
             >
-              {s.title} ({s.photos.length})
+              {s.title}
             </button>
           ))}
           <button
@@ -796,7 +923,6 @@ export default function GalleryClient() {
                 <h2 className="gallery-section__title">
                   <span className="gallery-section__index">0{sIdx + 1}.</span> {section.title}
                 </h2>
-                <span className="gallery-section__count">{section.photos.length} photos</span>
               </div>
             </div>
 
@@ -846,89 +972,61 @@ export default function GalleryClient() {
         ))}
       </main>
 
-      {/* ── "WITH LOVE, ARGONYX TEAM" TRANSITION ── */}
-      <section
-        id="with-love"
-        className={`gallery-love-transition ${loveVisible ? "is-visible" : ""}`}
-        ref={loveTextRef}
-      >
-        <div className="gallery-love-transition__inner">
-          <div className="gallery-love-transition__sparkle" aria-hidden="true">✦</div>
-          <p className="gallery-love-transition__text">
-            with love,
-          </p>
-          <h2 className="gallery-love-transition__team">
-            Argonyx Team
-          </h2>
-          <div className="gallery-love-transition__line" />
-          <p className="gallery-love-transition__sub">
-            Built by builders, for builders. RV University · 2026
-          </p>
-          <div className="gallery-love-transition__scroll-indicator">
-            <span className="gallery-love-transition__scroll-text">Scroll for the crew</span>
-            <span className="gallery-love-transition__scroll-arrow">↓</span>
-          </div>
-        </div>
-      </section>
-
-      {/* ── TEAM ARGONYX PHOTO — slides up from bottom to fullscreen ── */}
+      {/* ── FINALE: WITH LOVE + TEAM ARGONYX GSAP & LENIS TRANSITION ── */}
       <section
         id="team-photo"
-        className={`gallery-team-photo ${teamPhotoRevealed ? "is-revealed" : ""}`}
-        ref={teamPhotoRef}
+        className="gallery-finale-stage"
+        ref={finaleStageRef}
+        aria-label="Argonyx '26 Team Finale"
       >
-        <div className="gallery-team-photo__img-wrap">
-          <Image
-            src={teamArgonyx}
-            alt="Team Argonyx '26 — The team behind RV University's national hackathon"
-            fill
-            sizes="100vw"
-            style={{ objectFit: "cover" }}
-            quality={95}
-            priority
-          />
-          <div className="gallery-team-photo__overlay">
-            <div className="gallery-team-photo__badge-wrap">
-              <span className="gallery-team-photo__badge">TEAM ARGONYX &apos;26</span>
-              <p className="gallery-team-photo__credit">
-                Organized with passion by ECell RV University
+        <div className="gallery-finale-pin" ref={finalePinRef}>
+          {/* 'With Love' Transition Layer */}
+          <div className="gallery-love-layer" ref={loveLayerRef}>
+            <div className="gallery-love-transition__inner">
+              <div className="gallery-love-transition__sparkle" aria-hidden="true">✦</div>
+              <p className="gallery-love-transition__text">
+                with love,
               </p>
+              <h2 className="gallery-love-transition__team">
+                Argonyx Team
+              </h2>
+              <div className="gallery-love-transition__line" />
+              <p className="gallery-love-transition__sub">
+                Built by builders, for builders. RV University · 2026
+              </p>
+              <div className="gallery-love-transition__scroll-indicator">
+                <span className="gallery-love-transition__scroll-text">Scroll to reveal</span>
+                <span className="gallery-love-transition__scroll-arrow">↓</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Team Photo Reveal Layer (rises from bottom to fullscreen) */}
+          <div className="gallery-team-layer" ref={teamLayerRef}>
+            <div className="gallery-team-photo__img-wrap" ref={teamImgWrapRef}>
+              <Image
+                src={teamArgonyx}
+                alt="Team Argonyx '26 — The team behind RV University's national hackathon"
+                fill
+                sizes="100vw"
+                style={{ objectFit: "cover" }}
+                quality={95}
+                priority
+              />
+              <div className="gallery-team-photo__overlay" ref={teamOverlayRef}>
+                <div className="gallery-team-photo__caption-wrap">
+                  <h2 className="gallery-team-photo__title">
+                    TEAM ARGONYX
+                  </h2>
+                  <p className="gallery-team-photo__sub">
+                    Organised by ECell, IEEE and VIKSHA Coding Club
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </section>
-
-      {/* ── DYNAMIC SCROLL-UP FOOTER — appears when scrolling up ── */}
-      <footer
-        className={`gallery-bottom-footer ${showFooter ? "is-visible" : ""}`}
-        aria-label="Gallery Footer Navigation"
-      >
-        <div className="gallery-bottom-footer__inner">
-          <Link href="/events/argonyx-26" className="gallery-bottom-footer__btn gallery-bottom-footer__btn--primary">
-            <span className="gallery-bottom-footer__btn-icon">←</span>
-            <span>Back to Event</span>
-          </Link>
-          <button
-            type="button"
-            className="gallery-bottom-footer__btn"
-            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          >
-            <span className="gallery-bottom-footer__btn-icon">↑</span>
-            <span>Back to Top</span>
-          </button>
-          <Link href="/events" className="gallery-bottom-footer__btn">
-            <span className="gallery-bottom-footer__btn-icon">⊞</span>
-            <span>All Events</span>
-          </Link>
-          <Link href="/" className="gallery-bottom-footer__btn">
-            <span className="gallery-bottom-footer__btn-icon">⌂</span>
-            <span>Home</span>
-          </Link>
-        </div>
-        <p className="gallery-bottom-footer__credit">
-          ARGONYX &apos;26 · {totalCount} Captured Moments · ECell RV University
-        </p>
-      </footer>
 
       {/* ── LIGHTBOX ── */}
       {lightboxIndex !== null && currentPhotos[lightboxIndex] && (

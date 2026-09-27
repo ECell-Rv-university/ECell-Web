@@ -1,6 +1,7 @@
 import type { StaticImageData } from "next/image";
 import cta from "../assets/events/events_photo/cta.webp";
 import argonyx from "../assets/events/events_photo/argonyx.webp";
+import argonyxHeroPhoto from "../assets/Argonyx26/inaugration/ing1.png";
 
 export interface LedgerItem {
   number: string;
@@ -98,7 +99,7 @@ export const EVENTS_DATA: Record<string, EventDetailData> = {
     registrationHeadline: "Argonyx '26 has",
     registrationAccent: "successfully concluded.",
     registrationHint: "Official hackathon archive on Unstop.",
-    image: cta,
+    image: argonyxHeroPhoto,
     ledger: [
       {
         number: "01",
