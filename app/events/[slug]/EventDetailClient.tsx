@@ -5,31 +5,31 @@ import Image from "next/image";
 import Link from "next/link";
 import type { EventDetailData } from "@/src/data/eventsData";
 import InfiniteSpiral from "@/src/components/InfiniteSpiral/InfiniteSpiral";
-import argonyxPhoto from "@/src/assets/events/events_photo/argonyx.webp";
-import argonyx2Photo from "@/src/assets/events/events_photo/argoynx2.webp";
-import ctaPhoto from "@/src/assets/events/events_photo/cta.webp";
-import techTalkPhoto from "@/src/assets/events/events_photo/WinterTechTalk.webp";
-import talkStartupPhoto from "@/src/assets/events/events_photo/TalkStartupWithMe.webp";
-import teamPcPhoto from "@/src/assets/events/background/pcTeam.webp";
-import harpreetPhoto from "@/src/assets/prevSpeakers/harpreet.webp";
-import shariffPhoto from "@/src/assets/prevSpeakers/shariff.webp";
-import guhaPhoto from "@/src/assets/prevSpeakers/guha.webp";
-import arshdeepPhoto from "@/src/assets/prevSpeakers/arshdeep.webp";
-import ambikaPhoto from "@/src/assets/prevSpeakers/ambika.webp";
+import spiralImg1 from "@/src/assets/Argonyx26/inaugration/ing1.png";
+import spiralImg2 from "@/src/assets/Argonyx26/inaugration/eventLeads.png";
+import spiralImg3 from "@/src/assets/Argonyx26/coding-session-1/image.png";
+import spiralImg4 from "@/src/assets/Argonyx26/MentorsSessions/apoorv1.png";
+import spiralImg5 from "@/src/assets/Argonyx26/judges/image.png";
+import spiralImg6 from "@/src/assets/Argonyx26/roun2/image.png";
+import spiralImg7 from "@/src/assets/Argonyx26/round2Walk/image.png";
+import spiralImg8 from "@/src/assets/Argonyx26/lunch/lunch1.png";
+import spiralImg9 from "@/src/assets/Argonyx26/opening/reg.png";
+import spiralImg10 from "@/src/assets/Argonyx26/inaugration/alok1.png";
+import spiralImg11 from "@/src/assets/Argonyx26/dinner/mingos1.png";
 import "./EventDetail.css";
 
 const SPIRAL_GALLERY_IMAGES = [
-  { src: ctaPhoto, alt: "Argonyx '26 Hackathon Arena" },
-  { src: argonyx2Photo, alt: "Argonyx 2.0 Hacking Sprints" },
-  { src: argonyxPhoto, alt: "Argonyx Opening Keynote" },
-  { src: teamPcPhoto, alt: "RV University ECell Team" },
-  { src: techTalkPhoto, alt: "Winter Tech Talk Sessions" },
-  { src: talkStartupPhoto, alt: "Talk Startup With Me Founders" },
-  { src: harpreetPhoto, alt: "Design Workshop with Harpreet" },
-  { src: shariffPhoto, alt: "HealthTech Keynote with Mustafa" },
-  { src: guhaPhoto, alt: "Venture Architecture with Biplab" },
-  { src: arshdeepPhoto, alt: "Startup Leadership with Arshdeep" },
-  { src: ambikaPhoto, alt: "Fintech & AI with Ambika" },
+  { src: spiralImg1, alt: "Inauguration Keynote" },
+  { src: spiralImg2, alt: "Event Leads on Stage" },
+  { src: spiralImg3, alt: "Teams Coding Sprint" },
+  { src: spiralImg4, alt: "Mentor Review Session" },
+  { src: spiralImg5, alt: "Judging Panel" },
+  { src: spiralImg6, alt: "Round 2 Final Pitches" },
+  { src: spiralImg7, alt: "Demo Walkthrough" },
+  { src: spiralImg8, alt: "Lunch Break" },
+  { src: spiralImg9, alt: "Registration Desk" },
+  { src: spiralImg10, alt: "Alok Murali Speaking" },
+  { src: spiralImg11, alt: "Celebration Dinner" },
 ];
 
 interface EventDetailClientProps {
@@ -544,10 +544,8 @@ export default function EventDetailClient({ event }: EventDetailClientProps): Re
 
                 {/* View Images button at the middle of this section */}
                 <div className="spiral-center-action">
-                  <a
-                    href={event.galleryDriveUrl || "https://photos.app.goo.gl"}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <Link
+                    href={`/events/${event.slug}/gallery`}
                     className="btn btn--solid spiral-view-btn"
                     aria-label="View Images Gallery"
                   >
@@ -574,8 +572,8 @@ export default function EventDetailClient({ event }: EventDetailClientProps): Re
                       <polyline points="21 15 16 10 5 21" />
                     </svg>
                     <span>View Images</span>
-                    <span className="spiral-view-btn__arrow">↗</span>
-                  </a>
+                    <span className="spiral-view-btn__arrow">→</span>
+                  </Link>
                 </div>
               </div>
             </div>
