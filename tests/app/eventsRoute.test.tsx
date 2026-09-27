@@ -43,7 +43,7 @@ describe("Events dynamic routes data", () => {
     expect(getEventBySlug("non-existent-event")).toBeUndefined();
   });
 
-  it("renders EventDetailClient successfully with complete event data", async () => {
+  it("renders EventDetailClient for completed Argonyx 26 with closed status, winners, and view images", async () => {
     const { render, screen } = await import("@testing-library/react");
     const EventDetailClient = (await import("@/app/events/[slug]/EventDetailClient")).default;
     const event = getEventBySlug("argonyx-26");
@@ -53,7 +53,24 @@ describe("Events dynamic routes data", () => {
     expect(screen.getByText("Build something")).toBeInTheDocument();
     expect(screen.getByText("that ships.")).toBeInTheDocument();
     expect(screen.getByText("What is Argonyx")).toBeInTheDocument();
-    expect(screen.getByText("Register on Unstop ↗")).toBeInTheDocument();
+    // Registration button should be removed and replaced with Closed / Completed
+    expect(screen.getByText("Closed / Completed")).toBeInTheDocument();
+    expect(screen.queryByText("Register on Unstop ↗")).not.toBeInTheDocument();
+    expect(screen.queryByText("Register now")).not.toBeInTheDocument();
+    // Winners and View Images sections
+    expect(screen.getAllByText("1ST PLACE").length).toBeGreaterThan(0);
+    expect(screen.getAllByText("View Images").length).toBeGreaterThan(0);
+  });
+
+  it("renders EventDetailClient for upcoming event with registration CTA", async () => {
+    const { render, screen } = await import("@testing-library/react");
+    const EventDetailClient = (await import("@/app/events/[slug]/EventDetailClient")).default;
+    const event = getEventBySlug("pitch-e-thon");
+    expect(event).toBeDefined();
+
+    render(<EventDetailClient event={event!} />);
+    expect(screen.getByText("Register now")).toBeInTheDocument();
+    expect(screen.getByText("Join WhatsApp for Updates ↗")).toBeInTheDocument();
   });
 
   it("renders EventsArchive with clickable event links", async () => {

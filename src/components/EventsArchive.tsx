@@ -29,17 +29,6 @@ interface EventItem {
 
 const EVENTS: EventItem[] = [
   {
-    date: "18",
-    month: "SEP 2026",
-    type: "Hackathons",
-    title: "Argonyx 2.0",
-    description:
-      "Build, break and reimagine. A hands-on challenge for ambitious builders.",
-    image: argonyx2,
-    status: "UPCOMING",
-    link: "/events/argonyx-26",
-  },
-  {
     date: "TBA",
     month: "DATE TBA",
     type: "Competitions",
@@ -60,6 +49,17 @@ const EVENTS: EventItem[] = [
     image: argonyx,
     status: "UPCOMING",
     link: "/events/e-summit",
+  },
+  {
+    date: "25–26",
+    month: "SEP 2026",
+    type: "Hackathons",
+    title: "Argonyx '26",
+    description:
+      "A 24-hour national hackathon for ambitious builders. Build, break and ship.",
+    image: argonyx2,
+    status: "ARCHIVE",
+    link: "/events/argonyx-26",
   },
   {
     date: "TBA",
@@ -590,15 +590,17 @@ export default function EventsArchive(): React.ReactElement {
 
               </div>
 
-              <a
-                href="https://unstop.com/hackathons/argonyx26-rv-university-1748836?utm_medium=Share&utm_source=akashsin3510&utm_campaign=Online_coding_challenge"
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{ position: "relative", zIndex: 10 }}
-                aria-label="Register on Unstop"
-              >
-                ↗
-              </a>
+              {featuredEvent.link ? (
+                <Link
+                  href={featuredEvent.link}
+                  style={{ position: "relative", zIndex: 10 }}
+                  aria-label={`View details for ${featuredEvent.title}`}
+                >
+                  ↗
+                </Link>
+              ) : (
+                <span style={{ position: "relative", zIndex: 10 }}>↗</span>
+              )}
 
             </div>
 
@@ -833,30 +835,45 @@ export default function EventsArchive(): React.ReactElement {
           </div>
 
           {archivedEvents.map(
-            (event, index) => (
-              <div
-                className="ea-archive-row"
-                key={event.title}
-              >
+            (event, index) => {
+              const rowContent = (
+                <>
+                  <span>
+                    0{index + 1}
+                  </span>
 
-                <span>
-                  0{index + 1}
-                </span>
+                  <strong>
+                    {event.title}
+                  </strong>
 
-                <strong>
-                  {event.title}
-                </strong>
+                  <small>
+                    {event.type}
+                  </small>
 
-                <small>
-                  {event.type}
-                </small>
+                  <b>
+                    ↗
+                  </b>
+                </>
+              );
 
-                <b>
-                  ↗
-                </b>
-
-              </div>
-            ),
+              return event.link ? (
+                <Link
+                  href={event.link}
+                  className="ea-archive-row ea-archive-row--link"
+                  key={event.title}
+                  aria-label={`View details for past event ${event.title}`}
+                >
+                  {rowContent}
+                </Link>
+              ) : (
+                <div
+                  className="ea-archive-row"
+                  key={event.title}
+                >
+                  {rowContent}
+                </div>
+              );
+            },
           )}
 
         </div>

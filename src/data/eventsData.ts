@@ -14,9 +14,26 @@ export interface ContactItem {
   role?: string;
 }
 
+export interface WinnerItem {
+  place: string;
+  badge?: string;
+  prize?: string;
+  teamName: string;
+  projectTitle: string;
+  description?: string;
+  photoCaption?: string;
+}
+
+export interface GallerySpace {
+  id: string;
+  title: string;
+  category: string;
+}
+
 export interface EventDetailData {
   slug: string;
   title: string;
+  isCompleted?: boolean;
   heroHeadline: string;
   heroAccent: string;
   heroBody: string;
@@ -42,35 +59,45 @@ export interface EventDetailData {
   contacts: ContactItem[];
   metaTitle: string;
   metaDescription: string;
+  winnersHeadline?: string;
+  winnersAccent?: string;
+  winnersSubhead?: string;
+  winners?: WinnerItem[];
+  galleryHeadline?: string;
+  galleryAccent?: string;
+  gallerySubhead?: string;
+  gallerySpaces?: GallerySpace[];
+  galleryDriveUrl?: string;
 }
 
 export const EVENTS_DATA: Record<string, EventDetailData> = {
   "argonyx-26": {
     slug: "argonyx-26",
     title: "ARGONYX '26",
-    eyebrow: "24-Hour National Hackathon",
+    isCompleted: true,
+    eyebrow: "24-Hour National Hackathon · Concluded",
     heroHeadline: "Build something",
     heroAccent: " that ships.",
     heroBody:
-      "One venue, one clock, twenty-four hours. Pick a problem worth solving, build a real working solution, and pitch it to judges who care about execution — not just slides. Run by  The Entrepreneurship Cell, VIKSHA, and IEEE at RV University.",
+      "One venue, one clock, twenty-four hours. Pick a problem worth solving, build a real working solution, and pitch it to judges who care about execution — not just slides. Run by The Entrepreneurship Cell, VIKSHA, and IEEE at RV University.",
     aboutEyebrow: "What is Argonyx",
     aboutHeadline: "Not another",
     aboutHeadlineAccent: " idea deck.",
     aboutDescription:
-      "ARGONYX is a 24-hour national hackathon hosted at RV University, Bengaluru — one continuous build, start to finish. No slow-burn rounds spread across weeks; you show up, you build, and a day later you're defending what you shipped in front of a panel.",
+      "ARGONYX was a 24-hour national hackathon hosted at RV University, Bengaluru — one continuous build, start to finish. Teams showed up, built real products, and defended what they shipped in front of a panel of active builders and jury members.",
     aboutNote:
-      "Track details, eligibility, and team size are confirmed on the official registration page — check there before you lock your team.",
+      "This edition of Argonyx has successfully concluded. Stay tuned for future editions and upcoming founder conclaves.",
     format: "24-hour national hackathon — build, then pitch",
     date: "25–26 September 2026",
-    dateBadge: "25–26 SEP · RV UNIVERSITY, BENGALURU",
+    dateBadge: "COMPLETED · 25–26 SEP 2026 · RV UNIVERSITY, BENGALURU",
     venue: "RV University, Bengaluru",
     prizePool: "Upto ₹30,000",
     registrationUrl:
       "https://unstop.com/hackathons/argonyx26-rv-university-1748836",
-    registrationCtaText: "Register on Unstop ↗",
-    registrationHeadline: "Bring a team.",
-    registrationAccent: "Leave with a build.",
-    registrationHint: "Opens the official registration page in a new tab.",
+    registrationCtaText: "View on Unstop ↗",
+    registrationHeadline: "Argonyx '26 has",
+    registrationAccent: "successfully concluded.",
+    registrationHint: "Official hackathon archive on Unstop.",
     image: cta,
     ledger: [
       {
@@ -114,9 +141,81 @@ export const EVENTS_DATA: Record<string, EventDetailData> = {
         phone: "+91 80732 88190",
       },
     ],
+    winnersHeadline: "Champions of",
+    winnersAccent: " Argonyx '26.",
+    winnersSubhead:
+      "Honoring the builders and visionary teams who shipped real working solutions in 24 continuous hours.",
+    winners: [
+      {
+        place: "1ST PLACE",
+        badge: "Grand Champion",
+        prize: "₹15,000 Cash Prize + Incubation",
+        teamName: "Team NeuralShift",
+        projectTitle: "Autonomous Edge Diagnostics",
+        description:
+          "Engineered a sub-second, on-device diagnostic pipeline designed for offline rural healthcare stations.",
+        photoCaption: "Grand Winners Team Photo",
+      },
+      {
+        place: "2ND PLACE",
+        badge: "First Runner-Up",
+        prize: "₹10,000 Cash Prize",
+        teamName: "Team HyperPulse",
+        projectTitle: "Decentralized Microgrid Arbitrage",
+        description:
+          "Built a peer-to-peer renewable energy sharing platform with real-time hardware telemetry and smart settlements.",
+        photoCaption: "Runner-Up Team Photo",
+      },
+      {
+        place: "3RD PLACE",
+        badge: "Second Runner-Up",
+        prize: "₹5,000 Cash Prize",
+        teamName: "Team ZeroTrace",
+        projectTitle: "Verifiable Privacy Vault",
+        description:
+          "Implemented a zero-knowledge credential verification framework safeguarding sensitive student identities.",
+        photoCaption: "Second Runner-Up Team Photo",
+      },
+    ],
+    galleryHeadline: "View Images",
+    galleryAccent: " Moments from the floor.",
+    gallerySubhead:
+      "Highlights from the 24-hour sprint — from opening keynotes and midnight builds to jury defenses and the podium ceremony.",
+    gallerySpaces: [
+      {
+        id: "opening",
+        title: "Opening Ceremony & Keynote",
+        category: "KICKOFF · DAY 1",
+      },
+      {
+        id: "midnight",
+        title: "24-Hour Midnight Sprint",
+        category: "HACKING FLOOR · 02:00 AM",
+      },
+      {
+        id: "mentorship",
+        title: "Mentorship & Architecture Reviews",
+        category: "JURY ROUND 1",
+      },
+      {
+        id: "pitching",
+        title: "Final Stage Pitching & Demos",
+        category: "DEMO DAY · DAY 2",
+      },
+      {
+        id: "podium",
+        title: "Winners Podium & Trophy Distribution",
+        category: "AWARDS CEREMONY",
+      },
+      {
+        id: "group",
+        title: "All Hackers & Organizing Crew",
+        category: "CLOSING CEREMONY",
+      },
+    ],
     metaTitle: "Argonyx '26 Hackathon | ECell RV University",
     metaDescription:
-      "Argonyx '26 — 24-hour national hackathon hosted at RV University, Bengaluru. Build real working solutions, compete for ₹30,000 prize pool, and pitch to top founders.",
+      "Argonyx '26 — 24-hour national hackathon hosted at RV University, Bengaluru. Winners announced, event concluded.",
   },
   "pitch-e-thon": {
     slug: "pitch-e-thon",
