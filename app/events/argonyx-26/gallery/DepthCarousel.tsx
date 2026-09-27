@@ -78,15 +78,24 @@ export default function DepthCarousel({
     };
   }, [autoplay, isHovered, active, next, autoplayInterval]);
 
-  /* keyboard */
+  /* keyboard: only applies to this carousel when hovered, and never when lightbox is open */
   useEffect(() => {
+    if (!isHovered) return;
     const handler = (e: KeyboardEvent) => {
-      if (e.key === "ArrowLeft") prev();
-      if (e.key === "ArrowRight") next();
+      if (e.altKey || e.ctrlKey || e.metaKey) return;
+      if (document.querySelector(".lightbox-overlay")) return;
+      if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        prev();
+      }
+      if (e.key === "ArrowRight") {
+        e.preventDefault();
+        next();
+      }
     };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
-  }, [prev, next]);
+  }, [isHovered, prev, next]);
 
   /* drag / swipe tracking without breaking click */
   const pointerStartRef = useRef<{ x: number; y: number } | null>(null);

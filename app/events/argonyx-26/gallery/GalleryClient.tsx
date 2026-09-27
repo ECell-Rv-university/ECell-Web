@@ -1050,6 +1050,7 @@ export default function GalleryClient() {
             </div>
 
             <DepthCarousel
+              key={section.id}
               items={section.photos.map(
                 (p): DepthCarouselItem => ({ image: p.src, alt: p.alt })
               )}
@@ -1061,7 +1062,7 @@ export default function GalleryClient() {
               visibleCards={4}
               falloff={0.2}
               blur={6}
-              autoplay
+              autoplay={false}
               loop
               onCardClick={(idx) => openLightbox(section.id, idx)}
             />
