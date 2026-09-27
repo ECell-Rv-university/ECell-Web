@@ -23,164 +23,313 @@ import img_inauguration_10 from "@/src/assets/Argonyx26/inaugration/alok2.png";
 import img_inauguration_11 from "@/src/assets/Argonyx26/inaugration/ayush1.png";
 import img_inauguration_12 from "@/src/assets/Argonyx26/inaugration/ayush2.png";
 import img_inauguration_13 from "@/src/assets/Argonyx26/inaugration/eventLeads.png";
-import img_inauguration_14 from "@/src/assets/Argonyx26/inaugration/ing1.png";
-import img_inauguration_15 from "@/src/assets/Argonyx26/inaugration/ing2.png";
-import img_inauguration_16 from "@/src/assets/Argonyx26/inaugration/ing3.png";
-import img_inauguration_17 from "@/src/assets/Argonyx26/inaugration/ing4.png";
-import img_inauguration_18 from "@/src/assets/Argonyx26/inaugration/ing5.png";
-import img_inauguration_19 from "@/src/assets/Argonyx26/inaugration/me1.png";
-import img_inauguration_20 from "@/src/assets/Argonyx26/inaugration/me2.png";
-import img_coding_sessions_21 from "@/src/assets/Argonyx26/coding-session-1/image copy.png";
-import img_coding_sessions_22 from "@/src/assets/Argonyx26/coding-session-1/image.png";
-import img_lunch_23 from "@/src/assets/Argonyx26/lunch/Faculty.png";
-import img_lunch_24 from "@/src/assets/Argonyx26/lunch/image copy 2.png";
-import img_lunch_25 from "@/src/assets/Argonyx26/lunch/image copy 3.png";
-import img_lunch_26 from "@/src/assets/Argonyx26/lunch/image copy 4.png";
-import img_lunch_27 from "@/src/assets/Argonyx26/lunch/image copy.png";
-import img_lunch_28 from "@/src/assets/Argonyx26/lunch/image.png";
-import img_lunch_29 from "@/src/assets/Argonyx26/lunch/kushal.png";
-import img_lunch_30 from "@/src/assets/Argonyx26/lunch/lunch1.png";
-import img_lunch_31 from "@/src/assets/Argonyx26/lunch/lunch2.png";
-import img_mentors_32 from "@/src/assets/Argonyx26/MentorsSessions/TallMen.png";
-import img_mentors_33 from "@/src/assets/Argonyx26/MentorsSessions/TallMen2.png";
-import img_mentors_34 from "@/src/assets/Argonyx26/MentorsSessions/TallMen3.png";
-import img_mentors_35 from "@/src/assets/Argonyx26/MentorsSessions/TallMen4.png";
-import img_mentors_36 from "@/src/assets/Argonyx26/MentorsSessions/apoorv1.png";
-import img_mentors_37 from "@/src/assets/Argonyx26/MentorsSessions/apoorv2.png";
-import img_mentors_38 from "@/src/assets/Argonyx26/MentorsSessions/apoorv3.png";
-import img_mentors_39 from "@/src/assets/Argonyx26/MentorsSessions/apoorv4.png";
-import img_mentors_40 from "@/src/assets/Argonyx26/MentorsSessions/apoorv5.png";
-import img_mentors_41 from "@/src/assets/Argonyx26/MentorsSessions/apoorv6.png";
-import img_mentors_42 from "@/src/assets/Argonyx26/MentorsSessions/apoorv7.png";
-import img_mentors_43 from "@/src/assets/Argonyx26/MentorsSessions/apoorv8.png";
-import img_mentors_44 from "@/src/assets/Argonyx26/MentorsSessions/jaineesh1.png";
-import img_mentors_45 from "@/src/assets/Argonyx26/MentorsSessions/jaineesh2.png";
-import img_mentors_46 from "@/src/assets/Argonyx26/MentorsSessions/jaineesh3.png";
-import img_mentors_47 from "@/src/assets/Argonyx26/MentorsSessions/jaineesh4.png";
-import img_mentors_48 from "@/src/assets/Argonyx26/MentorsSessions/jaineesh5.png";
-import img_mentors_49 from "@/src/assets/Argonyx26/MentorsSessions/longHairMen.png";
-import img_mentors_50 from "@/src/assets/Argonyx26/MentorsSessions/longHairMen2.png";
-import img_mentors_51 from "@/src/assets/Argonyx26/MentorsSessions/longHairMen3.png";
-import img_mentors_52 from "@/src/assets/Argonyx26/MentorsSessions/longHairMen4.png";
-import img_mentors_53 from "@/src/assets/Argonyx26/MentorsSessions/viksha1.png";
-import img_mentors_54 from "@/src/assets/Argonyx26/MentorsSessions/viksha2.png";
-import img_mentors_55 from "@/src/assets/Argonyx26/MentorsSessions/viksha3.png";
-import img_mentors_56 from "@/src/assets/Argonyx26/MentorsSessions/viksha4.png";
-import img_mentors_57 from "@/src/assets/Argonyx26/MentorsSessions/viksha5.png";
-import img_mentors_58 from "@/src/assets/Argonyx26/MentorsSessions/viksha6.png";
-import img_mentors_59 from "@/src/assets/Argonyx26/MentorsSessions/viksha7.png";
-import img_judges_60 from "@/src/assets/Argonyx26/judges/image copy 5.png";
-import img_judges_61 from "@/src/assets/Argonyx26/judges/image copy 6.png";
-import img_round2_62 from "@/src/assets/Argonyx26/roun2/image copy 2.png";
-import img_round2_63 from "@/src/assets/Argonyx26/roun2/image copy 3.png";
-import img_round2_64 from "@/src/assets/Argonyx26/roun2/image copy 4.png";
-import img_round2_65 from "@/src/assets/Argonyx26/roun2/image copy.png";
-import img_round2_66 from "@/src/assets/Argonyx26/roun2/image.png";
-import img_round2_walk_67 from "@/src/assets/Argonyx26/round2Walk/goat1.png";
-import img_round2_walk_68 from "@/src/assets/Argonyx26/round2Walk/image copy 10.png";
-import img_round2_walk_69 from "@/src/assets/Argonyx26/round2Walk/image copy 11.png";
-import img_round2_walk_70 from "@/src/assets/Argonyx26/round2Walk/image copy 2.png";
-import img_round2_walk_71 from "@/src/assets/Argonyx26/round2Walk/image copy 3.png";
-import img_round2_walk_72 from "@/src/assets/Argonyx26/round2Walk/image copy 4.png";
-import img_round2_walk_73 from "@/src/assets/Argonyx26/round2Walk/image copy 5.png";
-import img_round2_walk_74 from "@/src/assets/Argonyx26/round2Walk/image copy 6.png";
-import img_round2_walk_75 from "@/src/assets/Argonyx26/round2Walk/image copy 7.png";
-import img_round2_walk_76 from "@/src/assets/Argonyx26/round2Walk/image copy 8.png";
-import img_round2_walk_77 from "@/src/assets/Argonyx26/round2Walk/image copy 9.png";
-import img_round2_walk_78 from "@/src/assets/Argonyx26/round2Walk/image copy.png";
-import img_round2_walk_79 from "@/src/assets/Argonyx26/round2Walk/image.png";
-import img_final_presentations_80 from "@/src/assets/Argonyx26/finalPresentation/image copy 10.png";
-import img_final_presentations_81 from "@/src/assets/Argonyx26/finalPresentation/image copy 11.png";
-import img_final_presentations_82 from "@/src/assets/Argonyx26/finalPresentation/image copy 12.png";
-import img_final_presentations_83 from "@/src/assets/Argonyx26/finalPresentation/image copy 13.png";
-import img_final_presentations_84 from "@/src/assets/Argonyx26/finalPresentation/image copy 14.png";
-import img_final_presentations_85 from "@/src/assets/Argonyx26/finalPresentation/image copy 15.png";
-import img_final_presentations_86 from "@/src/assets/Argonyx26/finalPresentation/image copy 16.png";
-import img_final_presentations_87 from "@/src/assets/Argonyx26/finalPresentation/image copy 17.png";
-import img_final_presentations_88 from "@/src/assets/Argonyx26/finalPresentation/image copy 18.png";
-import img_final_presentations_89 from "@/src/assets/Argonyx26/finalPresentation/image copy 19.png";
-import img_final_presentations_90 from "@/src/assets/Argonyx26/finalPresentation/image copy 2.png";
-import img_final_presentations_91 from "@/src/assets/Argonyx26/finalPresentation/image copy 20.png";
-import img_final_presentations_92 from "@/src/assets/Argonyx26/finalPresentation/image copy 21.png";
-import img_final_presentations_93 from "@/src/assets/Argonyx26/finalPresentation/image copy 22.png";
-import img_final_presentations_94 from "@/src/assets/Argonyx26/finalPresentation/image copy 23.png";
-import img_final_presentations_95 from "@/src/assets/Argonyx26/finalPresentation/image copy 24.png";
-import img_final_presentations_96 from "@/src/assets/Argonyx26/finalPresentation/image copy 25.png";
-import img_final_presentations_97 from "@/src/assets/Argonyx26/finalPresentation/image copy 26.png";
-import img_final_presentations_98 from "@/src/assets/Argonyx26/finalPresentation/image copy 27.png";
-import img_final_presentations_99 from "@/src/assets/Argonyx26/finalPresentation/image copy 28.png";
-import img_final_presentations_100 from "@/src/assets/Argonyx26/finalPresentation/image copy 29.png";
-import img_final_presentations_101 from "@/src/assets/Argonyx26/finalPresentation/image copy 3.png";
-import img_final_presentations_102 from "@/src/assets/Argonyx26/finalPresentation/image copy 30.png";
-import img_final_presentations_103 from "@/src/assets/Argonyx26/finalPresentation/image copy 31.png";
-import img_final_presentations_104 from "@/src/assets/Argonyx26/finalPresentation/image copy 32.png";
-import img_final_presentations_105 from "@/src/assets/Argonyx26/finalPresentation/image copy 33.png";
-import img_final_presentations_106 from "@/src/assets/Argonyx26/finalPresentation/image copy 34.png";
-import img_final_presentations_107 from "@/src/assets/Argonyx26/finalPresentation/image copy 35.png";
-import img_final_presentations_108 from "@/src/assets/Argonyx26/finalPresentation/image copy 36.png";
-import img_final_presentations_109 from "@/src/assets/Argonyx26/finalPresentation/image copy 37.png";
-import img_final_presentations_110 from "@/src/assets/Argonyx26/finalPresentation/image copy 38.png";
-import img_final_presentations_111 from "@/src/assets/Argonyx26/finalPresentation/image copy 39.png";
-import img_final_presentations_112 from "@/src/assets/Argonyx26/finalPresentation/image copy 4.png";
-import img_final_presentations_113 from "@/src/assets/Argonyx26/finalPresentation/image copy 40.png";
-import img_final_presentations_114 from "@/src/assets/Argonyx26/finalPresentation/image copy 41.png";
-import img_final_presentations_115 from "@/src/assets/Argonyx26/finalPresentation/image copy 42.png";
-import img_final_presentations_116 from "@/src/assets/Argonyx26/finalPresentation/image copy 5.png";
-import img_final_presentations_117 from "@/src/assets/Argonyx26/finalPresentation/image copy 6.png";
-import img_final_presentations_118 from "@/src/assets/Argonyx26/finalPresentation/image copy 7.png";
-import img_final_presentations_119 from "@/src/assets/Argonyx26/finalPresentation/image copy 8.png";
-import img_final_presentations_120 from "@/src/assets/Argonyx26/finalPresentation/image copy 9.png";
-import img_final_presentations_121 from "@/src/assets/Argonyx26/finalPresentation/image copy.png";
-import img_final_presentations_122 from "@/src/assets/Argonyx26/finalPresentation/image.png";
-import img_selecting_winners_123 from "@/src/assets/Argonyx26/selectingWinners/image copy 10.png";
-import img_selecting_winners_124 from "@/src/assets/Argonyx26/selectingWinners/image copy 11.png";
-import img_selecting_winners_125 from "@/src/assets/Argonyx26/selectingWinners/image copy 12.png";
-import img_selecting_winners_126 from "@/src/assets/Argonyx26/selectingWinners/image copy 13.png";
-import img_selecting_winners_127 from "@/src/assets/Argonyx26/selectingWinners/image copy 14.png";
-import img_selecting_winners_128 from "@/src/assets/Argonyx26/selectingWinners/image copy 15.png";
-import img_selecting_winners_129 from "@/src/assets/Argonyx26/selectingWinners/image copy 16.png";
-import img_selecting_winners_130 from "@/src/assets/Argonyx26/selectingWinners/image copy 17.png";
-import img_selecting_winners_131 from "@/src/assets/Argonyx26/selectingWinners/image copy 2.png";
-import img_selecting_winners_132 from "@/src/assets/Argonyx26/selectingWinners/image copy 3.png";
-import img_selecting_winners_133 from "@/src/assets/Argonyx26/selectingWinners/image copy 4.png";
-import img_selecting_winners_134 from "@/src/assets/Argonyx26/selectingWinners/image copy 5.png";
-import img_selecting_winners_135 from "@/src/assets/Argonyx26/selectingWinners/image copy 6.png";
-import img_selecting_winners_136 from "@/src/assets/Argonyx26/selectingWinners/image copy 7.png";
-import img_selecting_winners_137 from "@/src/assets/Argonyx26/selectingWinners/image copy 8.png";
-import img_selecting_winners_138 from "@/src/assets/Argonyx26/selectingWinners/image copy 9.png";
-import img_selecting_winners_139 from "@/src/assets/Argonyx26/selectingWinners/image copy.png";
-import img_selecting_winners_140 from "@/src/assets/Argonyx26/selectingWinners/image.png";
-import img_dinner_141 from "@/src/assets/Argonyx26/dinner/image copy 2.png";
-import img_dinner_142 from "@/src/assets/Argonyx26/dinner/image copy.png";
-import img_dinner_143 from "@/src/assets/Argonyx26/dinner/image.png";
-import img_dinner_144 from "@/src/assets/Argonyx26/dinner/mingos1.png";
-import img_valedictory_145 from "@/src/assets/Argonyx26/veridictoryCeremony/image copy 10.png";
-import img_valedictory_146 from "@/src/assets/Argonyx26/veridictoryCeremony/image copy 11.png";
-import img_valedictory_147 from "@/src/assets/Argonyx26/veridictoryCeremony/image copy 12.png";
-import img_valedictory_148 from "@/src/assets/Argonyx26/veridictoryCeremony/image copy 13.png";
-import img_valedictory_149 from "@/src/assets/Argonyx26/veridictoryCeremony/image copy 14.png";
-import img_valedictory_150 from "@/src/assets/Argonyx26/veridictoryCeremony/image copy 15.png";
-import img_valedictory_151 from "@/src/assets/Argonyx26/veridictoryCeremony/image copy 16.png";
-import img_valedictory_152 from "@/src/assets/Argonyx26/veridictoryCeremony/image copy 17.png";
-import img_valedictory_153 from "@/src/assets/Argonyx26/veridictoryCeremony/image copy 18.png";
-import img_valedictory_154 from "@/src/assets/Argonyx26/veridictoryCeremony/image copy 19.png";
-import img_valedictory_155 from "@/src/assets/Argonyx26/veridictoryCeremony/image copy 2.png";
-import img_valedictory_156 from "@/src/assets/Argonyx26/veridictoryCeremony/image copy 20.png";
-import img_valedictory_157 from "@/src/assets/Argonyx26/veridictoryCeremony/image copy 21.png";
-import img_valedictory_158 from "@/src/assets/Argonyx26/veridictoryCeremony/image copy 22.png";
-import img_valedictory_159 from "@/src/assets/Argonyx26/veridictoryCeremony/image copy 23.png";
-import img_valedictory_160 from "@/src/assets/Argonyx26/veridictoryCeremony/image copy 24.png";
-import img_valedictory_161 from "@/src/assets/Argonyx26/veridictoryCeremony/image copy 25.png";
-import img_valedictory_162 from "@/src/assets/Argonyx26/veridictoryCeremony/image copy 26.png";
-import img_valedictory_163 from "@/src/assets/Argonyx26/veridictoryCeremony/image copy 3.png";
-import img_valedictory_164 from "@/src/assets/Argonyx26/veridictoryCeremony/image copy 4.png";
-import img_valedictory_165 from "@/src/assets/Argonyx26/veridictoryCeremony/image copy 5.png";
-import img_valedictory_166 from "@/src/assets/Argonyx26/veridictoryCeremony/image copy 6.png";
-import img_valedictory_167 from "@/src/assets/Argonyx26/veridictoryCeremony/image copy 7.png";
-import img_valedictory_168 from "@/src/assets/Argonyx26/veridictoryCeremony/image copy 8.png";
-import img_valedictory_169 from "@/src/assets/Argonyx26/veridictoryCeremony/image copy 9.png";
-import img_valedictory_170 from "@/src/assets/Argonyx26/veridictoryCeremony/image copy.png";
-import img_valedictory_171 from "@/src/assets/Argonyx26/veridictoryCeremony/image.png";
+import img_inauguration_14 from "@/src/assets/Argonyx26/inaugration/image copy 2.png";
+import img_inauguration_15 from "@/src/assets/Argonyx26/inaugration/image copy 3.png";
+import img_inauguration_16 from "@/src/assets/Argonyx26/inaugration/image copy.png";
+import img_inauguration_17 from "@/src/assets/Argonyx26/inaugration/image.png";
+import img_inauguration_18 from "@/src/assets/Argonyx26/inaugration/ing1.png";
+import img_inauguration_19 from "@/src/assets/Argonyx26/inaugration/ing2.png";
+import img_inauguration_20 from "@/src/assets/Argonyx26/inaugration/ing3.png";
+import img_inauguration_21 from "@/src/assets/Argonyx26/inaugration/ing4.png";
+import img_inauguration_22 from "@/src/assets/Argonyx26/inaugration/ing5.png";
+import img_inauguration_23 from "@/src/assets/Argonyx26/inaugration/me1.png";
+import img_inauguration_24 from "@/src/assets/Argonyx26/inaugration/me2.png";
+import img_coding_sessions_25 from "@/src/assets/Argonyx26/coding-session-1/image copy 2.png";
+import img_coding_sessions_26 from "@/src/assets/Argonyx26/coding-session-1/image copy 3.png";
+import img_coding_sessions_27 from "@/src/assets/Argonyx26/coding-session-1/image copy 4.png";
+import img_coding_sessions_28 from "@/src/assets/Argonyx26/coding-session-1/image copy 5.png";
+import img_coding_sessions_29 from "@/src/assets/Argonyx26/coding-session-1/image copy 6.png";
+import img_coding_sessions_30 from "@/src/assets/Argonyx26/coding-session-1/image copy 7.png";
+import img_coding_sessions_31 from "@/src/assets/Argonyx26/coding-session-1/image copy 8.png";
+import img_coding_sessions_32 from "@/src/assets/Argonyx26/coding-session-1/image copy 9.png";
+import img_coding_sessions_33 from "@/src/assets/Argonyx26/coding-session-1/image copy 10.png";
+import img_coding_sessions_34 from "@/src/assets/Argonyx26/coding-session-1/image copy 11.png";
+import img_coding_sessions_35 from "@/src/assets/Argonyx26/coding-session-1/image copy 12.png";
+import img_coding_sessions_36 from "@/src/assets/Argonyx26/coding-session-1/image copy 13.png";
+import img_coding_sessions_37 from "@/src/assets/Argonyx26/coding-session-1/image copy 14.png";
+import img_coding_sessions_38 from "@/src/assets/Argonyx26/coding-session-1/image copy 15.png";
+import img_coding_sessions_39 from "@/src/assets/Argonyx26/coding-session-1/image copy 16.png";
+import img_coding_sessions_40 from "@/src/assets/Argonyx26/coding-session-1/image copy 17.png";
+import img_coding_sessions_41 from "@/src/assets/Argonyx26/coding-session-1/image copy 18.png";
+import img_coding_sessions_42 from "@/src/assets/Argonyx26/coding-session-1/image copy 19.png";
+import img_coding_sessions_43 from "@/src/assets/Argonyx26/coding-session-1/image copy 20.png";
+import img_coding_sessions_44 from "@/src/assets/Argonyx26/coding-session-1/image copy 21.png";
+import img_coding_sessions_45 from "@/src/assets/Argonyx26/coding-session-1/image copy 22.png";
+import img_coding_sessions_46 from "@/src/assets/Argonyx26/coding-session-1/image copy 23.png";
+import img_coding_sessions_47 from "@/src/assets/Argonyx26/coding-session-1/image copy 24.png";
+import img_coding_sessions_48 from "@/src/assets/Argonyx26/coding-session-1/image copy 25.png";
+import img_coding_sessions_49 from "@/src/assets/Argonyx26/coding-session-1/image copy 26.png";
+import img_coding_sessions_50 from "@/src/assets/Argonyx26/coding-session-1/image copy 27.png";
+import img_coding_sessions_51 from "@/src/assets/Argonyx26/coding-session-1/image copy 28.png";
+import img_coding_sessions_52 from "@/src/assets/Argonyx26/coding-session-1/image copy 29.png";
+import img_coding_sessions_53 from "@/src/assets/Argonyx26/coding-session-1/image copy 30.png";
+import img_coding_sessions_54 from "@/src/assets/Argonyx26/coding-session-1/image copy 31.png";
+import img_coding_sessions_55 from "@/src/assets/Argonyx26/coding-session-1/image copy 32.png";
+import img_coding_sessions_56 from "@/src/assets/Argonyx26/coding-session-1/image copy 33.png";
+import img_coding_sessions_57 from "@/src/assets/Argonyx26/coding-session-1/image copy 34.png";
+import img_coding_sessions_58 from "@/src/assets/Argonyx26/coding-session-1/image copy 35.png";
+import img_coding_sessions_59 from "@/src/assets/Argonyx26/coding-session-1/image copy 36.png";
+import img_coding_sessions_60 from "@/src/assets/Argonyx26/coding-session-1/image copy 37.png";
+import img_coding_sessions_61 from "@/src/assets/Argonyx26/coding-session-1/image copy 38.png";
+import img_coding_sessions_62 from "@/src/assets/Argonyx26/coding-session-1/image copy 39.png";
+import img_coding_sessions_63 from "@/src/assets/Argonyx26/coding-session-1/image copy 40.png";
+import img_coding_sessions_64 from "@/src/assets/Argonyx26/coding-session-1/image copy.png";
+import img_coding_sessions_65 from "@/src/assets/Argonyx26/coding-session-1/image.png";
+import img_lunch_66 from "@/src/assets/Argonyx26/lunch/Faculty.png";
+import img_lunch_67 from "@/src/assets/Argonyx26/lunch/image copy 2.png";
+import img_lunch_68 from "@/src/assets/Argonyx26/lunch/image copy 3.png";
+import img_lunch_69 from "@/src/assets/Argonyx26/lunch/image copy 4.png";
+import img_lunch_70 from "@/src/assets/Argonyx26/lunch/image copy 5.png";
+import img_lunch_71 from "@/src/assets/Argonyx26/lunch/image copy 6.png";
+import img_lunch_72 from "@/src/assets/Argonyx26/lunch/image copy 7.png";
+import img_lunch_73 from "@/src/assets/Argonyx26/lunch/image copy 8.png";
+import img_lunch_74 from "@/src/assets/Argonyx26/lunch/image copy 9.png";
+import img_lunch_75 from "@/src/assets/Argonyx26/lunch/image copy 10.png";
+import img_lunch_76 from "@/src/assets/Argonyx26/lunch/image copy 11.png";
+import img_lunch_77 from "@/src/assets/Argonyx26/lunch/image copy 12.png";
+import img_lunch_78 from "@/src/assets/Argonyx26/lunch/image copy 13.png";
+import img_lunch_79 from "@/src/assets/Argonyx26/lunch/image copy 14.png";
+import img_lunch_80 from "@/src/assets/Argonyx26/lunch/image copy 15.png";
+import img_lunch_81 from "@/src/assets/Argonyx26/lunch/image copy 16.png";
+import img_lunch_82 from "@/src/assets/Argonyx26/lunch/image copy.png";
+import img_lunch_83 from "@/src/assets/Argonyx26/lunch/image.png";
+import img_lunch_84 from "@/src/assets/Argonyx26/lunch/kushal.png";
+import img_lunch_85 from "@/src/assets/Argonyx26/lunch/lunch1.png";
+import img_lunch_86 from "@/src/assets/Argonyx26/lunch/lunch2.png";
+import img_lunch_87 from "@/src/assets/Argonyx26/Break/image.png";
+import img_mentors_88 from "@/src/assets/Argonyx26/MentorsSessions/apoorv1.png";
+import img_mentors_89 from "@/src/assets/Argonyx26/MentorsSessions/apoorv2.png";
+import img_mentors_90 from "@/src/assets/Argonyx26/MentorsSessions/apoorv3.png";
+import img_mentors_91 from "@/src/assets/Argonyx26/MentorsSessions/apoorv4.png";
+import img_mentors_92 from "@/src/assets/Argonyx26/MentorsSessions/apoorv5.png";
+import img_mentors_93 from "@/src/assets/Argonyx26/MentorsSessions/apoorv6.png";
+import img_mentors_94 from "@/src/assets/Argonyx26/MentorsSessions/apoorv7.png";
+import img_mentors_95 from "@/src/assets/Argonyx26/MentorsSessions/apoorv8.png";
+import img_mentors_96 from "@/src/assets/Argonyx26/MentorsSessions/apoorv9.png";
+import img_mentors_97 from "@/src/assets/Argonyx26/MentorsSessions/apoorv11.png";
+import img_mentors_98 from "@/src/assets/Argonyx26/MentorsSessions/apoorv12.png";
+import img_mentors_99 from "@/src/assets/Argonyx26/MentorsSessions/apoorv13.png";
+import img_mentors_100 from "@/src/assets/Argonyx26/MentorsSessions/jaineesh1.png";
+import img_mentors_101 from "@/src/assets/Argonyx26/MentorsSessions/jaineesh2.png";
+import img_mentors_102 from "@/src/assets/Argonyx26/MentorsSessions/jaineesh3.png";
+import img_mentors_103 from "@/src/assets/Argonyx26/MentorsSessions/jaineesh4.png";
+import img_mentors_104 from "@/src/assets/Argonyx26/MentorsSessions/jaineesh5.png";
+import img_mentors_105 from "@/src/assets/Argonyx26/MentorsSessions/longHairMen.png";
+import img_mentors_106 from "@/src/assets/Argonyx26/MentorsSessions/longHairMen2.png";
+import img_mentors_107 from "@/src/assets/Argonyx26/MentorsSessions/longHairMen3.png";
+import img_mentors_108 from "@/src/assets/Argonyx26/MentorsSessions/longHairMen4.png";
+import img_mentors_109 from "@/src/assets/Argonyx26/MentorsSessions/TallMen.png";
+import img_mentors_110 from "@/src/assets/Argonyx26/MentorsSessions/TallMen2.png";
+import img_mentors_111 from "@/src/assets/Argonyx26/MentorsSessions/TallMen3.png";
+import img_mentors_112 from "@/src/assets/Argonyx26/MentorsSessions/TallMen4.png";
+import img_mentors_113 from "@/src/assets/Argonyx26/MentorsSessions/TallMen5.png";
+import img_mentors_114 from "@/src/assets/Argonyx26/MentorsSessions/TallMen8.png";
+import img_mentors_115 from "@/src/assets/Argonyx26/MentorsSessions/viksha1.png";
+import img_mentors_116 from "@/src/assets/Argonyx26/MentorsSessions/viksha2.png";
+import img_mentors_117 from "@/src/assets/Argonyx26/MentorsSessions/viksha3.png";
+import img_mentors_118 from "@/src/assets/Argonyx26/MentorsSessions/viksha4.png";
+import img_mentors_119 from "@/src/assets/Argonyx26/MentorsSessions/viksha5.png";
+import img_mentors_120 from "@/src/assets/Argonyx26/MentorsSessions/viksha6.png";
+import img_mentors_121 from "@/src/assets/Argonyx26/MentorsSessions/viksha7.png";
+import img_mentors_122 from "@/src/assets/Argonyx26/MentorsSessions/viksha8.png";
+import img_mentors_123 from "@/src/assets/Argonyx26/MentorsSessions/viksha11.png";
+import img_mentors_124 from "@/src/assets/Argonyx26/MentorsSessions/viksha12.png";
+import img_mentors_125 from "@/src/assets/Argonyx26/MentorsSessions/viksha13.png";
+import img_mentors_126 from "@/src/assets/Argonyx26/MentorsSessions/viksha14.png";
+import img_mentors_127 from "@/src/assets/Argonyx26/MentorsSessions/viksha15.png";
+import img_mentors_128 from "@/src/assets/Argonyx26/MentorsSessions/viksha16.png";
+import img_mentors_129 from "@/src/assets/Argonyx26/MentorsSessions/viksha17.png";
+import img_mentors_130 from "@/src/assets/Argonyx26/MentorsSessions/viksha18.png";
+import img_night_coding_131 from "@/src/assets/Argonyx26/nightCoding/image copy 2.png";
+import img_night_coding_132 from "@/src/assets/Argonyx26/nightCoding/image copy 3.png";
+import img_night_coding_133 from "@/src/assets/Argonyx26/nightCoding/image copy 4.png";
+import img_night_coding_134 from "@/src/assets/Argonyx26/nightCoding/image copy.png";
+import img_night_coding_135 from "@/src/assets/Argonyx26/nightCoding/image.png";
+import img_night_break_136 from "@/src/assets/Argonyx26/nightBreak/image copy 2.png";
+import img_night_break_137 from "@/src/assets/Argonyx26/nightBreak/image copy 3.png";
+import img_night_break_138 from "@/src/assets/Argonyx26/nightBreak/image copy 4.png";
+import img_night_break_139 from "@/src/assets/Argonyx26/nightBreak/image copy 5.png";
+import img_night_break_140 from "@/src/assets/Argonyx26/nightBreak/image copy 6.png";
+import img_night_break_141 from "@/src/assets/Argonyx26/nightBreak/image copy.png";
+import img_night_break_142 from "@/src/assets/Argonyx26/nightBreak/image.png";
+import img_round2_walk_143 from "@/src/assets/Argonyx26/round2Walk/goat1.png";
+import img_round2_walk_144 from "@/src/assets/Argonyx26/round2Walk/image copy 2.png";
+import img_round2_walk_145 from "@/src/assets/Argonyx26/round2Walk/image copy 3.png";
+import img_round2_walk_146 from "@/src/assets/Argonyx26/round2Walk/image copy 4.png";
+import img_round2_walk_147 from "@/src/assets/Argonyx26/round2Walk/image copy 5.png";
+import img_round2_walk_148 from "@/src/assets/Argonyx26/round2Walk/image copy 6.png";
+import img_round2_walk_149 from "@/src/assets/Argonyx26/round2Walk/image copy 7.png";
+import img_round2_walk_150 from "@/src/assets/Argonyx26/round2Walk/image copy 8.png";
+import img_round2_walk_151 from "@/src/assets/Argonyx26/round2Walk/image copy 9.png";
+import img_round2_walk_152 from "@/src/assets/Argonyx26/round2Walk/image copy 10.png";
+import img_round2_walk_153 from "@/src/assets/Argonyx26/round2Walk/image copy 11.png";
+import img_round2_walk_154 from "@/src/assets/Argonyx26/round2Walk/image copy.png";
+import img_round2_walk_155 from "@/src/assets/Argonyx26/round2Walk/image.png";
+import img_round2_156 from "@/src/assets/Argonyx26/roun2/image copy 2.png";
+import img_round2_157 from "@/src/assets/Argonyx26/roun2/image copy 3.png";
+import img_round2_158 from "@/src/assets/Argonyx26/roun2/image copy 4.png";
+import img_round2_159 from "@/src/assets/Argonyx26/roun2/image copy.png";
+import img_round2_160 from "@/src/assets/Argonyx26/roun2/image.png";
+import img_judges_161 from "@/src/assets/Argonyx26/judges/image copy 2.png";
+import img_judges_162 from "@/src/assets/Argonyx26/judges/image copy 5.png";
+import img_judges_163 from "@/src/assets/Argonyx26/judges/image copy 6.png";
+import img_judges_164 from "@/src/assets/Argonyx26/judges/image copy.png";
+import img_judges_165 from "@/src/assets/Argonyx26/judges/image.png";
+import img_final_pitch_166 from "@/src/assets/Argonyx26/finalPresentation/image copy 2.png";
+import img_final_pitch_167 from "@/src/assets/Argonyx26/finalPresentation/image copy 3.png";
+import img_final_pitch_168 from "@/src/assets/Argonyx26/finalPresentation/image copy 4.png";
+import img_final_pitch_169 from "@/src/assets/Argonyx26/finalPresentation/image copy 5.png";
+import img_final_pitch_170 from "@/src/assets/Argonyx26/finalPresentation/image copy 6.png";
+import img_final_pitch_171 from "@/src/assets/Argonyx26/finalPresentation/image copy 7.png";
+import img_final_pitch_172 from "@/src/assets/Argonyx26/finalPresentation/image copy 8.png";
+import img_final_pitch_173 from "@/src/assets/Argonyx26/finalPresentation/image copy 9.png";
+import img_final_pitch_174 from "@/src/assets/Argonyx26/finalPresentation/image copy 10.png";
+import img_final_pitch_175 from "@/src/assets/Argonyx26/finalPresentation/image copy 11.png";
+import img_final_pitch_176 from "@/src/assets/Argonyx26/finalPresentation/image copy 12.png";
+import img_final_pitch_177 from "@/src/assets/Argonyx26/finalPresentation/image copy 13.png";
+import img_final_pitch_178 from "@/src/assets/Argonyx26/finalPresentation/image copy 14.png";
+import img_final_pitch_179 from "@/src/assets/Argonyx26/finalPresentation/image copy 15.png";
+import img_final_pitch_180 from "@/src/assets/Argonyx26/finalPresentation/image copy 16.png";
+import img_final_pitch_181 from "@/src/assets/Argonyx26/finalPresentation/image copy 17.png";
+import img_final_pitch_182 from "@/src/assets/Argonyx26/finalPresentation/image copy 18.png";
+import img_final_pitch_183 from "@/src/assets/Argonyx26/finalPresentation/image copy 19.png";
+import img_final_pitch_184 from "@/src/assets/Argonyx26/finalPresentation/image copy 20.png";
+import img_final_pitch_185 from "@/src/assets/Argonyx26/finalPresentation/image copy 21.png";
+import img_final_pitch_186 from "@/src/assets/Argonyx26/finalPresentation/image copy 22.png";
+import img_final_pitch_187 from "@/src/assets/Argonyx26/finalPresentation/image copy 23.png";
+import img_final_pitch_188 from "@/src/assets/Argonyx26/finalPresentation/image copy 24.png";
+import img_final_pitch_189 from "@/src/assets/Argonyx26/finalPresentation/image copy 25.png";
+import img_final_pitch_190 from "@/src/assets/Argonyx26/finalPresentation/image copy 26.png";
+import img_final_pitch_191 from "@/src/assets/Argonyx26/finalPresentation/image copy 27.png";
+import img_final_pitch_192 from "@/src/assets/Argonyx26/finalPresentation/image copy 28.png";
+import img_final_pitch_193 from "@/src/assets/Argonyx26/finalPresentation/image copy 29.png";
+import img_final_pitch_194 from "@/src/assets/Argonyx26/finalPresentation/image copy 30.png";
+import img_final_pitch_195 from "@/src/assets/Argonyx26/finalPresentation/image copy 31.png";
+import img_final_pitch_196 from "@/src/assets/Argonyx26/finalPresentation/image copy 32.png";
+import img_final_pitch_197 from "@/src/assets/Argonyx26/finalPresentation/image copy 33.png";
+import img_final_pitch_198 from "@/src/assets/Argonyx26/finalPresentation/image copy 34.png";
+import img_final_pitch_199 from "@/src/assets/Argonyx26/finalPresentation/image copy 35.png";
+import img_final_pitch_200 from "@/src/assets/Argonyx26/finalPresentation/image copy 36.png";
+import img_final_pitch_201 from "@/src/assets/Argonyx26/finalPresentation/image copy 37.png";
+import img_final_pitch_202 from "@/src/assets/Argonyx26/finalPresentation/image copy 38.png";
+import img_final_pitch_203 from "@/src/assets/Argonyx26/finalPresentation/image copy 39.png";
+import img_final_pitch_204 from "@/src/assets/Argonyx26/finalPresentation/image copy 40.png";
+import img_final_pitch_205 from "@/src/assets/Argonyx26/finalPresentation/image copy 41.png";
+import img_final_pitch_206 from "@/src/assets/Argonyx26/finalPresentation/image copy 42.png";
+import img_final_pitch_207 from "@/src/assets/Argonyx26/finalPresentation/image copy 43.png";
+import img_final_pitch_208 from "@/src/assets/Argonyx26/finalPresentation/image copy 44.png";
+import img_final_pitch_209 from "@/src/assets/Argonyx26/finalPresentation/image copy 45.png";
+import img_final_pitch_210 from "@/src/assets/Argonyx26/finalPresentation/image copy 46.png";
+import img_final_pitch_211 from "@/src/assets/Argonyx26/finalPresentation/image copy 47.png";
+import img_final_pitch_212 from "@/src/assets/Argonyx26/finalPresentation/image copy 48.png";
+import img_final_pitch_213 from "@/src/assets/Argonyx26/finalPresentation/image copy 49.png";
+import img_final_pitch_214 from "@/src/assets/Argonyx26/finalPresentation/image copy 50.png";
+import img_final_pitch_215 from "@/src/assets/Argonyx26/finalPresentation/image copy 51.png";
+import img_final_pitch_216 from "@/src/assets/Argonyx26/finalPresentation/image copy 52.png";
+import img_final_pitch_217 from "@/src/assets/Argonyx26/finalPresentation/image copy 53.png";
+import img_final_pitch_218 from "@/src/assets/Argonyx26/finalPresentation/image copy 54.png";
+import img_final_pitch_219 from "@/src/assets/Argonyx26/finalPresentation/image copy 55.png";
+import img_final_pitch_220 from "@/src/assets/Argonyx26/finalPresentation/image copy 56.png";
+import img_final_pitch_221 from "@/src/assets/Argonyx26/finalPresentation/image copy 57.png";
+import img_final_pitch_222 from "@/src/assets/Argonyx26/finalPresentation/image copy 58.png";
+import img_final_pitch_223 from "@/src/assets/Argonyx26/finalPresentation/image copy 59.png";
+import img_final_pitch_224 from "@/src/assets/Argonyx26/finalPresentation/image copy 60.png";
+import img_final_pitch_225 from "@/src/assets/Argonyx26/finalPresentation/image copy 61.png";
+import img_final_pitch_226 from "@/src/assets/Argonyx26/finalPresentation/image copy 62.png";
+import img_final_pitch_227 from "@/src/assets/Argonyx26/finalPresentation/image copy 63.png";
+import img_final_pitch_228 from "@/src/assets/Argonyx26/finalPresentation/image copy 64.png";
+import img_final_pitch_229 from "@/src/assets/Argonyx26/finalPresentation/image copy 65.png";
+import img_final_pitch_230 from "@/src/assets/Argonyx26/finalPresentation/image copy 66.png";
+import img_final_pitch_231 from "@/src/assets/Argonyx26/finalPresentation/image copy 67.png";
+import img_final_pitch_232 from "@/src/assets/Argonyx26/finalPresentation/image copy 68.png";
+import img_final_pitch_233 from "@/src/assets/Argonyx26/finalPresentation/image copy 69.png";
+import img_final_pitch_234 from "@/src/assets/Argonyx26/finalPresentation/image copy 70.png";
+import img_final_pitch_235 from "@/src/assets/Argonyx26/finalPresentation/image copy 71.png";
+import img_final_pitch_236 from "@/src/assets/Argonyx26/finalPresentation/image copy 72.png";
+import img_final_pitch_237 from "@/src/assets/Argonyx26/finalPresentation/image copy 73.png";
+import img_final_pitch_238 from "@/src/assets/Argonyx26/finalPresentation/image copy 74.png";
+import img_final_pitch_239 from "@/src/assets/Argonyx26/finalPresentation/image copy 75.png";
+import img_final_pitch_240 from "@/src/assets/Argonyx26/finalPresentation/image copy 76.png";
+import img_final_pitch_241 from "@/src/assets/Argonyx26/finalPresentation/image copy 77.png";
+import img_final_pitch_242 from "@/src/assets/Argonyx26/finalPresentation/image copy 78.png";
+import img_final_pitch_243 from "@/src/assets/Argonyx26/finalPresentation/image copy 79.png";
+import img_final_pitch_244 from "@/src/assets/Argonyx26/finalPresentation/image copy 80.png";
+import img_final_pitch_245 from "@/src/assets/Argonyx26/finalPresentation/image copy 81.png";
+import img_final_pitch_246 from "@/src/assets/Argonyx26/finalPresentation/image copy 82.png";
+import img_final_pitch_247 from "@/src/assets/Argonyx26/finalPresentation/image copy 83.png";
+import img_final_pitch_248 from "@/src/assets/Argonyx26/finalPresentation/image copy 84.png";
+import img_final_pitch_249 from "@/src/assets/Argonyx26/finalPresentation/image copy 85.png";
+import img_final_pitch_250 from "@/src/assets/Argonyx26/finalPresentation/image copy 86.png";
+import img_final_pitch_251 from "@/src/assets/Argonyx26/finalPresentation/image copy 87.png";
+import img_final_pitch_252 from "@/src/assets/Argonyx26/finalPresentation/image copy 88.png";
+import img_final_pitch_253 from "@/src/assets/Argonyx26/finalPresentation/image copy 89.png";
+import img_final_pitch_254 from "@/src/assets/Argonyx26/finalPresentation/image copy 90.png";
+import img_final_pitch_255 from "@/src/assets/Argonyx26/finalPresentation/image copy 91.png";
+import img_final_pitch_256 from "@/src/assets/Argonyx26/finalPresentation/image copy 92.png";
+import img_final_pitch_257 from "@/src/assets/Argonyx26/finalPresentation/image copy 93.png";
+import img_final_pitch_258 from "@/src/assets/Argonyx26/finalPresentation/image copy 94.png";
+import img_final_pitch_259 from "@/src/assets/Argonyx26/finalPresentation/image copy 95.png";
+import img_final_pitch_260 from "@/src/assets/Argonyx26/finalPresentation/image copy.png";
+import img_final_pitch_261 from "@/src/assets/Argonyx26/finalPresentation/image.png";
+import img_selecting_teams_262 from "@/src/assets/Argonyx26/selectingWinners/image copy 2.png";
+import img_selecting_teams_263 from "@/src/assets/Argonyx26/selectingWinners/image copy 3.png";
+import img_selecting_teams_264 from "@/src/assets/Argonyx26/selectingWinners/image copy 4.png";
+import img_selecting_teams_265 from "@/src/assets/Argonyx26/selectingWinners/image copy 5.png";
+import img_selecting_teams_266 from "@/src/assets/Argonyx26/selectingWinners/image copy 6.png";
+import img_selecting_teams_267 from "@/src/assets/Argonyx26/selectingWinners/image copy 7.png";
+import img_selecting_teams_268 from "@/src/assets/Argonyx26/selectingWinners/image copy 8.png";
+import img_selecting_teams_269 from "@/src/assets/Argonyx26/selectingWinners/image copy 9.png";
+import img_selecting_teams_270 from "@/src/assets/Argonyx26/selectingWinners/image copy 10.png";
+import img_selecting_teams_271 from "@/src/assets/Argonyx26/selectingWinners/image copy 11.png";
+import img_selecting_teams_272 from "@/src/assets/Argonyx26/selectingWinners/image copy 12.png";
+import img_selecting_teams_273 from "@/src/assets/Argonyx26/selectingWinners/image copy 13.png";
+import img_selecting_teams_274 from "@/src/assets/Argonyx26/selectingWinners/image copy 14.png";
+import img_selecting_teams_275 from "@/src/assets/Argonyx26/selectingWinners/image copy 15.png";
+import img_selecting_teams_276 from "@/src/assets/Argonyx26/selectingWinners/image copy 16.png";
+import img_selecting_teams_277 from "@/src/assets/Argonyx26/selectingWinners/image copy 17.png";
+import img_selecting_teams_278 from "@/src/assets/Argonyx26/selectingWinners/image copy 18.png";
+import img_selecting_teams_279 from "@/src/assets/Argonyx26/selectingWinners/image copy 19.png";
+import img_selecting_teams_280 from "@/src/assets/Argonyx26/selectingWinners/image copy 20.png";
+import img_selecting_teams_281 from "@/src/assets/Argonyx26/selectingWinners/image copy.png";
+import img_selecting_teams_282 from "@/src/assets/Argonyx26/selectingWinners/image.png";
+import img_valedictory_283 from "@/src/assets/Argonyx26/veridictoryCeremony/image copy 2.png";
+import img_valedictory_284 from "@/src/assets/Argonyx26/veridictoryCeremony/image copy 3.png";
+import img_valedictory_285 from "@/src/assets/Argonyx26/veridictoryCeremony/image copy 4.png";
+import img_valedictory_286 from "@/src/assets/Argonyx26/veridictoryCeremony/image copy 5.png";
+import img_valedictory_287 from "@/src/assets/Argonyx26/veridictoryCeremony/image copy 6.png";
+import img_valedictory_288 from "@/src/assets/Argonyx26/veridictoryCeremony/image copy 7.png";
+import img_valedictory_289 from "@/src/assets/Argonyx26/veridictoryCeremony/image copy 8.png";
+import img_valedictory_290 from "@/src/assets/Argonyx26/veridictoryCeremony/image copy 9.png";
+import img_valedictory_291 from "@/src/assets/Argonyx26/veridictoryCeremony/image copy 10.png";
+import img_valedictory_292 from "@/src/assets/Argonyx26/veridictoryCeremony/image copy 11.png";
+import img_valedictory_293 from "@/src/assets/Argonyx26/veridictoryCeremony/image copy 12.png";
+import img_valedictory_294 from "@/src/assets/Argonyx26/veridictoryCeremony/image copy 13.png";
+import img_valedictory_295 from "@/src/assets/Argonyx26/veridictoryCeremony/image copy 14.png";
+import img_valedictory_296 from "@/src/assets/Argonyx26/veridictoryCeremony/image copy 15.png";
+import img_valedictory_297 from "@/src/assets/Argonyx26/veridictoryCeremony/image copy 16.png";
+import img_valedictory_298 from "@/src/assets/Argonyx26/veridictoryCeremony/image copy 17.png";
+import img_valedictory_299 from "@/src/assets/Argonyx26/veridictoryCeremony/image copy 18.png";
+import img_valedictory_300 from "@/src/assets/Argonyx26/veridictoryCeremony/image copy 19.png";
+import img_valedictory_301 from "@/src/assets/Argonyx26/veridictoryCeremony/image copy 20.png";
+import img_valedictory_302 from "@/src/assets/Argonyx26/veridictoryCeremony/image copy 21.png";
+import img_valedictory_303 from "@/src/assets/Argonyx26/veridictoryCeremony/image copy 22.png";
+import img_valedictory_304 from "@/src/assets/Argonyx26/veridictoryCeremony/image copy 23.png";
+import img_valedictory_305 from "@/src/assets/Argonyx26/veridictoryCeremony/image copy 24.png";
+import img_valedictory_306 from "@/src/assets/Argonyx26/veridictoryCeremony/image copy 25.png";
+import img_valedictory_307 from "@/src/assets/Argonyx26/veridictoryCeremony/image copy 26.png";
+import img_valedictory_308 from "@/src/assets/Argonyx26/veridictoryCeremony/image copy 27.png";
+import img_valedictory_309 from "@/src/assets/Argonyx26/veridictoryCeremony/image copy.png";
+import img_valedictory_310 from "@/src/assets/Argonyx26/veridictoryCeremony/image.png";
+import img_winners_311 from "@/src/assets/Argonyx26/winningTeams/winner.png";
+import img_winners_312 from "@/src/assets/Argonyx26/winningTeams/runnerups.png";
+import img_winners_313 from "@/src/assets/Argonyx26/winningTeams/secondrunnerup.png";
+import img_winners_314 from "@/src/assets/Argonyx26/Winners/secondRunnerUp.png";
+import img_winners_315 from "@/src/assets/Argonyx26/Winners/image.png";
+import img_winners_316 from "@/src/assets/Argonyx26/Winners/image copy.png";
+import img_winners_317 from "@/src/assets/Argonyx26/Winners/image copy 2.png";
+import img_winners_318 from "@/src/assets/Argonyx26/Winners/image copy 3.png";
+import img_winners_319 from "@/src/assets/Argonyx26/Winners/image copy 4.png";
+
 /* ── Team Argonyx Photo ── */
 import teamArgonyx from "@/src/assets/Argonyx26/Teams/TeamArgonyx.png";
 
@@ -204,21 +353,23 @@ interface GallerySection {
   photos: GalleryPhoto[];
 }
 
-/* Sections in exact chronological hackathon flow */
+/* Sections in exact chronological hackathon flow:
+   opening -> inauguration -> coding session -> lunch -> mentors -> night coding -> night break -> round2 walk -> round 2 -> judges -> final pitch -> selecting teams -> valedictory -> winners
+*/
 const GALLERY_SECTIONS: GallerySection[] = [
   {
     id: "opening",
     title: "Registration & Opening",
     eyebrow: "DAY 1 · ARRIVAL",
     photos: [
-      { src: img_opening_1, alt: "Registration desk & opening ceremony · moment" },
-      { src: img_opening_2, alt: "Registration desk & opening ceremony · op1" },
-      { src: img_opening_3, alt: "Registration desk & opening ceremony · op2" },
-      { src: img_opening_4, alt: "Registration desk & opening ceremony · reg" },
-      { src: img_opening_5, alt: "Registration desk & opening ceremony · reg2" },
-      { src: img_opening_6, alt: "Registration desk & opening ceremony · reg3" },
-      { src: img_opening_7, alt: "Registration desk & opening ceremony · reg4" },
-      { src: img_opening_8, alt: "Registration desk & opening ceremony · reg5" },
+      { src: img_opening_1, alt: "Registration & Opening · image" },
+      { src: img_opening_2, alt: "Registration & Opening · op1" },
+      { src: img_opening_3, alt: "Registration & Opening · op2" },
+      { src: img_opening_4, alt: "Registration & Opening · reg" },
+      { src: img_opening_5, alt: "Registration & Opening · reg2" },
+      { src: img_opening_6, alt: "Registration & Opening · reg3" },
+      { src: img_opening_7, alt: "Registration & Opening · reg4" },
+      { src: img_opening_8, alt: "Registration & Opening · reg5" }
     ],
   },
   {
@@ -226,18 +377,22 @@ const GALLERY_SECTIONS: GallerySection[] = [
     title: "Inauguration Ceremony",
     eyebrow: "KEYNOTE · DAY 1",
     photos: [
-      { src: img_inauguration_9, alt: "Inauguration ceremony address · alok1" },
-      { src: img_inauguration_10, alt: "Inauguration ceremony address · alok2" },
-      { src: img_inauguration_11, alt: "Inauguration ceremony address · ayush1" },
-      { src: img_inauguration_12, alt: "Inauguration ceremony address · ayush2" },
-      { src: img_inauguration_13, alt: "Inauguration ceremony address · eventLeads" },
-      { src: img_inauguration_14, alt: "Inauguration ceremony address · ing1" },
-      { src: img_inauguration_15, alt: "Inauguration ceremony address · ing2" },
-      { src: img_inauguration_16, alt: "Inauguration ceremony address · ing3" },
-      { src: img_inauguration_17, alt: "Inauguration ceremony address · ing4" },
-      { src: img_inauguration_18, alt: "Inauguration ceremony address · ing5" },
-      { src: img_inauguration_19, alt: "Inauguration ceremony address · me1" },
-      { src: img_inauguration_20, alt: "Inauguration ceremony address · me2" },
+      { src: img_inauguration_9, alt: "Inauguration Ceremony · alok1" },
+      { src: img_inauguration_10, alt: "Inauguration Ceremony · alok2" },
+      { src: img_inauguration_11, alt: "Inauguration Ceremony · ayush1" },
+      { src: img_inauguration_12, alt: "Inauguration Ceremony · ayush2" },
+      { src: img_inauguration_13, alt: "Inauguration Ceremony · eventLeads" },
+      { src: img_inauguration_14, alt: "Inauguration Ceremony · image copy 2" },
+      { src: img_inauguration_15, alt: "Inauguration Ceremony · image copy 3" },
+      { src: img_inauguration_16, alt: "Inauguration Ceremony · image copy" },
+      { src: img_inauguration_17, alt: "Inauguration Ceremony · image" },
+      { src: img_inauguration_18, alt: "Inauguration Ceremony · ing1" },
+      { src: img_inauguration_19, alt: "Inauguration Ceremony · ing2" },
+      { src: img_inauguration_20, alt: "Inauguration Ceremony · ing3" },
+      { src: img_inauguration_21, alt: "Inauguration Ceremony · ing4" },
+      { src: img_inauguration_22, alt: "Inauguration Ceremony · ing5" },
+      { src: img_inauguration_23, alt: "Inauguration Ceremony · me1" },
+      { src: img_inauguration_24, alt: "Inauguration Ceremony · me2" }
     ],
   },
   {
@@ -245,8 +400,47 @@ const GALLERY_SECTIONS: GallerySection[] = [
     title: "Coding Sessions",
     eyebrow: "HACKING FLOOR · 24 HOURS",
     photos: [
-      { src: img_coding_sessions_21, alt: "Hackers coding on the floor · moment 1" },
-      { src: img_coding_sessions_22, alt: "Hackers coding on the floor · moment" },
+      { src: img_coding_sessions_25, alt: "Coding Sessions · image copy 2" },
+      { src: img_coding_sessions_26, alt: "Coding Sessions · image copy 3" },
+      { src: img_coding_sessions_27, alt: "Coding Sessions · image copy 4" },
+      { src: img_coding_sessions_28, alt: "Coding Sessions · image copy 5" },
+      { src: img_coding_sessions_29, alt: "Coding Sessions · image copy 6" },
+      { src: img_coding_sessions_30, alt: "Coding Sessions · image copy 7" },
+      { src: img_coding_sessions_31, alt: "Coding Sessions · image copy 8" },
+      { src: img_coding_sessions_32, alt: "Coding Sessions · image copy 9" },
+      { src: img_coding_sessions_33, alt: "Coding Sessions · image copy 10" },
+      { src: img_coding_sessions_34, alt: "Coding Sessions · image copy 11" },
+      { src: img_coding_sessions_35, alt: "Coding Sessions · image copy 12" },
+      { src: img_coding_sessions_36, alt: "Coding Sessions · image copy 13" },
+      { src: img_coding_sessions_37, alt: "Coding Sessions · image copy 14" },
+      { src: img_coding_sessions_38, alt: "Coding Sessions · image copy 15" },
+      { src: img_coding_sessions_39, alt: "Coding Sessions · image copy 16" },
+      { src: img_coding_sessions_40, alt: "Coding Sessions · image copy 17" },
+      { src: img_coding_sessions_41, alt: "Coding Sessions · image copy 18" },
+      { src: img_coding_sessions_42, alt: "Coding Sessions · image copy 19" },
+      { src: img_coding_sessions_43, alt: "Coding Sessions · image copy 20" },
+      { src: img_coding_sessions_44, alt: "Coding Sessions · image copy 21" },
+      { src: img_coding_sessions_45, alt: "Coding Sessions · image copy 22" },
+      { src: img_coding_sessions_46, alt: "Coding Sessions · image copy 23" },
+      { src: img_coding_sessions_47, alt: "Coding Sessions · image copy 24" },
+      { src: img_coding_sessions_48, alt: "Coding Sessions · image copy 25" },
+      { src: img_coding_sessions_49, alt: "Coding Sessions · image copy 26" },
+      { src: img_coding_sessions_50, alt: "Coding Sessions · image copy 27" },
+      { src: img_coding_sessions_51, alt: "Coding Sessions · image copy 28" },
+      { src: img_coding_sessions_52, alt: "Coding Sessions · image copy 29" },
+      { src: img_coding_sessions_53, alt: "Coding Sessions · image copy 30" },
+      { src: img_coding_sessions_54, alt: "Coding Sessions · image copy 31" },
+      { src: img_coding_sessions_55, alt: "Coding Sessions · image copy 32" },
+      { src: img_coding_sessions_56, alt: "Coding Sessions · image copy 33" },
+      { src: img_coding_sessions_57, alt: "Coding Sessions · image copy 34" },
+      { src: img_coding_sessions_58, alt: "Coding Sessions · image copy 35" },
+      { src: img_coding_sessions_59, alt: "Coding Sessions · image copy 36" },
+      { src: img_coding_sessions_60, alt: "Coding Sessions · image copy 37" },
+      { src: img_coding_sessions_61, alt: "Coding Sessions · image copy 38" },
+      { src: img_coding_sessions_62, alt: "Coding Sessions · image copy 39" },
+      { src: img_coding_sessions_63, alt: "Coding Sessions · image copy 40" },
+      { src: img_coding_sessions_64, alt: "Coding Sessions · image copy" },
+      { src: img_coding_sessions_65, alt: "Coding Sessions · image" }
     ],
   },
   {
@@ -254,15 +448,28 @@ const GALLERY_SECTIONS: GallerySection[] = [
     title: "Lunch & Breaks",
     eyebrow: "REFUEL · MID-DAY",
     photos: [
-      { src: img_lunch_23, alt: "Lunch break & networking · Faculty" },
-      { src: img_lunch_24, alt: "Lunch break & networking · moment 2" },
-      { src: img_lunch_25, alt: "Lunch break & networking · moment 3" },
-      { src: img_lunch_26, alt: "Lunch break & networking · moment 4" },
-      { src: img_lunch_27, alt: "Lunch break & networking · moment 1" },
-      { src: img_lunch_28, alt: "Lunch break & networking · moment" },
-      { src: img_lunch_29, alt: "Lunch break & networking · kushal" },
-      { src: img_lunch_30, alt: "Lunch break & networking · lunch1" },
-      { src: img_lunch_31, alt: "Lunch break & networking · lunch2" },
+      { src: img_lunch_66, alt: "Lunch & Breaks · Faculty" },
+      { src: img_lunch_67, alt: "Lunch & Breaks · image copy 2" },
+      { src: img_lunch_68, alt: "Lunch & Breaks · image copy 3" },
+      { src: img_lunch_69, alt: "Lunch & Breaks · image copy 4" },
+      { src: img_lunch_70, alt: "Lunch & Breaks · image copy 5" },
+      { src: img_lunch_71, alt: "Lunch & Breaks · image copy 6" },
+      { src: img_lunch_72, alt: "Lunch & Breaks · image copy 7" },
+      { src: img_lunch_73, alt: "Lunch & Breaks · image copy 8" },
+      { src: img_lunch_74, alt: "Lunch & Breaks · image copy 9" },
+      { src: img_lunch_75, alt: "Lunch & Breaks · image copy 10" },
+      { src: img_lunch_76, alt: "Lunch & Breaks · image copy 11" },
+      { src: img_lunch_77, alt: "Lunch & Breaks · image copy 12" },
+      { src: img_lunch_78, alt: "Lunch & Breaks · image copy 13" },
+      { src: img_lunch_79, alt: "Lunch & Breaks · image copy 14" },
+      { src: img_lunch_80, alt: "Lunch & Breaks · image copy 15" },
+      { src: img_lunch_81, alt: "Lunch & Breaks · image copy 16" },
+      { src: img_lunch_82, alt: "Lunch & Breaks · image copy" },
+      { src: img_lunch_83, alt: "Lunch & Breaks · image" },
+      { src: img_lunch_84, alt: "Lunch & Breaks · kushal" },
+      { src: img_lunch_85, alt: "Lunch & Breaks · lunch1" },
+      { src: img_lunch_86, alt: "Lunch & Breaks · lunch2" },
+      { src: img_lunch_87, alt: "Lunch & Breaks · image" }
     ],
   },
   {
@@ -270,55 +477,75 @@ const GALLERY_SECTIONS: GallerySection[] = [
     title: "Mentor Sessions & Reviews",
     eyebrow: "MENTORSHIP · DAY 1 & 2",
     photos: [
-      { src: img_mentors_32, alt: "Mentorship & code review · TallMen" },
-      { src: img_mentors_33, alt: "Mentorship & code review · TallMen2" },
-      { src: img_mentors_34, alt: "Mentorship & code review · TallMen3" },
-      { src: img_mentors_35, alt: "Mentorship & code review · TallMen4" },
-      { src: img_mentors_36, alt: "Mentorship & code review · apoorv1" },
-      { src: img_mentors_37, alt: "Mentorship & code review · apoorv2" },
-      { src: img_mentors_38, alt: "Mentorship & code review · apoorv3" },
-      { src: img_mentors_39, alt: "Mentorship & code review · apoorv4" },
-      { src: img_mentors_40, alt: "Mentorship & code review · apoorv5" },
-      { src: img_mentors_41, alt: "Mentorship & code review · apoorv6" },
-      { src: img_mentors_42, alt: "Mentorship & code review · apoorv7" },
-      { src: img_mentors_43, alt: "Mentorship & code review · apoorv8" },
-      { src: img_mentors_44, alt: "Mentorship & code review · jaineesh1" },
-      { src: img_mentors_45, alt: "Mentorship & code review · jaineesh2" },
-      { src: img_mentors_46, alt: "Mentorship & code review · jaineesh3" },
-      { src: img_mentors_47, alt: "Mentorship & code review · jaineesh4" },
-      { src: img_mentors_48, alt: "Mentorship & code review · jaineesh5" },
-      { src: img_mentors_49, alt: "Mentorship & code review · longHairMen" },
-      { src: img_mentors_50, alt: "Mentorship & code review · longHairMen2" },
-      { src: img_mentors_51, alt: "Mentorship & code review · longHairMen3" },
-      { src: img_mentors_52, alt: "Mentorship & code review · longHairMen4" },
-      { src: img_mentors_53, alt: "Mentorship & code review · viksha1" },
-      { src: img_mentors_54, alt: "Mentorship & code review · viksha2" },
-      { src: img_mentors_55, alt: "Mentorship & code review · viksha3" },
-      { src: img_mentors_56, alt: "Mentorship & code review · viksha4" },
-      { src: img_mentors_57, alt: "Mentorship & code review · viksha5" },
-      { src: img_mentors_58, alt: "Mentorship & code review · viksha6" },
-      { src: img_mentors_59, alt: "Mentorship & code review · viksha7" },
+      { src: img_mentors_88, alt: "Mentor Sessions & Reviews · apoorv1" },
+      { src: img_mentors_89, alt: "Mentor Sessions & Reviews · apoorv2" },
+      { src: img_mentors_90, alt: "Mentor Sessions & Reviews · apoorv3" },
+      { src: img_mentors_91, alt: "Mentor Sessions & Reviews · apoorv4" },
+      { src: img_mentors_92, alt: "Mentor Sessions & Reviews · apoorv5" },
+      { src: img_mentors_93, alt: "Mentor Sessions & Reviews · apoorv6" },
+      { src: img_mentors_94, alt: "Mentor Sessions & Reviews · apoorv7" },
+      { src: img_mentors_95, alt: "Mentor Sessions & Reviews · apoorv8" },
+      { src: img_mentors_96, alt: "Mentor Sessions & Reviews · apoorv9" },
+      { src: img_mentors_97, alt: "Mentor Sessions & Reviews · apoorv11" },
+      { src: img_mentors_98, alt: "Mentor Sessions & Reviews · apoorv12" },
+      { src: img_mentors_99, alt: "Mentor Sessions & Reviews · apoorv13" },
+      { src: img_mentors_100, alt: "Mentor Sessions & Reviews · jaineesh1" },
+      { src: img_mentors_101, alt: "Mentor Sessions & Reviews · jaineesh2" },
+      { src: img_mentors_102, alt: "Mentor Sessions & Reviews · jaineesh3" },
+      { src: img_mentors_103, alt: "Mentor Sessions & Reviews · jaineesh4" },
+      { src: img_mentors_104, alt: "Mentor Sessions & Reviews · jaineesh5" },
+      { src: img_mentors_105, alt: "Mentor Sessions & Reviews · longHairMen" },
+      { src: img_mentors_106, alt: "Mentor Sessions & Reviews · longHairMen2" },
+      { src: img_mentors_107, alt: "Mentor Sessions & Reviews · longHairMen3" },
+      { src: img_mentors_108, alt: "Mentor Sessions & Reviews · longHairMen4" },
+      { src: img_mentors_109, alt: "Mentor Sessions & Reviews · TallMen" },
+      { src: img_mentors_110, alt: "Mentor Sessions & Reviews · TallMen2" },
+      { src: img_mentors_111, alt: "Mentor Sessions & Reviews · TallMen3" },
+      { src: img_mentors_112, alt: "Mentor Sessions & Reviews · TallMen4" },
+      { src: img_mentors_113, alt: "Mentor Sessions & Reviews · TallMen5" },
+      { src: img_mentors_114, alt: "Mentor Sessions & Reviews · TallMen8" },
+      { src: img_mentors_115, alt: "Mentor Sessions & Reviews · viksha1" },
+      { src: img_mentors_116, alt: "Mentor Sessions & Reviews · viksha2" },
+      { src: img_mentors_117, alt: "Mentor Sessions & Reviews · viksha3" },
+      { src: img_mentors_118, alt: "Mentor Sessions & Reviews · viksha4" },
+      { src: img_mentors_119, alt: "Mentor Sessions & Reviews · viksha5" },
+      { src: img_mentors_120, alt: "Mentor Sessions & Reviews · viksha6" },
+      { src: img_mentors_121, alt: "Mentor Sessions & Reviews · viksha7" },
+      { src: img_mentors_122, alt: "Mentor Sessions & Reviews · viksha8" },
+      { src: img_mentors_123, alt: "Mentor Sessions & Reviews · viksha11" },
+      { src: img_mentors_124, alt: "Mentor Sessions & Reviews · viksha12" },
+      { src: img_mentors_125, alt: "Mentor Sessions & Reviews · viksha13" },
+      { src: img_mentors_126, alt: "Mentor Sessions & Reviews · viksha14" },
+      { src: img_mentors_127, alt: "Mentor Sessions & Reviews · viksha15" },
+      { src: img_mentors_128, alt: "Mentor Sessions & Reviews · viksha16" },
+      { src: img_mentors_129, alt: "Mentor Sessions & Reviews · viksha17" },
+      { src: img_mentors_130, alt: "Mentor Sessions & Reviews · viksha18" }
     ],
   },
   {
-    id: "judges",
-    title: "Judging Panel & Evaluations",
-    eyebrow: "JURY ROUND · DAY 2",
+    id: "night-coding",
+    title: "Night Coding",
+    eyebrow: "MIDNIGHT SPRINT · DAY 1",
     photos: [
-      { src: img_judges_60, alt: "Judging panel evaluation · moment 5" },
-      { src: img_judges_61, alt: "Judging panel evaluation · moment 6" },
+      { src: img_night_coding_131, alt: "Night Coding · image copy 2" },
+      { src: img_night_coding_132, alt: "Night Coding · image copy 3" },
+      { src: img_night_coding_133, alt: "Night Coding · image copy 4" },
+      { src: img_night_coding_134, alt: "Night Coding · image copy" },
+      { src: img_night_coding_135, alt: "Night Coding · image" }
     ],
   },
   {
-    id: "round2",
-    title: "Round 2 — Pitches",
-    eyebrow: "DEMO DAY · DAY 2",
+    id: "night-break",
+    title: "Night Break",
+    eyebrow: "RECHARGE · 3:00 AM",
     photos: [
-      { src: img_round2_62, alt: "Round 2 pitch presentation · moment 2" },
-      { src: img_round2_63, alt: "Round 2 pitch presentation · moment 3" },
-      { src: img_round2_64, alt: "Round 2 pitch presentation · moment 4" },
-      { src: img_round2_65, alt: "Round 2 pitch presentation · moment 1" },
-      { src: img_round2_66, alt: "Round 2 pitch presentation · moment" },
+      { src: img_night_break_136, alt: "Night Break · image copy 2" },
+      { src: img_night_break_137, alt: "Night Break · image copy 3" },
+      { src: img_night_break_138, alt: "Night Break · image copy 4" },
+      { src: img_night_break_139, alt: "Night Break · image copy 5" },
+      { src: img_night_break_140, alt: "Night Break · image copy 6" },
+      { src: img_night_break_141, alt: "Night Break · image copy" },
+      { src: img_night_break_142, alt: "Night Break · image" }
     ],
   },
   {
@@ -326,105 +553,174 @@ const GALLERY_SECTIONS: GallerySection[] = [
     title: "Round 2 — Walkthrough & Demos",
     eyebrow: "DEMO WALK · DAY 2",
     photos: [
-      { src: img_round2_walk_67, alt: "Round 2 project walkthrough · goat1" },
-      { src: img_round2_walk_68, alt: "Round 2 project walkthrough · moment 10" },
-      { src: img_round2_walk_69, alt: "Round 2 project walkthrough · moment 11" },
-      { src: img_round2_walk_70, alt: "Round 2 project walkthrough · moment 2" },
-      { src: img_round2_walk_71, alt: "Round 2 project walkthrough · moment 3" },
-      { src: img_round2_walk_72, alt: "Round 2 project walkthrough · moment 4" },
-      { src: img_round2_walk_73, alt: "Round 2 project walkthrough · moment 5" },
-      { src: img_round2_walk_74, alt: "Round 2 project walkthrough · moment 6" },
-      { src: img_round2_walk_75, alt: "Round 2 project walkthrough · moment 7" },
-      { src: img_round2_walk_76, alt: "Round 2 project walkthrough · moment 8" },
-      { src: img_round2_walk_77, alt: "Round 2 project walkthrough · moment 9" },
-      { src: img_round2_walk_78, alt: "Round 2 project walkthrough · moment 1" },
-      { src: img_round2_walk_79, alt: "Round 2 project walkthrough · moment" },
+      { src: img_round2_walk_143, alt: "Round 2 — Walkthrough & Demos · goat1" },
+      { src: img_round2_walk_144, alt: "Round 2 — Walkthrough & Demos · image copy 2" },
+      { src: img_round2_walk_145, alt: "Round 2 — Walkthrough & Demos · image copy 3" },
+      { src: img_round2_walk_146, alt: "Round 2 — Walkthrough & Demos · image copy 4" },
+      { src: img_round2_walk_147, alt: "Round 2 — Walkthrough & Demos · image copy 5" },
+      { src: img_round2_walk_148, alt: "Round 2 — Walkthrough & Demos · image copy 6" },
+      { src: img_round2_walk_149, alt: "Round 2 — Walkthrough & Demos · image copy 7" },
+      { src: img_round2_walk_150, alt: "Round 2 — Walkthrough & Demos · image copy 8" },
+      { src: img_round2_walk_151, alt: "Round 2 — Walkthrough & Demos · image copy 9" },
+      { src: img_round2_walk_152, alt: "Round 2 — Walkthrough & Demos · image copy 10" },
+      { src: img_round2_walk_153, alt: "Round 2 — Walkthrough & Demos · image copy 11" },
+      { src: img_round2_walk_154, alt: "Round 2 — Walkthrough & Demos · image copy" },
+      { src: img_round2_walk_155, alt: "Round 2 — Walkthrough & Demos · image" }
     ],
   },
   {
-    id: "final-presentations",
-    title: "Final Presentations",
+    id: "round2",
+    title: "Round 2 — Pitches",
+    eyebrow: "DEMO DAY · DAY 2",
+    photos: [
+      { src: img_round2_156, alt: "Round 2 — Pitches · image copy 2" },
+      { src: img_round2_157, alt: "Round 2 — Pitches · image copy 3" },
+      { src: img_round2_158, alt: "Round 2 — Pitches · image copy 4" },
+      { src: img_round2_159, alt: "Round 2 — Pitches · image copy" },
+      { src: img_round2_160, alt: "Round 2 — Pitches · image" }
+    ],
+  },
+  {
+    id: "judges",
+    title: "Judging Panel & Evaluations",
+    eyebrow: "JURY ROUND · DAY 2",
+    photos: [
+      { src: img_judges_161, alt: "Judging Panel & Evaluations · image copy 2" },
+      { src: img_judges_162, alt: "Judging Panel & Evaluations · image copy 5" },
+      { src: img_judges_163, alt: "Judging Panel & Evaluations · image copy 6" },
+      { src: img_judges_164, alt: "Judging Panel & Evaluations · image copy" },
+      { src: img_judges_165, alt: "Judging Panel & Evaluations · image" }
+    ],
+  },
+  {
+    id: "final-pitch",
+    title: "Final Presentations & Pitches",
     eyebrow: "SHOWTIME · DAY 2",
     photos: [
-      { src: img_final_presentations_80, alt: "Final presentation on stage · moment 10" },
-      { src: img_final_presentations_81, alt: "Final presentation on stage · moment 11" },
-      { src: img_final_presentations_82, alt: "Final presentation on stage · moment 12" },
-      { src: img_final_presentations_83, alt: "Final presentation on stage · moment 13" },
-      { src: img_final_presentations_84, alt: "Final presentation on stage · moment 14" },
-      { src: img_final_presentations_85, alt: "Final presentation on stage · moment 15" },
-      { src: img_final_presentations_86, alt: "Final presentation on stage · moment 16" },
-      { src: img_final_presentations_87, alt: "Final presentation on stage · moment 17" },
-      { src: img_final_presentations_88, alt: "Final presentation on stage · moment 18" },
-      { src: img_final_presentations_89, alt: "Final presentation on stage · moment 19" },
-      { src: img_final_presentations_90, alt: "Final presentation on stage · moment 2" },
-      { src: img_final_presentations_91, alt: "Final presentation on stage · moment 20" },
-      { src: img_final_presentations_92, alt: "Final presentation on stage · moment 21" },
-      { src: img_final_presentations_93, alt: "Final presentation on stage · moment 22" },
-      { src: img_final_presentations_94, alt: "Final presentation on stage · moment 23" },
-      { src: img_final_presentations_95, alt: "Final presentation on stage · moment 24" },
-      { src: img_final_presentations_96, alt: "Final presentation on stage · moment 25" },
-      { src: img_final_presentations_97, alt: "Final presentation on stage · moment 26" },
-      { src: img_final_presentations_98, alt: "Final presentation on stage · moment 27" },
-      { src: img_final_presentations_99, alt: "Final presentation on stage · moment 28" },
-      { src: img_final_presentations_100, alt: "Final presentation on stage · moment 29" },
-      { src: img_final_presentations_101, alt: "Final presentation on stage · moment 3" },
-      { src: img_final_presentations_102, alt: "Final presentation on stage · moment 30" },
-      { src: img_final_presentations_103, alt: "Final presentation on stage · moment 31" },
-      { src: img_final_presentations_104, alt: "Final presentation on stage · moment 32" },
-      { src: img_final_presentations_105, alt: "Final presentation on stage · moment 33" },
-      { src: img_final_presentations_106, alt: "Final presentation on stage · moment 34" },
-      { src: img_final_presentations_107, alt: "Final presentation on stage · moment 35" },
-      { src: img_final_presentations_108, alt: "Final presentation on stage · moment 36" },
-      { src: img_final_presentations_109, alt: "Final presentation on stage · moment 37" },
-      { src: img_final_presentations_110, alt: "Final presentation on stage · moment 38" },
-      { src: img_final_presentations_111, alt: "Final presentation on stage · moment 39" },
-      { src: img_final_presentations_112, alt: "Final presentation on stage · moment 4" },
-      { src: img_final_presentations_113, alt: "Final presentation on stage · moment 40" },
-      { src: img_final_presentations_114, alt: "Final presentation on stage · moment 41" },
-      { src: img_final_presentations_115, alt: "Final presentation on stage · moment 42" },
-      { src: img_final_presentations_116, alt: "Final presentation on stage · moment 5" },
-      { src: img_final_presentations_117, alt: "Final presentation on stage · moment 6" },
-      { src: img_final_presentations_118, alt: "Final presentation on stage · moment 7" },
-      { src: img_final_presentations_119, alt: "Final presentation on stage · moment 8" },
-      { src: img_final_presentations_120, alt: "Final presentation on stage · moment 9" },
-      { src: img_final_presentations_121, alt: "Final presentation on stage · moment 1" },
-      { src: img_final_presentations_122, alt: "Final presentation on stage · moment" },
+      { src: img_final_pitch_166, alt: "Final Presentations & Pitches · image copy 2" },
+      { src: img_final_pitch_167, alt: "Final Presentations & Pitches · image copy 3" },
+      { src: img_final_pitch_168, alt: "Final Presentations & Pitches · image copy 4" },
+      { src: img_final_pitch_169, alt: "Final Presentations & Pitches · image copy 5" },
+      { src: img_final_pitch_170, alt: "Final Presentations & Pitches · image copy 6" },
+      { src: img_final_pitch_171, alt: "Final Presentations & Pitches · image copy 7" },
+      { src: img_final_pitch_172, alt: "Final Presentations & Pitches · image copy 8" },
+      { src: img_final_pitch_173, alt: "Final Presentations & Pitches · image copy 9" },
+      { src: img_final_pitch_174, alt: "Final Presentations & Pitches · image copy 10" },
+      { src: img_final_pitch_175, alt: "Final Presentations & Pitches · image copy 11" },
+      { src: img_final_pitch_176, alt: "Final Presentations & Pitches · image copy 12" },
+      { src: img_final_pitch_177, alt: "Final Presentations & Pitches · image copy 13" },
+      { src: img_final_pitch_178, alt: "Final Presentations & Pitches · image copy 14" },
+      { src: img_final_pitch_179, alt: "Final Presentations & Pitches · image copy 15" },
+      { src: img_final_pitch_180, alt: "Final Presentations & Pitches · image copy 16" },
+      { src: img_final_pitch_181, alt: "Final Presentations & Pitches · image copy 17" },
+      { src: img_final_pitch_182, alt: "Final Presentations & Pitches · image copy 18" },
+      { src: img_final_pitch_183, alt: "Final Presentations & Pitches · image copy 19" },
+      { src: img_final_pitch_184, alt: "Final Presentations & Pitches · image copy 20" },
+      { src: img_final_pitch_185, alt: "Final Presentations & Pitches · image copy 21" },
+      { src: img_final_pitch_186, alt: "Final Presentations & Pitches · image copy 22" },
+      { src: img_final_pitch_187, alt: "Final Presentations & Pitches · image copy 23" },
+      { src: img_final_pitch_188, alt: "Final Presentations & Pitches · image copy 24" },
+      { src: img_final_pitch_189, alt: "Final Presentations & Pitches · image copy 25" },
+      { src: img_final_pitch_190, alt: "Final Presentations & Pitches · image copy 26" },
+      { src: img_final_pitch_191, alt: "Final Presentations & Pitches · image copy 27" },
+      { src: img_final_pitch_192, alt: "Final Presentations & Pitches · image copy 28" },
+      { src: img_final_pitch_193, alt: "Final Presentations & Pitches · image copy 29" },
+      { src: img_final_pitch_194, alt: "Final Presentations & Pitches · image copy 30" },
+      { src: img_final_pitch_195, alt: "Final Presentations & Pitches · image copy 31" },
+      { src: img_final_pitch_196, alt: "Final Presentations & Pitches · image copy 32" },
+      { src: img_final_pitch_197, alt: "Final Presentations & Pitches · image copy 33" },
+      { src: img_final_pitch_198, alt: "Final Presentations & Pitches · image copy 34" },
+      { src: img_final_pitch_199, alt: "Final Presentations & Pitches · image copy 35" },
+      { src: img_final_pitch_200, alt: "Final Presentations & Pitches · image copy 36" },
+      { src: img_final_pitch_201, alt: "Final Presentations & Pitches · image copy 37" },
+      { src: img_final_pitch_202, alt: "Final Presentations & Pitches · image copy 38" },
+      { src: img_final_pitch_203, alt: "Final Presentations & Pitches · image copy 39" },
+      { src: img_final_pitch_204, alt: "Final Presentations & Pitches · image copy 40" },
+      { src: img_final_pitch_205, alt: "Final Presentations & Pitches · image copy 41" },
+      { src: img_final_pitch_206, alt: "Final Presentations & Pitches · image copy 42" },
+      { src: img_final_pitch_207, alt: "Final Presentations & Pitches · image copy 43" },
+      { src: img_final_pitch_208, alt: "Final Presentations & Pitches · image copy 44" },
+      { src: img_final_pitch_209, alt: "Final Presentations & Pitches · image copy 45" },
+      { src: img_final_pitch_210, alt: "Final Presentations & Pitches · image copy 46" },
+      { src: img_final_pitch_211, alt: "Final Presentations & Pitches · image copy 47" },
+      { src: img_final_pitch_212, alt: "Final Presentations & Pitches · image copy 48" },
+      { src: img_final_pitch_213, alt: "Final Presentations & Pitches · image copy 49" },
+      { src: img_final_pitch_214, alt: "Final Presentations & Pitches · image copy 50" },
+      { src: img_final_pitch_215, alt: "Final Presentations & Pitches · image copy 51" },
+      { src: img_final_pitch_216, alt: "Final Presentations & Pitches · image copy 52" },
+      { src: img_final_pitch_217, alt: "Final Presentations & Pitches · image copy 53" },
+      { src: img_final_pitch_218, alt: "Final Presentations & Pitches · image copy 54" },
+      { src: img_final_pitch_219, alt: "Final Presentations & Pitches · image copy 55" },
+      { src: img_final_pitch_220, alt: "Final Presentations & Pitches · image copy 56" },
+      { src: img_final_pitch_221, alt: "Final Presentations & Pitches · image copy 57" },
+      { src: img_final_pitch_222, alt: "Final Presentations & Pitches · image copy 58" },
+      { src: img_final_pitch_223, alt: "Final Presentations & Pitches · image copy 59" },
+      { src: img_final_pitch_224, alt: "Final Presentations & Pitches · image copy 60" },
+      { src: img_final_pitch_225, alt: "Final Presentations & Pitches · image copy 61" },
+      { src: img_final_pitch_226, alt: "Final Presentations & Pitches · image copy 62" },
+      { src: img_final_pitch_227, alt: "Final Presentations & Pitches · image copy 63" },
+      { src: img_final_pitch_228, alt: "Final Presentations & Pitches · image copy 64" },
+      { src: img_final_pitch_229, alt: "Final Presentations & Pitches · image copy 65" },
+      { src: img_final_pitch_230, alt: "Final Presentations & Pitches · image copy 66" },
+      { src: img_final_pitch_231, alt: "Final Presentations & Pitches · image copy 67" },
+      { src: img_final_pitch_232, alt: "Final Presentations & Pitches · image copy 68" },
+      { src: img_final_pitch_233, alt: "Final Presentations & Pitches · image copy 69" },
+      { src: img_final_pitch_234, alt: "Final Presentations & Pitches · image copy 70" },
+      { src: img_final_pitch_235, alt: "Final Presentations & Pitches · image copy 71" },
+      { src: img_final_pitch_236, alt: "Final Presentations & Pitches · image copy 72" },
+      { src: img_final_pitch_237, alt: "Final Presentations & Pitches · image copy 73" },
+      { src: img_final_pitch_238, alt: "Final Presentations & Pitches · image copy 74" },
+      { src: img_final_pitch_239, alt: "Final Presentations & Pitches · image copy 75" },
+      { src: img_final_pitch_240, alt: "Final Presentations & Pitches · image copy 76" },
+      { src: img_final_pitch_241, alt: "Final Presentations & Pitches · image copy 77" },
+      { src: img_final_pitch_242, alt: "Final Presentations & Pitches · image copy 78" },
+      { src: img_final_pitch_243, alt: "Final Presentations & Pitches · image copy 79" },
+      { src: img_final_pitch_244, alt: "Final Presentations & Pitches · image copy 80" },
+      { src: img_final_pitch_245, alt: "Final Presentations & Pitches · image copy 81" },
+      { src: img_final_pitch_246, alt: "Final Presentations & Pitches · image copy 82" },
+      { src: img_final_pitch_247, alt: "Final Presentations & Pitches · image copy 83" },
+      { src: img_final_pitch_248, alt: "Final Presentations & Pitches · image copy 84" },
+      { src: img_final_pitch_249, alt: "Final Presentations & Pitches · image copy 85" },
+      { src: img_final_pitch_250, alt: "Final Presentations & Pitches · image copy 86" },
+      { src: img_final_pitch_251, alt: "Final Presentations & Pitches · image copy 87" },
+      { src: img_final_pitch_252, alt: "Final Presentations & Pitches · image copy 88" },
+      { src: img_final_pitch_253, alt: "Final Presentations & Pitches · image copy 89" },
+      { src: img_final_pitch_254, alt: "Final Presentations & Pitches · image copy 90" },
+      { src: img_final_pitch_255, alt: "Final Presentations & Pitches · image copy 91" },
+      { src: img_final_pitch_256, alt: "Final Presentations & Pitches · image copy 92" },
+      { src: img_final_pitch_257, alt: "Final Presentations & Pitches · image copy 93" },
+      { src: img_final_pitch_258, alt: "Final Presentations & Pitches · image copy 94" },
+      { src: img_final_pitch_259, alt: "Final Presentations & Pitches · image copy 95" },
+      { src: img_final_pitch_260, alt: "Final Presentations & Pitches · image copy" },
+      { src: img_final_pitch_261, alt: "Final Presentations & Pitches · image" }
     ],
   },
   {
-    id: "selecting-winners",
-    title: "Selecting Winners",
+    id: "selecting-teams",
+    title: "Selecting Teams & Deliberation",
     eyebrow: "DELIBERATION · DAY 2",
     photos: [
-      { src: img_selecting_winners_123, alt: "Winner selection deliberation · moment 10" },
-      { src: img_selecting_winners_124, alt: "Winner selection deliberation · moment 11" },
-      { src: img_selecting_winners_125, alt: "Winner selection deliberation · moment 12" },
-      { src: img_selecting_winners_126, alt: "Winner selection deliberation · moment 13" },
-      { src: img_selecting_winners_127, alt: "Winner selection deliberation · moment 14" },
-      { src: img_selecting_winners_128, alt: "Winner selection deliberation · moment 15" },
-      { src: img_selecting_winners_129, alt: "Winner selection deliberation · moment 16" },
-      { src: img_selecting_winners_130, alt: "Winner selection deliberation · moment 17" },
-      { src: img_selecting_winners_131, alt: "Winner selection deliberation · moment 2" },
-      { src: img_selecting_winners_132, alt: "Winner selection deliberation · moment 3" },
-      { src: img_selecting_winners_133, alt: "Winner selection deliberation · moment 4" },
-      { src: img_selecting_winners_134, alt: "Winner selection deliberation · moment 5" },
-      { src: img_selecting_winners_135, alt: "Winner selection deliberation · moment 6" },
-      { src: img_selecting_winners_136, alt: "Winner selection deliberation · moment 7" },
-      { src: img_selecting_winners_137, alt: "Winner selection deliberation · moment 8" },
-      { src: img_selecting_winners_138, alt: "Winner selection deliberation · moment 9" },
-      { src: img_selecting_winners_139, alt: "Winner selection deliberation · moment 1" },
-      { src: img_selecting_winners_140, alt: "Winner selection deliberation · moment" },
-    ],
-  },
-  {
-    id: "dinner",
-    title: "Dinner & Celebrations",
-    eyebrow: "CELEBRATION · EVENING",
-    photos: [
-      { src: img_dinner_141, alt: "Celebration dinner · moment 2" },
-      { src: img_dinner_142, alt: "Celebration dinner · moment 1" },
-      { src: img_dinner_143, alt: "Celebration dinner · moment" },
-      { src: img_dinner_144, alt: "Celebration dinner · mingos1" },
+      { src: img_selecting_teams_262, alt: "Selecting Teams & Deliberation · image copy 2" },
+      { src: img_selecting_teams_263, alt: "Selecting Teams & Deliberation · image copy 3" },
+      { src: img_selecting_teams_264, alt: "Selecting Teams & Deliberation · image copy 4" },
+      { src: img_selecting_teams_265, alt: "Selecting Teams & Deliberation · image copy 5" },
+      { src: img_selecting_teams_266, alt: "Selecting Teams & Deliberation · image copy 6" },
+      { src: img_selecting_teams_267, alt: "Selecting Teams & Deliberation · image copy 7" },
+      { src: img_selecting_teams_268, alt: "Selecting Teams & Deliberation · image copy 8" },
+      { src: img_selecting_teams_269, alt: "Selecting Teams & Deliberation · image copy 9" },
+      { src: img_selecting_teams_270, alt: "Selecting Teams & Deliberation · image copy 10" },
+      { src: img_selecting_teams_271, alt: "Selecting Teams & Deliberation · image copy 11" },
+      { src: img_selecting_teams_272, alt: "Selecting Teams & Deliberation · image copy 12" },
+      { src: img_selecting_teams_273, alt: "Selecting Teams & Deliberation · image copy 13" },
+      { src: img_selecting_teams_274, alt: "Selecting Teams & Deliberation · image copy 14" },
+      { src: img_selecting_teams_275, alt: "Selecting Teams & Deliberation · image copy 15" },
+      { src: img_selecting_teams_276, alt: "Selecting Teams & Deliberation · image copy 16" },
+      { src: img_selecting_teams_277, alt: "Selecting Teams & Deliberation · image copy 17" },
+      { src: img_selecting_teams_278, alt: "Selecting Teams & Deliberation · image copy 18" },
+      { src: img_selecting_teams_279, alt: "Selecting Teams & Deliberation · image copy 19" },
+      { src: img_selecting_teams_280, alt: "Selecting Teams & Deliberation · image copy 20" },
+      { src: img_selecting_teams_281, alt: "Selecting Teams & Deliberation · image copy" },
+      { src: img_selecting_teams_282, alt: "Selecting Teams & Deliberation · image" }
     ],
   },
   {
@@ -432,35 +728,52 @@ const GALLERY_SECTIONS: GallerySection[] = [
     title: "Valedictory Ceremony",
     eyebrow: "CLOSING · GRAND FINALE",
     photos: [
-      { src: img_valedictory_145, alt: "Valedictory awards ceremony · moment 10" },
-      { src: img_valedictory_146, alt: "Valedictory awards ceremony · moment 11" },
-      { src: img_valedictory_147, alt: "Valedictory awards ceremony · moment 12" },
-      { src: img_valedictory_148, alt: "Valedictory awards ceremony · moment 13" },
-      { src: img_valedictory_149, alt: "Valedictory awards ceremony · moment 14" },
-      { src: img_valedictory_150, alt: "Valedictory awards ceremony · moment 15" },
-      { src: img_valedictory_151, alt: "Valedictory awards ceremony · moment 16" },
-      { src: img_valedictory_152, alt: "Valedictory awards ceremony · moment 17" },
-      { src: img_valedictory_153, alt: "Valedictory awards ceremony · moment 18" },
-      { src: img_valedictory_154, alt: "Valedictory awards ceremony · moment 19" },
-      { src: img_valedictory_155, alt: "Valedictory awards ceremony · moment 2" },
-      { src: img_valedictory_156, alt: "Valedictory awards ceremony · moment 20" },
-      { src: img_valedictory_157, alt: "Valedictory awards ceremony · moment 21" },
-      { src: img_valedictory_158, alt: "Valedictory awards ceremony · moment 22" },
-      { src: img_valedictory_159, alt: "Valedictory awards ceremony · moment 23" },
-      { src: img_valedictory_160, alt: "Valedictory awards ceremony · moment 24" },
-      { src: img_valedictory_161, alt: "Valedictory awards ceremony · moment 25" },
-      { src: img_valedictory_162, alt: "Valedictory awards ceremony · moment 26" },
-      { src: img_valedictory_163, alt: "Valedictory awards ceremony · moment 3" },
-      { src: img_valedictory_164, alt: "Valedictory awards ceremony · moment 4" },
-      { src: img_valedictory_165, alt: "Valedictory awards ceremony · moment 5" },
-      { src: img_valedictory_166, alt: "Valedictory awards ceremony · moment 6" },
-      { src: img_valedictory_167, alt: "Valedictory awards ceremony · moment 7" },
-      { src: img_valedictory_168, alt: "Valedictory awards ceremony · moment 8" },
-      { src: img_valedictory_169, alt: "Valedictory awards ceremony · moment 9" },
-      { src: img_valedictory_170, alt: "Valedictory awards ceremony · moment 1" },
-      { src: img_valedictory_171, alt: "Valedictory awards ceremony · moment" },
+      { src: img_valedictory_283, alt: "Valedictory Ceremony · image copy 2" },
+      { src: img_valedictory_284, alt: "Valedictory Ceremony · image copy 3" },
+      { src: img_valedictory_285, alt: "Valedictory Ceremony · image copy 4" },
+      { src: img_valedictory_286, alt: "Valedictory Ceremony · image copy 5" },
+      { src: img_valedictory_287, alt: "Valedictory Ceremony · image copy 6" },
+      { src: img_valedictory_288, alt: "Valedictory Ceremony · image copy 7" },
+      { src: img_valedictory_289, alt: "Valedictory Ceremony · image copy 8" },
+      { src: img_valedictory_290, alt: "Valedictory Ceremony · image copy 9" },
+      { src: img_valedictory_291, alt: "Valedictory Ceremony · image copy 10" },
+      { src: img_valedictory_292, alt: "Valedictory Ceremony · image copy 11" },
+      { src: img_valedictory_293, alt: "Valedictory Ceremony · image copy 12" },
+      { src: img_valedictory_294, alt: "Valedictory Ceremony · image copy 13" },
+      { src: img_valedictory_295, alt: "Valedictory Ceremony · image copy 14" },
+      { src: img_valedictory_296, alt: "Valedictory Ceremony · image copy 15" },
+      { src: img_valedictory_297, alt: "Valedictory Ceremony · image copy 16" },
+      { src: img_valedictory_298, alt: "Valedictory Ceremony · image copy 17" },
+      { src: img_valedictory_299, alt: "Valedictory Ceremony · image copy 18" },
+      { src: img_valedictory_300, alt: "Valedictory Ceremony · image copy 19" },
+      { src: img_valedictory_301, alt: "Valedictory Ceremony · image copy 20" },
+      { src: img_valedictory_302, alt: "Valedictory Ceremony · image copy 21" },
+      { src: img_valedictory_303, alt: "Valedictory Ceremony · image copy 22" },
+      { src: img_valedictory_304, alt: "Valedictory Ceremony · image copy 23" },
+      { src: img_valedictory_305, alt: "Valedictory Ceremony · image copy 24" },
+      { src: img_valedictory_306, alt: "Valedictory Ceremony · image copy 25" },
+      { src: img_valedictory_307, alt: "Valedictory Ceremony · image copy 26" },
+      { src: img_valedictory_308, alt: "Valedictory Ceremony · image copy 27" },
+      { src: img_valedictory_309, alt: "Valedictory Ceremony · image copy" },
+      { src: img_valedictory_310, alt: "Valedictory Ceremony · image" }
     ],
   },
+  {
+    id: "winners",
+    title: "Winners & Champions",
+    eyebrow: "PODIUM · VICTORY",
+    photos: [
+      { src: img_winners_311, alt: "Winners & Champions · winner" },
+      { src: img_winners_312, alt: "Winners & Champions · runnerups" },
+      { src: img_winners_313, alt: "Winners & Champions · secondrunnerup" },
+      { src: img_winners_314, alt: "Winners & Champions · secondRunnerUp" },
+      { src: img_winners_315, alt: "Winners & Champions · image" },
+      { src: img_winners_316, alt: "Winners & Champions · image copy" },
+      { src: img_winners_317, alt: "Winners & Champions · image copy 2" },
+      { src: img_winners_318, alt: "Winners & Champions · image copy 3" },
+      { src: img_winners_319, alt: "Winners & Champions · image copy 4" }
+    ],
+  }
 ];
 
 function Lightbox({
@@ -638,11 +951,6 @@ export default function GalleryClient() {
   const teamLayerRef = useRef<HTMLDivElement | null>(null);
   const teamImgWrapRef = useRef<HTMLDivElement | null>(null);
   const teamOverlayRef = useRef<HTMLDivElement | null>(null);
-
-  const allPhotos = GALLERY_SECTIONS.flatMap((s) =>
-    s.photos.map((p) => ({ ...p, sectionId: s.id }))
-  );
-  const totalCount = allPhotos.length;
 
   const filteredSections =
     activeFilter === "all"
@@ -937,7 +1245,7 @@ export default function GalleryClient() {
             {/* Top-right tilted photo */}
             <div
               className="gallery-showcase__card gallery-showcase__card--top-right"
-              onClick={() => openLightbox("coding-sessions", 1)}
+              onClick={() => openLightbox("coding-sessions", 0)}
               role="button"
               tabIndex={0}
               style={{ cursor: "zoom-in" }}
@@ -976,7 +1284,7 @@ export default function GalleryClient() {
               </div>
               <div
                 className="gallery-showcase__card gallery-showcase__card--bottom-right"
-                onClick={() => openLightbox("round2-walk", 12)}
+                onClick={() => openLightbox("round2-walk", 1)}
                 role="button"
                 tabIndex={0}
                 style={{ cursor: "zoom-in" }}
@@ -1044,7 +1352,10 @@ export default function GalleryClient() {
               </p>
               <div className="gallery-section__title-row">
                 <h2 className="gallery-section__title">
-                  <span className="gallery-section__index">0{sIdx + 1}.</span> {section.title}
+                  <span className="gallery-section__index">
+                    {String(sIdx + 1).padStart(2, "0")}.
+                  </span>{" "}
+                  {section.title}
                 </h2>
               </div>
             </div>
