@@ -88,17 +88,41 @@ export default function DepthCarousel({
     return () => window.removeEventListener("keydown", handler);
   }, [prev, next]);
 
-  /* drag / swipe */
-  const dragStartX = useRef<number | null>(null);
-  const onPointerDown = (e: React.PointerEvent) => {
-    dragStartX.current = e.clientX;
-    (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
+  /* drag / swipe tracking without breaking click */
+  const pointerStartRef = useRef<{ x: number; y: number } | null>(null);
+  const isDraggingRef = useRef(false);
+
+  const handlePointerDown = (e: React.PointerEvent) => {
+    if (e.button !== 0) return;
+    pointerStartRef.current = { x: e.clientX, y: e.clientY };
+    isDraggingRef.current = false;
   };
-  const onPointerUp = (e: React.PointerEvent) => {
-    if (dragStartX.current === null) return;
-    const dx = e.clientX - dragStartX.current;
-    if (Math.abs(dx) > 40) dx < 0 ? next() : prev();
-    dragStartX.current = null;
+
+  const handlePointerMove = (e: React.PointerEvent) => {
+    if (!pointerStartRef.current) return;
+    const dx = e.clientX - pointerStartRef.current.x;
+    const dy = e.clientY - pointerStartRef.current.y;
+    if (Math.abs(dx) > 8 || Math.abs(dy) > 8) {
+      isDraggingRef.current = true;
+    }
+  };
+
+  const handlePointerUp = (e: React.PointerEvent) => {
+    if (!pointerStartRef.current) return;
+    const dx = e.clientX - pointerStartRef.current.x;
+    if (isDraggingRef.current && Math.abs(dx) > 40) {
+      if (dx < 0) next();
+      else prev();
+    }
+    pointerStartRef.current = null;
+    window.setTimeout(() => {
+      isDraggingRef.current = false;
+    }, 50);
+  };
+
+  const handlePointerCancel = () => {
+    pointerStartRef.current = null;
+    isDraggingRef.current = false;
   };
 
   const dirMult = tiltDirection === "right" ? 1 : -1;
@@ -107,11 +131,9 @@ export default function DepthCarousel({
 
   const handleCardClick = (itemIdx: number, stackPos: number, e: MouseEvent) => {
     e.stopPropagation();
-    if (stackPos === 0) {
-      onCardClick?.(itemIdx);
-    } else {
-      setActive(itemIdx);
-    }
+    if (isDraggingRef.current) return;
+    setActive(itemIdx);
+    onCardClick?.(itemIdx);
   };
 
   return (
@@ -123,8 +145,6 @@ export default function DepthCarousel({
       <div
         className="dc-scene"
         style={{ perspective: `${perspective}px` }}
-        onPointerDown={onPointerDown}
-        onPointerUp={onPointerUp}
       >
         {[...cardIndices].reverse().map((itemIdx, revPos) => {
           const stackPos = cardIndices.length - 1 - revPos;
@@ -149,8 +169,12 @@ export default function DepthCarousel({
                 zIndex: cardIndices.length - stackPos,
                 cursor: stackPos === 0 ? "zoom-in" : "pointer",
               }}
+              onPointerDown={handlePointerDown}
+              onPointerMove={handlePointerMove}
+              onPointerUp={handlePointerUp}
+              onPointerCancel={handlePointerCancel}
               onClick={(e) => handleCardClick(itemIdx, stackPos, e)}
-              aria-label={stackPos === 0 ? `View full photo: ${item.alt}` : `Go to: ${item.alt}`}
+              aria-label={`View full photo: ${item.alt}`}
             >
               <div className="dc-card__inner">
                 <Image

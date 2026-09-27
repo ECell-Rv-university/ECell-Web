@@ -463,8 +463,6 @@ const GALLERY_SECTIONS: GallerySection[] = [
   },
 ];
 
-/* ────────────────────────────── LIGHTBOX ────────────────────────────── */
-
 function Lightbox({
   photo,
   onClose,
@@ -480,9 +478,10 @@ function Lightbox({
   currentIndex: number;
   totalCount: number;
 }) {
+  const overlayRef = React.useRef<HTMLDivElement>(null);
   const [isFullscreen, setIsFullscreen] = React.useState(false);
 
-  /* keyboard + scroll lock */
+  /* Keyboard + scroll lock */
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
@@ -503,97 +502,121 @@ function Lightbox({
     };
   }, [onClose, onPrev, onNext]);
 
-  /* track fullscreen changes */
+  /* Track browser fullscreen state */
   useEffect(() => {
     const onFsChange = () => setIsFullscreen(!!document.fullscreenElement);
     document.addEventListener("fullscreenchange", onFsChange);
-    return () => document.removeEventListener("fullscreenchange", onFsChange);
+    document.addEventListener("webkitfullscreenchange", onFsChange);
+    return () => {
+      document.removeEventListener("fullscreenchange", onFsChange);
+      document.removeEventListener("webkitfullscreenchange", onFsChange);
+    };
   }, []);
 
   const toggleFullscreen = () => {
+    const el = overlayRef.current;
+    if (!el) return;
     if (!document.fullscreenElement) {
-      document.documentElement.requestFullscreen().catch(() => {});
+      (el.requestFullscreen?.() ??
+        /* Safari */ (el as unknown as { webkitRequestFullscreen: () => Promise<void> }).webkitRequestFullscreen?.())
+        ?.catch(() => {});
     } else {
-      document.exitFullscreen().catch(() => {});
+      (document.exitFullscreen?.() ??
+        /* Safari */ (document as unknown as { webkitExitFullscreen: () => void }).webkitExitFullscreen?.());
     }
+  };
+
+  /* Click on black backdrop → close; click on image → toggle fullscreen */
+  const handleOverlayClick = (e: React.MouseEvent) => {
+    const target = e.target as HTMLElement;
+    if (target.closest("button") || target.closest(".lightbox-bottom-bar")) return;
+    if (target.tagName === "IMG") {
+      toggleFullscreen();
+      return;
+    }
+    onClose();
   };
 
   return (
     <div
+      ref={overlayRef}
       className="lightbox-overlay"
-      onClick={onClose}
+      onClick={handleOverlayClick}
       role="dialog"
       aria-modal="true"
       aria-label="Photo lightbox"
     >
-      <div
-        className="lightbox-inner"
-        onClick={(e) => e.stopPropagation()}
-      >
-        {/* ── Close ── */}
-        <button className="lightbox-close" onClick={onClose} aria-label="Close lightbox">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-            <line x1="18" y1="6" x2="6" y2="18" />
-            <line x1="6" y1="6" x2="18" y2="18" />
-          </svg>
-        </button>
-
-        {/* ── Fullscreen toggle ── */}
-        <button
-          className="lightbox-fullscreen-btn"
+      {/* ── Image fills entire overlay ── */}
+      <div className="lightbox-image-wrap">
+        <Image
+          src={photo.src}
+          alt={photo.alt}
+          fill
+          sizes="100vw"
+          style={{
+            objectFit: "contain",
+            cursor: isFullscreen ? "zoom-out" : "zoom-in",
+          }}
+          quality={95}
+          priority
           onClick={toggleFullscreen}
-          aria-label={isFullscreen ? "Exit fullscreen" : "Enter fullscreen"}
-          title={isFullscreen ? "Exit fullscreen" : "Enter fullscreen"}
-        >
-          {isFullscreen ? (
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <polyline points="8 3 3 3 3 8" /><line x1="3" y1="3" x2="10" y2="10" />
-              <polyline points="16 3 21 3 21 8" /><line x1="21" y1="3" x2="14" y2="10" />
-              <polyline points="8 21 3 21 3 16" /><line x1="3" y1="21" x2="10" y2="14" />
-              <polyline points="16 21 21 21 21 16" /><line x1="21" y1="21" x2="14" y2="14" />
-            </svg>
-          ) : (
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <polyline points="15 3 21 3 21 9" /><line x1="21" y1="3" x2="14" y2="10" />
-              <polyline points="9 21 3 21 3 15" /><line x1="3" y1="21" x2="10" y2="14" />
-            </svg>
-          )}
-        </button>
+        />
+      </div>
 
-        {/* ── Prev ── */}
-        <button className="lightbox-nav lightbox-nav--prev" onClick={onPrev} aria-label="Previous photo">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-            <polyline points="15 18 9 12 15 6" />
+      {/* ── Close ── */}
+      <button
+        className="lightbox-close"
+        onClick={onClose}
+        aria-label="Close lightbox"
+      >
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+      </button>
+
+      {/* ── Fullscreen toggle ── */}
+      <button
+        className="lightbox-fullscreen-btn"
+        onClick={toggleFullscreen}
+        aria-label={isFullscreen ? "Exit fullscreen" : "Fullscreen"}
+        title={isFullscreen ? "Exit fullscreen" : "Fullscreen"}
+      >
+        {isFullscreen ? (
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="8 3 3 3 3 8" /><line x1="3" y1="3" x2="10" y2="10" />
+            <polyline points="16 3 21 3 21 8" /><line x1="21" y1="3" x2="14" y2="10" />
+            <polyline points="8 21 3 21 3 16" /><line x1="3" y1="21" x2="10" y2="14" />
+            <polyline points="16 21 21 21 21 16" /><line x1="21" y1="21" x2="14" y2="14" />
           </svg>
-        </button>
-
-        {/* ── Image ── */}
-        <div className="lightbox-image-wrap">
-          <Image
-            src={photo.src}
-            alt={photo.alt}
-            fill
-            sizes="100vw"
-            style={{ objectFit: "contain" }}
-            quality={95}
-            priority
-          />
-        </div>
-
-        {/* ── Next ── */}
-        <button className="lightbox-nav lightbox-nav--next" onClick={onNext} aria-label="Next photo">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-            <polyline points="9 18 15 12 9 6" />
+        ) : (
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="15 3 21 3 21 9" /><line x1="21" y1="3" x2="14" y2="10" />
+            <polyline points="9 21 3 21 3 15" /><line x1="3" y1="21" x2="10" y2="14" />
           </svg>
-        </button>
+        )}
+      </button>
 
-        {/* ── Bottom bar ── */}
-        <div className="lightbox-bottom-bar">
-          <p className="lightbox-caption">{photo.alt}</p>
-          <span className="lightbox-counter">
-            {String(currentIndex + 1).padStart(2, "0")} / {String(totalCount).padStart(2, "0")}
-          </span>
-        </div>
+      {/* ── Prev ── */}
+      <button className="lightbox-nav lightbox-nav--prev" onClick={onPrev} aria-label="Previous photo">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <polyline points="15 18 9 12 15 6" />
+        </svg>
+      </button>
+
+      {/* ── Next ── */}
+      <button className="lightbox-nav lightbox-nav--next" onClick={onNext} aria-label="Next photo">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <polyline points="9 18 15 12 9 6" />
+        </svg>
+      </button>
+
+      {/* ── Bottom bar ── */}
+      <div className="lightbox-bottom-bar">
+        <p className="lightbox-caption">{photo.alt}</p>
+        <span className="lightbox-counter">
+          {String(currentIndex + 1).padStart(2, "0")} / {String(totalCount).padStart(2, "0")}
+        </span>
       </div>
     </div>
   );
@@ -637,7 +660,15 @@ export default function GalleryClient() {
   }, []);
 
   const currentSection = GALLERY_SECTIONS.find((s) => s.id === lightboxSection);
-  const currentPhotos = currentSection?.photos || [];
+  const currentPhotos =
+    lightboxSection === "team-photo"
+      ? [
+          {
+            src: teamArgonyx,
+            alt: "Team Argonyx '26 — Organised by ECell, IEEE and VIKSHA Coding Club · RV University",
+          },
+        ]
+      : currentSection?.photos || [];
 
   const goLightboxPrev = useCallback(() => {
     if (lightboxIndex === null || currentPhotos.length === 0) return;
@@ -858,7 +889,14 @@ export default function GalleryClient() {
           {/* ── HERO SHOWCASE COLLAGE (Photos from Argonyx folder only) ── */}
           <div className="gallery-hero__showcase" aria-label="Argonyx '26 photo collage">
             {/* Center / Main stage photo */}
-            <div className="gallery-showcase__card gallery-showcase__card--main">
+            <div
+              className="gallery-showcase__card gallery-showcase__card--main"
+              onClick={() => openLightbox("opening", 2)}
+              role="button"
+              tabIndex={0}
+              style={{ cursor: "zoom-in" }}
+              aria-label="View photo full screen"
+            >
               <Image
                 src={heroStagePhoto}
                 alt="Argonyx '26 Keynote Auditorium Stage"
@@ -877,7 +915,14 @@ export default function GalleryClient() {
                 <span>PEOPLE</span>
                 <span>PROGRESS</span>
               </div>
-              <div className="gallery-showcase__card gallery-showcase__card--left">
+              <div
+                className="gallery-showcase__card gallery-showcase__card--left"
+                onClick={() => openLightbox("opening", 3)}
+                role="button"
+                tabIndex={0}
+                style={{ cursor: "zoom-in" }}
+                aria-label="View photo full screen"
+              >
                 <Image
                   src={heroWelcomePhoto}
                   alt="Argonyx '26 Welcome Banner and Registration"
@@ -890,7 +935,14 @@ export default function GalleryClient() {
             </div>
 
             {/* Top-right tilted photo */}
-            <div className="gallery-showcase__card gallery-showcase__card--top-right">
+            <div
+              className="gallery-showcase__card gallery-showcase__card--top-right"
+              onClick={() => openLightbox("coding-sessions", 1)}
+              role="button"
+              tabIndex={0}
+              style={{ cursor: "zoom-in" }}
+              aria-label="View photo full screen"
+            >
               <Image
                 src={heroHackingPhoto}
                 alt="Hackers sprinting at laptops"
@@ -922,7 +974,14 @@ export default function GalleryClient() {
                   />
                 </svg>
               </div>
-              <div className="gallery-showcase__card gallery-showcase__card--bottom-right">
+              <div
+                className="gallery-showcase__card gallery-showcase__card--bottom-right"
+                onClick={() => openLightbox("round2-walk", 12)}
+                role="button"
+                tabIndex={0}
+                style={{ cursor: "zoom-in" }}
+                aria-label="View photo full screen"
+              >
                 <Image
                   src={heroAudiencePhoto}
                   alt="Hackathon audience and demo showcase"
@@ -1041,7 +1100,15 @@ export default function GalleryClient() {
 
           {/* Team Photo Reveal Layer (rises from bottom to fullscreen) */}
           <div className="gallery-team-layer" ref={teamLayerRef}>
-            <div className="gallery-team-photo__img-wrap" ref={teamImgWrapRef}>
+            <div
+              className="gallery-team-photo__img-wrap"
+              ref={teamImgWrapRef}
+              onClick={() => openLightbox("team-photo", 0)}
+              role="button"
+              tabIndex={0}
+              style={{ cursor: "zoom-in" }}
+              aria-label="View Team Argonyx photo full screen"
+            >
               <Image
                 src={teamArgonyx}
                 alt="Team Argonyx '26 — The team behind RV University's national hackathon"
