@@ -425,7 +425,13 @@
     gap: 18px;
     padding: 22px 4px;
     border-bottom: 1px solid var(--event-line);
+    text-decoration: none;
+    color: inherit;
     transition: padding .25s, color .25s
+}
+
+.ea-archive-row--link {
+    cursor: pointer;
 }
 
 .ea-archive-row:hover {
