@@ -103,7 +103,7 @@ export const EVENTS_DATA: Record<string, EventDetailData> = {
     registrationHeadline: "Argonyx '26 has",
     registrationAccent: "successfully concluded.",
     registrationHint: "Official hackathon archive on Unstop.",
-    image: argonyxHeroPhoto,
+    image: argonyx,
     ledger: [
       {
         number: "01",
@@ -154,7 +154,6 @@ export const EVENTS_DATA: Record<string, EventDetailData> = {
       {
         place: "1ST PLACE",
         badge: "Grand Champion",
-        prize: "₹15,000 Cash Prize + Incubation",
         teamName: "Lords of the Pings",
         projectTitle: "Argonyx '26 Grand Winners",
         description:
@@ -165,7 +164,6 @@ export const EVENTS_DATA: Record<string, EventDetailData> = {
       {
         place: "2ND PLACE",
         badge: "First Runner-Up",
-        prize: "₹10,000 Cash Prize",
         teamName: "Zero Shift",
         projectTitle: "Argonyx '26 First Runner-Up",
         description:
@@ -176,7 +174,6 @@ export const EVENTS_DATA: Record<string, EventDetailData> = {
       {
         place: "3RD PLACE",
         badge: "Second Runner-Up",
-        prize: "₹5,000 Cash Prize",
         teamName: "Team Placeholder",
         projectTitle: "Argonyx '26 Second Runner-Up",
         description:

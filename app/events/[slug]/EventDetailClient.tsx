@@ -9,25 +9,29 @@ import spiralImg1 from "@/src/assets/Argonyx26/inaugration/ing1.webp";
 import spiralImg2 from "@/src/assets/Argonyx26/inaugration/eventLeads.webp";
 import spiralImg3 from "@/src/assets/Argonyx26/coding-session-1/image.webp";
 import spiralImg4 from "@/src/assets/Argonyx26/MentorsSessions/apoorv1.webp";
-import spiralImg5 from "@/src/assets/Argonyx26/judges/image copy 5.webp";
+import spiralImg5 from "@/src/assets/Argonyx26/judges/image.png";
 import spiralImg6 from "@/src/assets/Argonyx26/roun2/image.webp";
 import spiralImg7 from "@/src/assets/Argonyx26/round2Walk/image.webp";
 import spiralImg8 from "@/src/assets/Argonyx26/lunch/lunch1.webp";
-import spiralImg9 from "@/src/assets/Argonyx26/opening/reg.webp";
+import spiralImg9 from "@/src/assets/Argonyx26/opening/image.png";
 import spiralImg10 from "@/src/assets/Argonyx26/inaugration/alok1.webp";
 import spiralImg11 from "@/src/assets/Argonyx26/dinner/mingos1.webp";
+import spiralImg12 from "@/src/assets/Argonyx26/judges/image copy.png";
+import spiralImg13 from "@/src/assets/Argonyx26/opening/image copy.png";
 import "./EventDetail.css";
 
 const SPIRAL_GALLERY_IMAGES = [
+  { src: spiralImg9, alt: "Registration & Opening Arrival" },
   { src: spiralImg1, alt: "Inauguration Keynote" },
   { src: spiralImg2, alt: "Event Leads on Stage" },
   { src: spiralImg3, alt: "Teams Coding Sprint" },
   { src: spiralImg4, alt: "Mentor Review Session" },
-  { src: spiralImg5, alt: "Judging Panel" },
+  { src: spiralImg5, alt: "Judging Panel & Evaluations" },
+  { src: spiralImg12, alt: "Jury Discussion & Defense" },
   { src: spiralImg6, alt: "Round 2 Final Pitches" },
   { src: spiralImg7, alt: "Demo Walkthrough" },
   { src: spiralImg8, alt: "Lunch Break" },
-  { src: spiralImg9, alt: "Registration Desk" },
+  { src: spiralImg13, alt: "Welcome Desk & Participants" },
   { src: spiralImg10, alt: "Alok Murali Speaking" },
   { src: spiralImg11, alt: "Celebration Dinner" },
 ];
@@ -197,21 +201,24 @@ export default function EventDetailClient({ event }: EventDetailClientProps): Re
 
               <div className="hero__actions">
                 {event.isCompleted ? (
-                  <span
-                    className="btn btn--status btn--completed"
-                    aria-label="Event Status: Closed / Completed"
-                  >
-                    Closed / Completed
-                  </span>
+                  <>
+                    <a className="btn btn--solid" href="#gallery">
+                      View Images
+                    </a>
+                    <a className="btn btn--ghost" href="#winners">
+                      View Winners
+                    </a>
+                  </>
                 ) : (
-                  <a className="btn btn--solid" href="#register">
-                    Register now
-                  </a>
+                  <>
+                    <a className="btn btn--solid" href="#register">
+                      Register now
+                    </a>
+                    <a className="btn btn--ghost" href="#about">
+                      What to expect ↓
+                    </a>
+                  </>
                 )}
-
-                <a className="btn btn--ghost" href="#about">
-                  What to expect ↓
-                </a>
               </div>
             </div>
 
@@ -436,9 +443,6 @@ export default function EventDetailClient({ event }: EventDetailClientProps): Re
                         </span>
                       </div>
                       )}
-                      <div className="winner-spotlight__rank-badge">
-                        {currentWinner.place}
-                      </div>
                     </div>
 
                     {/* Right Side: Winner Information */}
@@ -447,11 +451,6 @@ export default function EventDetailClient({ event }: EventDetailClientProps): Re
                         {currentWinner.badge && (
                           <span className="winner-spotlight__badge-title">
                             {currentWinner.badge}
-                          </span>
-                        )}
-                        {currentWinner.prize && (
-                          <span className="winner-spotlight__prize-pill">
-                            {currentWinner.prize}
                           </span>
                         )}
                       </div>

@@ -10,6 +10,14 @@ import { gsap, ScrollTrigger } from "@/src/utils/gsapSetup";
 import DepthCarousel, { type DepthCarouselItem } from "./DepthCarousel";
 
 /* ── Photo Imports ── */
+import img_opening_new_1 from "@/src/assets/Argonyx26/opening/image.png";
+import img_opening_new_2 from "@/src/assets/Argonyx26/opening/image copy.png";
+import img_opening_new_3 from "@/src/assets/Argonyx26/opening/image copy 2.png";
+import img_opening_new_4 from "@/src/assets/Argonyx26/opening/image copy 3.png";
+import img_opening_new_5 from "@/src/assets/Argonyx26/opening/image copy 4.png";
+import img_opening_new_6 from "@/src/assets/Argonyx26/opening/image copy 5.png";
+import img_opening_new_7 from "@/src/assets/Argonyx26/opening/image copy 6.png";
+import img_opening_new_8 from "@/src/assets/Argonyx26/opening/image copy 7.png";
 import img_opening_1 from "@/src/assets/Argonyx26/opening/image.webp";
 import img_opening_2 from "@/src/assets/Argonyx26/opening/op1.webp";
 import img_opening_3 from "@/src/assets/Argonyx26/opening/op2.webp";
@@ -170,6 +178,8 @@ import img_round2_157 from "@/src/assets/Argonyx26/roun2/image copy 3.webp";
 import img_round2_158 from "@/src/assets/Argonyx26/roun2/image copy 4.webp";
 import img_round2_159 from "@/src/assets/Argonyx26/roun2/image copy.webp";
 import img_round2_160 from "@/src/assets/Argonyx26/roun2/image.webp";
+import img_judges_new_1 from "@/src/assets/Argonyx26/judges/image.png";
+import img_judges_new_2 from "@/src/assets/Argonyx26/judges/image copy.png";
 import img_judges_161 from "@/src/assets/Argonyx26/judges/image copy 2.webp";
 import img_judges_162 from "@/src/assets/Argonyx26/judges/image copy 5.webp";
 import img_judges_163 from "@/src/assets/Argonyx26/judges/image copy 6.webp";
@@ -366,6 +376,14 @@ const GALLERY_SECTIONS: GallerySection[] = [
     title: "Registration & Opening",
     eyebrow: "DAY 1 · ARRIVAL",
     photos: [
+      { src: img_opening_new_1, alt: "Registration & Opening · Arrival & Check-in" },
+      { src: img_opening_new_2, alt: "Registration & Opening · Welcoming Participants" },
+      { src: img_opening_new_3, alt: "Registration & Opening · Badges & Kits" },
+      { src: img_opening_new_4, alt: "Registration & Opening · Registration Desk" },
+      { src: img_opening_new_5, alt: "Registration & Opening · Opening Moments" },
+      { src: img_opening_new_6, alt: "Registration & Opening · Team Check-in" },
+      { src: img_opening_new_7, alt: "Registration & Opening · Arrival Hall" },
+      { src: img_opening_new_8, alt: "Registration & Opening · Welcome Setup" },
       { src: img_opening_1, alt: "Registration & Opening · image" },
       { src: img_opening_2, alt: "Registration & Opening · op1" },
       { src: img_opening_3, alt: "Registration & Opening · op2" },
@@ -589,6 +607,8 @@ const GALLERY_SECTIONS: GallerySection[] = [
     title: "Judging Panel & Evaluations",
     eyebrow: "JURY ROUND · DAY 2",
     photos: [
+      { src: img_judges_new_1, alt: "Judging Panel & Evaluations · Jury Review" },
+      { src: img_judges_new_2, alt: "Judging Panel & Evaluations · Jury Discussion" },
       { src: img_judges_161, alt: "Judging Panel & Evaluations · image copy 2" },
       { src: img_judges_162, alt: "Judging Panel & Evaluations · image copy 5" },
       { src: img_judges_163, alt: "Judging Panel & Evaluations · image copy 6" },
