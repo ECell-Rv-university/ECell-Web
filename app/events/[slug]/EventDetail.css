@@ -565,11 +565,11 @@
 }
 
 .event-detail-page .eyebrow--gold {
-  color: #f59e0b;
+  color: var(--event-white);
 }
 
 .event-detail-page .eyebrow__rule--gold {
-  background: #f59e0b;
+  background: var(--event-white);
 }
 
 .event-detail-page .winners-section__head {
@@ -689,18 +689,18 @@
 }
 
 .event-detail-page .winner-spotlight-box--first {
-  border-color: rgba(245, 158, 11, 0.45);
-  box-shadow: 0 15px 40px -15px rgba(245, 158, 11, 0.15);
+  border-color: rgba(244, 243, 239, 0.3);
+  box-shadow: 0 15px 40px -15px rgba(244, 243, 239, 0.08);
 }
 
 .event-detail-page .winner-spotlight-box--second {
-  border-color: rgba(148, 163, 184, 0.4);
-  box-shadow: 0 15px 40px -15px rgba(148, 163, 184, 0.12);
+  border-color: rgba(244, 243, 239, 0.2);
+  box-shadow: 0 15px 40px -15px rgba(244, 243, 239, 0.05);
 }
 
 .event-detail-page .winner-spotlight-box--third {
-  border-color: rgba(217, 119, 6, 0.35);
-  box-shadow: 0 15px 40px -15px rgba(217, 119, 6, 0.1);
+  border-color: rgba(244, 243, 239, 0.15);
+  box-shadow: 0 15px 40px -15px rgba(244, 243, 239, 0.04);
 }
 
 .event-detail-page .winner-spotlight__photo-space {
@@ -711,6 +711,11 @@
   background: var(--event-panel-2);
   border-right: 1px solid var(--event-line);
   overflow: hidden;
+}
+
+.event-detail-page .winner-photo-slot__image {
+  object-fit: cover;
+  object-position: center 20%;
 }
 
 .event-detail-page .winner-photo-slot {
@@ -771,8 +776,9 @@
 }
 
 .event-detail-page .winner-spotlight-box--first .winner-spotlight__rank-badge {
-  color: #f59e0b;
-  border-color: rgba(245, 158, 11, 0.4);
+  color: var(--event-white);
+  border-color: rgba(244, 243, 239, 0.35);
+  background: rgba(17, 17, 16, 0.95);
 }
 
 .event-detail-page .winner-spotlight__details {
@@ -802,9 +808,9 @@
 .event-detail-page .winner-spotlight__prize-pill {
   font-size: 0.82rem;
   font-weight: 700;
-  color: #f59e0b;
-  background: rgba(245, 158, 11, 0.12);
-  border: 1px solid rgba(245, 158, 11, 0.25);
+  color: var(--event-white);
+  background: rgba(244, 243, 239, 0.08);
+  border: 1px solid rgba(244, 243, 239, 0.2);
   padding: 0.3rem 0.75rem;
   border-radius: 2px;
   letter-spacing: 0.04em;

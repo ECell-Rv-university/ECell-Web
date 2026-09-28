@@ -2,6 +2,9 @@ import type { StaticImageData } from "next/image";
 import cta from "../assets/events/events_photo/cta.webp";
 import argonyx from "../assets/events/events_photo/argonyx.webp";
 import argonyxHeroPhoto from "../assets/Argonyx26/inaugration/ing1.webp";
+import winnerPhoto from "../assets/Argonyx26/winningTeams/winner.webp";
+import runnerUpPhoto from "../assets/Argonyx26/winningTeams/runnerups.webp";
+import secondRunnerUpPhoto from "../assets/Argonyx26/winningTeams/secondrunnerup.webp";
 
 export interface LedgerItem {
   number: string;
@@ -23,6 +26,7 @@ export interface WinnerItem {
   projectTitle: string;
   description?: string;
   photoCaption?: string;
+  photo?: StaticImageData;
 }
 
 export interface GallerySpace {
@@ -151,31 +155,34 @@ export const EVENTS_DATA: Record<string, EventDetailData> = {
         place: "1ST PLACE",
         badge: "Grand Champion",
         prize: "₹15,000 Cash Prize + Incubation",
-        teamName: "Team NeuralShift",
-        projectTitle: "Autonomous Edge Diagnostics",
+        teamName: "Lords of the Pings",
+        projectTitle: "Argonyx '26 Grand Winners",
         description:
-          "Engineered a sub-second, on-device diagnostic pipeline designed for offline rural healthcare stations.",
-        photoCaption: "Grand Winners Team Photo",
+          "Dominated the 24-hour national hackathon with a real, shippable solution — built, demoed, and defended under pressure.",
+        photoCaption: "Lords of the Pings — Grand Champions",
+        photo: winnerPhoto,
       },
       {
         place: "2ND PLACE",
         badge: "First Runner-Up",
         prize: "₹10,000 Cash Prize",
-        teamName: "Team HyperPulse",
-        projectTitle: "Decentralized Microgrid Arbitrage",
+        teamName: "Zero Shift",
+        projectTitle: "Argonyx '26 First Runner-Up",
         description:
-          "Built a peer-to-peer renewable energy sharing platform with real-time hardware telemetry and smart settlements.",
-        photoCaption: "Runner-Up Team Photo",
+          "Delivered an impressive working prototype in 24 continuous hours, earning recognition from the jury panel.",
+        photoCaption: "Zero Shift — First Runner-Up",
+        photo: runnerUpPhoto,
       },
       {
         place: "3RD PLACE",
         badge: "Second Runner-Up",
         prize: "₹5,000 Cash Prize",
-        teamName: "Team ZeroTrace",
-        projectTitle: "Verifiable Privacy Vault",
+        teamName: "Team Placeholder",
+        projectTitle: "Argonyx '26 Second Runner-Up",
         description:
-          "Implemented a zero-knowledge credential verification framework safeguarding sensitive student identities.",
+          "Secured third place with an outstanding build during the 24-hour national hackathon sprint.",
         photoCaption: "Second Runner-Up Team Photo",
+        photo: secondRunnerUpPhoto,
       },
     ],
     galleryHeadline: "View Images",

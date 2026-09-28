@@ -392,6 +392,15 @@ export default function EventDetailClient({ event }: EventDetailClientProps): Re
                   >
                     {/* Left Side: Rectangular Photo Space */}
                     <div className="winner-spotlight__photo-space">
+                      {currentWinner.photo ? (
+                        <Image
+                          src={currentWinner.photo}
+                          alt={currentWinner.photoCaption || `${currentWinner.teamName} Team Photo`}
+                          fill
+                          sizes="(max-width: 860px) 100vw, 55vw"
+                          className="winner-photo-slot__image"
+                        />
+                      ) : (
                       <div className="winner-photo-slot">
                         <div
                           className="winner-photo-slot__icon"
@@ -426,6 +435,7 @@ export default function EventDetailClient({ event }: EventDetailClientProps): Re
                           PHOTO SPACE RESERVED
                         </span>
                       </div>
+                      )}
                       <div className="winner-spotlight__rank-badge">
                         {currentWinner.place}
                       </div>
