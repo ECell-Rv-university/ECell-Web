@@ -58,8 +58,27 @@ export default function DepthCarousel({
 }: DepthCarouselProps) {
   const [active, setActive] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
+  const [viewportWidth, setViewportWidth] = useState(0);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const total = items.length;
+
+  useEffect(() => {
+    const updateViewportWidth = () => setViewportWidth(window.innerWidth);
+    updateViewportWidth();
+    window.addEventListener("resize", updateViewportWidth);
+    return () => window.removeEventListener("resize", updateViewportWidth);
+  }, []);
+
+  // Keep the fan usable on touch screens. Desktop keeps the full visual
+  // treatment, while smaller screens use a tighter stack around the active
+  // photo instead of pushing the page wider than the viewport.
+  const isPhone = viewportWidth > 0 && viewportWidth <= 640;
+  const isTablet = viewportWidth > 640 && viewportWidth <= 860;
+  const effectiveDepth = isPhone ? Math.min(depth, 90) : isTablet ? Math.min(depth, 140) : depth;
+  const effectiveSpread = isPhone ? Math.min(spread, 28) : isTablet ? Math.min(spread, 48) : spread;
+  const effectiveTilt = isPhone ? Math.min(tilt, 9) : isTablet ? Math.min(tilt, 14) : tilt;
+  const effectivePerspective = isPhone ? Math.min(perspective, 800) : perspective;
+  const effectiveVisibleCards = isPhone ? Math.min(visibleCards, 2) : isTablet ? Math.min(visibleCards, 3) : visibleCards;
 
   const prev = useCallback(() => {
     setActive((a) => (loop ? mod(a - 1, total) : Math.max(a - 1, 0)));
@@ -135,7 +154,7 @@ export default function DepthCarousel({
   };
 
   const dirMult = tiltDirection === "right" ? 1 : -1;
-  const visCount = Math.min(visibleCards, total);
+  const visCount = Math.min(effectiveVisibleCards, total);
   const cardIndices = Array.from({ length: visCount }, (_, i) => mod(active + i, total));
 
   const handleCardClick = (itemIdx: number, stackPos: number, e: MouseEvent) => {
@@ -153,14 +172,14 @@ export default function DepthCarousel({
     >
       <div
         className="dc-scene"
-        style={{ perspective: `${perspective}px` }}
+        style={{ perspective: `${effectivePerspective}px` }}
       >
         {[...cardIndices].reverse().map((itemIdx, revPos) => {
           const stackPos = cardIndices.length - 1 - revPos;
           const item = items[itemIdx];
-          const xOff = stackPos * spread * dirMult;
-          const zOff = -stackPos * depth;
-          const rot = stackPos * tilt * dirMult;
+          const xOff = stackPos * effectiveSpread * dirMult;
+          const zOff = -stackPos * effectiveDepth;
+          const rot = stackPos * effectiveTilt * dirMult;
           const opacity = Math.max(0, 1 - stackPos * falloff);
           const blurPx = stackPos === 0 ? 0 : stackPos * blur;
           const scale = 1 - stackPos * 0.04;

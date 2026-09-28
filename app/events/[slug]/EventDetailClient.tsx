@@ -40,10 +40,76 @@ interface EventDetailClientProps {
   event: EventDetailData;
 }
 
+/** Returns responsive spiral gallery dimensions based on window width */
+function useSpiralConfig() {
+  const [config, setConfig] = useState({
+    radius: 220,
+    cardWidth: 160,
+    cardHeight: 120,
+    verticalSpacing: 70,
+    perspective: 1000,
+    centerScale: 1.25,
+    cardsPerTurn: 8,
+  });
+
+  useEffect(() => {
+    function update() {
+      const w = window.innerWidth;
+      if (w <= 420) {
+        setConfig({
+          radius: 100,
+          cardWidth: 90,
+          cardHeight: 68,
+          verticalSpacing: 40,
+          perspective: 600,
+          centerScale: 1.15,
+          cardsPerTurn: 6,
+        });
+      } else if (w <= 640) {
+        setConfig({
+          radius: 130,
+          cardWidth: 110,
+          cardHeight: 82,
+          verticalSpacing: 50,
+          perspective: 700,
+          centerScale: 1.18,
+          cardsPerTurn: 7,
+        });
+      } else if (w <= 860) {
+        setConfig({
+          radius: 170,
+          cardWidth: 130,
+          cardHeight: 98,
+          verticalSpacing: 58,
+          perspective: 850,
+          centerScale: 1.22,
+          cardsPerTurn: 7,
+        });
+      } else {
+        setConfig({
+          radius: 220,
+          cardWidth: 160,
+          cardHeight: 120,
+          verticalSpacing: 70,
+          perspective: 1000,
+          centerScale: 1.25,
+          cardsPerTurn: 8,
+        });
+      }
+    }
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, []);
+
+  return config;
+}
+
 export default function EventDetailClient({ event }: EventDetailClientProps): React.ReactElement {
   const [activeWinnerIndex, setActiveWinnerIndex] = useState<number>(0);
   const touchStartXRef = useRef<number | null>(null);
   const touchStartYRef = useRef<number | null>(null);
+  const spiralConfig = useSpiralConfig();
 
   const winnersList = event.winners || [];
   const safeWinnerIndex = activeWinnerIndex >= winnersList.length ? 0 : activeWinnerIndex;
@@ -157,7 +223,7 @@ export default function EventDetailClient({ event }: EventDetailClientProps): Re
   }, [event.slug]);
 
   return (
-    <div className="event-detail-page">
+    <div className={`event-detail-page${event.isCompleted ? " event-detail-page--completed" : ""}`}>
       <header className="topbar">
         <div className="topbar__inner">
           <Link className="topbar__mark" href="/events">
@@ -471,7 +537,7 @@ export default function EventDetailClient({ event }: EventDetailClientProps): Re
 
                       <div className="winner-spotlight__footer-badges">
                         <span className="winner-spotlight__foot-pill">
-                          ARGONYX '26
+                          ARGONYX &apos;26
                         </span>
                         <span className="winner-spotlight__foot-pill">
                           24-HR NATIONAL HACKATHON
@@ -518,7 +584,7 @@ export default function EventDetailClient({ event }: EventDetailClientProps): Re
                 <div className="event-gallery__title-wrap">
                   <p className="eyebrow">
                     <span className="eyebrow__rule" />
-                    Captured Moments · Argonyx '26
+                    Captured Moments · Argonyx &apos;26
                   </p>
                   <h2 className="event-gallery__headline">
                     {event.galleryHeadline || "View Images"}
@@ -539,15 +605,15 @@ export default function EventDetailClient({ event }: EventDetailClientProps): Re
                   items={SPIRAL_GALLERY_IMAGES}
                   animationMode="all"
                   speed={0.55}
-                  radius={220}
-                  cardWidth={160}
-                  cardHeight={120}
-                  verticalSpacing={70}
-                  perspective={1000}
+                  radius={spiralConfig.radius}
+                  cardWidth={spiralConfig.cardWidth}
+                  cardHeight={spiralConfig.cardHeight}
+                  verticalSpacing={spiralConfig.verticalSpacing}
+                  perspective={spiralConfig.perspective}
                   cardRadius={8}
-                  centerScale={1.25}
+                  centerScale={spiralConfig.centerScale}
                   edgeBlur={5}
-                  cardsPerTurn={8}
+                  cardsPerTurn={spiralConfig.cardsPerTurn}
                   pauseOnHover
                 />
 

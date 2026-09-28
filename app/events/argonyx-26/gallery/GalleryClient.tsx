@@ -856,7 +856,7 @@ function Lightbox({
           fill
           sizes="100vw"
           style={{ objectFit: "contain" }}
-          quality={95}
+          quality={85}
           priority
         />
       </div>
@@ -1225,7 +1225,6 @@ export default function GalleryClient() {
                   fill
                   sizes="(max-width: 1024px) 35vw, 18vw"
                   style={{ objectFit: "cover" }}
-                  priority
                 />
               </div>
             </div>
@@ -1245,7 +1244,6 @@ export default function GalleryClient() {
                 fill
                 sizes="(max-width: 1024px) 35vw, 18vw"
                 style={{ objectFit: "cover" }}
-                priority
               />
             </div>
 
@@ -1284,7 +1282,6 @@ export default function GalleryClient() {
                   fill
                   sizes="(max-width: 1024px) 35vw, 18vw"
                   style={{ objectFit: "cover" }}
-                  priority
                 />
               </div>
             </div>
@@ -1384,7 +1381,6 @@ export default function GalleryClient() {
                     fill
                     sizes="(max-width: 768px) 100vw, 50vw"
                     style={{ objectFit: "cover" }}
-                    priority
                   />
                 </div>
                 <div className="gallery-ecell-card__overlay">
@@ -1416,7 +1412,6 @@ export default function GalleryClient() {
                     fill
                     sizes="(max-width: 768px) 100vw, 50vw"
                     style={{ objectFit: "cover" }}
-                    priority
                   />
                 </div>
               </div>
@@ -1515,8 +1510,7 @@ export default function GalleryClient() {
                 fill
                 sizes="100vw"
                 style={{ objectFit: "cover" }}
-                quality={95}
-                priority
+                quality={85}
               />
               <div className="gallery-team-photo__overlay" ref={teamOverlayRef}>
                 <div className="gallery-team-photo__caption-wrap">

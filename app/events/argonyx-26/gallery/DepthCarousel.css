@@ -194,3 +194,48 @@
   .dc-card { transition: none !important; }
   .dc-dot  { transition: none !important; }
 }
+
+@media (max-width: 860px) {
+  .dc-root {
+    align-items: center;
+    gap: 1.25rem;
+  }
+
+  .dc-scene {
+    max-width: 100%;
+  }
+
+  .dc-controls,
+  .dc-counter {
+    padding-inline: 1rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .dc-root {
+    padding: 1rem 0 0.75rem;
+  }
+
+  .dc-scene {
+    height: clamp(155px, 48vw, 235px);
+  }
+
+  .dc-card {
+    left: 1rem;
+    width: clamp(220px, 68vw, 360px);
+  }
+
+  .dc-controls {
+    width: 100%;
+    justify-content: center;
+    gap: 0.75rem;
+  }
+
+  .dc-dots {
+    max-width: min(45vw, 160px);
+  }
+
+  .dc-counter {
+    align-self: center;
+  }
+}

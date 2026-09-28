@@ -958,33 +958,77 @@
   transform: translate(2px, -2px);
 }
 
+/* =====================================================
+   RESPONSIVE: TABLET (≤ 860px)
+===================================================== */
 @media (max-width: 860px) {
-  .event-detail-page .hero__grid {
-    grid-template-columns: 1fr;
-    gap: 3rem;
+  .event-detail-page .hero {
+    padding: 4rem 1.2rem 4.5rem;
   }
 
-  .event-detail-page .about__grid {
+  .event-detail-page .hero__grid {
     grid-template-columns: 1fr;
     gap: 2.5rem;
   }
 
+  .event-detail-page .hero__headline {
+    font-size: clamp(2.2rem, 1.4rem + 3.5vw, 3.4rem);
+    margin-bottom: 1.4rem;
+  }
+
+  .event-detail-page .hero__body {
+    font-size: 1rem;
+    margin-bottom: 1.8rem;
+  }
+
+  .event-detail-page .about {
+    padding: 5rem 1.2rem;
+  }
+
+  .event-detail-page .about__grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .event-detail-page .about__headline {
+    font-size: clamp(2rem, 1.3rem + 2.5vw, 3rem);
+  }
+
+  .event-detail-page .about__text p {
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+
   .event-detail-page .winner-spotlight-box {
     grid-template-columns: 1fr;
+    min-height: auto;
   }
 
   .event-detail-page .winner-spotlight__photo-space {
     border-right: none;
     border-bottom: 1px solid var(--event-line);
-    min-height: 260px;
+    min-height: 240px;
+    aspect-ratio: 16 / 9;
   }
 
   .event-detail-page .winner-spotlight__details {
     padding: 2rem 1.6rem;
   }
 
+  .event-detail-page .winners-section {
+    padding: 5rem 1.2rem;
+  }
+
+  .event-detail-page .event-gallery {
+    padding: 5rem 1.2rem;
+  }
+
   .event-detail-page .spiral-gallery-wrapper {
     height: 480px;
+  }
+
+  .event-detail-page .ledger {
+    padding: 4.5rem 1.2rem;
   }
 
   .event-detail-page .ledger__row {
@@ -996,21 +1040,162 @@
     grid-column: 2 / 3;
     text-align: left;
   }
+
+  .event-detail-page .organizers {
+    padding: 4.5rem 1.2rem;
+  }
+
+  .event-detail-page .register {
+    padding: 5rem 1.2rem;
+  }
+
+  .event-detail-page .contact {
+    padding: 4.5rem 1.2rem;
+  }
 }
 
+/* =====================================================
+   RESPONSIVE: LARGE MOBILE (≤ 640px)
+===================================================== */
 @media (max-width: 640px) {
+  .event-detail-page {
+    font-size: 16px;
+  }
+
+  .event-detail-page .topbar__inner {
+    padding: 0.9rem 1rem;
+  }
+
   .event-detail-page .topbar__nav {
-    gap: 1rem;
+    gap: 0.6rem;
   }
 
   .event-detail-page .topbar__nav a:not(.topbar__cta) {
     display: none;
   }
 
+  .event-detail-page .topbar__cta {
+    padding: 0.45rem 0.9rem;
+    font-size: 0.82rem;
+  }
+
+  .event-detail-page .topbar__mark {
+    font-size: 0.88rem;
+  }
+
+  .event-detail-page .hero {
+    padding: 3rem 1rem 3.5rem;
+  }
+
+  .event-detail-page .hero__grid {
+    gap: 2rem;
+  }
+
+  .event-detail-page .hero__headline {
+    font-size: clamp(1.9rem, 1.2rem + 3vw, 2.8rem);
+    margin-bottom: 1.2rem;
+  }
+
+  .event-detail-page .hero__body {
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .event-detail-page .hero__actions {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .event-detail-page .hero__actions .btn {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .event-detail-page .event-card__media {
+    aspect-ratio: 16 / 10;
+  }
+
+  .event-detail-page .event-card__foot {
+    padding: 1rem;
+  }
+
+  .event-detail-page .event-card__title {
+    font-size: 0.95rem;
+  }
+
+  .event-detail-page .about {
+    padding: 3.5rem 1rem;
+  }
+
+  .event-detail-page .about__grid {
+    gap: 1.6rem;
+  }
+
+  .event-detail-page .about__headline {
+    font-size: clamp(1.7rem, 1.1rem + 2vw, 2.4rem);
+  }
+
+  .event-detail-page .about__text p {
+    font-size: 0.95rem;
+    line-height: 1.7;
+  }
+
+  .event-detail-page .about__text .muted {
+    font-size: 0.88rem;
+    margin-top: 1.2rem;
+  }
+
+  .event-detail-page .ledger {
+    padding: 3.5rem 1rem;
+  }
+
+  .event-detail-page .ledger__row {
+    grid-template-columns: 2rem 1fr;
+    row-gap: 0.2rem;
+    padding: 1.1rem 0;
+  }
+
+  .event-detail-page .ledger__label {
+    font-size: 0.85rem;
+  }
+
+  .event-detail-page .ledger__value {
+    grid-column: 2 / 3;
+    text-align: left;
+    font-size: 1.05rem;
+  }
+
+  .event-detail-page .organizers {
+    padding: 3.5rem 1rem;
+  }
+
+  .event-detail-page .organizers__list {
+    gap: 0.6rem 0.7rem;
+  }
+
+  .event-detail-page .organizers__list li {
+    padding: 0.6rem 0.9rem;
+    font-size: 0.88rem;
+  }
+
+  .event-detail-page .winners-section {
+    padding: 3.5rem 1rem;
+  }
+
   .event-detail-page .winners-section__top {
     flex-direction: column;
     align-items: flex-start;
     gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .event-detail-page .winners-section__headline {
+    font-size: clamp(1.7rem, 1.1rem + 2vw, 2.4rem);
+  }
+
+  .event-detail-page .winners-section__subhead {
+    font-size: 0.95rem;
   }
 
   .event-detail-page .winners-nav-controls {
@@ -1018,28 +1203,361 @@
     justify-content: space-between;
   }
 
+  .event-detail-page .winners-tabs {
+    gap: 0.35rem;
+    padding: 0.25rem;
+  }
+
+  .event-detail-page .winners-tab-btn {
+    font-size: 0.68rem;
+    padding: 0.4rem 0.7rem;
+  }
+
+  .event-detail-page .winners-arrow-btn {
+    width: 36px;
+    height: 36px;
+    font-size: 1rem;
+  }
+
+  .event-detail-page .winner-spotlight__photo-space {
+    min-height: 200px;
+    aspect-ratio: 16 / 9;
+  }
+
+  .event-detail-page .winner-spotlight__details {
+    padding: 1.6rem 1.2rem;
+  }
+
+  .event-detail-page .winner-spotlight__team-name {
+    font-size: clamp(1.4rem, 1rem + 1.5vw, 2rem);
+  }
+
+  .event-detail-page .winner-spotlight__project-name {
+    font-size: 1rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .event-detail-page .winner-spotlight__desc {
+    font-size: 0.9rem;
+    line-height: 1.65;
+    margin-bottom: 1.5rem;
+  }
+
+  .event-detail-page .winner-spotlight__footer-badges {
+    gap: 0.4rem;
+  }
+
+  .event-detail-page .winner-spotlight__foot-pill {
+    font-size: 0.62rem;
+    padding: 0.25rem 0.5rem;
+  }
+
+  .event-detail-page .event-gallery {
+    padding: 3.5rem 1rem;
+  }
+
+  .event-detail-page .event-gallery__headline {
+    font-size: clamp(1.7rem, 1.1rem + 2vw, 2.4rem);
+  }
+
+  .event-detail-page .event-gallery__subhead {
+    font-size: 0.92rem;
+  }
+
   .event-detail-page .spiral-gallery-wrapper {
-    height: 420px;
+    height: 380px;
+    border-radius: 4px;
   }
 
   .event-detail-page .spiral-view-btn {
     padding: 0.85rem 1.6rem;
     font-size: 0.86rem;
+    gap: 0.6rem;
   }
 
-  .event-detail-page .ledger__row {
-    grid-template-columns: 2rem 1fr;
-    row-gap: 0.2rem;
+  .event-detail-page .register {
+    padding: 4rem 1rem;
   }
 
-  .event-detail-page .ledger__value {
-    grid-column: 2 / 3;
-    text-align: left;
+  .event-detail-page .register__headline {
+    font-size: clamp(1.7rem, 1.1rem + 2vw, 2.4rem);
+  }
+
+  .event-detail-page .contact {
+    padding: 3.5rem 1rem;
   }
 
   .event-detail-page .contact__list li {
     flex-direction: column;
     gap: 0.3rem;
+  }
+
+  .event-detail-page .contact__name {
+    min-width: unset;
+  }
+
+  .event-detail-page .footer {
+    padding: 1.8rem 1rem;
+    flex-direction: column;
+    gap: 0.8rem;
+    text-align: center;
+  }
+}
+
+/* =====================================================
+   RESPONSIVE: SMALL MOBILE (≤ 420px)
+===================================================== */
+@media (max-width: 420px) {
+  .event-detail-page .hero {
+    padding: 2.2rem 0.75rem 2.8rem;
+  }
+
+  .event-detail-page .hero__grid {
+    gap: 1.5rem;
+  }
+
+  .event-detail-page .hero__headline {
+    font-size: 1.75rem;
+    margin-bottom: 1rem;
+    line-height: 1.05;
+  }
+
+  .event-detail-page .hero__body {
+    font-size: 0.9rem;
+    margin-bottom: 1.2rem;
+    line-height: 1.6;
+  }
+
+  .event-detail-page .btn {
+    padding: 0.75rem 1.3rem;
+    font-size: 0.88rem;
+  }
+
+  .event-detail-page .eyebrow {
+    font-size: 0.7rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .event-detail-page .event-card__media {
+    aspect-ratio: 3 / 2;
+  }
+
+  .event-detail-page .event-card__badge-completed {
+    top: 10px;
+    left: 10px;
+    font-size: 0.65rem;
+    padding: 0.3rem 0.55rem;
+  }
+
+  .event-detail-page .event-card__foot {
+    padding: 0.8rem 0.9rem;
+  }
+
+  .event-detail-page .event-card__title {
+    font-size: 0.88rem;
+  }
+
+  .event-detail-page .event-card__meta {
+    font-size: 0.68rem;
+  }
+
+  .event-detail-page .about {
+    padding: 2.5rem 0.75rem;
+  }
+
+  .event-detail-page .about__grid {
+    gap: 1.2rem;
+  }
+
+  .event-detail-page .about__headline {
+    font-size: 1.5rem;
+    line-height: 1.12;
+  }
+
+  .event-detail-page .about__text p {
+    font-size: 0.88rem;
+    line-height: 1.65;
+  }
+
+  .event-detail-page .about__text .muted {
+    font-size: 0.82rem;
+    padding-left: 0.75rem;
+  }
+
+  .event-detail-page .ledger {
+    padding: 2.5rem 0.75rem;
+  }
+
+  .event-detail-page .ledger__row {
+    grid-template-columns: 1.5rem 1fr;
+    gap: 0.8rem;
+    padding: 0.9rem 0;
+  }
+
+  .event-detail-page .ledger__label {
+    font-size: 0.8rem;
+  }
+
+  .event-detail-page .ledger__value {
+    font-size: 0.95rem;
+  }
+
+  .event-detail-page .organizers {
+    padding: 2.5rem 0.75rem;
+  }
+
+  .event-detail-page .organizers__list li {
+    padding: 0.5rem 0.7rem;
+    font-size: 0.82rem;
+  }
+
+  .event-detail-page .winners-section {
+    padding: 2.5rem 0.75rem;
+  }
+
+  .event-detail-page .winners-section__headline {
+    font-size: 1.5rem;
+  }
+
+  .event-detail-page .winners-section__subhead {
+    font-size: 0.88rem;
+  }
+
+  .event-detail-page .winners-nav-controls {
+    gap: 0.8rem;
+  }
+
+  .event-detail-page .winners-counter {
+    font-size: 0.78rem;
+  }
+
+  .event-detail-page .winners-counter strong {
+    font-size: 0.92rem;
+  }
+
+  .event-detail-page .winners-tabs {
+    gap: 0.2rem;
+    padding: 0.2rem;
+  }
+
+  .event-detail-page .winners-tab-btn {
+    font-size: 0.62rem;
+    padding: 0.35rem 0.5rem;
+  }
+
+  .event-detail-page .winners-arrow-btn {
+    width: 32px;
+    height: 32px;
+    font-size: 0.9rem;
+  }
+
+  .event-detail-page .winner-spotlight__photo-space {
+    min-height: 170px;
+  }
+
+  .event-detail-page .winner-spotlight__details {
+    padding: 1.3rem 1rem;
+  }
+
+  .event-detail-page .winner-spotlight__badge-title {
+    font-size: 0.7rem;
+  }
+
+  .event-detail-page .winner-spotlight__team-name {
+    font-size: 1.25rem;
+  }
+
+  .event-detail-page .winner-spotlight__project-name {
+    font-size: 0.9rem;
+    margin-bottom: 0.6rem;
+  }
+
+  .event-detail-page .winner-spotlight__desc {
+    font-size: 0.84rem;
+    line-height: 1.6;
+    margin-bottom: 1.2rem;
+  }
+
+  .event-detail-page .event-gallery {
+    padding: 2.5rem 0.75rem;
+  }
+
+  .event-detail-page .event-gallery__headline {
+    font-size: 1.5rem;
+  }
+
+  .event-detail-page .event-gallery__subhead {
+    font-size: 0.85rem;
+  }
+
+  .event-detail-page .event-gallery__header {
+    margin-bottom: 1.5rem;
+  }
+
+  .event-detail-page .spiral-gallery-wrapper {
+    height: 300px;
+  }
+
+  .event-detail-page .spiral-view-btn {
+    padding: 0.7rem 1.3rem;
+    font-size: 0.78rem;
+    gap: 0.5rem;
+  }
+
+  .event-detail-page .spiral-view-btn svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .event-detail-page .register {
+    padding: 3rem 0.75rem;
+  }
+
+  .event-detail-page .register__headline {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .event-detail-page .register__hint {
+    font-size: 0.78rem;
+  }
+
+  .event-detail-page .contact {
+    padding: 2.5rem 0.75rem;
+  }
+
+  .event-detail-page .footer {
+    padding: 1.5rem 0.75rem;
+    font-size: 0.78rem;
+  }
+
+  .event-detail-page .topbar__inner {
+    padding: 0.75rem 0.75rem;
+  }
+
+  .event-detail-page .topbar__mark {
+    font-size: 0.82rem;
+    gap: 0.35rem;
+  }
+}
+
+/* =====================================================
+   RESPONSIVE: ULTRA-WIDE (≥ 1440px)
+===================================================== */
+@media (min-width: 1440px) {
+  .event-detail-page .hero {
+    padding: 7rem 2rem 8rem;
+  }
+
+  .event-detail-page .hero__grid,
+  .event-detail-page .about__inner,
+  .event-detail-page .winners-section__inner,
+  .event-detail-page .event-gallery__inner {
+    max-width: 1320px;
+  }
+
+  .event-detail-page .spiral-gallery-wrapper {
+    height: 680px;
   }
 }
 
@@ -1047,5 +1565,106 @@
   .event-detail-page * {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+/* =====================================================
+   FINAL RESPONSIVE SAFETY NETS
+===================================================== */
+.event-detail-page {
+  overflow-x: clip;
+}
+
+.event-detail-page section[id] {
+  scroll-margin-top: 5rem;
+}
+
+.event-detail-page .hero__copy,
+.event-detail-page .about__text,
+.event-detail-page .winner-spotlight__details,
+.event-detail-page .event-gallery__title-wrap {
+  min-width: 0;
+}
+
+@media (max-width: 860px) {
+  .event-detail-page .topbar__mark {
+    flex-shrink: 0;
+  }
+
+  .event-detail-page .topbar__nav {
+    min-width: 0;
+    gap: 1rem;
+  }
+
+  .event-detail-page .event-gallery__header {
+    margin-bottom: 2rem;
+  }
+
+  .event-detail-page .spiral-gallery-wrapper {
+    min-height: 360px;
+  }
+}
+
+@media (max-width: 640px) {
+  .event-detail-page section[id] {
+    scroll-margin-top: 4.25rem;
+  }
+
+  .event-detail-page .topbar__inner {
+    gap: 0.75rem;
+  }
+
+  .event-detail-page--completed .topbar__nav a[href="#gallery"] {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2rem;
+    padding: 0.35rem 0.65rem;
+    border: 1px solid var(--event-line);
+    border-radius: 2px;
+    color: var(--event-white);
+    font-size: 0.76rem;
+  }
+
+  .event-detail-page .topbar__nav a[href="#gallery"] {
+    white-space: nowrap;
+  }
+
+  .event-detail-page .event-card__foot {
+    min-height: 4rem;
+  }
+
+  .event-detail-page .winner-spotlight__project-name,
+  .event-detail-page .winner-spotlight__desc,
+  .event-detail-page .event-gallery__subhead {
+    overflow-wrap: anywhere;
+  }
+
+  .event-detail-page .winners-tabs {
+    max-width: calc(100vw - 8rem);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .event-detail-page .winners-tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .event-detail-page .spiral-gallery-wrapper {
+    min-height: 300px;
+  }
+}
+
+@media (max-width: 420px) {
+  .event-detail-page .topbar__nav {
+    gap: 0.35rem;
+  }
+
+  .event-detail-page--completed .topbar__nav a[href="#gallery"] {
+    padding-inline: 0.5rem;
+    font-size: 0.7rem;
+  }
+
+  .event-detail-page .winners-tabs {
+    max-width: calc(100vw - 6rem);
   }
 }
