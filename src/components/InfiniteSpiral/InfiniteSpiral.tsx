@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useMemo, useRef } from "react";
-import type { StaticImageData } from "next/image";
+import Image, { type StaticImageData } from "next/image";
 import "./InfiniteSpiral.css";
 
 const clamp = (value: number, min: number, max: number): number =>
@@ -344,18 +344,16 @@ export default function InfiniteSpiral({
               role="listitem"
               aria-label={item.label ?? item.alt}
             >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
+              <Image
                 className="infinite-spiral__image"
                 src={item.src}
                 alt={item.alt}
-                loading={index < 6 ? "eager" : "lazy"}
+                fill
+                sizes={`${cardWidth}px`}
+                quality={75}
+                loading={index < 2 ? "eager" : "lazy"}
                 draggable={false}
                 style={{
-                  width: cardWidth,
-                  height: cardHeight,
-                  maxWidth: "none",
-                  maxHeight: "none",
                   objectFit: imageFit,
                   filter: `grayscale(${Math.min(1, Math.max(0, grayscale))})`,
                 }}

@@ -857,7 +857,7 @@ function Lightbox({
           sizes="100vw"
           style={{ objectFit: "contain" }}
           quality={85}
-          priority
+          loading="eager"
         />
       </div>
 
@@ -1197,9 +1197,9 @@ export default function GalleryClient() {
                 src={heroStagePhoto}
                 alt="Argonyx '26 Keynote Auditorium Stage"
                 fill
-                sizes="(max-width: 1024px) 80vw, 45vw"
+                sizes="(max-width: 860px) 80vw, (max-width: 1200px) 44vw, 38vw"
                 style={{ objectFit: "cover" }}
-                priority
+                preload
               />
               <div className="gallery-showcase__main-gradient" />
             </div>
