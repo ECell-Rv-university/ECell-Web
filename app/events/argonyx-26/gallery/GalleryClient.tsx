@@ -1060,9 +1060,9 @@ export default function GalleryClient() {
         scrollTrigger: {
           trigger: finaleStageRef.current,
           start: "top top",
-          end: "+=220%",
+          end: "+=160%",
           pin: finalePinRef.current,
-          scrub: 0.8,
+          scrub: 0.2,
           anticipatePin: 1,
           invalidateOnRefresh: true,
         },
