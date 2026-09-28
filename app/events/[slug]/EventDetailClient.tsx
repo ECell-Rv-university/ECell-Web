@@ -302,7 +302,7 @@ export default function EventDetailClient({ event }: EventDetailClientProps): Re
                   src={event.image}
                   alt={event.title}
                   fill
-                  priority
+                  preload
                   sizes="(max-width: 860px) 100vw, 40vw"
                 />
                 {event.isCompleted && (

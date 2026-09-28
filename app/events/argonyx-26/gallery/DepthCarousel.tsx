@@ -209,7 +209,7 @@ export default function DepthCarousel({
                   src={item.image}
                   alt={item.alt}
                   fill
-                  sizes="(max-width: 640px) 80vw, (max-width: 1024px) 45vw, 32vw"
+                  sizes="(max-width: 640px) 68vw, (max-width: 860px) 56vw, 46vw"
                   style={{ objectFit: "cover" }}
                   quality={75}
                   loading="lazy"
