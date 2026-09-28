@@ -376,7 +376,7 @@ const GALLERY_SECTIONS: GallerySection[] = [
     title: "Registration & Opening",
     eyebrow: "DAY 1 · ARRIVAL",
     photos: [
-      { src: img_opening_new_1, alt: "Registration & Opening · Arrival & Check-in" },
+      { src: img_opening_2, alt: "Registration & Opening · op1" },
       { src: img_opening_new_2, alt: "Registration & Opening · Welcoming Participants" },
       { src: img_opening_new_3, alt: "Registration & Opening · Badges & Kits" },
       { src: img_opening_new_4, alt: "Registration & Opening · Registration Desk" },
@@ -385,7 +385,6 @@ const GALLERY_SECTIONS: GallerySection[] = [
       { src: img_opening_new_7, alt: "Registration & Opening · Arrival Hall" },
       { src: img_opening_new_8, alt: "Registration & Opening · Welcome Setup" },
       { src: img_opening_1, alt: "Registration & Opening · image" },
-      { src: img_opening_2, alt: "Registration & Opening · op1" },
       { src: img_opening_3, alt: "Registration & Opening · op2" },
       { src: img_opening_4, alt: "Registration & Opening · reg" },
       { src: img_opening_5, alt: "Registration & Opening · reg2" },
@@ -549,11 +548,11 @@ const GALLERY_SECTIONS: GallerySection[] = [
     title: "Night Coding",
     eyebrow: "MIDNIGHT SPRINT · DAY 1",
     photos: [
-      { src: img_night_coding_131, alt: "Night Coding · image copy 2" },
+      { src: img_night_coding_135, alt: "Night Coding · image" },
       { src: img_night_coding_132, alt: "Night Coding · image copy 3" },
       { src: img_night_coding_133, alt: "Night Coding · image copy 4" },
       { src: img_night_coding_134, alt: "Night Coding · image copy" },
-      { src: img_night_coding_135, alt: "Night Coding · image" }
+      { src: img_night_coding_131, alt: "Night Coding · image copy 2" }
     ],
   },
   {
@@ -1061,9 +1060,9 @@ export default function GalleryClient() {
         scrollTrigger: {
           trigger: finaleStageRef.current,
           start: "top top",
-          end: "+=220%",
+          end: "+=160%",
           pin: finalePinRef.current,
-          scrub: 0.8,
+          scrub: 0.2,
           anticipatePin: 1,
           invalidateOnRefresh: true,
         },

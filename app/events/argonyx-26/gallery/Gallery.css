@@ -1107,20 +1107,6 @@
   min-width: 0;
 }
 
-@media (min-width: 861px) {
-  /* The gallery contains 300+ photos. Let the browser defer layout and paint
-     for sections that are well below the fold until the user approaches them. */
-  .gallery-section {
-    content-visibility: auto;
-    contain-intrinsic-size: 0 540px;
-  }
-
-  .gallery-ecell-section {
-    content-visibility: auto;
-    contain-intrinsic-size: 0 520px;
-  }
-}
-
 @media (max-width: 1024px) {
   .gallery-hero__inner {
     gap: 2.25rem;
@@ -1366,4 +1352,3 @@
     height: 38px;
   }
 }
-
