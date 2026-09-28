@@ -174,11 +174,11 @@ export const EVENTS_DATA: Record<string, EventDetailData> = {
       {
         place: "3RD PLACE",
         badge: "Second Runner-Up",
-        teamName: "Team Placeholder",
+        teamName: "Team Acers",
         projectTitle: "Argonyx '26 Second Runner-Up",
         description:
           "Secured third place with an outstanding build during the 24-hour national hackathon sprint.",
-        photoCaption: "Second Runner-Up Team Photo",
+        photoCaption: "Team Acers — Second Runner-Up",
         photo: secondRunnerUpPhoto,
       },
     ],

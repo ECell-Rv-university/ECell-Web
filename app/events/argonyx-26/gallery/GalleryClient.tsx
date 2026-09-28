@@ -948,7 +948,7 @@ export default function GalleryClient() {
           },
           {
             src: ecellTeam2,
-            alt: "ECell RVU Organizing Committee — Argonyx '26 Execution Crew",
+            alt: "ECell RVU Team — Argonyx '26",
           },
         ]
       : currentSection?.photos || [];
@@ -1395,7 +1395,7 @@ export default function GalleryClient() {
                 </div>
               </div>
 
-              {/* Card 2: Operations & Crew */}
+              {/* Card 2: ECell Team Photo (clean, no Organizing Committee overlay) */}
               <div
                 className="gallery-ecell-card"
                 onClick={() => openLightbox("ecell-team", 1)}
@@ -1412,18 +1412,12 @@ export default function GalleryClient() {
                 <div className="gallery-ecell-card__image-wrap">
                   <Image
                     src={ecellTeam2}
-                    alt="ECell RVU Organizing Committee — Argonyx '26 Execution Crew"
+                    alt="ECell RVU Team — Argonyx '26"
                     fill
                     sizes="(max-width: 768px) 100vw, 50vw"
                     style={{ objectFit: "cover" }}
                     priority
                   />
-                </div>
-                <div className="gallery-ecell-card__overlay">
-                  <h3 className="gallery-ecell-card__title">Organizing Committee</h3>
-                  <p className="gallery-ecell-card__subtitle">
-                    Event leads, stage managers, operations, and technical crew
-                  </p>
                 </div>
               </div>
             </div>

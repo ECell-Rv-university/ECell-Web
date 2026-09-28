@@ -54,7 +54,7 @@ describe("Events dynamic routes data", () => {
     expect(screen.getByText("that ships.")).toBeInTheDocument();
     expect(screen.getByText("What is Argonyx")).toBeInTheDocument();
     // Registration button should be removed and replaced with Closed / Completed
-    expect(screen.getByText("Closed / Completed")).toBeInTheDocument();
+    expect(screen.getByText(/closed \/ completed/i)).toBeInTheDocument();
     expect(screen.queryByText("Register on Unstop ↗")).not.toBeInTheDocument();
     expect(screen.queryByText("Register now")).not.toBeInTheDocument();
     // Winners and View Images sections
