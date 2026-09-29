@@ -4,6 +4,7 @@ import Image, { StaticImageData } from "next/image";
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { gsap, ScrollTrigger } from "@/src/utils/gsapSetup";
+import { TRANSITION_REVEAL_EVENT } from "@/src/components/PageTransition/PageTransition";
 import talkStartupWithMe from "../assets/events/events_photo/TalkStartupWithMe.webp";
 import winterTechTalk from "../assets/events/events_photo/WinterTechTalk.webp";
 import argonyx from "../assets/events/events_photo/argonyx.webp";
@@ -267,7 +268,22 @@ export default function EventsArchive(): React.ReactElement {
 
     let ctx: ReturnType<typeof gsap.context> | undefined;
 
+    // When arriving through the page transition, hold the hero entrance
+    // until the curtain lifts so it plays in view instead of behind it.
+    const heroTweens: gsap.core.Tween[] = [];
+    let revealFallback: number | undefined;
+    const playHero = () => {
+      window.clearTimeout(revealFallback);
+      heroTweens.forEach((tween) => tween.play());
+    };
+
     const initializeAnimations = () => {
+      const waitForReveal = Boolean(document.documentElement.dataset.pageTransition);
+      if (waitForReveal) {
+        window.addEventListener(TRANSITION_REVEAL_EVENT, playHero, { once: true });
+        revealFallback = window.setTimeout(playHero, 4000);
+      }
+
       ctx = gsap.context(() => {
         /* Hero elements - animate immediately on mount */
 
@@ -277,7 +293,7 @@ export default function EventsArchive(): React.ReactElement {
           );
 
         if (heroElements?.length) {
-          gsap.fromTo(
+          heroTweens.push(gsap.fromTo(
             heroElements,
             {
               opacity: 0,
@@ -290,8 +306,9 @@ export default function EventsArchive(): React.ReactElement {
               stagger: 0.1,
               ease: "power3.out",
               clearProps: "transform",
+              paused: waitForReveal,
             },
-          );
+          ));
         }
 
         /* Featured card - animate immediately on mount */
@@ -302,7 +319,7 @@ export default function EventsArchive(): React.ReactElement {
           );
 
         if (featureCard) {
-          gsap.fromTo(
+          heroTweens.push(gsap.fromTo(
             featureCard,
             {
               opacity: 0,
@@ -314,10 +331,12 @@ export default function EventsArchive(): React.ReactElement {
               y: 0,
               rotate: 1.5,
               duration: 0.8,
+              delay: waitForReveal ? 0.15 : 0,
               ease: "power3.out",
               clearProps: "transform",
+              paused: waitForReveal,
             },
-          );
+          ));
         }
 
         /* Calendar dates */
@@ -433,6 +452,8 @@ export default function EventsArchive(): React.ReactElement {
 
     return () => {
       window.cancelAnimationFrame(frame);
+      window.clearTimeout(revealFallback);
+      window.removeEventListener(TRANSITION_REVEAL_EVENT, playHero);
       ctx?.revert();
       try {
         ScrollTrigger.getAll().forEach((t) => t.kill());
