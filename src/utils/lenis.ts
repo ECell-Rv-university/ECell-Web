@@ -1,47 +1,22 @@
-import Lenis, { type LenisOptions, type VirtualScrollData } from "lenis";
+import Lenis, { type LenisOptions } from "lenis";
 import { gsap, ScrollTrigger } from "./gsapSetup";
 
-// Touchpads emit a dense stream of small wheel deltas and already apply their
-// own momentum, so layering Lenis' lerp on top makes scrolling feel laggy and
-// floaty, and hijacking diagonal swipes blocks horizontal scrolling. Mouse
-// wheels send coarse notches (>= ~50px, or line/page deltaMode), which is what
-// the smoothing is meant for.
-const TRACKPAD_MAX_DELTA = 40;
-// Keep a gesture classified as touchpad through its momentum tail, which can
-// contain larger deltas during a fast fling.
-const TRACKPAD_STICKY_MS = 300;
-let lastTrackpadWheelAt = -Infinity;
-
-function isTrackpadWheel(event: WheelEvent): boolean {
-  if (event.deltaMode !== WheelEvent.DOM_DELTA_PIXEL) return false;
-
-  const now = performance.now();
-  const looksLikeTrackpad =
-    event.deltaX !== 0 || Math.abs(event.deltaY) < TRACKPAD_MAX_DELTA;
-
-  if (looksLikeTrackpad || now - lastTrackpadWheelAt < TRACKPAD_STICKY_MS) {
-    lastTrackpadWheelAt = now;
-    return true;
-  }
-  return false;
-}
-
+// Every wheel device (touchpad or mouse) goes through the same smoothing path.
+// Don't try to detect touchpads from wheel deltas and switch between native and
+// smoothed scrolling per event: delta sizes overlap between devices, so a
+// single gesture gets split across both modes and its speed jumps around.
+//
+// wheelMultiplier 1 keeps the distance travelled equal to the native/OS scroll
+// distance (touchpad momentum included); lerp 0.1 only adds a short,
+// frame-rate-independent ease on top.
 const lenisOptions: LenisOptions = {
-  lerp: 0.08,
-  wheelMultiplier: 0.75,
+  lerp: 0.1,
+  wheelMultiplier: 1,
   smoothWheel: true,
   syncTouch: false,
   // Let scrollable children (modals, horizontal carousels) consume the wheel
   // instead of Lenis scrolling the page underneath them.
   allowNestedScroll: true,
-  virtualScroll: ({ event }: VirtualScrollData) => {
-    if (sharedLenis && event.type === "wheel") {
-      // With smoothWheel off Lenis hands the event back to native scrolling
-      // (and stops any in-flight smooth animation), so touchpads scroll 1:1.
-      sharedLenis.options.smoothWheel = !isTrackpadWheel(event as WheelEvent);
-    }
-    return true;
-  },
 };
 
 let sharedLenis: Lenis | null = null;
