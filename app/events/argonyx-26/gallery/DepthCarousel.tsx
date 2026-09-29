@@ -39,6 +39,29 @@ function mod(n: number, m: number) {
   return ((n % m) + m) % m;
 }
 
+function getResponsiveCarouselConfig({
+  width,
+  depth,
+  spread,
+  tilt,
+  perspective,
+  visibleCards,
+}: Pick<
+  DepthCarouselProps,
+  "depth" | "spread" | "tilt" | "perspective" | "visibleCards"
+> & { width: number }) {
+  const isPhone = width > 0 && width <= 640;
+  const isTablet = width > 640 && width <= 860;
+
+  return {
+    depth: isPhone ? Math.min(depth ?? 220, 90) : isTablet ? Math.min(depth ?? 220, 140) : depth ?? 220,
+    spread: isPhone ? Math.min(spread ?? 90, 28) : isTablet ? Math.min(spread ?? 90, 48) : spread ?? 90,
+    tilt: isPhone ? Math.min(tilt ?? 22, 9) : isTablet ? Math.min(tilt ?? 22, 14) : tilt ?? 22,
+    perspective: isPhone ? Math.min(perspective ?? 1400, 800) : perspective ?? 1400,
+    visibleCards: isPhone ? Math.min(visibleCards ?? 4, 2) : isTablet ? Math.min(visibleCards ?? 4, 3) : visibleCards ?? 4,
+  };
+}
+
 /* ────────────────────────────── COMPONENT ────────────────────────────── */
 
 export default function DepthCarousel({
@@ -69,16 +92,15 @@ export default function DepthCarousel({
     return () => window.removeEventListener("resize", updateViewportWidth);
   }, []);
 
-  // Keep the fan usable on touch screens. Desktop keeps the full visual
-  // treatment, while smaller screens use a tighter stack around the active
-  // photo instead of pushing the page wider than the viewport.
-  const isPhone = viewportWidth > 0 && viewportWidth <= 640;
-  const isTablet = viewportWidth > 640 && viewportWidth <= 860;
-  const effectiveDepth = isPhone ? Math.min(depth, 90) : isTablet ? Math.min(depth, 140) : depth;
-  const effectiveSpread = isPhone ? Math.min(spread, 28) : isTablet ? Math.min(spread, 48) : spread;
-  const effectiveTilt = isPhone ? Math.min(tilt, 9) : isTablet ? Math.min(tilt, 14) : tilt;
-  const effectivePerspective = isPhone ? Math.min(perspective, 800) : perspective;
-  const effectiveVisibleCards = isPhone ? Math.min(visibleCards, 2) : isTablet ? Math.min(visibleCards, 3) : visibleCards;
+  // Keep the fan usable on touch screens without letting it overflow the viewport.
+  const responsiveConfig = getResponsiveCarouselConfig({
+    width: viewportWidth,
+    depth,
+    spread,
+    tilt,
+    perspective,
+    visibleCards,
+  });
 
   const prev = useCallback(() => {
     setActive((a) => (loop ? mod(a - 1, total) : Math.max(a - 1, 0)));
@@ -154,7 +176,7 @@ export default function DepthCarousel({
   };
 
   const dirMult = tiltDirection === "right" ? 1 : -1;
-  const visCount = Math.min(effectiveVisibleCards, total);
+  const visCount = Math.min(responsiveConfig.visibleCards, total);
   const cardIndices = Array.from({ length: visCount }, (_, i) => mod(active + i, total));
 
   const handleCardClick = (itemIdx: number, stackPos: number, e: MouseEvent) => {
@@ -172,14 +194,14 @@ export default function DepthCarousel({
     >
       <div
         className="dc-scene"
-        style={{ perspective: `${effectivePerspective}px` }}
+        style={{ perspective: `${responsiveConfig.perspective}px` }}
       >
         {[...cardIndices].reverse().map((itemIdx, revPos) => {
           const stackPos = cardIndices.length - 1 - revPos;
           const item = items[itemIdx];
-          const xOff = stackPos * effectiveSpread * dirMult;
-          const zOff = -stackPos * effectiveDepth;
-          const rot = stackPos * effectiveTilt * dirMult;
+          const xOff = stackPos * responsiveConfig.spread * dirMult;
+          const zOff = -stackPos * responsiveConfig.depth;
+          const rot = stackPos * responsiveConfig.tilt * dirMult;
           const opacity = Math.max(0, 1 - stackPos * falloff);
           const blurPx = stackPos === 0 ? 0 : stackPos * blur;
           const scale = 1 - stackPos * 0.04;

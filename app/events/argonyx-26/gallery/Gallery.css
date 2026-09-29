@@ -158,6 +158,28 @@
   user-select: none;
 }
 
+/* Shared interactive photo controls */
+.gallery-showcase__card,
+.gallery-ecell-card,
+.gallery-team-photo__img-wrap {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  color: inherit;
+  font: inherit;
+  text-align: inherit;
+}
+
+.gallery-showcase__card {
+  background: transparent;
+  cursor: zoom-in;
+}
+
+.gallery-team-photo__img-wrap {
+  cursor: zoom-in;
+}
+
 /* Center main stage photo */
 .gallery-showcase__card--main {
   position: absolute;
