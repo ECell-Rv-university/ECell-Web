@@ -1,3 +1,5 @@
+import { scrollPageTo } from "@/src/utils/lenis";
+
 export const PENDING_SCROLL_KEY = "nav:pendingScrollTarget";
 
 export function navigateToSection(id: string): void {
@@ -11,6 +13,6 @@ export function navigateToSection(id: string): void {
   window.dispatchEvent(navigationEvent);
 
   if (!navigationEvent.defaultPrevented && !element.closest(".horizontal-flow-panel")) {
-    element.scrollIntoView({ behavior: "smooth" });
+    scrollPageTo(element);
   }
 }

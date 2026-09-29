@@ -1,5 +1,6 @@
 "use client";
 import React, { useRef } from "react";
+import { scrollPageTo } from "@/src/utils/lenis";
 import "./Footer.css";
 
 export interface FooterLinkItem {
@@ -25,7 +26,7 @@ export default function Footer(): React.ReactElement {
 
   const scrollToTop = () => {
     if (typeof window !== "undefined") {
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      scrollPageTo(0);
     }
   };
 

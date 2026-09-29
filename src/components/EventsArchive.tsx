@@ -4,6 +4,7 @@ import Image, { StaticImageData } from "next/image";
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { gsap, ScrollTrigger } from "@/src/utils/gsapSetup";
+import { scrollPageTo } from "@/src/utils/lenis";
 import { TRANSITION_REVEAL_EVENT } from "@/src/components/PageTransition/PageTransition";
 import talkStartupWithMe from "../assets/events/events_photo/TalkStartupWithMe.webp";
 import winterTechTalk from "../assets/events/events_photo/WinterTechTalk.webp";
@@ -219,9 +220,7 @@ export default function EventsArchive(): React.ReactElement {
     const element = document.getElementById("events");
 
     if (element) {
-      element.scrollIntoView({
-        behavior: "smooth",
-      });
+      scrollPageTo(element);
     }
   };
 

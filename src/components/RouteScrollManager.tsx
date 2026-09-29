@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import { ScrollTrigger } from "@/src/utils/gsapSetup";
+import { scrollPageTo } from "@/src/utils/lenis";
 
 /**
  * RouteScrollManager ensures that whenever the route changes (e.g. from `/` to `/events`
@@ -32,8 +33,10 @@ export default function RouteScrollManager(): null {
     const htmlEl = document.documentElement;
     const originalScrollBehavior = htmlEl.style.scrollBehavior;
 
-    // 1. Force instant scroll behavior
+    // 1. Force instant scroll behavior. Reset Lenis first so an in-flight
+    // smooth-scroll animation can't drag the new page back down.
     htmlEl.style.scrollBehavior = "auto";
+    scrollPageTo(0, { immediate: true });
     window.scrollTo(0, 0);
     window.scrollTo({ top: 0, left: 0, behavior: "instant" as ScrollBehavior });
     document.body.scrollTop = 0;
