@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
+import { scrollPageTo } from "@/src/utils/lenis";
 import { PENDING_SCROLL_KEY, navigateToSection } from "./navUtils";
 
 export function useHomeScroll(): void {
@@ -67,7 +68,7 @@ export function useHomeScroll(): void {
       // themselves; everything else uses standard anchor scrolling.
       if (!navigationEvent.defaultPrevented) {
         if (!el.closest(".horizontal-flow-panel")) {
-          el.scrollIntoView({ behavior: "smooth" });
+          scrollPageTo(el);
         }
       }
 
@@ -134,7 +135,7 @@ export function useHomeScroll(): void {
         window.clearInterval(intervalId);
         // Last resort: snap instantly so the user still lands on the section.
         if (!el.closest(".horizontal-flow-panel")) {
-          el.scrollIntoView();
+          scrollPageTo(el, { immediate: true });
         }
         clearPendingTarget();
       }

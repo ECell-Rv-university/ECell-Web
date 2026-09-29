@@ -1,28 +1,56 @@
 import Lenis, { type LenisOptions } from "lenis";
 import { gsap, ScrollTrigger } from "./gsapSetup";
+import { createWheelClassifier, normalizeWheelDelta } from "./wheel";
 
-// Every wheel device (touchpad or mouse) goes through the same smoothing path.
-// Don't try to detect touchpads from wheel deltas and switch between native and
-// smoothed scrolling per event: delta sizes overlap between devices, so a
-// single gesture gets split across both modes and its speed jumps around.
-//
-// wheelMultiplier 1 keeps the distance travelled equal to the native/OS scroll
-// distance (touchpad momentum included); lerp 0.1 only adds a short,
-// frame-rate-independent ease on top.
+const classifyWheel = createWheelClassifier();
+
 const lenisOptions: LenisOptions = {
-  lerp: 0.1,
+  lerp: 0.08,
   wheelMultiplier: 1,
+  // Mouse-wheel notches are smoothed by Lenis with a platform-independent
+  // distance. Touchpads already ship their own momentum, so layering Lenis on
+  // top feels laggy and floaty: they are handed to native scrolling (see
+  // virtualScroll below), which is 1:1 with the fingers on every OS.
   smoothWheel: true,
   syncTouch: false,
   // Let scrollable children (modals, horizontal carousels) consume the wheel
   // instead of Lenis scrolling the page underneath them.
   allowNestedScroll: true,
+  virtualScroll: (data: VirtualScrollData) => {
+    const { event } = data;
+    if (event.type !== "wheel") return true;
+
+    // Body scroll lock (entry loader, modals, lightbox): the page must stay
+    // put. Lenis scrolls the window programmatically, which ignores
+    // `overflow: hidden`, so bail out and let the browser do nothing.
+    if (document.body.style.overflow === "hidden") return false;
+
+    // Horizontal-dominant gestures (sideways touchpad swipes, shift+wheel
+    // carousels) belong to the browser; don't hijack them.
+    if (Math.abs(data.deltaX) > Math.abs(data.deltaY)) return false;
+
+    // With smoothWheel off Lenis hands the event back to native scrolling (and
+    // stops any in-flight smooth animation). The classifier is sticky per
+    // gesture so this never flips mid-swipe.
+    const kind = classifyWheel(event as WheelEvent, performance.now());
+    if (sharedLenis) sharedLenis.options.smoothWheel = kind === "notch";
+    if (kind === "touchpad") return true;
+
+    data.deltaY = normalizeWheelDelta(event as WheelEvent, data.deltaY);
+    data.deltaX = 0;
+    return true;
+  },
 };
 
 let sharedLenis: Lenis | null = null;
 let tickerCallback: ((time: number) => void) | null = null;
 let scrollCallback: (() => void) | null = null;
 let consumerCount = 0;
+
+/** The live shared Lenis instance, or null when smooth scroll is inactive. */
+export function getLenis(): Lenis | null {
+  return sharedLenis;
+}
 
 /**
  * Acquire the app-wide Lenis instance. The instance and its GSAP ticker loop
@@ -80,3 +108,31 @@ export function acquireLenis(): {
   };
 }
 
+interface ProgrammaticScrollOptions {
+  /** Jump instantly instead of animating. */
+  immediate?: boolean;
+  /** Extra pixels between the target and the top of the viewport. */
+  offset?: number;
+}
+
+/**
+ * Scroll the page to a Y position or element. Uses Lenis when it is active so
+ * programmatic scrolls share the wheel's easing on every OS (native
+ * `behavior: "smooth"` has a different duration/curve per browser and fights
+ * Lenis' internal position), and falls back to the browser otherwise.
+ */
+export function scrollPageTo(
+  target: number | HTMLElement,
+  { immediate = false, offset = 0 }: ProgrammaticScrollOptions = {}
+): void {
+  if (sharedLenis) {
+    sharedLenis.scrollTo(target, { immediate, offset });
+    return;
+  }
+
+  const top =
+    typeof target === "number"
+      ? target
+      : target.getBoundingClientRect().top + window.scrollY;
+  window.scrollTo({ top: top + offset, behavior: immediate ? "instant" : "smooth" });
+}
