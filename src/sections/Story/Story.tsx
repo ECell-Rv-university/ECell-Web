@@ -125,6 +125,7 @@ export default function Story({
         let targetVel = 0;
         let currentVel = 0;
         let wobbleTime = 0;
+        let charsAtRest = true;
 
         tickerCallback = (time, deltaTime) => {
           if (disposed) return;
@@ -146,6 +147,7 @@ export default function Story({
           const absNorm = Math.abs(normVel);
 
           if (absNorm > 0.0005 || isMoving) {
+            charsAtRest = false;
             chars.forEach((char, idx) => {
               const phase = idx * 0.42 + wobbleTime * 4.5;
               const sinWave = Math.sin(phase);
@@ -181,7 +183,10 @@ export default function Story({
                 transformOrigin: "50% 100%",
               });
             });
-          } else {
+          } else if (!charsAtRest) {
+            // Reset once when motion stops instead of re-setting every
+            // character on every frame while idle.
+            charsAtRest = true;
             chars.forEach((char) => {
               gsap.set(char, {
                 y: 0,
