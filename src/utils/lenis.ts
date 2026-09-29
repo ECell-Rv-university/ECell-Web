@@ -1,14 +1,16 @@
 import Lenis, { type LenisOptions, type VirtualScrollData } from "lenis";
 import { gsap, ScrollTrigger } from "./gsapSetup";
-import { normalizeWheelDelta } from "./wheel";
+import { createWheelClassifier, normalizeWheelDelta } from "./wheel";
+
+const classifyWheel = createWheelClassifier();
 
 const lenisOptions: LenisOptions = {
-  lerp: 0.1,
+  lerp: 0.08,
   wheelMultiplier: 1,
-  // Every wheel/touchpad gesture goes through Lenis so Windows, macOS and
-  // Linux all get the same smoothing. Handing some gestures back to the
-  // browser (as an earlier device-sniffing heuristic did) meant Chrome's
-  // per-OS native smooth-scrolling took over and the feel diverged.
+  // Mouse-wheel notches are smoothed by Lenis with a platform-independent
+  // distance. Touchpads already ship their own momentum, so layering Lenis on
+  // top feels laggy and floaty: they are handed to native scrolling (see
+  // virtualScroll below), which is 1:1 with the fingers on every OS.
   smoothWheel: true,
   syncTouch: false,
   // Let scrollable children (modals, horizontal carousels) consume the wheel
@@ -26,6 +28,13 @@ const lenisOptions: LenisOptions = {
     // Horizontal-dominant gestures (sideways touchpad swipes, shift+wheel
     // carousels) belong to the browser; don't hijack them.
     if (Math.abs(data.deltaX) > Math.abs(data.deltaY)) return false;
+
+    // With smoothWheel off Lenis hands the event back to native scrolling (and
+    // stops any in-flight smooth animation). The classifier is sticky per
+    // gesture so this never flips mid-swipe.
+    const kind = classifyWheel(event as WheelEvent, performance.now());
+    if (sharedLenis) sharedLenis.options.smoothWheel = kind === "notch";
+    if (kind === "touchpad") return true;
 
     data.deltaY = normalizeWheelDelta(event as WheelEvent, data.deltaY);
     data.deltaX = 0;

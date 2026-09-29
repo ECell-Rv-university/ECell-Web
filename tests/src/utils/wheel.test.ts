@@ -1,5 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
+  TOUCHPAD_STICKY_MS,
+  createWheelClassifier,
   MAX_WHEEL_DELTA_PX,
   WHEEL_NOTCH_PX,
   isWheelNotch,
@@ -57,5 +59,33 @@ describe("normalizeWheelDelta", () => {
 
   it("returns 0 for no movement", () => {
     expect(normalizeWheelDelta(wheel({}), 0)).toBe(0);
+  });
+});
+
+describe("createWheelClassifier", () => {
+  const notch = wheel({ deltaY: 100, wheelDeltaY: -120 });
+  const touchpad = wheel({ deltaY: 7.5, wheelDeltaY: -22 });
+
+  it("classifies isolated mouse notches as notch", () => {
+    const classify = createWheelClassifier();
+    expect(classify(notch, 0)).toBe("notch");
+    expect(classify(notch, 500)).toBe("notch");
+  });
+
+  it("classifies touchpad streams as touchpad", () => {
+    const classify = createWheelClassifier();
+    expect(classify(touchpad, 0)).toBe("touchpad");
+  });
+
+  it("keeps a notch-looking event inside a touchpad gesture as touchpad", () => {
+    const classify = createWheelClassifier();
+    classify(touchpad, 0);
+    expect(classify(notch, 100)).toBe("touchpad");
+  });
+
+  it("returns to notch once the touchpad gesture has ended", () => {
+    const classify = createWheelClassifier();
+    classify(touchpad, 0);
+    expect(classify(notch, TOUCHPAD_STICKY_MS + 1)).toBe("notch");
   });
 });

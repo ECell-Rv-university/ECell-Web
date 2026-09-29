@@ -8,7 +8,28 @@
 // into one consistent scale before Lenis sees them.
 
 /** Distance one discrete mouse-wheel notch scrolls, on every platform. */
-export const WHEEL_NOTCH_PX = 100;
+export const WHEEL_NOTCH_PX = 75;
+/** How long a gesture stays "touchpad" after its last non-notch event. */
+export const TOUCHPAD_STICKY_MS = 350;
+
+/**
+ * Stateful mouse-vs-touchpad classifier. A touchpad gesture is a dense stream
+ * of events whose deltas are arbitrary, and its momentum tail can contain
+ * values that look like notches, so once any event looks like a touchpad the
+ * whole gesture (and its tail) stays touchpad. This stops the classification
+ * flipping mid-gesture, which made Windows precision touchpads feel erratic.
+ */
+export function createWheelClassifier() {
+  let lastTouchpadAt = -Infinity;
+  return function classify(event: WheelLike, now: number): "notch" | "touchpad" {
+    if (!isWheelNotch(event)) {
+      lastTouchpadAt = now;
+      return "touchpad";
+    }
+    return now - lastTouchpadAt < TOUCHPAD_STICKY_MS ? "touchpad" : "notch";
+  };
+}
+
 /** Ceiling for a single wheel event so fast flings can't jump the page. */
 export const MAX_WHEEL_DELTA_PX = 240;
 
