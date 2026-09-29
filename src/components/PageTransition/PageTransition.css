@@ -5,74 +5,177 @@
   display: grid;
   place-items: center;
   overflow: hidden;
-  background: #000000;
   color: var(--fg);
-  pointer-events: all;
-  transform: translateX(-100%);
+  pointer-events: none;
+  visibility: hidden;
+  opacity: 0;
 }
 
-.page-transition-overlay::after {
-  content: "";
+.page-transition-overlay:not(.transition-idle) {
+  pointer-events: all;
+}
+
+/* --- Curtain columns --- */
+.pt-columns {
   position: absolute;
   inset: 0;
-  background: var(--color-red);
-  opacity: 0.08;
+  display: flex;
 }
 
-.transition-title {
+.pt-column {
+  position: relative;
+  flex: 1 1 0;
+  /* Slight overlap hides sub-pixel seams between columns. */
+  margin-right: -1px;
+  background: var(--bg-2, #111111);
+  /* Starting offsets are set by GSAP; a CSS transform here would stack
+     with them. The overlay stays hidden until the timeline runs. */
+  will-change: transform;
+}
+
+.pt-column::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 1px;
+  bottom: 0;
+  width: 1px;
+  background: var(--line);
+}
+
+.pt-column:last-child::after {
+  display: none;
+}
+
+.pt-grain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.06;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* --- Centre content --- */
+.pt-content {
   position: relative;
   z-index: 1;
-  font-family: var(--font-archivo), sans-serif;
-  font-size: clamp(4rem, 13vw, 10rem);
-  font-weight: 900;
-  letter-spacing: -0.08em;
-  line-height: 0.85;
-  opacity: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 24px;
+  text-align: center;
+}
+
+.pt-logo {
+  width: clamp(44px, 5vw, 64px);
+  height: auto;
+  margin-bottom: clamp(22px, 3vw, 34px);
+  overflow: visible;
+}
+
+.pt-logo path {
+  fill: var(--fg);
+  fill-opacity: 0;
+  stroke: var(--fg);
+  stroke-width: 26;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.pt-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: rgba(244, 244, 242, 0.57);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.28em;
   text-transform: uppercase;
+  visibility: hidden;
 }
 
-.transition-entering {
-  animation: transition-wipe-in 280ms cubic-bezier(0.76, 0, 0.24, 1) forwards;
+.pt-eyebrow span {
+  width: 26px;
+  height: 1px;
+  background: currentColor;
+  transform-origin: left center;
 }
 
-.transition-entering .transition-title {
-  animation: transition-title-in 180ms ease-out 100ms forwards;
+.pt-title {
+  margin-top: 22px;
+  font-size: clamp(3.4rem, 9vw, 8.4rem);
+  letter-spacing: -0.075em;
+  line-height: 0.86;
 }
 
-.transition-covered {
-  transform: translateX(0);
+.pt-line-mask {
+  display: block;
+  overflow: hidden;
+  /* Room for descenders and the italic overhang inside the mask; the
+     negative margin keeps the visual line spacing unchanged. */
+  padding: 0 0.08em 0.22em;
+  margin-bottom: -0.22em;
 }
 
-.transition-revealing {
-  animation: transition-wipe-out 280ms cubic-bezier(0.76, 0, 0.24, 1) forwards;
+.pt-line {
+  display: block;
+  will-change: transform;
 }
 
-.transition-revealing .transition-title {
-  animation: transition-title-out 140ms ease-in forwards;
+.pt-title em {
+  color: var(--primarycolor, #bababa);
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-weight: 400;
+  letter-spacing: -0.06em;
 }
 
-@keyframes transition-wipe-in {
-  from { transform: translateX(-100%); }
-  to { transform: translateX(0); }
+/* --- Footer meta --- */
+.pt-meta {
+  position: absolute;
+  right: clamp(20px, 5vw, 64px);
+  bottom: clamp(24px, 5vh, 48px);
+  left: clamp(20px, 5vw, 64px);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  color: rgba(244, 244, 242, 0.57);
+  font-size: 0.64rem;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  visibility: hidden;
 }
 
-@keyframes transition-wipe-out {
-  from { transform: translateX(0); }
-  to { transform: translateX(100%); }
+.pt-progress {
+  position: relative;
+  flex: 1 1 auto;
+  height: 1px;
+  overflow: hidden;
+  background: var(--line);
 }
 
-@keyframes transition-title-in {
-  from { opacity: 0; transform: translateX(-18px); }
-  to { opacity: 1; transform: translateX(0); }
+.pt-progress span {
+  position: absolute;
+  inset: 0;
+  background: var(--fg);
+  transform: scaleX(0);
+  transform-origin: left center;
 }
 
-@keyframes transition-title-out {
-  from { opacity: 1; transform: translateX(0); }
-  to { opacity: 0; transform: translateX(18px); }
+.pt-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .page-transition-overlay {
-    transform: translateX(0);
+@media (max-width: 640px) {
+  .pt-meta > span:first-child {
+    display: none;
   }
 }
