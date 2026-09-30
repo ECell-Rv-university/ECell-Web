@@ -4,6 +4,7 @@ import React, { useState, useEffect, useCallback, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import type { EventDetailData } from "@/src/data/eventsData";
+import { scrollToElement } from "@/src/utils/lenis";
 import InfiniteSpiral from "@/src/components/InfiniteSpiral/InfiniteSpiral";
 import spiralImg1 from "@/src/assets/Argonyx26/inaugration/ing1.webp";
 import spiralImg2 from "@/src/assets/Argonyx26/inaugration/eventLeads.webp";
@@ -163,36 +164,10 @@ export default function EventDetailClient({ event }: EventDetailClientProps): Re
   };
 
   useEffect(() => {
-    // Kill any lingering ScrollTriggers from previous routes to prevent layout clamping
-    try {
-      if (typeof window !== "undefined") {
-        // @ts-expect-error ScrollTrigger may be on window or imported
-        if (window.ScrollTrigger) window.ScrollTrigger.getAll().forEach((t: { kill: () => void }) => t.kill());
-      }
-    } catch {
-      // ignore
-    }
-
-    // Force immediate instant scroll to top on navigation to ensure hero section is displayed
-    const htmlEl = document.documentElement;
-    const origScrollBehavior = htmlEl.style.scrollBehavior;
-    htmlEl.style.scrollBehavior = "auto";
-    window.scrollTo({ top: 0, left: 0, behavior: "instant" as ScrollBehavior });
-    document.body.scrollTop = 0;
-    htmlEl.scrollTop = 0;
-
-    const frameId = window.requestAnimationFrame(() => {
-      window.scrollTo({ top: 0, left: 0, behavior: "instant" as ScrollBehavior });
-      document.body.scrollTop = 0;
-      htmlEl.scrollTop = 0;
-    });
-
-    const timerId = window.setTimeout(() => {
-      window.scrollTo({ top: 0, left: 0, behavior: "instant" as ScrollBehavior });
-      document.body.scrollTop = 0;
-      htmlEl.scrollTop = 0;
-      htmlEl.style.scrollBehavior = origScrollBehavior;
-    }, 120);
+    // Scroll reset on navigation is owned by RouteScrollManager. The three-wave
+    // reset that used to live here (sync + rAF + a 120 ms timer, each also
+    // toggling html.style.scrollBehavior) raced it and cancelled in-page anchor
+    // scrolls that happened during the first 120 ms after mount.
 
     const handleAnchorClick = (e: MouseEvent) => {
       const link = (e.target as Element).closest<HTMLAnchorElement>('a[href^="#"]');
@@ -204,10 +179,7 @@ export default function EventDetailClient({ event }: EventDetailClientProps): Re
       if (!target) return;
 
       e.preventDefault();
-      target.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
+      scrollToElement(target);
 
       target.tabIndex = -1;
       target.focus({ preventScroll: true });
@@ -215,9 +187,6 @@ export default function EventDetailClient({ event }: EventDetailClientProps): Re
 
     document.addEventListener("click", handleAnchorClick);
     return () => {
-      window.cancelAnimationFrame(frameId);
-      window.clearTimeout(timerId);
-      htmlEl.style.scrollBehavior = origScrollBehavior;
       document.removeEventListener("click", handleAnchorClick);
     };
   }, [event.slug]);

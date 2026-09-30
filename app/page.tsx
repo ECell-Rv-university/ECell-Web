@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { gsap, ScrollTrigger } from "@/src/utils/gsapSetup";
+import { useState } from "react";
+import { refreshScroll, resetScrollToTop } from "@/src/utils/lenis";
+import { hasPendingSectionTarget } from "@/src/sections/Nav/navUtils";
 import Loader from "@/src/sections/Loader/Loader";
 import Nav from "@/src/sections/Nav/Nav";
 import Hero from "@/src/sections/Hero/Hero";
@@ -21,36 +22,24 @@ import Team from "@/src/sections/Team/Team";
 export default function Home() {
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      if ("scrollRestoration" in window.history) {
-        window.history.scrollRestoration = "manual";
-      }
-      window.scrollTo(0, 0);
-
-      const handleBeforeUnload = () => {
-        window.scrollTo(0, 0);
-      };
-
-      window.addEventListener("beforeunload", handleBeforeUnload);
-
-      return () => {
-        window.removeEventListener("beforeunload", handleBeforeUnload);
-        ScrollTrigger.getAll().forEach((st) => st.kill());
-        gsap.globalTimeline.clear();
-      };
-    }
-  }, []);
+  // Scroll restoration and the reset-to-top on navigation are handled once, by
+  // the inline script in app/layout.tsx and by RouteScrollManager. This page
+  // used to repeat both and additionally killed every ScrollTrigger in the app
+  // on unmount, which tore down triggers owned by other components.
 
   const handleLoaderComplete = () => {
     setLoading(false);
-    if (typeof window !== "undefined") {
-      window.scrollTo(0, 0);
-      setTimeout(() => {
-        window.scrollTo(0, 0);
-        ScrollTrigger.refresh();
-      }, 50);
+
+    // Only snap to the top when the visitor did not ask for a specific section.
+    // Resetting unconditionally is what used to cancel `/#speakers` style deep
+    // links right after the loader lifted.
+    if (!hasPendingSectionTarget()) {
+      resetScrollToTop();
     }
+
+    // The loader curtain leaving changes layout, so pinned triggers need to
+    // re-measure once it is gone.
+    window.setTimeout(refreshScroll, 50);
   };
 
   return (

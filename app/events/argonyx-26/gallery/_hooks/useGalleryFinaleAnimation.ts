@@ -1,13 +1,11 @@
 "use client";
 
 import { useEffect, type RefObject } from "react";
-import type Lenis from "lenis";
-import { acquireLenis } from "@/src/utils/lenis";
-import { gsap, ScrollTrigger } from "@/src/utils/gsapSetup";
+import { gsap } from "@/src/utils/gsapSetup";
+import { refreshScroll } from "@/src/utils/lenis";
 
 interface GalleryFinaleRefs {
   topbarRef: RefObject<HTMLElement | null>;
-  lenisRef: RefObject<Lenis | null>;
   finaleStageRef: RefObject<HTMLDivElement | null>;
   finalePinRef: RefObject<HTMLDivElement | null>;
   loveLayerRef: RefObject<HTMLDivElement | null>;
@@ -18,7 +16,6 @@ interface GalleryFinaleRefs {
 
 export function useGalleryFinaleAnimation({
   topbarRef,
-  lenisRef,
   finaleStageRef,
   finalePinRef,
   loveLayerRef,
@@ -27,10 +24,9 @@ export function useGalleryFinaleAnimation({
   teamOverlayRef,
 }: GalleryFinaleRefs) {
   useEffect(() => {
-    const isMobile = window.matchMedia("(max-width: 767px)").matches;
-    const lenisHandle = isMobile ? null : acquireLenis();
-    if (lenisHandle) lenisRef.current = lenisHandle.instance;
-
+    // Lenis is owned app-wide by SmoothScrollProvider; this hook no longer
+    // acquires it. Acquiring here meant smooth scroll only existed on the
+    // routes that happened to run an animation, and only on desktop.
     const context = gsap.context(() => {
       if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
         if (teamLayerRef.current) {
@@ -104,12 +100,10 @@ export function useGalleryFinaleAnimation({
       }
     }, finaleStageRef);
 
-    const refreshTimer = window.setTimeout(() => ScrollTrigger.refresh(), 400);
+    const refreshTimer = window.setTimeout(refreshScroll, 400);
     return () => {
       window.clearTimeout(refreshTimer);
       context.revert();
-      lenisHandle?.release();
-      lenisRef.current = null;
     };
-  }, [finalePinRef, finaleStageRef, lenisRef, loveLayerRef, teamImgWrapRef, teamLayerRef, teamOverlayRef, topbarRef]);
+  }, [finalePinRef, finaleStageRef, loveLayerRef, teamImgWrapRef, teamLayerRef, teamOverlayRef, topbarRef]);
 }

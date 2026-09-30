@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState, useCallback } from "react";
+import { lockPageScroll } from "@/src/utils/scrollLock";
 import "./LogoModal.css";
 
 interface LogoModalProps {
@@ -56,12 +57,11 @@ export default function LogoModal({
     };
 
     document.addEventListener("keydown", handleKeyDown);
-    const prevOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
+    const releaseScrollLock = lockPageScroll();
 
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
-      document.body.style.overflow = prevOverflow;
+      releaseScrollLock();
     };
   }, [isOpen, handleClose]);
 

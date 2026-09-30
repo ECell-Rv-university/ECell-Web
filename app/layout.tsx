@@ -5,6 +5,7 @@ import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import PageTransition from "@/src/components/PageTransition/PageTransition";
 import RouteScrollManager from "@/src/components/RouteScrollManager";
+import SmoothScrollProvider from "@/src/components/SmoothScrollProvider";
 import "./globals.css";
 
 const archivo = Archivo({
@@ -206,8 +207,12 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  // NOTE: no `data-scroll-behavior="smooth"` on <html>. That attribute only
+  // exists to let the router neutralise CSS `scroll-behavior: smooth`, and
+  // smooth scrolling is owned by Lenis now (see src/utils/lenis.ts). Keeping it
+  // would add the router as yet another writer of html.style.scrollBehavior.
   return (
-    <html lang="en" data-scroll-behavior="smooth" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${archivo.variable} ${bebasNeue.variable} ${fraunces.variable} ${inter.variable}`}
         suppressHydrationWarning
@@ -235,6 +240,7 @@ export default function RootLayout({
             `,
           }}
         />
+        <SmoothScrollProvider />
         <RouteScrollManager />
         {children}
         <PageTransition />

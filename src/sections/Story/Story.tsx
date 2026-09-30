@@ -1,8 +1,9 @@
 "use client";
 import React, { useEffect, useRef } from "react";
 import Image from "next/image";
-import { gsap, ScrollTrigger } from "../../utils/gsapSetup";
-import { acquireLenis } from "../../utils/lenis";
+import { gsap } from "../../utils/gsapSetup";
+import { refreshScroll } from "../../utils/lenis";
+
 import storyBackground from "../../assets/story/lib.webp";
 import "./Story.css";
 
@@ -80,10 +81,9 @@ export default function Story({
       return;
     }
 
-    const isMobile = window.matchMedia("(max-width: 767px)").matches;
-
-    // --- Shared Lenis smooth scroll (desktop only) ---
-    const lenisHandle = isMobile ? null : acquireLenis();
+    // Smooth scrolling is owned app-wide by SmoothScrollProvider. This section
+    // used to acquire Lenis itself, which tied the scroll feel to whether this
+    // particular section happened to be mounted.
     let disposed = false;
     let tickerCallback: ((time: number, deltaTime: number) => void) | null = null;
 
@@ -315,7 +315,7 @@ export default function Story({
 
     if (document.fonts && document.fonts.ready) {
       document.fonts.ready.then(() => {
-        if (!disposed) ScrollTrigger.refresh();
+        if (!disposed) refreshScroll();
       });
     }
 
@@ -323,8 +323,6 @@ export default function Story({
       disposed = true;
 
       mm.revert();
-
-      lenisHandle?.release();
     };
   }, [eyebrow, headlineMain, headlineAccent]);
 

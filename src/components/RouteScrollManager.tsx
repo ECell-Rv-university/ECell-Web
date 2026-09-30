@@ -2,67 +2,52 @@
 
 import { useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
-import { ScrollTrigger } from "@/src/utils/gsapSetup";
+import { refreshScroll, resetScrollToTop } from "@/src/utils/lenis";
 
 /**
- * RouteScrollManager ensures that whenever the route changes (e.g. from `/` to `/events`
- * or `/events` to `/events/[slug]`), the viewport instantly resets to (0, 0).
+ * The only place that resets scroll on navigation.
  *
- * It temporarily overrides CSS `scroll-behavior: smooth` on <html> to prevent
- * the browser from initiating a sluggish or clamped smooth-scroll animation
- * that leaves the new page rendered at the previous page's scroll offset.
+ * Route changes (e.g. `/` to `/events`, or `/events` to `/events/[slug]`) land
+ * at the top of the new page. The reset goes through the shared scroll helpers
+ * so Lenis' internal target is cleared too — a bare `window.scrollTo(0, 0)`
+ * leaves Lenis animating back toward the previous route's offset.
+ *
+ * Individual pages must not add their own reset effects: several used to, each
+ * on its own timer, and they raced each other over `html.style.scrollBehavior`.
  */
 export default function RouteScrollManager(): null {
   const pathname = usePathname();
   const prevPathnameRef = useRef<string | null>(null);
 
   useEffect(() => {
-    // If the pathname hasn't changed (e.g. purely hash changes), do not interrupt anchor scrolling
+    // Purely hash changes keep the same pathname — never interrupt anchor scrolling.
     if (prevPathnameRef.current === pathname) {
       return;
     }
     prevPathnameRef.current = pathname;
 
-    // Check if the URL has an anchor hash
-    const hash = window.location.hash;
-    if (hash && hash.length > 1) {
+    // Deep link to a section: let the anchor handler own the scroll position.
+    if (window.location.hash.length > 1) {
       return;
     }
 
-    const htmlEl = document.documentElement;
-    const originalScrollBehavior = htmlEl.style.scrollBehavior;
+    resetScrollToTop();
 
-    // 1. Force instant scroll behavior
-    htmlEl.style.scrollBehavior = "auto";
-    window.scrollTo(0, 0);
-    window.scrollTo({ top: 0, left: 0, behavior: "instant" as ScrollBehavior });
-    document.body.scrollTop = 0;
-    htmlEl.scrollTop = 0;
-
-    // 2. Perform checks on animation frames to counter any late browser layout shifts
+    // One more pass after the new route has painted, to absorb layout shifts
+    // that happen between the effect and the first frame.
     const frameId = requestAnimationFrame(() => {
-      window.scrollTo({ top: 0, left: 0, behavior: "instant" as ScrollBehavior });
-      document.body.scrollTop = 0;
-      htmlEl.scrollTop = 0;
-
-      try {
-        ScrollTrigger.refresh();
-      } catch {
-        // Ignore if ScrollTrigger is unavailable
-      }
+      resetScrollToTop();
+      refreshScroll();
     });
 
-    const timerId = window.setTimeout(() => {
-      window.scrollTo({ top: 0, left: 0, behavior: "instant" as ScrollBehavior });
-      document.body.scrollTop = 0;
-      htmlEl.scrollTop = 0;
-      htmlEl.style.scrollBehavior = originalScrollBehavior;
-    }, 150);
+    // Late-loading images and fonts change document height. Re-measure only —
+    // deliberately no second reset here, so a user who has already started
+    // scrolling is not yanked back to the top.
+    const timerId = window.setTimeout(refreshScroll, 200);
 
     return () => {
       cancelAnimationFrame(frameId);
       window.clearTimeout(timerId);
-      htmlEl.style.scrollBehavior = originalScrollBehavior;
     };
   }, [pathname]);
 
