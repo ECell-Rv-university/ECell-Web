@@ -3,6 +3,7 @@
 import React, { useEffect, useRef } from "react";
 import { gsap } from "@/src/utils/gsapSetup";
 import { scrollToY } from "@/src/utils/lenis";
+import { scrollPageTo } from "@/src/utils/lenis";
 import "./HorizontalFlow.css";
 
 interface HorizontalFlowProps {
@@ -58,6 +59,7 @@ export default function HorizontalFlow({ children }: HorizontalFlowProps): React
         // Native smooth scroll here used to fight Lenis: the browser animated
         // toward the panel while Lenis, whose target was untouched, pulled back.
         scrollToY(scrollPosition, { duration: 1.1 });
+        scrollPageTo(scrollPosition);
       };
 
       window.addEventListener("horizontal-flow:navigate", navigateToPanel);

@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { EventDetailData } from "@/src/data/eventsData";
 import { scrollToElement } from "@/src/utils/lenis";
+import { scrollPageTo } from "@/src/utils/lenis";
 import InfiniteSpiral from "@/src/components/InfiniteSpiral/InfiniteSpiral";
 import spiralImg1 from "@/src/assets/Argonyx26/inaugration/ing1.webp";
 import spiralImg2 from "@/src/assets/Argonyx26/inaugration/eventLeads.webp";
@@ -180,6 +181,7 @@ export default function EventDetailClient({ event }: EventDetailClientProps): Re
 
       e.preventDefault();
       scrollToElement(target);
+      scrollPageTo(target);
 
       target.tabIndex = -1;
       target.focus({ preventScroll: true });

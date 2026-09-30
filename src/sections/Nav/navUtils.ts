@@ -1,4 +1,5 @@
 import { scrollToElement } from "@/src/utils/lenis";
+import { scrollPageTo } from "@/src/utils/lenis";
 
 export const PENDING_SCROLL_KEY = "nav:pendingScrollTarget";
 
@@ -33,5 +34,6 @@ export function navigateToSection(id: string): void {
     // Goes through Lenis rather than scrollIntoView so the smooth animation and
     // Lenis' internal target stay in agreement.
     scrollToElement(element);
+    scrollPageTo(element);
   }
 }
