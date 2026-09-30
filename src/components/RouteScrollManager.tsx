@@ -31,18 +31,11 @@ export default function RouteScrollManager(): null {
       return;
     }
 
+    // Resets the window position and clears Lenis' in-flight target, so a
+    // smooth-scroll animation from the previous route can't drag the new page
+    // back down. `html` is already `scroll-behavior: auto`, so there is nothing
+    // to toggle and no original value to restore.
     resetScrollToTop();
-    const htmlEl = document.documentElement;
-    const originalScrollBehavior = htmlEl.style.scrollBehavior;
-
-    // 1. Force instant scroll behavior. Reset Lenis first so an in-flight
-    // smooth-scroll animation can't drag the new page back down.
-    htmlEl.style.scrollBehavior = "auto";
-    scrollPageTo(0, { immediate: true });
-    window.scrollTo(0, 0);
-    window.scrollTo({ top: 0, left: 0, behavior: "instant" as ScrollBehavior });
-    document.body.scrollTop = 0;
-    htmlEl.scrollTop = 0;
 
     // One more pass after the new route has painted, to absorb layout shifts
     // that happen between the effect and the first frame.

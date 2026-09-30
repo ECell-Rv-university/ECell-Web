@@ -5,8 +5,6 @@ import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { gsap } from "@/src/utils/gsapSetup";
 import { refreshScroll, scrollToElement } from "@/src/utils/lenis";
-import { gsap, ScrollTrigger } from "@/src/utils/gsapSetup";
-import { scrollPageTo } from "@/src/utils/lenis";
 import { TRANSITION_REVEAL_EVENT } from "@/src/components/PageTransition/PageTransition";
 import talkStartupWithMe from "../assets/events/events_photo/TalkStartupWithMe.webp";
 import winterTechTalk from "../assets/events/events_photo/WinterTechTalk.webp";
@@ -220,11 +218,6 @@ export default function EventsArchive(): React.ReactElement {
 
   const scrollToEvents = () => {
     scrollToElement("#events");
-    const element = document.getElementById("events");
-
-    if (element) {
-      scrollPageTo(element);
-    }
   };
 
   /* =====================================================

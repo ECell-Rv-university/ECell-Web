@@ -81,7 +81,7 @@ export default function Story({
       return;
     }
 
-    // Smooth scrolling is owned app-wide by SmoothScrollProvider. This section
+    // Smooth scrolling is owned app-wide by SmoothScroll. This section
     // used to acquire Lenis itself, which tied the scroll feel to whether this
     // particular section happened to be mounted.
     let disposed = false;

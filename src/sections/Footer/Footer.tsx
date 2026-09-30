@@ -1,7 +1,6 @@
 "use client";
 import React, { useRef } from "react";
 import { scrollToY } from "@/src/utils/lenis";
-import { scrollPageTo } from "@/src/utils/lenis";
 import "./Footer.css";
 
 export interface FooterLinkItem {
@@ -27,9 +26,6 @@ export default function Footer(): React.ReactElement {
 
   const scrollToTop = () => {
     scrollToY(0, { duration: 1.2 });
-    if (typeof window !== "undefined") {
-      scrollPageTo(0);
-    }
   };
 
   const handleCardPointerMove = (e: React.PointerEvent<HTMLAnchorElement>) => {

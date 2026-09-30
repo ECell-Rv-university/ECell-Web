@@ -24,7 +24,7 @@ export function useGalleryFinaleAnimation({
   teamOverlayRef,
 }: GalleryFinaleRefs) {
   useEffect(() => {
-    // Lenis is owned app-wide by SmoothScrollProvider; this hook no longer
+    // Lenis is owned app-wide by SmoothScroll; this hook no longer
     // acquires it. Acquiring here meant smooth scroll only existed on the
     // routes that happened to run an animation, and only on desktop.
     const context = gsap.context(() => {

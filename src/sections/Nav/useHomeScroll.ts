@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { scrollToElement } from "@/src/utils/lenis";
 import { isPageScrollLocked } from "@/src/utils/scrollLock";
-import { scrollPageTo } from "@/src/utils/lenis";
 import { PENDING_SCROLL_KEY, navigateToSection } from "./navUtils";
 
 export function useHomeScroll(): void {
@@ -71,7 +70,6 @@ export function useHomeScroll(): void {
       if (!navigationEvent.defaultPrevented) {
         if (!el.closest(".horizontal-flow-panel")) {
           scrollToElement(el);
-          scrollPageTo(el);
         }
       }
 
@@ -139,7 +137,6 @@ export function useHomeScroll(): void {
         // Last resort: snap instantly so the user still lands on the section.
         if (!el.closest(".horizontal-flow-panel")) {
           scrollToElement(el, { immediate: true });
-          scrollPageTo(el, { immediate: true });
         }
         clearPendingTarget();
       }
