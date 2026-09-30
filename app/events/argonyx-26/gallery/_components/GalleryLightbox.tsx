@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, type MouseEvent } from "react";
 import Image, { type StaticImageData } from "next/image";
+import { lockPageScroll } from "@/src/utils/scrollLock";
 
 export interface GalleryPhoto {
   src: StaticImageData;
@@ -34,10 +35,10 @@ export default function GalleryLightbox({
       if (event.key === "ArrowRight") onNext();
     };
 
-    document.body.style.overflow = "hidden";
+    const releaseScrollLock = lockPageScroll();
     window.addEventListener("keydown", handleKey);
     return () => {
-      document.body.style.overflow = "";
+      releaseScrollLock();
       window.removeEventListener("keydown", handleKey);
     };
   }, [onClose, onNext, onPrev]);

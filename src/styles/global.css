@@ -22,7 +22,11 @@
 }
 
 html {
-  scroll-behavior: smooth;
+  /* Smooth scrolling is owned by Lenis (src/utils/lenis.ts), not CSS. Native
+     `scroll-behavior: smooth` animates the very scroll offset Lenis is also
+     interpolating, so the two fight and the page stutters or snaps back. Every
+     programmatic scroll goes through scrollToY()/scrollToElement() instead. */
+  scroll-behavior: auto;
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 }
@@ -87,8 +91,6 @@ a {
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-}
+/* Reduced motion needs no scroll-behavior override here: `scroll-behavior` is
+   already `auto`, and Lenis honours prefers-reduced-motion itself via its
+   `respectReducedMotion` option. */

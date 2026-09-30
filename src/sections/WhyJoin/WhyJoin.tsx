@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef } from "react";
 import { gsap } from "../../utils/gsapSetup";
-import { acquireLenis } from "../../utils/lenis";
+import { scrollToY } from "../../utils/lenis";
 import "./WhyJoin.css";
 
 const WHATSAPP_GROUP_URL = "https://chat.whatsapp.com/J0MfKUwIZ6J8WfemIBbdlJ";
@@ -125,8 +125,6 @@ export default function WhyJoin(): React.ReactElement {
     }
 
     const isMobile = window.matchMedia("(max-width: 767px)").matches;
-    const lenisHandle = isMobile ? null : acquireLenis();
-    const lenis = lenisHandle?.instance ?? null;
 
     let cleanupDrag: (() => void) | null = null;
 
@@ -247,11 +245,7 @@ export default function WhyJoin(): React.ReactElement {
           Math.min(st.end, info.startScroll + distance * scrollPerDragPixel)
         );
 
-        if (lenis) {
-          lenis.scrollTo(targetScroll, { immediate: true });
-        } else {
-          window.scrollTo({ top: targetScroll, behavior: "instant" as ScrollBehavior });
-        }
+        scrollToY(targetScroll, { immediate: true });
         st.scroll(targetScroll);
         st.update();
       };
@@ -299,18 +293,9 @@ export default function WhyJoin(): React.ReactElement {
 
         const targetScroll = st.start + (targetIndex / totalCards) * (st.end - st.start);
 
-        if (lenis) {
-          lenis.scrollTo(targetScroll, {
-            duration: 0.65,
-            easing: (t: number) => 1 - Math.pow(1 - t, 3),
-          });
-        } else {
-          gsap.to(window, {
-            scrollTo: targetScroll,
-            duration: 0.55,
-            ease: "power2.out",
-          });
-        }
+        // Previously this fell back to `gsap.to(window, { scrollTo })`, which
+        // silently did nothing because ScrollToPlugin is not registered.
+        scrollToY(targetScroll, { duration: 0.65 });
       };
 
       const handleClickCapture = (e: MouseEvent) => {
@@ -338,7 +323,6 @@ export default function WhyJoin(): React.ReactElement {
     return () => {
       cleanupDrag?.();
       context.revert();
-      lenisHandle?.release();
     };
   }, []);
 

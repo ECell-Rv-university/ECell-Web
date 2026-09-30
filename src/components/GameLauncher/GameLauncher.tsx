@@ -3,6 +3,7 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import Game2048 from "./Game2048";
 import MemoryMatchGame from "./MemoryMatchGame";
 import SnakeGame from "./SnakeGame";
+import { lockPageScroll } from "@/src/utils/scrollLock";
 import "./ArcadeGames.css";
 import "./GameLauncher.css";
 
@@ -64,9 +65,15 @@ export default function GameLauncher(): React.ReactElement {
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") closeWindow();
     };
+    // The arcade is a full-screen modal over a backdrop; without a lock the page
+    // kept scrolling behind it, and arrow/WASD play scrolled the document too.
+    const releaseScrollLock = lockPageScroll();
     window.addEventListener("keydown", onKeyDown);
     closeButtonRef.current?.focus();
-    return () => window.removeEventListener("keydown", onKeyDown);
+    return () => {
+      releaseScrollLock();
+      window.removeEventListener("keydown", onKeyDown);
+    };
   }, [closeWindow, isOpen]);
 
   useEffect(() => () => {

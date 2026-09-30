@@ -208,8 +208,12 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  // NOTE: no `data-scroll-behavior="smooth"` on <html>. That attribute only
+  // exists to let the router neutralise CSS `scroll-behavior: smooth`, and
+  // smooth scrolling is owned by Lenis now (see src/utils/lenis.ts). Keeping it
+  // would add the router as yet another writer of html.style.scrollBehavior.
   return (
-    <html lang="en" data-scroll-behavior="smooth" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${archivo.variable} ${bebasNeue.variable} ${fraunces.variable} ${inter.variable}`}
         suppressHydrationWarning

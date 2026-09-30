@@ -2,7 +2,6 @@
 
 import { useCallback, useRef, useState } from "react";
 import Link from "next/link";
-import type Lenis from "lenis";
 import "./Gallery.css";
 import GalleryFilters from "./_components/GalleryFilters";
 import GalleryFinale from "./_components/GalleryFinale";
@@ -22,7 +21,6 @@ export default function GalleryClient() {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const [lightboxSection, setLightboxSection] = useState<string | null>(null);
   const topbarRef = useRef<HTMLElement | null>(null);
-  const lenisRef = useRef<Lenis | null>(null);
   const finaleStageRef = useRef<HTMLDivElement | null>(null);
   const finalePinRef = useRef<HTMLDivElement | null>(null);
   const loveLayerRef = useRef<HTMLDivElement | null>(null);
@@ -31,7 +29,6 @@ export default function GalleryClient() {
   const teamOverlayRef = useRef<HTMLDivElement | null>(null);
 
   const { activeFilter, registerSection, selectFilter } = useGalleryNavigation({
-    lenisRef,
     finaleStageRef,
   });
   const filteredSections = activeFilter === "all" || activeFilter === "team-photo"
@@ -66,7 +63,6 @@ export default function GalleryClient() {
 
   useGalleryFinaleAnimation({
     topbarRef,
-    lenisRef,
     finaleStageRef,
     finalePinRef,
     loveLayerRef,

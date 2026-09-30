@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
-import { scrollPageTo } from "@/src/utils/lenis";
+import { scrollToElement } from "@/src/utils/lenis";
+import { isPageScrollLocked } from "@/src/utils/scrollLock";
 import { PENDING_SCROLL_KEY, navigateToSection } from "./navUtils";
 
 export function useHomeScroll(): void {
@@ -68,7 +69,7 @@ export function useHomeScroll(): void {
       // themselves; everything else uses standard anchor scrolling.
       if (!navigationEvent.defaultPrevented) {
         if (!el.closest(".horizontal-flow-panel")) {
-          scrollPageTo(el);
+          scrollToElement(el);
         }
       }
 
@@ -95,11 +96,11 @@ export function useHomeScroll(): void {
         return;
       }
 
-      // While the entry loader holds body overflow hidden the viewport cannot
-      // scroll at all: any programmatic scroll is clamped straight back to the
-      // top and silently lost, leaving the page parked above the requested
-      // section. Wait for that lock to lift before moving anywhere.
-      if (document.body.style.overflow === "hidden") {
+      // While an overlay (the entry loader, a modal) holds the scroll lock the
+      // viewport cannot move: any programmatic scroll is clamped straight back
+      // to the top and silently lost, leaving the page parked above the
+      // requested section. Wait for that lock to lift before moving anywhere.
+      if (isPageScrollLocked()) {
         if (ticks >= maxTicks) {
           window.clearInterval(intervalId);
           clearPendingTarget();
@@ -135,7 +136,7 @@ export function useHomeScroll(): void {
         window.clearInterval(intervalId);
         // Last resort: snap instantly so the user still lands on the section.
         if (!el.closest(".horizontal-flow-panel")) {
-          scrollPageTo(el, { immediate: true });
+          scrollToElement(el, { immediate: true });
         }
         clearPendingTarget();
       }

@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useRef } from "react";
 import { gsap } from "gsap";
+import { lockPageScroll } from "@/src/utils/scrollLock";
 import "./Loader.css";
 
 export interface LoaderProps {
@@ -19,7 +20,9 @@ export default function Loader({ onComplete }: LoaderProps): React.ReactElement 
   const wordmarkSubRef = useRef<SVGTextElement | null>(null);
 
   useEffect(() => {
-    document.body.style.overflow = "hidden";
+    // Refcounted so releasing this lock cannot unlock the page while a modal
+    // opened during the intro is still holding its own lock.
+    const releaseScrollLock = lockPageScroll();
 
     const loader = loaderRef.current;
     const squiggleSvg = squiggleSvgRef.current;
@@ -57,7 +60,7 @@ export default function Loader({ onComplete }: LoaderProps): React.ReactElement 
 
     const tl = gsap.timeline({
       onComplete: () => {
-        document.body.style.overflow = "";
+        releaseScrollLock();
         onComplete?.();
       },
     });
@@ -137,7 +140,8 @@ export default function Loader({ onComplete }: LoaderProps): React.ReactElement 
     });
 
     return () => {
-      document.body.style.overflow = "";
+      // Idempotent: a no-op when the timeline already released the lock.
+      releaseScrollLock();
       tl.kill();
     };
   }, [onComplete]);

@@ -3,8 +3,8 @@
 import Image, { StaticImageData } from "next/image";
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { gsap, ScrollTrigger } from "@/src/utils/gsapSetup";
-import { scrollPageTo } from "@/src/utils/lenis";
+import { gsap } from "@/src/utils/gsapSetup";
+import { refreshScroll, scrollToElement } from "@/src/utils/lenis";
 import { TRANSITION_REVEAL_EVENT } from "@/src/components/PageTransition/PageTransition";
 import talkStartupWithMe from "../assets/events/events_photo/TalkStartupWithMe.webp";
 import winterTechTalk from "../assets/events/events_photo/WinterTechTalk.webp";
@@ -217,42 +217,16 @@ export default function EventsArchive(): React.ReactElement {
   ===================================================== */
 
   const scrollToEvents = () => {
-    const element = document.getElementById("events");
-
-    if (element) {
-      scrollPageTo(element);
-    }
+    scrollToElement("#events");
   };
 
   /* =====================================================
-     SCROLL RESET ON MOUNT
+     SCROLL RESET ON MOUNT — intentionally absent.
+     RouteScrollManager owns the reset for every route. The copy that used to
+     live here raced it over html.style.scrollBehavior: both saved the original
+     value and restored it on different schedules, so whichever ran second could
+     permanently latch the other's temporary value.
   ===================================================== */
-
-  useEffect(() => {
-    const htmlEl = document.documentElement;
-    const origScroll = htmlEl.style.scrollBehavior;
-    htmlEl.style.scrollBehavior = "auto";
-    window.scrollTo(0, 0);
-    document.body.scrollTop = 0;
-    htmlEl.scrollTop = 0;
-
-    const frameId = window.requestAnimationFrame(() => {
-      window.scrollTo(0, 0);
-      document.body.scrollTop = 0;
-      htmlEl.scrollTop = 0;
-      htmlEl.style.scrollBehavior = origScroll;
-      try {
-        ScrollTrigger.refresh();
-      } catch {
-        // ignore
-      }
-    });
-
-    return () => {
-      window.cancelAnimationFrame(frameId);
-      htmlEl.style.scrollBehavior = origScroll;
-    };
-  }, []);
 
   /* =====================================================
      GSAP ENTRANCE ANIMATIONS
@@ -431,13 +405,7 @@ export default function EventsArchive(): React.ReactElement {
         /*
          * Recalculate ScrollTrigger after layout pass
          */
-        window.setTimeout(() => {
-          try {
-            ScrollTrigger.refresh();
-          } catch {
-            // ignore
-          }
-        }, 100);
+        window.setTimeout(refreshScroll, 100);
       });
     };
 
@@ -451,14 +419,12 @@ export default function EventsArchive(): React.ReactElement {
 
     return () => {
       window.cancelAnimationFrame(frame);
+      // `ctx.revert()` already kills the triggers created above. The previous
+      // `ScrollTrigger.getAll().forEach(kill)` here also destroyed triggers
+      // belonging to other components that happened to be mounted.
       window.clearTimeout(revealFallback);
       window.removeEventListener(TRANSITION_REVEAL_EVENT, playHero);
       ctx?.revert();
-      try {
-        ScrollTrigger.getAll().forEach((t) => t.kill());
-      } catch {
-        // ignore
-      }
     };
   }, []);
 
