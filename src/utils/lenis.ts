@@ -12,9 +12,12 @@ import { createWheelClassifier, normalizeWheelDelta } from "./wheel";
  * "it jumps then drifts" and "sometimes smooth, sometimes not" behaviour.
  */
 
-const lenisOptions = {
-  lerp: 0.09,
-  wheelMultiplier: 0.9,
+let sharedLenis: Lenis | null = null;
+let tickerCallback: ((time: number) => void) | null = null;
+let scrollCallback: (() => void) | null = null;
+let refreshInitCallback: (() => void) | null = null;
+let consumerCount = 0;
+
 const classifyWheel = createWheelClassifier();
 
 const lenisOptions: LenisOptions = {
@@ -28,16 +31,15 @@ const lenisOptions: LenisOptions = {
   // Touch devices keep their native momentum scrolling — emulating it feels
   // worse than the real thing and fights the browser's overscroll gestures.
   syncTouch: false,
-  // The GSAP ticker drives the loop (see below), so Lenis must not run its own.
+  // The GSAP ticker drives the loop (see acquireLenis), so Lenis must not run
+  // its own RAF as well.
   autoRaf: false,
-  // Inner scrollers (chat transcript, team strip, dropdowns) keep working.
+  // Let scrollable children (chat transcript, team strip, modals, horizontal
+  // carousels) consume the wheel instead of Lenis scrolling the page under them.
   allowNestedScroll: true,
   stopInertiaOnNavigate: true,
   // `respectReducedMotion` defaults to true: Lenis disables smoothing and makes
   // programmatic scrolls instant when the user asks for reduced motion.
-  // Let scrollable children (modals, horizontal carousels) consume the wheel
-  // instead of Lenis scrolling the page underneath them.
-  allowNestedScroll: true,
   virtualScroll: (data: VirtualScrollData) => {
     const { event } = data;
     if (event.type !== "wheel") return true;
@@ -75,24 +77,13 @@ export interface ScrollToOptions {
   force?: boolean;
 }
 
-let sharedLenis: Lenis | null = null;
-let tickerCallback: ((time: number) => void) | null = null;
-let scrollCallback: (() => void) | null = null;
-let refreshInitCallback: (() => void) | null = null;
-let consumerCount = 0;
-
-/** The live shared Lenis instance, or null when smooth scroll is inactive. */
-export function getLenis(): Lenis | null {
-  return sharedLenis;
-}
-
 /**
  * Acquire the app-wide Lenis instance. The instance and its GSAP ticker loop
  * are shared so mounting multiple smooth-scroll consumers can never create
  * competing Lenis instances or desynchronized animation loops.
  *
- * `SmoothScrollProvider` holds a handle for the whole session, so the instance
- * exists on every route rather than only on the ones that animate.
+ * `SmoothScroll` holds a handle for the whole session, so the instance exists
+ * on every route rather than only on the ones that animate.
  */
 export function acquireLenis(): {
   instance: Lenis;
@@ -163,8 +154,10 @@ export function getLenis(): Lenis | null {
 }
 
 /**
- * Scroll to an absolute document offset. Falls back to native scrolling when
- * Lenis is not mounted yet (server render, very early effects, tests).
+ * Scroll to an absolute document offset. Uses Lenis when it is active so
+ * programmatic scrolls share the wheel's easing on every OS (native
+ * `behavior: "smooth"` has a different duration and curve per browser, and
+ * fights Lenis' internal position); falls back to the browser otherwise.
  */
 export function scrollToY(top: number, options: ScrollToOptions = {}): void {
   if (typeof window === "undefined") return;
@@ -249,31 +242,4 @@ export function pauseSmoothScroll(): void {
 /** Resume wheel-driven smooth scrolling (used by `scrollLock`). */
 export function resumeSmoothScroll(): void {
   sharedLenis?.start();
-interface ProgrammaticScrollOptions {
-  /** Jump instantly instead of animating. */
-  immediate?: boolean;
-  /** Extra pixels between the target and the top of the viewport. */
-  offset?: number;
-}
-
-/**
- * Scroll the page to a Y position or element. Uses Lenis when it is active so
- * programmatic scrolls share the wheel's easing on every OS (native
- * `behavior: "smooth"` has a different duration/curve per browser and fights
- * Lenis' internal position), and falls back to the browser otherwise.
- */
-export function scrollPageTo(
-  target: number | HTMLElement,
-  { immediate = false, offset = 0 }: ProgrammaticScrollOptions = {}
-): void {
-  if (sharedLenis) {
-    sharedLenis.scrollTo(target, { immediate, offset });
-    return;
-  }
-
-  const top =
-    typeof target === "number"
-      ? target
-      : target.getBoundingClientRect().top + window.scrollY;
-  window.scrollTo({ top: top + offset, behavior: immediate ? "instant" : "smooth" });
 }

@@ -5,7 +5,6 @@ import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import PageTransition from "@/src/components/PageTransition/PageTransition";
 import RouteScrollManager from "@/src/components/RouteScrollManager";
-import SmoothScrollProvider from "@/src/components/SmoothScrollProvider";
 import SmoothScroll from "@/src/components/SmoothScroll";
 import "lenis/dist/lenis.css";
 import "./globals.css";
@@ -242,7 +241,6 @@ export default function RootLayout({
             `,
           }}
         />
-        <SmoothScrollProvider />
         <SmoothScroll />
         <RouteScrollManager />
         {children}

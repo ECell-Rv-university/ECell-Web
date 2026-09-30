@@ -3,8 +3,6 @@
 import { useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import { refreshScroll, resetScrollToTop } from "@/src/utils/lenis";
-import { ScrollTrigger } from "@/src/utils/gsapSetup";
-import { scrollPageTo } from "@/src/utils/lenis";
 
 /**
  * The only place that resets scroll on navigation.
