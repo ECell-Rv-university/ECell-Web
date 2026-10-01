@@ -267,7 +267,7 @@ export default function InfiniteSpiral({
     cursor:
       animationMode === "drag" || animationMode === "all" ? "grab" : "default",
     touchAction:
-      animationMode === "drag" || animationMode === "all" ? "pan-x" : "auto",
+      animationMode === "drag" || animationMode === "all" ? "pan-y" : "auto",
     userSelect:
       animationMode === "drag" || animationMode === "all" ? "none" : "auto",
   };
