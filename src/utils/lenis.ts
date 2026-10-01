@@ -1,5 +1,10 @@
 import Lenis, { type LenisOptions, type VirtualScrollData } from "lenis";
 import { gsap, ScrollTrigger } from "./gsapSetup";
+import {
+  createWheelClassifier,
+  MAX_WHEEL_DELTA_PX,
+  normalizeWheelDelta,
+} from "./wheel";
 
 /**
  * Single source of truth for page scrolling.
@@ -17,12 +22,7 @@ let scrollCallback: (() => void) | null = null;
 let refreshInitCallback: (() => void) | null = null;
 let consumerCount = 0;
 
-function isWindowsPlatform(): boolean {
-  if (typeof window === "undefined" || typeof navigator === "undefined") {
-    return false;
-  }
-  return /Win/i.test(navigator.userAgent || navigator.platform || "");
-}
+const classifyWheel = createWheelClassifier();
 
 const lenisOptions: LenisOptions = {
   // 0.1 provides responsive, natural damping that tracks touchpad swipes 1:1
@@ -51,25 +51,24 @@ const lenisOptions: LenisOptions = {
     // `overflow: hidden`, so bail out and let the browser do nothing.
     if (document.body.style.overflow === "hidden") return false;
 
+    const wheelEvent = event as WheelEvent;
+    const inputType = classifyWheel(wheelEvent, performance.now());
+
     // Only yield to horizontal scrolling if it's genuinely a horizontal gesture,
-    // not accidental diagonal wobble at the start of a vertical swipe on Windows.
+    // not accidental diagonal wobble at the start of a vertical swipe.
     const isHorizontalDominant =
       Math.abs(data.deltaX) > Math.abs(data.deltaY) * 1.5 &&
       Math.abs(data.deltaX) > 12;
     if (isHorizontalDominant) return false;
 
-    const isWindows = isWindowsPlatform();
-    if (isWindows) {
-      // Windows Chromium scales Precision Touchpad deltas by the system mouse
-      // wheel multiplier (default 3 lines = ~120px) which makes touchpads scroll
-      // 2x-4x faster than on macOS/Linux. Scaling by 0.75 restores 1:1 feel.
-      data.deltaY *= 0.75;
-    }
-
-    // Cap runaway single-frame delta spikes to prevent explosive fling jumps
-    const maxDelta = isWindows ? 160 : 260;
-    if (Math.abs(data.deltaY) > maxDelta) {
-      data.deltaY = Math.sign(data.deltaY) * maxDelta;
+    if (inputType === "notch") {
+      // Discrete wheels report very different distances across browsers and
+      // operating systems, so collapse each physical notch to one stable step.
+      data.deltaY = normalizeWheelDelta(wheelEvent, data.deltaY);
+    } else if (Math.abs(data.deltaY) > MAX_WHEEL_DELTA_PX) {
+      // Precision touchpads already provide high-resolution pixel deltas. Keep
+      // them 1:1 and only guard against a genuinely runaway single-frame spike.
+      data.deltaY = Math.sign(data.deltaY) * MAX_WHEEL_DELTA_PX;
     }
 
     return true;
