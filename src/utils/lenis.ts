@@ -1,6 +1,5 @@
 import Lenis, { type LenisOptions, type VirtualScrollData } from "lenis";
 import { gsap, ScrollTrigger } from "./gsapSetup";
-import { createWheelClassifier, normalizeWheelDelta } from "./wheel";
 
 /**
  * Single source of truth for page scrolling.
@@ -18,15 +17,18 @@ let scrollCallback: (() => void) | null = null;
 let refreshInitCallback: (() => void) | null = null;
 let consumerCount = 0;
 
-const classifyWheel = createWheelClassifier();
+function isWindowsPlatform(): boolean {
+  if (typeof window === "undefined" || typeof navigator === "undefined") {
+    return false;
+  }
+  return /Win/i.test(navigator.userAgent || navigator.platform || "");
+}
 
 const lenisOptions: LenisOptions = {
-  lerp: 0.08,
+  // 0.1 provides responsive, natural damping that tracks touchpad swipes 1:1
+  // without sluggish floaty lag, while keeping mouse wheel notches buttery smooth.
+  lerp: 0.1,
   wheelMultiplier: 1,
-  // Mouse-wheel notches are smoothed by Lenis with a platform-independent
-  // distance. Touchpads already ship their own momentum, so layering Lenis on
-  // top feels laggy and floaty: they are handed to native scrolling (see
-  // virtualScroll below), which is 1:1 with the fingers on every OS.
   smoothWheel: true,
   // Touch devices keep their native momentum scrolling — emulating it feels
   // worse than the real thing and fights the browser's overscroll gestures.
@@ -49,19 +51,27 @@ const lenisOptions: LenisOptions = {
     // `overflow: hidden`, so bail out and let the browser do nothing.
     if (document.body.style.overflow === "hidden") return false;
 
-    // Horizontal-dominant gestures (sideways touchpad swipes, shift+wheel
-    // carousels) belong to the browser; don't hijack them.
-    if (Math.abs(data.deltaX) > Math.abs(data.deltaY)) return false;
+    // Only yield to horizontal scrolling if it's genuinely a horizontal gesture,
+    // not accidental diagonal wobble at the start of a vertical swipe on Windows.
+    const isHorizontalDominant =
+      Math.abs(data.deltaX) > Math.abs(data.deltaY) * 1.5 &&
+      Math.abs(data.deltaX) > 12;
+    if (isHorizontalDominant) return false;
 
-    // With smoothWheel off Lenis hands the event back to native scrolling (and
-    // stops any in-flight smooth animation). The classifier is sticky per
-    // gesture so this never flips mid-swipe.
-    const kind = classifyWheel(event as WheelEvent, performance.now());
-    if (sharedLenis) sharedLenis.options.smoothWheel = kind === "notch";
-    if (kind === "touchpad") return true;
+    const isWindows = isWindowsPlatform();
+    if (isWindows) {
+      // Windows Chromium scales Precision Touchpad deltas by the system mouse
+      // wheel multiplier (default 3 lines = ~120px) which makes touchpads scroll
+      // 2x-4x faster than on macOS/Linux. Scaling by 0.75 restores 1:1 feel.
+      data.deltaY *= 0.75;
+    }
 
-    data.deltaY = normalizeWheelDelta(event as WheelEvent, data.deltaY);
-    data.deltaX = 0;
+    // Cap runaway single-frame delta spikes to prevent explosive fling jumps
+    const maxDelta = isWindows ? 160 : 260;
+    if (Math.abs(data.deltaY) > maxDelta) {
+      data.deltaY = Math.sign(data.deltaY) * maxDelta;
+    }
+
     return true;
   },
 };
