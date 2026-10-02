@@ -81,8 +81,6 @@
   right: 0;
   left: 0;
   display: block;
-  opacity: 0;
-  transform: translateY(80%) rotate(3deg);
   transform-origin: 50% 100%;
   will-change: opacity, transform;
 }
