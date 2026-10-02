@@ -9,7 +9,7 @@
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
-  width: 300vw;
+  width: max-content;
   height: 100vh;
   height: 100dvh;
   will-change: transform;
@@ -41,8 +41,7 @@
 }
 
 /* Specific Panel Adjustments */
-.horizontal-flow-panel .speakers-section,
-.horizontal-flow-panel .site-footer {
+.horizontal-flow-panel .speakers-section {
   width: 100%;
   min-height: 100%;
   display: flex;
@@ -94,15 +93,6 @@
   margin: 0 auto 16px;
 }
 
-.horizontal-flow-panel .site-footer {
-  padding: clamp(40px, 5vh, 70px) 0 24px;
-  justify-content: flex-end;
-}
-
-.horizontal-flow-panel .footer-main {
-  padding-bottom: clamp(20px, 3vh, 40px);
-}
-
 @media (max-width: 768px) {
   .horizontal-flow-panel .speakers-reveal-panel {
     padding: 20px 0;
@@ -112,13 +102,24 @@
     padding: 0 0 50px;
     justify-content: flex-end;
   }
+}
 
-  .horizontal-flow-panel .site-footer {
-    padding: max(20px, env(safe-area-inset-top)) 0 max(16px, env(safe-area-inset-bottom));
-    justify-content: space-between;
+@media (prefers-reduced-motion: reduce) {
+  .horizontal-flow-section {
+    overflow: visible;
   }
 
-  .horizontal-flow-panel .footer-main {
-    padding-bottom: 0;
+  .horizontal-flow-track {
+    display: block;
+    width: 100%;
+    height: auto;
+    transform: none !important;
+  }
+
+  .horizontal-flow-panel {
+    width: 100%;
+    height: auto;
+    min-height: 100dvh;
+    overflow: visible;
   }
 }
