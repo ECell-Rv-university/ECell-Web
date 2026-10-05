@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useLayoutEffect, useRef } from "react";
-import Timeline from "@/components/ui/timeline";
+import Timeline from "@/src/components/ui/timeline";
 import { refreshScroll } from "@/src/utils/lenis";
 import { gsap } from "../../utils/gsapSetup";
 import "./About.css";

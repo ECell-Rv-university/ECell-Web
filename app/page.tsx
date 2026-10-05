@@ -14,7 +14,7 @@ import Sponsors from "@/src/sections/Sponsors/Sponsors";
 import HorizontalFlow from "@/src/components/HorizontalFlow/HorizontalFlow";
 import Speakers from "@/src/sections/Speakers/components/Speakers";
 import WhatsAppCommunity from "@/src/sections/WhatsAppCommunity/WhatsAppCommunity";
-import { CinematicFooter } from "@/components/ui/motion-footer";
+import { CinematicFooter } from "@/src/components/ui/motion-footer";
 import FloatingLogo from "@/src/components/FloatingLogo/FloatingLogo";
 import GameLauncher from "@/src/components/GameLauncher/GameLauncher";
 import Team from "@/src/sections/Team/Team";
