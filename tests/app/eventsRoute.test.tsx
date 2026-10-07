@@ -53,6 +53,11 @@ describe("Events dynamic routes data", () => {
     expect(event?.sponsorsPoweredBy?.length).toBeGreaterThan(0);
     expect(event?.sponsorsPresenting?.name).toBe("DigitalOcean");
     expect(event?.sponsorsList?.length).toBeGreaterThan(15);
+    expect(event?.contacts.length).toBe(2);
+    expect(event?.contacts[0].name).toBe("Host Nishit");
+    expect(event?.contacts[0].phone).toBe("+91 878 057 7400");
+    expect(event?.contacts[1].name).toBe("Pranav");
+    expect(event?.contacts[1].phone).toBe("+977 982-3000481");
   });
 
   it("supports alias resolution for Hacktoberfest", () => {
@@ -100,6 +105,10 @@ describe("Events dynamic routes data", () => {
     expect(screen.getAllByText("DigitalOcean").length).toBeGreaterThan(0);
     expect(screen.getByText("GitHub")).toBeInTheDocument();
     expect(screen.getByText("Register for Hack Day ↗")).toBeInTheDocument();
+    expect(screen.getByText("Host Nishit")).toBeInTheDocument();
+    expect(screen.getByText("Pranav")).toBeInTheDocument();
+    expect(screen.getByText("+91 878 057 7400")).toBeInTheDocument();
+    expect(screen.getByText("+977 982-3000481")).toBeInTheDocument();
   });
 
   it("renders EventDetailClient for upcoming event with registration CTA", async () => {

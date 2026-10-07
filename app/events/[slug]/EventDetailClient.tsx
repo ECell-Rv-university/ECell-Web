@@ -410,85 +410,6 @@ export default function EventDetailClient({ event }: EventDetailClientProps): Re
           </ul>
         </section>
 
-        {event.sponsorsList && event.sponsorsList.length > 0 && (
-          <section className="event-sponsors-section" id="sponsors">
-            <div className="event-sponsors-section__inner">
-              <p className="eyebrow">
-                <span className="eyebrow__rule" />
-                Global Ecosystem &amp; Partners
-              </p>
-
-              <div className="event-sponsors-section__header">
-                <h2 className="event-sponsors-section__headline">
-                  {event.sponsorsHeadline || "Backed by"}
-                  <span className="hero__accent">
-                    {event.sponsorsAccent || " open source giants."}
-                  </span>
-                </h2>
-                {event.sponsorsSubhead && (
-                  <p className="event-sponsors-section__subhead">
-                    {event.sponsorsSubhead}
-                  </p>
-                )}
-              </div>
-
-              <div className="event-sponsors-wrapper">
-                {/* Tier 1: Powered by */}
-                {event.sponsorsPoweredBy && event.sponsorsPoweredBy.length > 0 && (
-                  <div className="event-sponsor-tier-box event-sponsor-tier-box--powered">
-                    <div className="event-sponsor-tier-header">
-                      <span className="tier-dot" aria-hidden="true" />
-                      <span className="tier-title">POWERED BY</span>
-                    </div>
-                    <div className="event-sponsor-tier-body event-sponsor-tier-body--center">
-                      <div className="brand-duo">
-                        <span className="brand-mlh">MLH</span>
-                        <span className="brand-cross">×</span>
-                        <span className="brand-dev">DEV</span>
-                      </div>
-                      <span className="brand-tag">Major League Hacking &amp; DEV Community</span>
-                    </div>
-                  </div>
-                )}
-
-                {/* Tier 2: Presenting Partner */}
-                {event.sponsorsPresenting && (
-                  <div className="event-sponsor-tier-box event-sponsor-tier-box--presenting">
-                    <div className="event-sponsor-tier-header">
-                      <span className="tier-dot tier-dot--amber" aria-hidden="true" />
-                      <span className="tier-title">PRESENTING PARTNER</span>
-                    </div>
-                    <div className="event-sponsor-tier-body event-sponsor-tier-body--center">
-                      <div className="brand-do">
-                        <svg className="do-glyph" viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
-                          <path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.167 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.464-1.11-1.464-.908-.62.069-.608.069-.608 1.004.07 1.532 1.03 1.532 1.03.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z" />
-                        </svg>
-                        <span className="brand-do-text">{event.sponsorsPresenting.name}</span>
-                      </div>
-                      <span className="brand-tag">{event.sponsorsPresenting.tag || "Official Presenting Partner"}</span>
-                    </div>
-                  </div>
-                )}
-
-                {/* Tier 3: Sponsors & Partners Grid */}
-                <div className="event-sponsors-grid-section">
-                  <div className="event-sponsor-tier-header">
-                    <span className="tier-dot tier-dot--white" aria-hidden="true" />
-                    <span className="tier-title">SPONSORS &amp; PARTNERS</span>
-                  </div>
-                  <div className="event-sponsors-grid">
-                    {event.sponsorsList.map((sponsor) => (
-                      <div className="sponsor-tile" key={sponsor.name}>
-                        <span className="sponsor-tile__name">{sponsor.name}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-        )}
-
         {event.isCompleted ? (
           <section className="winners-section" id="winners">
             <div className="winners-section__inner">
@@ -688,6 +609,85 @@ export default function EventDetailClient({ event }: EventDetailClientProps): Re
           </section>
         )}
 
+        {event.sponsorsList && event.sponsorsList.length > 0 && (
+          <section className="event-sponsors-section" id="sponsors">
+            <div className="event-sponsors-section__inner">
+              <p className="eyebrow">
+                <span className="eyebrow__rule" />
+                Global Ecosystem &amp; Partners
+              </p>
+
+              <div className="event-sponsors-section__header">
+                <h2 className="event-sponsors-section__headline">
+                  {event.sponsorsHeadline || "Backed by"}
+                  <span className="hero__accent">
+                    {event.sponsorsAccent || " open source giants."}
+                  </span>
+                </h2>
+                {event.sponsorsSubhead && (
+                  <p className="event-sponsors-section__subhead">
+                    {event.sponsorsSubhead}
+                  </p>
+                )}
+              </div>
+
+              <div className="event-sponsors-wrapper">
+                {/* Tier 1: Powered by */}
+                {event.sponsorsPoweredBy && event.sponsorsPoweredBy.length > 0 && (
+                  <div className="event-sponsor-tier-box event-sponsor-tier-box--powered">
+                    <div className="event-sponsor-tier-header">
+                      <span className="tier-dot" aria-hidden="true" />
+                      <span className="tier-title">POWERED BY</span>
+                    </div>
+                    <div className="event-sponsor-tier-body event-sponsor-tier-body--center">
+                      <div className="brand-duo">
+                        <span className="brand-mlh">MLH</span>
+                        <span className="brand-cross">×</span>
+                        <span className="brand-dev">DEV</span>
+                      </div>
+                      <span className="brand-tag">Major League Hacking &amp; DEV Community</span>
+                    </div>
+                  </div>
+                )}
+
+                {/* Tier 2: Presenting Partner */}
+                {event.sponsorsPresenting && (
+                  <div className="event-sponsor-tier-box event-sponsor-tier-box--presenting">
+                    <div className="event-sponsor-tier-header">
+                      <span className="tier-dot tier-dot--amber" aria-hidden="true" />
+                      <span className="tier-title">PRESENTING PARTNER</span>
+                    </div>
+                    <div className="event-sponsor-tier-body event-sponsor-tier-body--center">
+                      <div className="brand-do">
+                        <svg className="do-glyph" viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
+                          <path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.167 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.464-1.11-1.464-.908-.62.069-.608.069-.608 1.004.07 1.532 1.03 1.532 1.03.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z" />
+                        </svg>
+                        <span className="brand-do-text">{event.sponsorsPresenting.name}</span>
+                      </div>
+                      <span className="brand-tag">{event.sponsorsPresenting.tag || "Official Presenting Partner"}</span>
+                    </div>
+                  </div>
+                )}
+
+                {/* Tier 3: Sponsors & Partners Grid */}
+                <div className="event-sponsors-grid-section">
+                  <div className="event-sponsor-tier-header">
+                    <span className="tier-dot tier-dot--white" aria-hidden="true" />
+                    <span className="tier-title">SPONSORS &amp; PARTNERS</span>
+                  </div>
+                  <div className="event-sponsors-grid">
+                    {event.sponsorsList.map((sponsor) => (
+                      <div className="sponsor-tile" key={sponsor.name}>
+                        <span className="sponsor-tile__name">{sponsor.name}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        )}
+
         {event.isCompleted ? (
           <section className="event-gallery" id="gallery">
             <div className="event-gallery__inner">
@@ -777,7 +777,7 @@ export default function EventDetailClient({ event }: EventDetailClientProps): Re
                   <span className="contact__name">{contact.name}</span>
                   <a
                     className="contact__phone"
-                    href={`tel:${contact.phone.replace(/\s+/g, "")}`}
+                    href={`tel:${contact.phone.replace(/[^\d+]/g, "")}`}
                   >
                     {contact.phone}
                   </a>

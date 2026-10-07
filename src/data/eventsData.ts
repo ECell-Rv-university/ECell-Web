@@ -516,19 +516,12 @@ export const EVENTS_DATA: Record<string, EventDetailData> = {
     ],
     contacts: [
       {
-        name: "ECell RV University",
-        phone: "+91 96110 83196",
-        role: "Event Desk",
+        name: "Nishit",
+        phone: "+91 878 057 7400",
       },
       {
-        name: "Hack Day Operations",
-        phone: "+91 86606 97430",
-        role: "Team Coordination",
-      },
-      {
-        name: "Community Support",
-        phone: "+91 80732 88190",
-        role: "Registration Queries",
+        name: "Pranav",
+        phone: "+977 982-3000481",
       },
     ],
     metaTitle: "Hacktoberfest '26 Hack Day | ECell RV University",
