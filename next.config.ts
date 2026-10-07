@@ -26,6 +26,16 @@ const nextConfig: NextConfig = {
         destination: "/events/e-summit",
         permanent: false,
       },
+      {
+        source: "/Hacktoberfest-26",
+        destination: "/events/hacktoberfest-26",
+        permanent: false,
+      },
+      {
+        source: "/hacktoberfest",
+        destination: "/events/hacktoberfest-26",
+        permanent: false,
+      },
     ];
   },
 };

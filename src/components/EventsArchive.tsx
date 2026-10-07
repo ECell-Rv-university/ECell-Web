@@ -32,6 +32,17 @@ interface EventItem {
 const EVENTS: EventItem[] = [
   {
     date: "TBA",
+    month: "OCT 2026",
+    type: "Hackathons",
+    title: "Hacktoberfest '26",
+    description:
+      "A hands-on mini-hackathon celebrating open source with open-source AI and open-weight models.",
+    image: argonyx2,
+    status: "UPCOMING",
+    link: "/events/hacktoberfest-26",
+  },
+  {
+    date: "TBA",
     month: "DATE TBA",
     type: "Competitions",
     title: "Pitch-e-thon",

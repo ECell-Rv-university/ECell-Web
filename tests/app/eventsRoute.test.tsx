@@ -7,6 +7,7 @@ describe("Events dynamic routes data", () => {
     expect(slugs).toContain("argonyx-26");
     expect(slugs).toContain("pitch-e-thon");
     expect(slugs).toContain("e-summit");
+    expect(slugs).toContain("hacktoberfest-26");
   });
 
   it("retrieves Argonyx 2.0 with all required properties", () => {
@@ -39,6 +40,26 @@ describe("Events dynamic routes data", () => {
     expect(event?.venue).toBe("RV University, Bengaluru");
   });
 
+  it("retrieves Hacktoberfest '26 data with rounds and sponsors", () => {
+    const event = getEventBySlug("hacktoberfest-26");
+    expect(event).toBeDefined();
+    expect(event?.title).toContain("Hacktoberfest '26");
+    expect(event?.venue).toBe("RV University, Bengaluru");
+    expect(event?.registrationUrl).toBe("https://share.google/4J3aOAZrHKNAcyaAF");
+    expect(event?.rounds?.length).toBe(2);
+    expect(event?.sponsorsPoweredBy?.length).toBeGreaterThan(0);
+    expect(event?.sponsorsPresenting?.name).toBe("DigitalOcean");
+    expect(event?.sponsorsList?.length).toBeGreaterThan(15);
+  });
+
+  it("supports alias resolution for Hacktoberfest", () => {
+    expect(getEventBySlug("HACKTOBERFEST-26")?.slug).toBe("hacktoberfest-26");
+    expect(getEventBySlug("hacktoberfest")?.slug).toBe("hacktoberfest-26");
+    expect(getEventBySlug("hacktoberfest26")?.slug).toBe("hacktoberfest-26");
+    expect(getEventBySlug("hackobterfest-26")?.slug).toBe("hacktoberfest-26");
+    expect(getEventBySlug("hackobterfest26")?.slug).toBe("hacktoberfest-26");
+  });
+
   it("returns undefined for unknown event slugs", () => {
     expect(getEventBySlug("non-existent-event")).toBeUndefined();
   });
@@ -60,6 +81,22 @@ describe("Events dynamic routes data", () => {
     // Winners and View Images sections
     expect(screen.getAllByText("1ST PLACE").length).toBeGreaterThan(0);
     expect(screen.getAllByText("View Images").length).toBeGreaterThan(0);
+  });
+
+  it("renders EventDetailClient for Hacktoberfest 26 with rounds and sponsors", async () => {
+    const { render, screen } = await import("@testing-library/react");
+    const EventDetailClient = (await import("@/app/events/[slug]/EventDetailClient")).default;
+    const event = getEventBySlug("hacktoberfest-26");
+    expect(event).toBeDefined();
+
+    render(<EventDetailClient event={event!} />);
+    expect(screen.getByText("Learn & build with")).toBeInTheDocument();
+    expect(screen.getAllByText(/open-source AI/i).length).toBeGreaterThan(0);
+    expect(screen.getByText("Online PPT Submission")).toBeInTheDocument();
+    expect(screen.getByText("Offline Presentation & Judging")).toBeInTheDocument();
+    expect(screen.getAllByText("DigitalOcean").length).toBeGreaterThan(0);
+    expect(screen.getByText("GitHub")).toBeInTheDocument();
+    expect(screen.getByText("Register for Hack Day ↗")).toBeInTheDocument();
   });
 
   it("renders EventDetailClient for upcoming event with registration CTA", async () => {
@@ -84,6 +121,7 @@ describe("Events dynamic routes data", () => {
     expect(hrefs).toContain("/events/argonyx-26");
     expect(hrefs).toContain("/events/pitch-e-thon");
     expect(hrefs).toContain("/events/e-summit");
+    expect(hrefs).toContain("/events/hacktoberfest-26");
   });
 
   it("renders RouteScrollManager and resets scroll on mount", async () => {
