@@ -320,61 +320,79 @@ export default function EventDetailClient({ event }: EventDetailClientProps): Re
         </section>
 
         {event.rounds && event.rounds.length > 0 && (
-          <section className="event-rounds" id="rounds">
+          <section
+            className="event-rounds"
+            id="rounds"
+            aria-labelledby="event-rounds-heading"
+          >
             <div className="event-rounds__inner">
               <p className="eyebrow">
                 <span className="eyebrow__rule" />
                 Format &amp; Progression
               </p>
 
-              <div className="event-rounds__header">
-                <h2 className="event-rounds__headline">
+              <header className="event-rounds__header">
+                <h2
+                  className="event-rounds__headline"
+                  id="event-rounds-heading"
+                  aria-label={`${event.roundsHeadline || "Two rounds."} ${(
+                    event.roundsAccent || " From idea to defense."
+                  ).trimStart()}`}
+                >
                   {event.roundsHeadline || "Two rounds."}
                   <span className="hero__accent">
-                    {event.roundsAccent || " From idea to defense."}
+                    {"\u00A0"}
+                    {(event.roundsAccent || " From idea to defense.").trimStart()}
                   </span>
                 </h2>
                 {event.roundsSubhead && (
                   <p className="event-rounds__subhead">{event.roundsSubhead}</p>
                 )}
-              </div>
+              </header>
 
-              <div className="event-rounds__grid">
+              <ol className="event-progression" aria-label="Event stages">
                 {event.rounds.map((round) => (
-                  <article className="round-card" key={round.number}>
-                    <div className="round-card__meta">
-                      <span className="round-card__badge">{round.badge}</span>
-                      <span className="round-card__number">{round.number}</span>
-                    </div>
-                    <h3 className="round-card__title">{round.title}</h3>
-                    <div className="round-card__type-tag">{round.type}</div>
-                    <p className="round-card__desc">{round.description}</p>
-                  </article>
+                  <li className="event-progression__item" key={round.number}>
+                    <article className="event-progression__stage">
+                      <div className="event-progression__sequence">
+                        <span className="event-progression__number">{round.number}</span>
+                        <span className="event-progression__badge">{round.badge}</span>
+                      </div>
+                      <div className="event-progression__summary">
+                        <p className="event-progression__type">{round.type}</p>
+                        <h3 className="event-progression__title">{round.title}</h3>
+                      </div>
+                      <p className="event-progression__description">{round.description}</p>
+                    </article>
+                  </li>
                 ))}
-              </div>
+              </ol>
 
               {event.expectedOutcomes && event.expectedOutcomes.length > 0 && (
-                <div className="event-outcomes-box">
-                  <div className="event-outcomes-box__head">
-                    <span className="event-outcomes-box__kicker">KEY TAKEAWAYS</span>
-                    <h3 className="event-outcomes-box__title">Expected Outcomes of the Event</h3>
-                  </div>
-                  <ul className="event-outcomes-box__list">
+                <section className="event-outcomes" aria-labelledby="event-outcomes-heading">
+                  <header className="event-outcomes__header">
+                    <p className="event-outcomes__kicker">KEY TAKEAWAYS</p>
+                    <h3 className="event-outcomes__title" id="event-outcomes-heading">
+                      Expected Outcomes of the Event
+                    </h3>
+                  </header>
+                  <ul className="event-outcomes__list">
                     {event.expectedOutcomes.map((outcome, idx) => (
-                      <li key={idx} className="event-outcomes-box__item">
-                        <span className="event-outcomes-box__bullet" aria-hidden="true">✦</span>
-                        <span>{outcome}</span>
+                      <li key={idx} className="event-outcomes__item">
+                        {outcome}
                       </li>
                     ))}
                   </ul>
-                </div>
+                </section>
               )}
 
               {event.logisticsNotice && (
-                <div className="event-logistics-bar">
-                  <span className="event-logistics-bar__tag">EVENT GUIDELINES</span>
-                  <p className="event-logistics-bar__text">{event.logisticsNotice}</p>
-                </div>
+                <aside className="event-guidelines" aria-labelledby="event-guidelines-heading">
+                  <h3 className="event-guidelines__title" id="event-guidelines-heading">
+                    EVENT GUIDELINES
+                  </h3>
+                  <p className="event-guidelines__text">{event.logisticsNotice}</p>
+                </aside>
               )}
             </div>
           </section>

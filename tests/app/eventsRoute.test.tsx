@@ -92,7 +92,7 @@ describe("Events dynamic routes data", () => {
   });
 
   it("renders EventDetailClient for Hacktoberfest 26 with rounds and sponsors", async () => {
-    const { render, screen } = await import("@testing-library/react");
+    const { render, screen, within } = await import("@testing-library/react");
     const EventDetailClient = (await import("@/app/events/[slug]/EventDetailClient")).default;
     const event = getEventBySlug("hacktoberfest-26");
     expect(event).toBeDefined();
@@ -100,8 +100,21 @@ describe("Events dynamic routes data", () => {
     render(<EventDetailClient event={event!} />);
     expect(screen.getByText("Learn & build with")).toBeInTheDocument();
     expect(screen.getAllByText(/open-source AI/i).length).toBeGreaterThan(0);
-    expect(screen.getByText("Online PPT Submission")).toBeInTheDocument();
-    expect(screen.getByText("Offline Presentation & Judging")).toBeInTheDocument();
+
+    const progression = screen.getByRole("region", { name: /Event Progression & Format/i });
+    const stages = within(progression).getByRole("list", { name: "Event stages" });
+    const stageItems = within(stages).getAllByRole("listitem");
+    expect(stages.tagName).toBe("OL");
+    expect(stageItems).toHaveLength(2);
+    expect(within(stageItems[0]).getByText("ROUND 01")).toBeInTheDocument();
+    expect(within(stageItems[0]).getByText("Virtual Screening")).toBeInTheDocument();
+    expect(within(stageItems[0]).getByText("Online Submission")).toBeInTheDocument();
+    expect(within(stageItems[0]).getByText("Online PPT Submission")).toBeInTheDocument();
+    expect(within(stageItems[1]).getByText("ROUND 02")).toBeInTheDocument();
+    expect(within(stageItems[1]).getByText("Offline Presentation & Judging")).toBeInTheDocument();
+    expect(within(progression).getByRole("region", { name: "Expected Outcomes of the Event" })).toBeInTheDocument();
+    expect(within(progression).getByRole("complementary", { name: "EVENT GUIDELINES" })).toBeInTheDocument();
+
     expect(screen.getAllByText("DigitalOcean").length).toBeGreaterThan(0);
     expect(screen.getByAltText("GitHub logo")).toBeInTheDocument();
     expect(screen.getByText("Register for Hack Day ↗")).toBeInTheDocument();
