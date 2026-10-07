@@ -383,17 +383,17 @@ export const EVENTS_DATA: Record<string, EventDetailData> = {
     heroHeadline: "Learn & build with",
     heroAccent: " open-source AI.",
     heroBody:
-      "Hacktoberfest Hack Days are hands-on mini-hackathons based on Major League Hacking (MLH)'s Hack Days program. 25 offline teams of 4 assemble at RV University to build real solutions with open-source AI tools and open-weight models during October.",
+      "Hacktoberfest Hack Days are hands-on mini-hackathons based on Major League Hacking (MLH)'s Hack Days program. Organized by ECell and AWS SBG at RV University, 25 offline teams of 4 assemble on 31 October 2026 to build real solutions with open-source AI tools and open-weight models.",
     aboutEyebrow: "About Hacktoberfest Hack Day",
     aboutHeadline: "A month-long celebration of",
     aboutHeadlineAccent: " open source.",
     aboutDescription:
       "Hacktoberfest is a month-long celebration of open source throughout October. In 2026, the focus is on learning and building with open-source AI and open-weight models, both through in-person and online activities. MLH and DEV are managing the event this year in partnership with our friends at DigitalOcean.\n\nThe event will be open to students from RV University and participating universities. Participants will work in small teams on projects involving open-source AI tools, open-weight AI models, AI-assisted developer tools, and practical applications of open-source technologies. Key themes may include: Generative AI, AI agents, developer productivity, and other practical applications of open-source AI.",
     aboutNote:
-      "25 participating teams of 4 members each (100 participants in total). Problem Statement: TBD. Conducted in two rounds: Round 1 Online PPT Submission and Round 2 Offline Presentation & Judging at RV University. Free lunch provided to registered participants.",
+      "Organized by The Entrepreneurship Cell (ECell) and AWS SBG at RV University. 25 participating teams of 4 members each (100 participants in total). Problem Statement: TBD. Conducted in two rounds: Round 1 Online PPT Submission and Round 2 Offline Presentation & Judging on 31 October 2026 at RV University. Free lunch provided to registered participants.",
     format: "Two rounds — Online PPT Submission followed by Offline Presentation & Judging (25 teams of 4, 100 participants)",
-    date: "October 2026 (Dates TBA)",
-    dateBadge: "OCTOBER 2026 · RV UNIVERSITY, BENGALURU",
+    date: "31 October 2026",
+    dateBadge: "31 OCT 2026 · RV UNIVERSITY, BENGALURU",
     venue: "RV University, Bengaluru",
     prizePool: "Swag, Prizes & Open Source Recognition",
     registrationUrl: "https://share.google/4J3aOAZrHKNAcyaAF",
@@ -427,7 +427,7 @@ export const EVENTS_DATA: Record<string, EventDetailData> = {
       {
         number: "05",
         label: "Dates",
-        value: "October 2026 · Dates TBA",
+        value: "31 October 2026",
       },
       {
         number: "06",
@@ -509,6 +509,7 @@ export const EVENTS_DATA: Record<string, EventDetailData> = {
     organizers: [
       "RV University",
       "The Entrepreneurship Cell, RV University",
+      "AWS SBG, RV University",
       "Major League Hacking (MLH)",
       "DEV",
       "DigitalOcean",

@@ -44,7 +44,10 @@ describe("Events dynamic routes data", () => {
     const event = getEventBySlug("hacktoberfest-26");
     expect(event).toBeDefined();
     expect(event?.title).toContain("Hacktoberfest '26");
+    expect(event?.date).toBe("31 October 2026");
     expect(event?.venue).toBe("RV University, Bengaluru");
+    expect(event?.organizers).toContain("AWS SBG, RV University");
+    expect(event?.organizers).toContain("The Entrepreneurship Cell, RV University");
     expect(event?.registrationUrl).toBe("https://share.google/4J3aOAZrHKNAcyaAF");
     expect(event?.rounds?.length).toBe(2);
     expect(event?.sponsorsPoweredBy?.length).toBeGreaterThan(0);
