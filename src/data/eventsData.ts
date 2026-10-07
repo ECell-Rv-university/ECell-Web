@@ -90,9 +90,9 @@ export interface EventDetailData {
   sponsorsHeadline?: string;
   sponsorsAccent?: string;
   sponsorsSubhead?: string;
-  sponsorsPoweredBy?: { name: string; tag?: string }[];
-  sponsorsPresenting?: { name: string; tag?: string };
-  sponsorsList?: { name: string; tag?: string; url?: string }[];
+  sponsorsPoweredBy?: { name: string; tag?: string; logo?: string }[];
+  sponsorsPresenting?: { name: string; tag?: string; logo?: string };
+  sponsorsList?: { name: string; tag?: string; url?: string; logo?: string }[];
 }
 
 export const EVENTS_DATA: Record<string, EventDetailData> = {
@@ -475,34 +475,43 @@ export const EVENTS_DATA: Record<string, EventDetailData> = {
     sponsorsSubhead:
       "Hacktoberfest is presented in partnership with industry leaders advancing open-source software and open-weight AI.",
     sponsorsPoweredBy: [
-      { name: "MLH", tag: "Major League Hacking" },
-      { name: "DEV", tag: "dev.to Community" },
+      {
+        name: "MLH",
+        tag: "Major League Hacking",
+        logo: "https://cdn.simpleicons.org/majorleaguehacking/white",
+      },
+      {
+        name: "DEV",
+        tag: "dev.to Community",
+        logo: "https://cdn.simpleicons.org/devdotto/white",
+      },
     ],
     sponsorsPresenting: {
       name: "DigitalOcean",
       tag: "Presenting Partner",
+      logo: "https://cdn.simpleicons.org/digitalocean/white",
     },
     sponsorsList: [
-      { name: "Tiger Data" },
-      { name: "Snowflake" },
-      { name: "MongoDB" },
-      { name: "Gauge" },
-      { name: "Solana" },
-      { name: "Render" },
-      { name: "GitHub" },
-      { name: "Sentry" },
+      { name: "Tiger Data", logo: "https://cdn.simpleicons.org/databricks/white" },
+      { name: "Snowflake", logo: "https://cdn.simpleicons.org/snowflake/white" },
+      { name: "MongoDB", logo: "https://cdn.simpleicons.org/mongodb/white" },
+      { name: "Gauge", logo: "https://cdn.simpleicons.org/gauge/white" },
+      { name: "Solana", logo: "https://cdn.simpleicons.org/solana/white" },
+      { name: "Render", logo: "https://cdn.simpleicons.org/render/white" },
+      { name: "GitHub", logo: "https://cdn.simpleicons.org/github/white" },
+      { name: "Sentry", logo: "https://cdn.simpleicons.org/sentry/white" },
       { name: "backboard.io" },
-      { name: "IBM" },
-      { name: "ElevenLabs" },
+      { name: "IBM", logo: "https://cdn.simpleicons.org/ibm/white" },
+      { name: "ElevenLabs", logo: "https://cdn.simpleicons.org/elevenlabs/white" },
       { name: "paper compute co." },
       { name: "Entire" },
       { name: "PRIOR" },
-      { name: "Google Cloud" },
-      { name: "Gemma" },
-      { name: "Qualcomm" },
-      { name: "Arduino" },
-      { name: "mastra" },
-      { name: "Temporal" },
+      { name: "Google Cloud", logo: "https://cdn.simpleicons.org/googlecloud/white" },
+      { name: "Gemma", logo: "https://cdn.simpleicons.org/google/white" },
+      { name: "Qualcomm", logo: "https://cdn.simpleicons.org/qualcomm/white" },
+      { name: "Arduino", logo: "https://cdn.simpleicons.org/arduino/white" },
+      { name: "mastra", logo: "https://cdn.simpleicons.org/matrix/white" },
+      { name: "Temporal", logo: "https://cdn.simpleicons.org/temporal/white" },
       { name: "TLDR" },
       { name: "THINKING MACHINES" },
     ],
