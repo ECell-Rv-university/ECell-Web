@@ -31,6 +31,17 @@ interface EventItem {
 
 const EVENTS: EventItem[] = [
   {
+    date: "31",
+    month: "OCT 2026",
+    type: "Hackathons",
+    title: "Hacktoberfest '26",
+    description:
+      "A hands-on mini-hackathon celebrating open source with open-source AI and open-weight models, hosted by ECell and AWS SBG RVU.",
+    image: argonyx2,
+    status: "UPCOMING",
+    link: "/events/hacktoberfest-26",
+  },
+  {
     date: "TBA",
     month: "DATE TBA",
     type: "Competitions",
@@ -167,7 +178,11 @@ function buildStructuredData(upcoming: EventItem[]) {
       ...(event.date !== "TBA"
         ? {
             startDate: `2026-${
-              event.month.includes("SEP") ? "09" : "01"
+              event.month.includes("SEP")
+                ? "09"
+                : event.month.includes("OCT")
+                ? "10"
+                : "01"
             }-${String(event.date).padStart(2, "0")}`,
           }
         : {}),

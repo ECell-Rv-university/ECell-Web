@@ -200,7 +200,9 @@ export default function EventDetailClient({ event }: EventDetailClientProps): Re
           </Link>
           <nav className="topbar__nav">
             <a href="#about">About</a>
+            {event.rounds && <a href="#rounds">Rounds</a>}
             <a href="#details">Details</a>
+            {event.sponsorsList && <a href="#sponsors">Sponsors</a>}
             {event.isCompleted ? (
               <>
                 <a href="#winners">Winners</a>
@@ -316,6 +318,85 @@ export default function EventDetailClient({ event }: EventDetailClientProps): Re
             </div>
           </div>
         </section>
+
+        {event.rounds && event.rounds.length > 0 && (
+          <section
+            className="event-rounds"
+            id="rounds"
+            aria-labelledby="event-rounds-heading"
+          >
+            <div className="event-rounds__inner">
+              <p className="eyebrow">
+                <span className="eyebrow__rule" />
+                Format &amp; Progression
+              </p>
+
+              <header className="event-rounds__header">
+                <h2
+                  className="event-rounds__headline"
+                  id="event-rounds-heading"
+                  aria-label={`${event.roundsHeadline || "Two rounds."} ${(
+                    event.roundsAccent || " From idea to defense."
+                  ).trimStart()}`}
+                >
+                  {event.roundsHeadline || "Two rounds."}
+                  <span className="hero__accent">
+                    {"\u00A0"}
+                    {(event.roundsAccent || " From idea to defense.").trimStart()}
+                  </span>
+                </h2>
+                {event.roundsSubhead && (
+                  <p className="event-rounds__subhead">{event.roundsSubhead}</p>
+                )}
+              </header>
+
+              <ol className="event-progression" aria-label="Event stages">
+                {event.rounds.map((round) => (
+                  <li className="event-progression__item" key={round.number}>
+                    <article className="event-progression__stage">
+                      <div className="event-progression__sequence">
+                        <span className="event-progression__number">{round.number}</span>
+                        <span className="event-progression__badge">{round.badge}</span>
+                      </div>
+                      <div className="event-progression__summary">
+                        <p className="event-progression__type">{round.type}</p>
+                        <h3 className="event-progression__title">{round.title}</h3>
+                      </div>
+                      <p className="event-progression__description">{round.description}</p>
+                    </article>
+                  </li>
+                ))}
+              </ol>
+
+              {event.expectedOutcomes && event.expectedOutcomes.length > 0 && (
+                <section className="event-outcomes" aria-labelledby="event-outcomes-heading">
+                  <header className="event-outcomes__header">
+                    <p className="event-outcomes__kicker">KEY TAKEAWAYS</p>
+                    <h3 className="event-outcomes__title" id="event-outcomes-heading">
+                      Expected Outcomes of the Event
+                    </h3>
+                  </header>
+                  <ul className="event-outcomes__list">
+                    {event.expectedOutcomes.map((outcome, idx) => (
+                      <li key={idx} className="event-outcomes__item">
+                        {outcome}
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+              )}
+
+              {event.logisticsNotice && (
+                <aside className="event-guidelines" aria-labelledby="event-guidelines-heading">
+                  <h3 className="event-guidelines__title" id="event-guidelines-heading">
+                    EVENT GUIDELINES
+                  </h3>
+                  <p className="event-guidelines__text">{event.logisticsNotice}</p>
+                </aside>
+              )}
+            </div>
+          </section>
+        )}
 
         <section className="ledger" id="details">
           <p className="eyebrow">
@@ -546,6 +627,153 @@ export default function EventDetailClient({ event }: EventDetailClientProps): Re
           </section>
         )}
 
+        {event.sponsorsList && event.sponsorsList.length > 0 && (
+          <section className="event-sponsors-section" id="sponsors">
+            <div className="event-sponsors-section__inner">
+              <p className="eyebrow">
+                <span className="eyebrow__rule" />
+                Global Ecosystem &amp; Partners
+              </p>
+
+              <div className="event-sponsors-section__header">
+                <h2 className="event-sponsors-section__headline">
+                  {event.sponsorsHeadline || "Backed by"}
+                  <span className="hero__accent">
+                    {event.sponsorsAccent || " open source giants."}
+                  </span>
+                </h2>
+                {event.sponsorsSubhead && (
+                  <p className="event-sponsors-section__subhead">
+                    {event.sponsorsSubhead}
+                  </p>
+                )}
+              </div>
+
+              <div className="event-sponsors-wrapper">
+                {/* Featured Sponsors Row: Powered By + Presenting Partner */}
+                {((event.sponsorsPoweredBy && event.sponsorsPoweredBy.length > 0) || event.sponsorsPresenting) && (
+                  <div className="event-sponsors-featured-row">
+                    {/* Tier 1: Powered by */}
+                    {event.sponsorsPoweredBy && event.sponsorsPoweredBy.length > 0 && (
+                      <div className="event-sponsor-tier event-sponsor-tier--powered">
+                        <span className="event-sponsor-tier-label">POWERED BY</span>
+                        <div className="event-sponsors-tier-cards event-sponsors-tier-cards--duo">
+                          {event.sponsorsPoweredBy.map((partner) => (
+                            <div className="event-sponsor-card event-sponsor-card--featured" key={partner.name}>
+                              <span className="event-sponsor-card__glow" aria-hidden="true" />
+                              <span className="event-sponsor-card__corner corner--tl" aria-hidden="true" />
+                              <span className="event-sponsor-card__corner corner--tr" aria-hidden="true" />
+                              <span className="event-sponsor-card__corner corner--bl" aria-hidden="true" />
+                              <span className="event-sponsor-card__corner corner--br" aria-hidden="true" />
+                              <span className="event-sponsor-card__beacon" aria-hidden="true" />
+                              <div className="event-sponsor-card__logo-frame event-sponsor-card__logo-frame--lg">
+                                {partner.logo ? (
+                                  <img
+                                    src={partner.logo}
+                                    alt={`${partner.name} logo`}
+                                    className="event-sponsor-card__logo event-sponsor-card__logo--lg"
+                                    loading="lazy"
+                                  />
+                                ) : (
+                                  <span className="event-sponsor-card__logo-text event-sponsor-card__logo-text--lg">{partner.name}</span>
+                                )}
+                              </div>
+                              <div className="event-sponsor-card__info">
+                                <span className="event-sponsor-card__name event-sponsor-card__name--featured">{partner.name}</span>
+                                {partner.tag && (
+                                  <span className="event-sponsor-card__tag">{partner.tag}</span>
+                                )}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Tier 2: Presenting Partner */}
+                    {event.sponsorsPresenting && (
+                      <div className="event-sponsor-tier event-sponsor-tier--presenting">
+                        <span className="event-sponsor-tier-label">PRESENTING PARTNER</span>
+                        <div className="event-sponsors-tier-cards event-sponsors-tier-cards--single">
+                          <div className="event-sponsor-card event-sponsor-card--featured event-sponsor-card--presenting">
+                            <span className="event-sponsor-card__glow" aria-hidden="true" />
+                            <span className="event-sponsor-card__corner corner--tl" aria-hidden="true" />
+                            <span className="event-sponsor-card__corner corner--tr" aria-hidden="true" />
+                            <span className="event-sponsor-card__corner corner--bl" aria-hidden="true" />
+                            <span className="event-sponsor-card__corner corner--br" aria-hidden="true" />
+                            <span className="event-sponsor-card__beacon" aria-hidden="true" />
+                            <div className="event-sponsor-card__logo-frame event-sponsor-card__logo-frame--lg">
+                              {event.sponsorsPresenting.logo ? (
+                                <img
+                                  src={event.sponsorsPresenting.logo}
+                                  alt={`${event.sponsorsPresenting.name} logo`}
+                                  className="event-sponsor-card__logo event-sponsor-card__logo--lg"
+                                  loading="lazy"
+                                />
+                              ) : (
+                                <span className="event-sponsor-card__logo-text event-sponsor-card__logo-text--lg">{event.sponsorsPresenting.name}</span>
+                              )}
+                            </div>
+                            <div className="event-sponsor-card__info">
+                              <span className="event-sponsor-card__name event-sponsor-card__name--featured">{event.sponsorsPresenting.name}</span>
+                              {event.sponsorsPresenting.tag && (
+                                <span className="event-sponsor-card__tag">{event.sponsorsPresenting.tag}</span>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {/* Tier 3: Sponsors & Partners Grid — Constellation Card Style */}
+                <div className="event-sponsors-grid-section">
+                  <div className="event-sponsor-tier-header">
+                    <span className="tier-title">SPONSORS &amp; PARTNERS</span>
+                  </div>
+                  <div className="event-sponsors-card-grid">
+                    {event.sponsorsList.map((sponsor) => (
+                      <div
+                        className="event-sponsor-card"
+                        key={sponsor.name}
+                      >
+                        {/* Glassmorphism glow */}
+                        <span className="event-sponsor-card__glow" aria-hidden="true" />
+
+                        {/* Corner constellation ticks */}
+                        <span className="event-sponsor-card__corner corner--tl" aria-hidden="true" />
+                        <span className="event-sponsor-card__corner corner--tr" aria-hidden="true" />
+                        <span className="event-sponsor-card__corner corner--bl" aria-hidden="true" />
+                        <span className="event-sponsor-card__corner corner--br" aria-hidden="true" />
+
+                        {/* Beacon */}
+                        <span className="event-sponsor-card__beacon" aria-hidden="true" />
+
+                        <div className="event-sponsor-card__logo-frame">
+                          {sponsor.logo ? (
+                            <img
+                              src={sponsor.logo}
+                              alt={`${sponsor.name} logo`}
+                              className="event-sponsor-card__logo"
+                              loading="lazy"
+                            />
+                          ) : (
+                            <span className="event-sponsor-card__logo-text" aria-hidden="true">
+                              {sponsor.name.charAt(0)}
+                            </span>
+                          )}
+                        </div>
+                        <span className="event-sponsor-card__name">{sponsor.name}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        )}
+
         {event.isCompleted ? (
           <section className="event-gallery" id="gallery">
             <div className="event-gallery__inner">
@@ -635,7 +863,7 @@ export default function EventDetailClient({ event }: EventDetailClientProps): Re
                   <span className="contact__name">{contact.name}</span>
                   <a
                     className="contact__phone"
-                    href={`tel:${contact.phone.replace(/\s+/g, "")}`}
+                    href={`tel:${contact.phone.replace(/[^\d+]/g, "")}`}
                   >
                     {contact.phone}
                   </a>
