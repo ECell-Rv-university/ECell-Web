@@ -57,7 +57,7 @@ describe("Events dynamic routes data", () => {
     expect(event?.contacts[0].name).toBe("Nishit");
     expect(event?.contacts[0].phone).toBe("+91 878 057 7400");
     expect(event?.contacts[1].name).toBe("Pranav");
-    expect(event?.contacts[1].phone).toBe("+977 982-3000481");
+    expect(event?.contacts[1].phone).toBe("+91 7645846602");
   });
 
   it("supports alias resolution for Hacktoberfest", () => {
@@ -121,7 +121,7 @@ describe("Events dynamic routes data", () => {
     expect(screen.getByText("Nishit")).toBeInTheDocument();
     expect(screen.getByText("Pranav")).toBeInTheDocument();
     expect(screen.getByText("+91 878 057 7400")).toBeInTheDocument();
-    expect(screen.getByText("+977 982-3000481")).toBeInTheDocument();
+    expect(screen.getByText("+91 7645846602")).toBeInTheDocument();
   });
 
   it("renders EventDetailClient for upcoming event with registration CTA", async () => {
@@ -158,4 +158,3 @@ describe("Events dynamic routes data", () => {
     expect(scrollToSpy).toHaveBeenCalledWith(0, 0);
   });
 });
-

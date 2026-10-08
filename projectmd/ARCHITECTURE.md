@@ -47,11 +47,11 @@ Add `"use client"` only where browser APIs, effects, event handlers, or client s
 | --- | --- | --- |
 | `/` | `app/page.tsx` | `src/sections/*` and shared interactive components |
 | `/events` | `app/events/page.tsx` | `src/components/EventsArchive.tsx` |
-| `/events/[slug]` | `app/events/[slug]/page.tsx` | `EventDetailClient.tsx` and `src/data/eventsData.ts` |
+| `/events/[slug]` | `app/events/[slug]/page.tsx` | `EventDetailClient.tsx`, `src/data/eventsData.ts`, and per-event records in `src/data/events/` |
 | `/events/argonyx-26/gallery` | gallery `page.tsx` | `GalleryClient`, `_components`, `_hooks`, and `_data` |
 | legacy event paths | redirect page/config | canonical `/events/...` destinations |
 
-`generateStaticParams()` builds canonical event-detail paths from `getAllEventSlugs()`. `getEventBySlug()` also normalizes case and selected Argonyx aliases.
+`generateStaticParams()` builds canonical event-detail paths from `getAllEventSlugs()`. `getEventBySlug()` resolves the shared event records and normalizes case and supported aliases. Argonyx and Hacktoberfest use this same detail route; Argonyx has a separate route only for its gallery.
 
 ## Component boundaries
 
@@ -83,7 +83,7 @@ The Events section dispatches `ecell:events-transition`. The globally mounted `P
 
 There is no centralized content service. The principal sources are:
 
-- event detail records: `src/data/eventsData.ts`;
+- event detail records: `src/data/events/` with lookup and aliases in `src/data/eventsData.ts`;
 - event archive records: local data in `src/components/EventsArchive.tsx`;
 - homepage event cards: local data in `src/sections/Events/Events.tsx`;
 - gallery records: gallery `_data/galleryData.ts`;

@@ -8,7 +8,8 @@ The website does not use a CMS or database. Text, links, dates, people, and medi
 
 | Content | Current source |
 | --- | --- |
-| Event detail pages and event metadata | `src/data/eventsData.ts` |
+| Event detail records | `src/data/events/<event>.ts` |
+| Event lookup, aliases, and route slugs | `src/data/eventsData.ts` |
 | Events archive cards/rows | `src/components/EventsArchive.tsx` |
 | Homepage event showcase | `src/sections/Events/Events.tsx` |
 | Argonyx gallery catalog | `app/events/argonyx-26/gallery/_data/galleryData.ts` |
@@ -24,7 +25,7 @@ The website does not use a CMS or database. Text, links, dates, people, and medi
 
 Event information is currently duplicated. A complete event edit may require all of these locations:
 
-1. `src/data/eventsData.ts` for the canonical detail record and static slug.
+1. `src/data/events/<event>.ts` for the canonical detail record and `src/data/eventsData.ts` for lookup and static slug registration.
 2. `src/components/EventsArchive.tsx` for archive summaries, filters, calendar, and status.
 3. `src/sections/Events/Events.tsx` for the homepage card.
 4. Gallery data and media if the event has a gallery.
@@ -37,7 +38,7 @@ For completed events, remove or relabel registration actions rather than leaving
 
 ## Adding an event detail route
 
-Add a typed record to `EVENTS_DATA` in `src/data/eventsData.ts`. `getAllEventSlugs()` automatically exposes its key to `generateStaticParams()`, and `/events/[slug]` uses the record for metadata and rendering. The key and `slug` field should match the canonical lowercase kebab-case path.
+Add a typed record in its own module under `src/data/events/` and register it in `EVENTS_DATA` in `src/data/eventsData.ts`. `getAllEventSlugs()` automatically exposes its key to `generateStaticParams()`, and `/events/[slug]` uses the record for metadata and rendering. The key and `slug` field should match the canonical lowercase kebab-case path.
 
 Also add the corresponding archive/homepage representation as needed. Unknown slugs return not found.
 

@@ -44,7 +44,13 @@ ECell-Web/
 │   │   ├── PageTransition/         # Route transition overlay
 │   │   └── ...                     # Logo, scroll, archive, and other helpers
 │   ├── data/
-│   │   └── eventsData.ts           # Typed detail-route event records
+│   │   ├── eventsData.ts           # Event lookup and compatibility exports
+│   │   └── events/                 # Per-event records and shared types
+│   │       ├── types.ts
+│   │       ├── argonyx26.ts
+│   │       ├── pitchEThon.ts
+│   │       ├── eSummit.ts
+│   │       └── hacktoberfest26.ts
 │   ├── sections/                   # Independent homepage feature domains
 │   │   ├── About/
 │   │   ├── Events/
