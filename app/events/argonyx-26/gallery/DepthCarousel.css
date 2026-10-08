@@ -111,10 +111,12 @@
   transition: background 0.2s ease, border-color 0.2s ease, transform 0.18s ease;
   backdrop-filter: blur(6px);
 }
-.dc-btn:hover:not(:disabled) {
-  background: rgba(255, 255, 255, 0.14);
-  border-color: rgba(255, 255, 255, 0.3);
-  transform: scale(1.1);
+@media (hover: hover) {
+  .dc-btn:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.14);
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: scale(1.1);
+  }
 }
 .dc-btn:active:not(:disabled) { transform: scale(0.96); }
 .dc-btn:disabled {
@@ -237,5 +239,23 @@
 
   .dc-counter {
     align-self: center;
+  }
+}
+
+/* Touch: larger tap targets (buttons to 44px, dots get an invisible hit area) */
+@media (pointer: coarse) {
+  .dc-btn {
+    width: 44px;
+    height: 44px;
+  }
+
+  .dc-dot {
+    position: relative;
+  }
+
+  .dc-dot::before {
+    content: "";
+    position: absolute;
+    inset: -10px -3px;
   }
 }

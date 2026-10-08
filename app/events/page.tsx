@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Nav from "@/src/sections/Nav/Nav";
+import SubNav from "@/src/sections/Nav/SubNav";
 import EventsArchive from "@/src/components/EventsArchive";
 
 const SITE_URL = "https://ecell-rvu.vercel.app";
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
 export default function EventsPage() {
   return (
     <>
-      <Nav />
+      <SubNav />
       <EventsArchive />
     </>
   );

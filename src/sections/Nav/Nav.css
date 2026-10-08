@@ -191,3 +191,21 @@
     font-size: 12px;
   }
 }
+
+/* Events sub-nav only (plain "← Home" link, no logo button) */
+@media (max-width: 420px) {
+  .site-nav--sub {
+    padding-right: max(16px, env(safe-area-inset-right));
+    padding-left: max(16px, env(safe-area-inset-left));
+  }
+  .site-nav--sub .nav-right {
+    gap: 12px;
+    font-size: 11px;
+  }
+}
+@media (pointer: coarse) {
+  .site-nav--sub .nav-events-link,
+  .site-nav--sub .chapters-toggle {
+    min-height: 44px;
+  }
+}
