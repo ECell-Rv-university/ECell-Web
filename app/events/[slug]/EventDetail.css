@@ -95,11 +95,16 @@
   color: var(--event-black);
 }
 
-.event-detail-page .btn--solid:hover,
 .event-detail-page .btn--solid:focus-visible,
-.event-detail-page .btn--invert:hover,
 .event-detail-page .btn--invert:focus-visible {
   transform: translateY(-2px);
+}
+
+@media (hover: hover) {
+  .event-detail-page .btn--solid:hover,
+  .event-detail-page .btn--invert:hover {
+    transform: translateY(-2px);
+  }
 }
 
 .event-detail-page .btn--ghost {
@@ -267,10 +272,16 @@
   transition: border-color 0.15s ease, transform 0.15s ease;
 }
 
-.event-detail-page .event-card:hover,
 .event-detail-page .event-card:focus-visible {
   border-color: var(--event-gray);
   transform: translateY(-3px);
+}
+
+@media (hover: hover) {
+  .event-detail-page .event-card:hover {
+    border-color: var(--event-gray);
+    transform: translateY(-3px);
+  }
 }
 
 .event-detail-page .event-card__media {
@@ -330,10 +341,16 @@
   transition: transform 0.15s ease, color 0.15s ease;
 }
 
-.event-detail-page .event-card:hover .event-card__arrow,
 .event-detail-page .event-card:focus-visible .event-card__arrow {
   transform: translate(2px, -2px);
   color: var(--event-white);
+}
+
+@media (hover: hover) {
+  .event-detail-page .event-card:hover .event-card__arrow {
+    transform: translate(2px, -2px);
+    color: var(--event-white);
+  }
 }
 
 .event-detail-page .about {
@@ -666,10 +683,12 @@
   transition: all 0.2s ease;
 }
 
-.event-detail-page .winners-arrow-btn:hover {
-  border-color: var(--event-white);
-  background: rgba(255, 255, 255, 0.1);
-  transform: translateY(-1px);
+@media (hover: hover) {
+  .event-detail-page .winners-arrow-btn:hover {
+    border-color: var(--event-white);
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-1px);
+  }
 }
 
 /* Wide Rectangular Spotlight Box */
@@ -941,12 +960,14 @@
   backdrop-filter: blur(8px);
 }
 
-.event-detail-page .spiral-view-btn:hover {
-  transform: translateY(-3px) scale(1.04);
-  box-shadow:
-    0 18px 45px rgba(0, 0, 0, 0.8),
-    0 0 35px rgba(255, 255, 255, 0.35);
-  background: #ffffff;
+@media (hover: hover) {
+  .event-detail-page .spiral-view-btn:hover {
+    transform: translateY(-3px) scale(1.04);
+    box-shadow:
+      0 18px 45px rgba(0, 0, 0, 0.8),
+      0 0 35px rgba(255, 255, 255, 0.35);
+    background: #ffffff;
+  }
 }
 
 .event-detail-page .spiral-view-btn__arrow {
@@ -954,8 +975,10 @@
   transition: transform 0.2s ease;
 }
 
-.event-detail-page .spiral-view-btn:hover .spiral-view-btn__arrow {
-  transform: translate(2px, -2px);
+@media (hover: hover) {
+  .event-detail-page .spiral-view-btn:hover .spiral-view-btn__arrow {
+    transform: translate(2px, -2px);
+  }
 }
 
 /* =====================================================
@@ -2072,19 +2095,21 @@
 }
 
 /* Card hover: elevation + light-up */
-.event-detail-page .event-sponsor-card:hover {
-  transform: translateY(-4px);
-  border-color: rgba(244, 244, 242, 0.42);
-  background: linear-gradient(145deg, rgba(255, 255, 255, 0.095), rgba(255, 255, 255, 0.03));
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.22),
-    0 16px 36px rgba(0, 0, 0, 0.48),
-    0 0 20px rgba(255, 255, 255, 0.09);
-}
+@media (hover: hover) {
+  .event-detail-page .event-sponsor-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(244, 244, 242, 0.42);
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.095), rgba(255, 255, 255, 0.03));
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.22),
+      0 16px 36px rgba(0, 0, 0, 0.48),
+      0 0 20px rgba(255, 255, 255, 0.09);
+  }
 
-.event-detail-page .event-sponsor-card:hover .event-sponsor-card__glow {
-  opacity: 1;
-  transform: scale(1.18);
+  .event-detail-page .event-sponsor-card:hover .event-sponsor-card__glow {
+    opacity: 1;
+    transform: scale(1.18);
+  }
 }
 
 /* Corner constellation ticks */
@@ -2144,9 +2169,11 @@
   transition: background 0.3s ease, box-shadow 0.3s ease;
 }
 
-.event-detail-page .event-sponsor-card:hover .event-sponsor-card__beacon {
-  background: #ffffff;
-  box-shadow: 0 0 8px #ffffff, 0 0 14px rgba(255, 255, 255, 0.6);
+@media (hover: hover) {
+  .event-detail-page .event-sponsor-card:hover .event-sponsor-card__beacon {
+    background: #ffffff;
+    box-shadow: 0 0 8px #ffffff, 0 0 14px rgba(255, 255, 255, 0.6);
+  }
 }
 
 /* Logo frame */
@@ -2174,10 +2201,12 @@
     opacity 0.35s ease;
 }
 
-.event-detail-page .event-sponsor-card:hover .event-sponsor-card__logo {
-  opacity: 1;
-  transform: scale(1.08);
-  filter: saturate(1.06) contrast(1.06) brightness(1.06);
+@media (hover: hover) {
+  .event-detail-page .event-sponsor-card:hover .event-sponsor-card__logo {
+    opacity: 1;
+    transform: scale(1.08);
+    filter: saturate(1.06) contrast(1.06) brightness(1.06);
+  }
 }
 
 /* Fallback initial letter when no logo */
@@ -2300,6 +2329,10 @@
   .event-detail-page .event-rounds__headline {
     max-width: 16ch;
     font-size: clamp(1.9rem, 1.2rem + 3vw, 2.6rem);
+  }
+
+  .event-detail-page .event-rounds__headline .hero__accent {
+    white-space: normal;
   }
 
   .event-detail-page .event-rounds__subhead {
@@ -2430,5 +2463,33 @@
     grid-template-columns: 1.8rem minmax(0, 1fr);
     gap: 0.65rem;
     font-size: 0.88rem;
+  }
+}
+
+/* ── Touch: 44px minimum tap targets (kept last so it beats the max-width overrides) ── */
+@media (pointer: coarse) {
+  .event-detail-page .winners-arrow-btn {
+    width: 44px;
+    height: 44px;
+  }
+
+  .event-detail-page .winners-tab-btn {
+    min-height: 44px;
+  }
+
+  .event-detail-page .topbar__mark,
+  .event-detail-page .topbar__cta,
+  .event-detail-page .topbar__nav a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+
+  .event-detail-page--completed .topbar__nav a[href="#gallery"] {
+    min-height: 44px;
+  }
+
+  .event-detail-page .spiral-view-btn {
+    min-height: 44px;
   }
 }

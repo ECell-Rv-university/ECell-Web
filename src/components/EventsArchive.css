@@ -97,12 +97,15 @@
     border-color: var(--event-accent)
 }
 
-.ea-button:hover span {
-    transform: translateX(4px)
+.ea-hero-copy,
+.ea-feature-bottom>div,
+.ea-card-info>div {
+    min-width: 0
 }
 
 .ea-feature-wrap {
     position: relative;
+    width: 100%;
     min-height: 500px;
     display: flex;
     align-items: center;
@@ -120,10 +123,6 @@
     transition: transform .35s ease
 }
 
-.ea-feature:hover {
-    transform: rotate(0) translateY(-5px)
-}
-
 .ea-feature--clickable {
     cursor: pointer;
 }
@@ -139,7 +138,7 @@
 
 .ea-feature-art {
     position: relative;
-    height: 270px;
+    aspect-ratio: 16 / 9;
     overflow: hidden
 }
 
@@ -192,8 +191,9 @@
 }
 
 .ea-feature-bottom h2 {
-    font-size: 2rem;
-    letter-spacing: -.06em
+    font-size: clamp(1.5rem, 6vw, 2rem);
+    letter-spacing: -.06em;
+    overflow-wrap: anywhere
 }
 
 .ea-feature-bottom p {
@@ -215,7 +215,10 @@
 
 .ea-section-head {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
+    align-items: center;
+    gap: 16px;
     padding: 17px 0;
     border-top: 1px solid var(--event-line);
     border-bottom: 1px solid var(--event-line);
@@ -314,7 +317,6 @@
     text-transform: uppercase
 }
 
-.ea-filters button:hover,
 .ea-filters button.is-active {
     border-color: var(--event-paper);
     background: var(--event-paper);
@@ -332,11 +334,6 @@
     border: 1px solid var(--event-line);
     background: rgba(17, 17, 17, .72);
     transition: transform .3s, border-color .3s
-}
-
-.ea-card:hover {
-    transform: translateY(-5px);
-    border-color: var(--event-paper)
 }
 
 .ea-card--clickable {
@@ -371,11 +368,6 @@
     transition: transform .6s ease, filter .6s ease
 }
 
-.ea-card:hover img {
-    transform: scale(1.06);
-    filter: saturate(1)
-}
-
 .ea-card-image span {
     position: absolute;
     z-index: 1;
@@ -395,8 +387,9 @@
 }
 
 .ea-card-info h2 {
-    font-size: 1.7rem;
-    letter-spacing: -.06em
+    font-size: clamp(1.35rem, 5vw, 1.7rem);
+    letter-spacing: -.06em;
+    overflow-wrap: anywhere
 }
 
 .ea-card-info p {
@@ -432,11 +425,6 @@
 
 .ea-archive-row--link {
     cursor: pointer;
-}
-
-.ea-archive-row:hover {
-    padding-left: 14px;
-    color: var(--event-accent)
 }
 
 .ea-archive-row>span,
@@ -481,11 +469,6 @@
     transition: border-color .25s, color .25s
 }
 
-.ea-footer-home:hover {
-    border-color: var(--event-paper);
-    color: var(--event-paper)
-}
-
 .ea-view-all-btn {
     background: none;
     border: 0;
@@ -497,8 +480,57 @@
     transition: color .2s
 }
 
-.ea-view-all-btn:hover {
-    color: var(--event-paper)
+/* Hover effects only on devices that can actually hover, so taps on touch
+   screens don't leave cards lifted/scaled */
+@media (hover: hover) {
+    .ea-button:hover span {
+        transform: translateX(4px)
+    }
+
+    .ea-feature:hover {
+        transform: rotate(0) translateY(-5px)
+    }
+
+    .ea-filters button:hover {
+        border-color: var(--event-paper);
+        background: var(--event-paper);
+        color: var(--event-bg)
+    }
+
+    .ea-card:hover {
+        transform: translateY(-5px);
+        border-color: var(--event-paper)
+    }
+
+    .ea-card:hover img {
+        transform: scale(1.06);
+        filter: saturate(1)
+    }
+
+    .ea-archive-row:hover {
+        padding-left: 14px;
+        color: var(--event-accent)
+    }
+
+    .ea-footer-home:hover {
+        border-color: var(--event-paper);
+        color: var(--event-paper)
+    }
+
+    .ea-view-all-btn:hover {
+        color: var(--event-paper)
+    }
+}
+
+@media (min-width:901px) and (max-width:1100px) {
+    .ea-hero {
+        grid-template-columns: minmax(0, 1fr) minmax(340px, .8fr);
+        gap: 4vw
+    }
+
+    .ea-hero h1 {
+        font-size: clamp(4rem, 8vw, 6.5rem)
+    }
 }
 
 @media (max-width:900px) {
@@ -510,11 +542,24 @@
     }
 
     .ea-feature-wrap {
-        min-height: 460px
+        min-height: auto;
+        padding-block: 24px
     }
 
+    .ea-feature {
+        width: min(560px, 100%)
+    }
+}
+
+@media (max-width:700px) {
     .ea-grid {
         grid-template-columns: 1fr
+    }
+
+    .ea-card-image {
+        height: auto;
+        aspect-ratio: 16 / 10;
+        max-height: 320px
     }
 }
 
@@ -527,7 +572,7 @@
     }
 
     .ea-hero h1 {
-        font-size: clamp(4rem, 17vw, 6rem)
+        font-size: clamp(3.25rem, 16vw, 6rem)
     }
 
     .ea-hero-intro {
@@ -535,27 +580,61 @@
         font-size: .95rem
     }
 
-    .ea-feature-wrap {
-        min-height: 400px
+    .ea-feature-art strong {
+        font-size: clamp(1.9rem, 9vw, 2.4rem)
     }
 
-    .ea-feature-art {
-        height: 205px
-    }
-
+    /* The calendar itself scrolls; the track sizes to its dates so the
+       timeline line spans every date and there is no empty column */
     .ea-calendar {
-        margin-bottom: 85px
+        margin-bottom: 85px;
+        overflow-x: auto;
+        overscroll-behavior-x: contain;
+        scroll-snap-type: x proximity;
+        scrollbar-width: none
+    }
+
+    .ea-calendar::-webkit-scrollbar {
+        display: none
     }
 
     .ea-calendar-track {
-        grid-template-columns: repeat(4, 175px);
-        overflow-x: auto;
+        width: max-content;
+        grid-template-columns: none;
+        grid-auto-flow: column;
+        grid-auto-columns: 160px;
+        overflow: visible;
         padding-bottom: 12px
     }
 
     .ea-calendar-track:before {
         left: 8px;
         right: 8px
+    }
+
+    .ea-date {
+        scroll-snap-align: start
+    }
+
+    .ea-eyebrow,
+    .ea-button,
+    .ea-feature-art span,
+    .ea-feature-bottom p,
+    .ea-section-head,
+    .ea-date span,
+    .ea-filters button,
+    .ea-card-image span,
+    .ea-card-info time,
+    .ea-archive-row>span,
+    .ea-archive-row small,
+    .ea-footer,
+    .ea-footer-home,
+    .ea-view-all-btn {
+        font-size: .68rem
+    }
+
+    .ea-archive-row strong {
+        font-size: 1.15rem
     }
 
     .ea-card-info {
@@ -582,5 +661,38 @@
     .ea-footer span:last-child,
     .ea-footer-home {
         width: 100%
+    }
+}
+
+/* Comfortable tap targets on touch screens */
+@media (pointer: coarse) {
+
+    .ea-button,
+    .ea-filters button {
+        min-height: 44px
+    }
+
+    .ea-filters button {
+        padding-inline: 18px
+    }
+
+    .ea-footer-home {
+        display: inline-flex;
+        align-items: center;
+        min-height: 44px
+    }
+
+    .ea-view-all-btn {
+        min-height: 44px;
+        padding-left: 12px;
+        margin-block: -13px
+    }
+
+    .ea-feature-bottom>a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 44px;
+        min-height: 44px
     }
 }

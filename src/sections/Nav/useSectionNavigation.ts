@@ -39,15 +39,6 @@ export function useSectionNavigation({ closeMenu }: UseSectionNavigationOptions)
     window.dispatchEvent(new CustomEvent("ecell:events-transition"));
   };
 
-  const openHome = () => {
-    if (pathname === "/" || isTransitioning) return;
-
-    setIsTransitioning(true);
-    transitionTimeoutRef.current = window.setTimeout(() => {
-      router.push("/");
-    }, 720);
-  };
-
   const scrollToSection = (id: string) => {
     closeMenu();
 
@@ -72,5 +63,5 @@ export function useSectionNavigation({ closeMenu }: UseSectionNavigationOptions)
     navigateToSection(id);
   };
 
-  return { pathname, isTransitioning, openEvents, openHome, scrollToSection };
+  return { pathname, isTransitioning, openEvents, scrollToSection };
 }
