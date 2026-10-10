@@ -1,0 +1,296 @@
+/* Bottom bar: studio line, spinning "scroll to explore" badge, local time.
+   White + difference blending reads black on the white hero and flips to
+   white wherever the ink blob passes underneath. */
+.hero__scroll-hint {
+  position: absolute;
+  right: clamp(16px, 1.25vw, 24px);
+  bottom: clamp(18px, 2.6vh, 28px);
+  left: clamp(16px, 1.25vw, 24px);
+  z-index: 10;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: end;
+  color: #ffffff;
+  mix-blend-mode: difference;
+  pointer-events: none;
+}
+
+.hero__scroll-meta {
+  font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+
+/* Clear the fixed game launcher button in the bottom-left corner
+   (28px inset + 54px button on desktop). */
+.hero__scroll-meta:first-child {
+  padding-left: 78px;
+}
+
+.hero__scroll-meta--right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.hero__scroll-end {
+  display: flex;
+  align-items: flex-end;
+  justify-self: end;
+  gap: clamp(20px, 2.6vw, 44px);
+}
+
+/* "LINKEDIN / GITHUB / INSTAGRAM" — icons only on smaller screens. */
+.hero__socials {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 2px;
+  pointer-events: auto;
+}
+
+.hero__social {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: inherit;
+  font-family: var(--font-archivo), sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  line-height: 1;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: opacity 0.25s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.hero__social-icon {
+  display: inline-flex;
+  width: 16px;
+  height: 16px;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.hero__social-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.hero__social-sep {
+  font-family: var(--font-archivo), sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.hero__social:focus-visible {
+  outline: 1px solid currentColor;
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+@media (hover: hover) {
+  .hero__socials:hover .hero__social {
+    opacity: 0.45;
+  }
+
+  .hero__socials .hero__social:hover {
+    opacity: 1;
+  }
+
+  .hero__social:hover .hero__social-icon {
+    transform: translateY(-2px) rotate(-6deg);
+  }
+}
+
+.hero__scroll-badge {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 112px;
+  height: 112px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  pointer-events: auto;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.hero__scroll-badge:focus-visible {
+  outline: 1px solid currentColor;
+  outline-offset: 6px;
+}
+
+.hero__scroll-ring {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  animation: heroScrollSpin 14s linear infinite;
+}
+
+.hero__scroll-ring text {
+  fill: currentColor;
+  font-family: var(--font-archivo), sans-serif;
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.hero__scroll-core {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  overflow: hidden;
+  border-radius: 50%;
+  background: #ffffff;
+  color: #000000;
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.hero__scroll-arrow {
+  display: grid;
+  place-items: center;
+  animation: heroScrollDrop 2.2s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+
+.hero__scroll-badge:focus-visible .hero__scroll-core,
+.hero__scroll-badge:active .hero__scroll-core {
+  transform: scale(1.18);
+}
+
+@media (hover: hover) {
+  .hero__scroll-badge:hover .hero__scroll-core {
+    transform: scale(1.18);
+  }
+
+  .hero__scroll-badge:hover .hero__scroll-ring {
+    animation-duration: 6s;
+  }
+}
+
+@keyframes heroScrollSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Arrow falls in from above, rests, then drops out below. */
+@keyframes heroScrollDrop {
+  0% {
+    transform: translateY(-180%);
+  }
+  35%,
+  60% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(180%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__scroll-ring,
+  .hero__scroll-arrow {
+    animation: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero__scroll-hint {
+    bottom: max(14px, env(safe-area-inset-bottom));
+  }
+
+  .hero__scroll-meta {
+    font-size: 12px;
+  }
+
+  /* Not enough width beside the badge: stack icons above the time. */
+  .hero__scroll-end {
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+  }
+
+  /* Launcher sits at 18px with a 54px button on small screens. */
+  .hero__scroll-meta:first-child {
+    padding-left: 60px;
+  }
+
+  .hero__scroll-badge {
+    width: 88px;
+    height: 88px;
+  }
+
+  .hero__scroll-ring text {
+    font-size: 12px;
+  }
+
+  .hero__scroll-core {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+@media (max-width: 1100px) {
+  .hero__social-label,
+  .hero__social-sep {
+    display: none;
+  }
+
+  .hero__socials {
+    gap: 16px;
+  }
+
+  .hero__social-icon {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+/* Phones: badge in the middle, icons on the right, no text blocks. */
+@media (max-width: 420px) {
+  .hero__scroll-meta {
+    display: none;
+  }
+
+  .hero__scroll-end {
+    align-self: center;
+  }
+
+  .hero__socials {
+    gap: 14px;
+  }
+}
+
+/* Landscape phones and short windows: a smaller badge. */
+@media (max-height: 560px) and (min-width: 569px) {
+  .hero__scroll-hint {
+    bottom: 10px;
+  }
+
+  .hero__scroll-badge {
+    width: 76px;
+    height: 76px;
+  }
+
+  .hero__scroll-ring text {
+    font-size: 13px;
+  }
+
+  .hero__scroll-core {
+    width: 34px;
+    height: 34px;
+  }
+
+  .hero__scroll-meta {
+    font-size: 12px;
+  }
+}

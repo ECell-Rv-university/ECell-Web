@@ -1,86 +1,49 @@
 "use client";
 import React, { useEffect, useRef } from "react";
-const heroVideo = "/assets/videos/hero2-optimized.mp4";
-const heroMobileVideo = "/assets/videos/hero-mobile.mp4";
-const heroPoster = "/assets/videos/hero-poster.webp";
+import { scrollToY } from "../../utils/lenis";
 import { setupHeroAnimations } from "./HeroAnimations";
-import "./Hero.css";
-import "./HeroLayout.css";
-import "./HeroVideo.css";
-import "./HeroMarquee.css";
-import "./HeroTypography.css";
-import "./HeroResponsive.css";
+import HeroReveal from "./components/HeroReveal";
+import HeroIntro from "./components/HeroIntro";
+import HeroScrollHint from "./components/HeroScrollHint";
+import "./styles/Hero.css";
+import "./styles/HeroStage.css";
+import "./styles/HeroMarquee.css";
+
+const BOTTOM_MARQUEE_COPIES = 3;
 
 export default function Hero(): React.ReactElement {
   const heroRef = useRef<HTMLElement | null>(null);
-  const stickyRef = useRef<HTMLDivElement | null>(null);
-  const videoWrapRef = useRef<HTMLDivElement | null>(null);
-  const videoRef = useRef<HTMLVideoElement | null>(null);
-  const headingRef = useRef<HTMLHeadingElement | null>(null);
+  const stageRef = useRef<HTMLDivElement | null>(null);
+  const introRef = useRef<HTMLDivElement | null>(null);
   const marqueeRef = useRef<HTMLDivElement | null>(null);
   const labelRef = useRef<HTMLDivElement | null>(null);
   const scrollHintRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-
-    video.playbackRate = 0.5;
-
-    let isVisible = false;
-    let disposed = false;
-
-    const handleVisibilityChange = () => {
-      if (disposed) return;
-      if (document.hidden) {
-        video.pause();
-      } else if (isVisible) {
-        video.playbackRate = 0.5;
-        video.play().catch(() => {});
-      }
-    };
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (disposed) return;
-        entries.forEach((entry) => {
-          isVisible = entry.isIntersecting;
-          if (entry.isIntersecting && !document.hidden) {
-            video.playbackRate = 0.5;
-            video.play().catch(() => {});
-          } else {
-            video.pause();
-          }
-        });
-      },
-      { threshold: 0.1 },
-    );
-
-    observer.observe(video);
-    document.addEventListener("visibilitychange", handleVisibilityChange);
-
     const cleanupAnimations = setupHeroAnimations({
       heroRef,
-      videoRef,
-      videoWrapRef,
-      headingRef,
+      stageRef,
+      introRef,
       marqueeRef,
       labelRef,
       scrollHintRef,
     });
 
     return () => {
-      disposed = true;
-      observer.disconnect();
-      document.removeEventListener("visibilitychange", handleVisibilityChange);
       cleanupAnimations?.();
-      video.pause();
     };
   }, []);
 
+  // Glide through the hero's scroll animation to the first section.
+  const scrollPastHero = () => {
+    const hero = heroRef.current;
+    if (!hero) return;
+    scrollToY(hero.offsetTop + hero.offsetHeight, { duration: 2.2 });
+  };
+
   return (
     <section ref={heroRef} className="hero">
-      <div ref={stickyRef} className="hero__sticky">
+      <div className="hero__sticky">
         <div ref={marqueeRef} className="hero__marquee-group">
           <div className="hero__marquee-line hero__marquee-line--startups">
             <span>WHERE STARTUPS</span>
@@ -95,62 +58,23 @@ export default function Hero(): React.ReactElement {
           <span className="hero__label-cap">A note from the team</span>
         </div>
 
-        <div ref={videoWrapRef} className="hero__video-wrapper">
-          <video
-            ref={videoRef}
-            className="hero__video"
-            autoPlay
-            muted
-            loop
-            playsInline
-            poster={heroPoster}
-            preload="metadata"
-            suppressHydrationWarning
-          >
-            <source
-              media="(max-width: 768px)"
-              src={heroMobileVideo}
-              type="video/mp4"
-            />
-            <source src={heroVideo} type="video/mp4" />
-          </video>
-          <div className="hero__overlay" />
-          <h1 ref={headingRef} className="hero__heading">
-            <span className="hero__heading-sub">
-              It all starts from an idea
-            </span>
-            <span className="hero__heading-main">ECell RV University</span>
-          </h1>
+        {/* The stage is what the scroll animation shrinks into a card. */}
+        <div ref={stageRef} className="hero__stage">
+          <HeroReveal />
+          <HeroIntro ref={introRef} />
         </div>
 
-        <div ref={scrollHintRef} className="hero__scroll-hint" aria-hidden="true">
-          <div className="hero__scroll-mouse">
-            <span className="hero__scroll-wheel" />
-          </div>
-          <div className="hero__scroll-chevrons">
-            <span />
-            <span />
-          </div>
-          <span className="hero__scroll-label">Scroll to explore</span>
-        </div>
+        <HeroScrollHint ref={scrollHintRef} onExplore={scrollPastHero} />
 
         <div className="hero__bottom-marquee" aria-hidden="true">
           <div className="hero__bottom-marquee-track">
-            <span>
-              WE&apos;RE HERE TO BUILD <b>—</b> TO TRY <b>—</b> TO FAIL <b>—</b> TO
-              START AGAIN <b>—</b> WE&apos;RE HERE TO BUILD <b>—</b> TO TRY <b>—</b>
-              TO FAIL <b>—</b> TO START AGAIN <b>—</b>
-            </span>
-            <span>
-              WE&apos;RE HERE TO BUILD <b>—</b> TO TRY <b>—</b> TO FAIL <b>—</b> TO
-              START AGAIN <b>—</b> WE&apos;RE HERE TO BUILD <b>—</b> TO TRY <b>—</b>
-              TO FAIL <b>—</b> TO START AGAIN <b>—</b>
-            </span>
-            <span>
-              WE&apos;RE HERE TO BUILD <b>—</b> TO TRY <b>—</b> TO FAIL <b>—</b> TO
-              START AGAIN <b>—</b> WE&apos;RE HERE TO BUILD <b>—</b> TO TRY <b>—</b>
-              TO FAIL <b>—</b> TO START AGAIN <b>—</b>
-            </span>
+            {Array.from({ length: BOTTOM_MARQUEE_COPIES }, (_, i) => (
+              <span key={i}>
+                WE&apos;RE HERE TO BUILD <b>—</b> TO TRY <b>—</b> TO FAIL <b>—</b> TO
+                START AGAIN <b>—</b> WE&apos;RE HERE TO BUILD <b>—</b> TO TRY <b>—</b>
+                TO FAIL <b>—</b> TO START AGAIN <b>—</b>
+              </span>
+            ))}
           </div>
         </div>
       </div>

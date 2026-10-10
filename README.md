@@ -41,10 +41,10 @@ The **ECell RV University Website** serves as the central flagship platform for 
 
 ## ✨ Key Features & Experience Highlights
 
-### 1. 🎞️ Cinematic Video Hero with Scroll Scrubbing
-- Dual-source responsive background video (`hero2-optimized.mp4` on desktop, `hero-mobile.mp4` on mobile).
-- Power-efficient video playback controlled via `IntersectionObserver` (paused when offscreen or hidden in background tabs, throttled to `0.5x` playback speed for a dreamlike feel).
-- GSAP ScrollTrigger pin sequence that scales down the viewport video into a curved container card, unlocking headline typography and dynamic marquees.
+### 1. 🫧 Liquid Ink Reveal Hero with Scroll Scrubbing
+- Three.js hero: moving the pointer pours liquid ink over a giant "ECELL RVU" title, revealing glass balloon letters floating over a particle nebula (touch screens get a wandering blob, and a dragging finger takes over).
+- Power-efficient rendering: paused when offscreen or in background tabs, idles once the ink has faded, and caps the pixel count on large and mobile screens.
+- GSAP ScrollTrigger pin sequence that scales the hero down into a curved container card, unlocking headline typography and dynamic marquees.
 
 ### 2. 🌀 Morphing SVG Floating Logo
 - Central brand mark constructed from hand-calculated SVG curves and stroke paths.
@@ -208,8 +208,7 @@ ECell-Web/
 │   ├── page.tsx                # Main Landing Page (Hero, Sections, Horizontal Flow)
 │   ├── robots.ts               # Robots.txt configuration
 │   └── sitemap.ts              # Dynamic sitemap generator
-├── public/                     # Static assets (favicons, logos, videos, manifest)
-│   ├── assets/videos/          # Optimized MP4 hero videos & poster images
+├── public/                     # Static assets (favicons, logos, manifest)
 │   ├── favicon.*               # Multi-resolution icons & SVGs
 │   └── og-image.webp           # Social preview banner
 ├── src/                        # Core application source code
@@ -226,7 +225,7 @@ ECell-Web/
 │   │   ├── About/              # Purpose & vision statement with kinetic typography
 │   │   ├── Events/             # Flagship events showcase cards
 │   │   ├── Footer/             # Navigation, social links, watermark emblem
-│   │   ├── Hero/               # Video hero, ScrollTrigger shrink, marquee
+│   │   ├── Hero/               # WebGL ink-reveal hero, ScrollTrigger shrink, marquee
 │   │   ├── Loader/             # Initial SVG path-draw preloader
 │   │   ├── Nav/                # Responsive navigation bar & mobile drawer
 │   │   ├── Speakers/           # Keynote speakers spotlight & carousel

@@ -1,0 +1,146 @@
+/* Top-left tagline + "Join now" pill, in the style of an editorial studio. */
+.hero__intro {
+  position: absolute;
+  top: clamp(20px, 2.2vw, 32px);
+  left: clamp(16px, 1.25vw, 24px);
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: clamp(20px, 1.6vw, 30px);
+  pointer-events: none;
+  will-change: opacity;
+}
+
+.hero__heading {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 0;
+  text-align: left;
+}
+
+.hero__heading-line {
+  color: #000000;
+  font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: clamp(20px, 1.6vw, 30px);
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+}
+
+.hero__cta {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 18px;
+  height: 60px;
+  padding: 0 24px;
+  overflow: hidden;
+  border: 1px solid #000000;
+  border-radius: 999px;
+  background: #000000;
+  color: #ffffff;
+  font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  text-transform: uppercase;
+  isolation: isolate;
+  pointer-events: auto;
+  transition: color 0.35s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* White fill wipes up from the bottom on hover. */
+.hero__cta::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: #ffffff;
+  transform: translateY(101%);
+  transition: transform 0.45s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.hero__cta svg {
+  transition: transform 0.35s ease;
+}
+
+.hero__cta:focus-visible {
+  outline: 2px solid #000000;
+  outline-offset: 3px;
+  color: #000000;
+}
+
+.hero__cta:focus-visible::before {
+  transform: translateY(0);
+}
+
+/* Hover effects only where hover exists, so taps don't leave it stuck on. */
+@media (hover: hover) {
+  .hero__cta:hover {
+    color: #000000;
+  }
+
+  .hero__cta:hover::before {
+    transform: translateY(0);
+  }
+
+  .hero__cta:hover svg {
+    transform: translateX(4px);
+  }
+}
+
+.hero__cta:active {
+  transform: scale(0.97);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__cta,
+  .hero__cta::before,
+  .hero__cta svg {
+    transition: none;
+  }
+}
+
+/* Tablets and phones: clear the fixed nav bar. */
+@media (max-width: 768px) {
+  .hero__intro {
+    top: clamp(88px, 13vh, 112px);
+    right: 16px;
+    left: max(16px, env(safe-area-inset-left));
+    gap: 16px;
+  }
+
+  .hero__heading-line {
+    font-size: clamp(17px, 5vw, 22px);
+  }
+
+  .hero__cta {
+    gap: 12px;
+    height: 48px;
+    padding: 0 20px;
+    font-size: 13px;
+  }
+}
+
+/* Landscape phones and short windows: keep the intro clear of the title. */
+@media (max-height: 560px) and (min-width: 569px) {
+  .hero__intro {
+    top: 16px;
+    gap: 10px;
+  }
+
+  .hero__heading-line {
+    font-size: 16px;
+  }
+
+  .hero__cta {
+    gap: 10px;
+    height: 38px;
+    padding: 0 16px;
+    font-size: 12px;
+  }
+}

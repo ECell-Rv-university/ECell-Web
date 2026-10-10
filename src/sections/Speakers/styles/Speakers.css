@@ -1,0 +1,79 @@
+/* Previous Speakers: section shell and header. The speaker card itself lives in
+   src/components/ui/profile-card-testimonial-carousel.tsx. */
+
+.speakers-section {
+  position: relative;
+  overflow: hidden;
+  max-width: 100vw;
+}
+
+.speakers-reveal-panel {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: clamp(100px, 12vw, 160px) 0 clamp(110px, 14vw, 180px);
+  border-top: 1px solid rgba(244, 244, 242, 0.12);
+  background: var(--bg, #1a1a1a);
+  color: var(--fg);
+}
+
+.speakers-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 700px;
+  margin: 0 auto 44px;
+  text-align: center;
+}
+
+.speakers-kicker-text {
+  margin-bottom: 12px;
+  color: #8edcff;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.speakers-headline {
+  margin-bottom: 16px;
+  color: var(--fg);
+  font-size: clamp(38px, 5.5vw, 72px);
+  letter-spacing: -0.055em;
+  line-height: 0.96;
+}
+
+.speakers-subheading {
+  max-width: 560px;
+  color: rgba(244, 244, 242, 0.65);
+  font-size: clamp(14px, 1.25vw, 16px);
+  line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+  .speakers-reveal-panel {
+    padding: 32px 0 44px;
+    border-top: 0;
+  }
+
+  .speakers-header {
+    margin-bottom: 20px;
+  }
+
+  .speakers-kicker-text {
+    margin-bottom: 8px;
+    font-size: 10px;
+  }
+
+  .speakers-headline {
+    margin-bottom: 8px;
+    font-size: clamp(26px, 7vw, 34px);
+    letter-spacing: -0.04em;
+    line-height: 1.05;
+  }
+
+  .speakers-subheading {
+    font-size: 12.5px;
+    line-height: 1.45;
+  }
+}

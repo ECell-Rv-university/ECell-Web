@@ -87,7 +87,7 @@ At minimum, review phone, tablet, laptop, and wide desktop layouts. Test touch g
 
 ## Assets
 
-Imported component media belongs in `src/assets/`, grouped by feature. Files that must be served from stable root URLs belong in `public/`. Use Next Image for raster content where practical, include dimensions, and prefer optimized formats such as WebP. Hero video assets live under `public/assets/videos/` because they are referenced directly by responsive `<source>` elements.
+Imported component media belongs in `src/assets/`, grouped by feature. Files that must be served from stable root URLs belong in `public/`. Use Next Image for raster content where practical, include dimensions, and prefer optimized formats such as WebP.
 
 ## Design review checklist
 

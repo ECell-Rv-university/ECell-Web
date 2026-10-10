@@ -1,0 +1,49 @@
+.hero-reveal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #ffffff;
+}
+
+/* On phones the stage is 100dvh, which changes as the address bar slides in
+   and out. Sizing the canvas to the large viewport keeps it stable, so the
+   scene is not rebuilt (and the ink not wiped) on every scroll; the stage
+   just clips the bottom few pixels. */
+@media (pointer: coarse) {
+  @supports (height: 100lvh) {
+    .hero-reveal {
+      height: 100lvh;
+    }
+  }
+}
+
+.hero-reveal__canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.hero-reveal__fallback {
+  display: none;
+}
+
+.hero-reveal--fallback .hero-reveal__canvas {
+  display: none;
+}
+
+.hero-reveal--fallback .hero-reveal__fallback {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #000000;
+  font-family: var(--font-archivo), sans-serif;
+  font-size: 16vw;
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  white-space: nowrap;
+}

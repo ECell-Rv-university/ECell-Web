@@ -233,6 +233,18 @@ export default function RootLayout({
                 if ('scrollRestoration' in history) {
                   history.scrollRestoration = 'manual';
                 }
+                // A reload should land on the hero, not jump back to the
+                // section a nav link left in the URL (e.g. /#speakers). Fresh
+                // visits to a #hash link still deep-link as before.
+                try {
+                  var nav = performance.getEntriesByType('navigation')[0];
+                  if (nav && nav.type === 'reload') {
+                    if (location.hash) {
+                      history.replaceState(history.state, '', location.pathname + location.search);
+                    }
+                    sessionStorage.removeItem('nav:pendingScrollTarget');
+                  }
+                } catch (e) {}
                 window.scrollTo(0, 0);
                 window.addEventListener('beforeunload', function() {
                   window.scrollTo(0, 0);

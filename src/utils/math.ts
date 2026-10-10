@@ -17,6 +17,21 @@ export function lerp(start: number, end: number, t: number): number {
 }
 
 /**
+ * Makes a per-frame lerp amount frame-rate independent.
+ *
+ * `lerp(a, b, 0.1)` once per frame converges 2.4x faster on a 144Hz display
+ * than on a 60Hz one. Pass the amount tuned at 60fps plus how many 60fps
+ * frames actually elapsed (e.g. `gsap.ticker.deltaRatio(60)`) and the motion
+ * takes the same time on every refresh rate.
+ *
+ * frameLerp(0.1, 1)   -> 0.1     (exactly one 60fps frame)
+ * frameLerp(0.1, 0.5) -> ~0.0513 (half a frame, e.g. 120Hz)
+ */
+export function frameLerp(t: number, deltaRatio: number): number {
+  return 1 - Math.pow(1 - clamp(t), Math.max(0, deltaRatio));
+}
+
+/**
  * Smoothstep interpolation.
  * Produces a smooth ease-in/ease-out transition.
  */

@@ -1,27 +1,46 @@
 import { fireEvent, render, screen } from "@testing-library/react";
-import { describe, expect, it, vi, beforeEach } from "vitest";
+import { act } from "react";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import Speakers from "@/src/sections/Speakers/Speakers";
 
-describe("Speakers Section", () => {
-  beforeEach(() => {
-    // Mock navigator.clipboard
-    Object.assign(navigator, {
-      clipboard: {
-        writeText: vi.fn().mockResolvedValue(undefined),
-      },
-    });
-  });
+const getCarousel = () => screen.getByRole("region", { name: "Previous speakers" });
 
+/** Pretends the carousel is on screen so autoplay is allowed to run. */
+function mockCarouselInView() {
+  vi.stubGlobal(
+    "IntersectionObserver",
+    class {
+      constructor(private callback: IntersectionObserverCallback) {}
+      observe() {
+        this.callback(
+          [{ isIntersecting: true, intersectionRatio: 1 } as IntersectionObserverEntry],
+          this as unknown as IntersectionObserver,
+        );
+      }
+      disconnect() {}
+    },
+  );
+}
+
+afterEach(() => {
+  vi.useRealTimers();
+  vi.unstubAllGlobals();
+});
+
+describe("Speakers Section", () => {
   it("renders the section heading and initial featured speaker", () => {
     render(<Speakers />);
 
     expect(screen.getByRole("heading", { name: "Previous Speakers" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Harpreet Sohan" })).toBeInTheDocument();
-    expect(screen.getAllByText("Wand").length).toBeGreaterThan(0);
-    expect(screen.getByText("Argonyx '25")).toBeInTheDocument();
+    expect(screen.getByText("Creative Designer · Wand")).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Harpreet Sohan on LinkedIn" })).toHaveAttribute(
+      "href",
+      "https://www.linkedin.com/in/harpsquatch/",
+    );
   });
 
-  it("navigates to next and previous speakers with arrow buttons", () => {
+  it("navigates to next and previous speakers with arrow buttons, wrapping around", () => {
     render(<Speakers />);
 
     const nextBtn = screen.getByRole("button", { name: "Next speaker" });
@@ -29,67 +48,88 @@ describe("Speakers Section", () => {
 
     fireEvent.click(nextBtn);
     expect(screen.getByRole("heading", { name: "Mustafa Shariff" })).toBeInTheDocument();
-    expect(screen.getAllByText("Bengaluru Health Community").length).toBeGreaterThan(0);
+    expect(screen.getByText("Founder · Bengaluru Health Community")).toBeInTheDocument();
 
     fireEvent.click(prevBtn);
     expect(screen.getByRole("heading", { name: "Harpreet Sohan" })).toBeInTheDocument();
+
+    fireEvent.click(prevBtn);
+    expect(screen.getByRole("heading", { name: "Biplab Guha" })).toBeInTheDocument();
   });
 
-  it("filters speakers by category pill", () => {
+
+  it("navigates with arrow keys while focus is inside the carousel", () => {
     render(<Speakers />);
 
-    const techPill = screen.getByRole("tab", { name: /Technology/i });
-    fireEvent.click(techPill);
+    fireEvent.keyDown(getCarousel(), { key: "ArrowRight" });
+    expect(screen.getByRole("heading", { name: "Mustafa Shariff" })).toBeInTheDocument();
 
-    expect(screen.getByRole("heading", { name: "Ambika J" })).toBeInTheDocument();
-    expect(screen.getAllByText("Finastra").length).toBeGreaterThan(0);
+    fireEvent.keyDown(getCarousel(), { key: "ArrowLeft" });
+    expect(screen.getByRole("heading", { name: "Harpreet Sohan" })).toBeInTheDocument();
   });
 
-  it("copies speaker quote to clipboard on button click", async () => {
-    render(<Speakers />);
-
-    const copyBtn = screen.getByRole("button", { name: /Copy speaker quote/i });
-    fireEvent.click(copyBtn);
-
-    expect(navigator.clipboard.writeText).toHaveBeenCalledWith(
-      expect.stringContaining("Building enduring tech products requires obsessing")
-    );
-    expect(screen.getByText("Quote Copied!")).toBeInTheDocument();
-  });
-
-  it("navigates using left and right keyboard arrows", () => {
+  it("ignores arrow keys pressed elsewhere on the page", () => {
     render(<Speakers />);
 
     fireEvent.keyDown(window, { key: "ArrowRight" });
-    expect(screen.getByRole("heading", { name: "Mustafa Shariff" })).toBeInTheDocument();
-
-    fireEvent.keyDown(window, { key: "ArrowLeft" });
     expect(screen.getByRole("heading", { name: "Harpreet Sohan" })).toBeInTheDocument();
   });
 
-  it("navigates using touch swipe on mobile showcase card", () => {
+  it("navigates using horizontal touch swipes and ignores vertical scrolls", () => {
     const { container } = render(<Speakers />);
-    const showcaseContainer = container.querySelector(".speakers-showcase-container");
-    expect(showcaseContainer).toBeInTheDocument();
+    const stage = container.querySelector("[data-carousel-stage]");
+    expect(stage).toBeInTheDocument();
 
     // Swipe left (next)
-    fireEvent.touchStart(showcaseContainer!, {
-      touches: [{ clientX: 200, clientY: 100 }],
-    });
-    fireEvent.touchEnd(showcaseContainer!, {
-      changedTouches: [{ clientX: 100, clientY: 105 }],
-    });
-
+    fireEvent.touchStart(stage!, { touches: [{ clientX: 200, clientY: 100 }] });
+    fireEvent.touchEnd(stage!, { changedTouches: [{ clientX: 100, clientY: 105 }] });
     expect(screen.getByRole("heading", { name: "Mustafa Shariff" })).toBeInTheDocument();
 
     // Swipe right (prev)
-    fireEvent.touchStart(showcaseContainer!, {
-      touches: [{ clientX: 100, clientY: 100 }],
-    });
-    fireEvent.touchEnd(showcaseContainer!, {
-      changedTouches: [{ clientX: 200, clientY: 105 }],
-    });
-
+    fireEvent.touchStart(stage!, { touches: [{ clientX: 100, clientY: 100 }] });
+    fireEvent.touchEnd(stage!, { changedTouches: [{ clientX: 200, clientY: 105 }] });
     expect(screen.getByRole("heading", { name: "Harpreet Sohan" })).toBeInTheDocument();
+
+    // Mostly vertical gesture is a scroll, not a swipe
+    fireEvent.touchStart(stage!, { touches: [{ clientX: 200, clientY: 100 }] });
+    fireEvent.touchEnd(stage!, { changedTouches: [{ clientX: 140, clientY: 300 }] });
+    expect(screen.getByRole("heading", { name: "Harpreet Sohan" })).toBeInTheDocument();
+  });
+
+
+  it("autoplays while on screen and stops after manual navigation", () => {
+    vi.useFakeTimers();
+    mockCarouselInView();
+    render(<Speakers />);
+
+    act(() => vi.advanceTimersByTime(7000));
+    expect(screen.getByRole("heading", { name: "Mustafa Shariff" })).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole("button", { name: "Next speaker" }));
+    expect(screen.getByRole("heading", { name: "Arshdeep Singh" })).toBeInTheDocument();
+
+    act(() => vi.advanceTimersByTime(21000));
+    expect(screen.getByRole("heading", { name: "Arshdeep Singh" })).toBeInTheDocument();
+  });
+
+  it("pauses autoplay while hovered", () => {
+    vi.useFakeTimers();
+    mockCarouselInView();
+    render(<Speakers />);
+
+    fireEvent.mouseEnter(getCarousel());
+    act(() => vi.advanceTimersByTime(14000));
+    expect(screen.getByRole("heading", { name: "Harpreet Sohan" })).toBeInTheDocument();
+
+    fireEvent.mouseLeave(getCarousel());
+    act(() => vi.advanceTimersByTime(7000));
+    expect(screen.getByRole("heading", { name: "Mustafa Shariff" })).toBeInTheDocument();
+  });
+
+  it("keeps the full quote readable for screen readers", () => {
+    render(<Speakers />);
+    expect(
+      screen.getByText(/^Building enduring tech products requires obsessing/, { selector: ".sr-only" }),
+    ).toBeInTheDocument();
   });
 });

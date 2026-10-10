@@ -1,12 +1,11 @@
 import { RefObject } from "react";
 import { gsap, ScrollTrigger } from "../../utils/gsapSetup";
-import { lerp, smoothstep } from "../../utils/math";
+import { frameLerp, lerp, smoothstep } from "../../utils/math";
 
 export interface SetupHeroAnimationsOptions {
   heroRef: RefObject<HTMLElement | null>;
-  videoRef: RefObject<HTMLVideoElement | null>;
-  videoWrapRef: RefObject<HTMLElement | null>;
-  headingRef: RefObject<HTMLElement | null>;
+  stageRef: RefObject<HTMLElement | null>;
+  introRef: RefObject<HTMLElement | null>;
   marqueeRef: RefObject<HTMLElement | null>;
   labelRef: RefObject<HTMLElement | null>;
   scrollHintRef?: RefObject<HTMLElement | null>;
@@ -14,35 +13,32 @@ export interface SetupHeroAnimationsOptions {
 
 export function setupHeroAnimations({
   heroRef,
-  videoRef,
-  videoWrapRef,
-  headingRef,
+  stageRef,
+  introRef,
   marqueeRef,
   labelRef,
   scrollHintRef,
 }: SetupHeroAnimationsOptions): () => void {
   const marqueeMaxOpacity = 0.96;
-  const video = videoRef.current;
-  const videoWrap = videoWrapRef.current;
+  const stage = stageRef.current;
   const marquee = marqueeRef.current;
   const label = labelRef.current;
-  const heading = headingRef.current;
+  const intro = introRef.current;
   const scrollHint = scrollHintRef?.current;
   const reduceMotion = typeof window !== "undefined" ? window.matchMedia("(prefers-reduced-motion: reduce)").matches : false;
   const isMobile = typeof window !== "undefined" ? window.matchMedia("(max-width: 768px)").matches : false;
 
   if (reduceMotion) {
-    gsap.set([videoWrap, label, heading, scrollHint].filter(Boolean), {
+    gsap.set([stage, label, intro, scrollHint].filter(Boolean), {
       clearProps: "all",
       opacity: 1,
     });
     gsap.set(marquee, { clearProps: "all", opacity: marqueeMaxOpacity });
-    video?.pause();
     return () => {};
   }
 
   if (isMobile) {
-    gsap.set(videoWrap, {
+    gsap.set(stage, {
       scale: 1,
       opacity: 1,
       borderRadius: 0,
@@ -50,7 +46,7 @@ export function setupHeroAnimations({
       transformOrigin: "center center",
     });
     gsap.set([marquee, label], { opacity: 0 });
-    gsap.set(heading, { opacity: 1 });
+    gsap.set(intro, { opacity: 1 });
     if (scrollHint) gsap.set(scrollHint, { opacity: 1 });
 
     const mobileTimeline = gsap.timeline({
@@ -65,7 +61,7 @@ export function setupHeroAnimations({
 
     mobileTimeline
       .to(
-        videoWrap,
+        stage,
         {
           scale: 0.38,
           borderRadius: "16px",
@@ -78,32 +74,26 @@ export function setupHeroAnimations({
       )
       .to(marquee, { opacity: marqueeMaxOpacity, ease: "none", duration: 0.3 }, 0.08)
       .to(label, { opacity: 1, ease: "none", duration: 0.28 }, 0.12)
-      .to(heading, { opacity: 0, ease: "none", duration: 0.18 }, 0.02);
+      .to(intro, { autoAlpha: 0, ease: "none", duration: 0.18 }, 0.02);
 
     if (scrollHint) {
-      mobileTimeline.to(scrollHint, { opacity: 0, ease: "none", duration: 0.15 }, 0);
+      mobileTimeline.to(scrollHint, { autoAlpha: 0, ease: "none", duration: 0.15 }, 0);
     }
-
-    if (video) video.playbackRate = 0.5;
 
     return () => {
       if (mobileTimeline.scrollTrigger) mobileTimeline.scrollTrigger.kill();
       mobileTimeline.kill();
-      // Pause video to release media resources
-      if (video) {
-        video.pause();
-      }
     };
   }
 
   const marqueeOpacity = marquee ? gsap.quickSetter(marquee, "opacity") : () => {};
   const labelOpacity = label ? gsap.quickSetter(label, "opacity") : () => {};
-  const headingOpacity = heading ? gsap.quickSetter(heading, "opacity") : () => {};
+  const introOpacity = intro ? gsap.quickSetter(intro, "opacity") : () => {};
   const scrollHintOpacity = scrollHint
     ? gsap.quickSetter(scrollHint, "opacity")
     : null;
 
-  gsap.set(videoWrap, {
+  gsap.set(stage, {
     scale: 1,
     opacity: 1,
     borderRadius: 0,
@@ -111,7 +101,7 @@ export function setupHeroAnimations({
     transformOrigin: "center center",
   });
   gsap.set([marquee, label], { opacity: 0 });
-  gsap.set(heading, { opacity: 1 });
+  gsap.set(intro, { opacity: 1 });
   if (scrollHint) gsap.set(scrollHint, { opacity: 1 });
 
   let targetProgress = 0;
@@ -140,7 +130,8 @@ export function setupHeroAnimations({
         return;
       }
     } else {
-      heroSmoothed = lerp(heroSmoothed, targetProgress, 0.1);
+      // Same smoothing feel at 60Hz, 144Hz or anything else.
+      heroSmoothed = lerp(heroSmoothed, targetProgress, frameLerp(0.1, gsap.ticker.deltaRatio(60)));
     }
     lastAppliedProgress = heroSmoothed;
 
@@ -151,7 +142,7 @@ export function setupHeroAnimations({
     const reveal = smoothstep(0.08, 0.35, progress);
     const cardP = smoothstep(0.18, 0.5, progress);
 
-    gsap.set(videoWrap, {
+    gsap.set(stage, {
       scale,
       opacity,
       borderRadius: `${cardP * 20}px`,
@@ -159,33 +150,23 @@ export function setupHeroAnimations({
     });
     marqueeOpacity(reveal * marqueeMaxOpacity);
     labelOpacity(reveal);
-    headingOpacity(1 - smoothstep(0.05, 0.25, progress));
-    if (scrollHintOpacity) {
-      scrollHintOpacity(1 - smoothstep(0.02, 0.18, progress));
+    const introAlpha = 1 - smoothstep(0.05, 0.25, progress);
+    introOpacity(introAlpha);
+    // Once faded, the "Join now" link must not catch clicks.
+    if (intro) intro.style.visibility = introAlpha < 0.02 ? "hidden" : "visible";
+    if (scrollHintOpacity && scrollHint) {
+      const hintOpacity = 1 - smoothstep(0.02, 0.18, progress);
+      scrollHintOpacity(hintOpacity);
+      // Faded out, the clickable badge must not swallow clicks.
+      scrollHint.style.visibility = hintOpacity < 0.02 ? "hidden" : "visible";
     }
-  };
-
-  if (video) {
-    video.playbackRate = 0.5;
-  }
-
-  const handleVideoMetadata = () => {
-    if (disposed) return;
-    if (video) video.playbackRate = 0.5;
-    ScrollTrigger.refresh();
   };
 
   gsap.ticker.add(updateHero);
-  video?.addEventListener("loadedmetadata", handleVideoMetadata);
 
   return () => {
     disposed = true;
-    video?.removeEventListener("loadedmetadata", handleVideoMetadata);
     gsap.ticker.remove(updateHero);
     trigger.kill();
-    // Pause video to release media resources
-    if (video) {
-      video.pause();
-    }
   };
 }

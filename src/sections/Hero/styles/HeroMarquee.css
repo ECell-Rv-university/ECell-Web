@@ -55,14 +55,15 @@
 
 @media (max-width: 768px) {
   .hero__marquee-group {
-    gap: clamp(4px, 1.2vh, 10px);
+    gap: 6px;
     padding-inline: 16px;
   }
 
   .hero__marquee-line {
-    text-shadow: none;
     font-size: clamp(26px, min(8.8vw, 8vh), 48px);
+    line-height: 0.92;
     letter-spacing: -0.03em;
+    text-shadow: none;
   }
 
   .hero__marquee-line--startups {
@@ -71,5 +72,20 @@
 
   .hero__marquee-line--shape {
     font-size: clamp(28px, min(9.5vw, 8.8vh), 52px);
+    letter-spacing: -0.02em;
+  }
+}
+
+@media (max-width: 420px) {
+  .hero__marquee-group {
+    gap: 4px;
+  }
+
+  .hero__marquee-line--startups {
+    font-size: clamp(22px, min(7.4vw, 7vh), 30px);
+  }
+
+  .hero__marquee-line--shape {
+    font-size: clamp(26px, min(8.8vw, 8vh), 36px);
   }
 }

@@ -66,13 +66,9 @@
     margin-bottom: clamp(20px, 3.5vh, 36px);
   }
 
-  .horizontal-flow-panel .speaker-spotlight-core {
-    gap: clamp(24px, 3vw, 48px);
-    padding: clamp(20px, 3vh, 34px);
-  }
-
-  .horizontal-flow-panel .spotlight-photo-frame {
-    height: clamp(280px, 34vh, 400px);
+  /* Keep header + carousel inside one pinned 100dvh panel on short screens. */
+  .horizontal-flow-panel .speakers-headline {
+    font-size: clamp(34px, min(5.5vw, 7.5dvh), 72px);
   }
 }
 
