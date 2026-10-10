@@ -28,17 +28,16 @@
   gap: 14px;
   z-index: 10;
   pointer-events: none;
-  filter: drop-shadow(0 0 18px rgba(244, 244, 242, 0.08));
+  
 }
 
 .hero__scroll-mouse {
   position: relative;
   width: 28px;
   height: 44px;
-  border: 2px solid rgba(244, 244, 242, 0.55);
+  border: 2px solid rgba(0, 0, 0, 0.6);
   border-radius: 999px;
-  background: rgba(7, 7, 7, 0.22);
-  backdrop-filter: blur(6px);
+  background: transparent;
 }
 
 .hero__scroll-wheel {
@@ -48,7 +47,7 @@
   width: 4px;
   height: 10px;
   border-radius: 999px;
-  background: var(--fg, #f4f4f2);
+  background: #000000;
   transform: translateX(-50%);
   animation: heroScrollWheel 1.9s ease-in-out infinite;
 }
@@ -65,8 +64,8 @@
   display: block;
   width: 10px;
   height: 10px;
-  border-right: 2px solid rgba(244, 244, 242, 0.72);
-  border-bottom: 2px solid rgba(244, 244, 242, 0.72);
+  border-right: 2px solid rgba(0, 0, 0, 0.72);
+  border-bottom: 2px solid rgba(0, 0, 0, 0.72);
   transform: rotate(45deg);
   animation: heroScrollChevron 1.9s ease-in-out infinite;
 }
@@ -83,7 +82,7 @@
   font-weight: 700;
   letter-spacing: 0.28em;
   text-transform: uppercase;
-  color: rgba(244, 244, 242, 0.88);
+  color: rgba(0, 0, 0, 0.85);
 }
 
 .hero__bottom-marquee {

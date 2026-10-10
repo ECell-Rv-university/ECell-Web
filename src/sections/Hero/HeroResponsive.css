@@ -1,22 +1,13 @@
 @media (max-width: 768px) {
   .hero__heading {
-    gap: 8px;
-    width: min(90vw, 28rem);
-    padding: 0 16px;
-    box-sizing: border-box;
-    white-space: normal;
+    top: clamp(72px, 12vh, 96px);
+    left: 16px;
+    right: 16px;
   }
 
-  .hero__heading-sub {
-    font-size: clamp(16px, 4.8vw, 24px);
-    line-height: 1.15;
-    letter-spacing: -0.01em;
-  }
-
+  .hero__heading-sub,
   .hero__heading-main {
-    font-size: clamp(28px, 8.5vw, 44px);
-    line-height: 1.05;
-    letter-spacing: -0.03em;
+    font-size: clamp(17px, 5vw, 22px);
   }
 
   .hero__label {
@@ -59,19 +50,6 @@
 }
 
 @media (max-width: 420px) {
-  .hero__heading {
-    width: 92vw;
-    gap: 6px;
-  }
-
-  .hero__heading-sub {
-    font-size: clamp(15px, 4.5vw, 18px);
-  }
-
-  .hero__heading-main {
-    font-size: clamp(26px, 8vw, 34px);
-  }
-
   .hero__marquee-group {
     gap: 4px;
   }

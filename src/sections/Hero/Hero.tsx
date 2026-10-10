@@ -1,12 +1,10 @@
 "use client";
 import React, { useEffect, useRef } from "react";
-const heroVideo = "/assets/videos/hero2-optimized.mp4";
-const heroMobileVideo = "/assets/videos/hero-mobile.mp4";
-const heroPoster = "/assets/videos/hero-poster.webp";
 import { setupHeroAnimations } from "./HeroAnimations";
 import "./Hero.css";
 import "./HeroLayout.css";
 import "./HeroVideo.css";
+import HeroReveal from "./HeroReveal";
 import "./HeroMarquee.css";
 import "./HeroTypography.css";
 import "./HeroResponsive.css";
@@ -15,53 +13,14 @@ export default function Hero(): React.ReactElement {
   const heroRef = useRef<HTMLElement | null>(null);
   const stickyRef = useRef<HTMLDivElement | null>(null);
   const videoWrapRef = useRef<HTMLDivElement | null>(null);
-  const videoRef = useRef<HTMLVideoElement | null>(null);
   const headingRef = useRef<HTMLHeadingElement | null>(null);
   const marqueeRef = useRef<HTMLDivElement | null>(null);
   const labelRef = useRef<HTMLDivElement | null>(null);
   const scrollHintRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-
-    video.playbackRate = 0.5;
-
-    let isVisible = false;
-    let disposed = false;
-
-    const handleVisibilityChange = () => {
-      if (disposed) return;
-      if (document.hidden) {
-        video.pause();
-      } else if (isVisible) {
-        video.playbackRate = 0.5;
-        video.play().catch(() => {});
-      }
-    };
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (disposed) return;
-        entries.forEach((entry) => {
-          isVisible = entry.isIntersecting;
-          if (entry.isIntersecting && !document.hidden) {
-            video.playbackRate = 0.5;
-            video.play().catch(() => {});
-          } else {
-            video.pause();
-          }
-        });
-      },
-      { threshold: 0.1 },
-    );
-
-    observer.observe(video);
-    document.addEventListener("visibilitychange", handleVisibilityChange);
-
     const cleanupAnimations = setupHeroAnimations({
       heroRef,
-      videoRef,
       videoWrapRef,
       headingRef,
       marqueeRef,
@@ -70,11 +29,7 @@ export default function Hero(): React.ReactElement {
     });
 
     return () => {
-      disposed = true;
-      observer.disconnect();
-      document.removeEventListener("visibilitychange", handleVisibilityChange);
       cleanupAnimations?.();
-      video.pause();
     };
   }, []);
 
@@ -96,30 +51,10 @@ export default function Hero(): React.ReactElement {
         </div>
 
         <div ref={videoWrapRef} className="hero__video-wrapper">
-          <video
-            ref={videoRef}
-            className="hero__video"
-            autoPlay
-            muted
-            loop
-            playsInline
-            poster={heroPoster}
-            preload="metadata"
-            suppressHydrationWarning
-          >
-            <source
-              media="(max-width: 768px)"
-              src={heroMobileVideo}
-              type="video/mp4"
-            />
-            <source src={heroVideo} type="video/mp4" />
-          </video>
-          <div className="hero__overlay" />
+          <HeroReveal />
           <h1 ref={headingRef} className="hero__heading">
-            <span className="hero__heading-sub">
-              It all starts from an idea
-            </span>
-            <span className="hero__heading-main">ECell RV University</span>
+            <span className="hero__heading-sub">It all starts from an idea.</span>
+            <span className="hero__heading-main">ECell RV University.</span>
           </h1>
         </div>
 

@@ -4,7 +4,6 @@ import { lerp, smoothstep } from "../../utils/math";
 
 export interface SetupHeroAnimationsOptions {
   heroRef: RefObject<HTMLElement | null>;
-  videoRef: RefObject<HTMLVideoElement | null>;
   videoWrapRef: RefObject<HTMLElement | null>;
   headingRef: RefObject<HTMLElement | null>;
   marqueeRef: RefObject<HTMLElement | null>;
@@ -14,7 +13,6 @@ export interface SetupHeroAnimationsOptions {
 
 export function setupHeroAnimations({
   heroRef,
-  videoRef,
   videoWrapRef,
   headingRef,
   marqueeRef,
@@ -22,7 +20,6 @@ export function setupHeroAnimations({
   scrollHintRef,
 }: SetupHeroAnimationsOptions): () => void {
   const marqueeMaxOpacity = 0.96;
-  const video = videoRef.current;
   const videoWrap = videoWrapRef.current;
   const marquee = marqueeRef.current;
   const label = labelRef.current;
@@ -37,7 +34,6 @@ export function setupHeroAnimations({
       opacity: 1,
     });
     gsap.set(marquee, { clearProps: "all", opacity: marqueeMaxOpacity });
-    video?.pause();
     return () => {};
   }
 
@@ -84,15 +80,9 @@ export function setupHeroAnimations({
       mobileTimeline.to(scrollHint, { opacity: 0, ease: "none", duration: 0.15 }, 0);
     }
 
-    if (video) video.playbackRate = 0.5;
-
     return () => {
       if (mobileTimeline.scrollTrigger) mobileTimeline.scrollTrigger.kill();
       mobileTimeline.kill();
-      // Pause video to release media resources
-      if (video) {
-        video.pause();
-      }
     };
   }
 
@@ -165,27 +155,11 @@ export function setupHeroAnimations({
     }
   };
 
-  if (video) {
-    video.playbackRate = 0.5;
-  }
-
-  const handleVideoMetadata = () => {
-    if (disposed) return;
-    if (video) video.playbackRate = 0.5;
-    ScrollTrigger.refresh();
-  };
-
   gsap.ticker.add(updateHero);
-  video?.addEventListener("loadedmetadata", handleVideoMetadata);
 
   return () => {
     disposed = true;
-    video?.removeEventListener("loadedmetadata", handleVideoMetadata);
     gsap.ticker.remove(updateHero);
     trigger.kill();
-    // Pause video to release media resources
-    if (video) {
-      video.pause();
-    }
   };
 }
