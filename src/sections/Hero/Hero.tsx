@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useRef } from "react";
+import { ArrowRight } from "lucide-react";
 import { setupHeroAnimations } from "./HeroAnimations";
 import "./Hero.css";
 import "./HeroLayout.css";
@@ -9,11 +10,13 @@ import "./HeroMarquee.css";
 import "./HeroTypography.css";
 import "./HeroResponsive.css";
 
+const WHATSAPP_GROUP_URL = "https://chat.whatsapp.com/J0MfKUwIZ6J8WfemIBbdlJ";
+
 export default function Hero(): React.ReactElement {
   const heroRef = useRef<HTMLElement | null>(null);
   const stickyRef = useRef<HTMLDivElement | null>(null);
   const videoWrapRef = useRef<HTMLDivElement | null>(null);
-  const headingRef = useRef<HTMLHeadingElement | null>(null);
+  const headingRef = useRef<HTMLDivElement | null>(null);
   const marqueeRef = useRef<HTMLDivElement | null>(null);
   const labelRef = useRef<HTMLDivElement | null>(null);
   const scrollHintRef = useRef<HTMLDivElement | null>(null);
@@ -52,10 +55,21 @@ export default function Hero(): React.ReactElement {
 
         <div ref={videoWrapRef} className="hero__video-wrapper">
           <HeroReveal />
-          <h1 ref={headingRef} className="hero__heading">
-            <span className="hero__heading-sub">It all starts from an idea.</span>
-            <span className="hero__heading-main">ECell RV University.</span>
-          </h1>
+          <div ref={headingRef} className="hero__intro">
+            <h1 className="hero__heading">
+              <span className="hero__heading-sub">It all starts from an idea.</span>
+              <span className="hero__heading-main">ECell RV University.</span>
+            </h1>
+            <a
+              className="hero__cta"
+              href={WHATSAPP_GROUP_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <span>Join now</span>
+              <ArrowRight aria-hidden="true" size={18} strokeWidth={1.5} />
+            </a>
+          </div>
         </div>
 
         <div ref={scrollHintRef} className="hero__scroll-hint" aria-hidden="true">

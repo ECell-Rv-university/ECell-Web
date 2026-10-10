@@ -1,15 +1,80 @@
-.hero__heading {
+.hero__intro {
   position: absolute;
   top: clamp(20px, 2.2vw, 32px);
   left: clamp(16px, 1.25vw, 24px);
-  z-index: 2;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: clamp(20px, 1.6vw, 30px);
+  pointer-events: none;
+  will-change: opacity;
+}
+
+.hero__heading {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   margin: 0;
   text-align: left;
-  pointer-events: none;
-  will-change: opacity;
+}
+
+.hero__cta {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 18px;
+  overflow: hidden;
+  padding: 0 24px;
+  height: 60px;
+  border: 1px solid #000000;
+  border-radius: 999px;
+  background: #000000;
+  color: #ffffff;
+  font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  text-transform: uppercase;
+  pointer-events: auto;
+  isolation: isolate;
+  transition: color 0.35s ease;
+}
+
+/* White fill wipes up from the bottom on hover. */
+.hero__cta::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: #ffffff;
+  transform: translateY(101%);
+  transition: transform 0.45s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.hero__cta svg {
+  transition: transform 0.35s ease;
+}
+
+.hero__cta:hover,
+.hero__cta:focus-visible {
+  color: #000000;
+}
+
+.hero__cta:hover::before,
+.hero__cta:focus-visible::before {
+  transform: translateY(0);
+}
+
+.hero__cta:hover svg,
+.hero__cta:focus-visible svg {
+  transform: translateX(4px);
+}
+
+.hero__cta:focus-visible {
+  outline: 2px solid #000000;
+  outline-offset: 3px;
 }
 
 .hero__heading-sub,

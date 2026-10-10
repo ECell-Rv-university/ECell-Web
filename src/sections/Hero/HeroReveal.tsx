@@ -99,7 +99,7 @@ void main() {
 }
 `;
 
-// Flat text everywhere, the rendered 3D scene inside the liquid mask.
+// Flat text everywhere; inside the liquid mask, the nebula behind glass letters.
 const FINAL_FRAG = /* glsl */ `
 uniform sampler2D uText;
 uniform sampler2D uScene;
@@ -131,7 +131,7 @@ void main() {
   float reveal = smoothstep(0.42 - aa, 0.42 + aa, field);
 
   // Treat the ink as a thick liquid: it bulges up from its edge, so the rim
-  // tilts outward, catches a highlight and bends the letters seen through it.
+  // tilts outward, catches a highlight and bends what is seen through it.
   float depth = smoothstep(0.42, 0.62, field);
   float steep = 1.0 - depth;
   vec2 g = vec2(dFdx(depth), dFdy(depth));
@@ -159,6 +159,58 @@ interface Layout {
   size: number;
   font: string;
   glyphs: Glyph[];
+}
+
+function layoutText(w: number, h: number, family: string): Layout {
+  const ctx = document.createElement("canvas").getContext("2d")!;
+  const lines = w / h < 1 ? LINES_NARROW : LINES_WIDE;
+  const fontAt = (s: number) => `900 ${s}px ${family}, Archivo, "Arial Black", sans-serif`;
+  const trackingEm = -0.035;
+
+  const lineWidth = (line: string, s: number) => {
+    ctx.font = fontAt(s);
+    let total = 0;
+    for (const ch of line) total += ctx.measureText(ch).width + trackingEm * s;
+    return total - trackingEm * s;
+  };
+
+  const pad = Math.max(w * 0.0125, 12);
+  const lineHeight = 0.86;
+  const widest = Math.max(...lines.map((l) => lineWidth(l, 100)));
+  let size = ((w - pad * 2) / widest) * 100;
+  size = Math.min(size, (h * 0.62) / (lines.length * lineHeight));
+
+  const font = fontAt(size);
+  ctx.font = font;
+  const capH = ctx.measureText("E").actualBoundingBoxAscent || size * 0.72;
+  const step = size * lineHeight;
+  const blockH = capH + step * (lines.length - 1);
+  const tracking = trackingEm * size;
+
+  const glyphs: Glyph[] = [];
+  let y = (h - blockH) / 2 + capH;
+  for (const line of lines) {
+    let x = (w - lineWidth(line, size)) / 2;
+    for (const ch of line) {
+      glyphs.push({ char: ch, x, y });
+      x += ctx.measureText(ch).width + tracking;
+    }
+    y += step;
+  }
+  return { size, font, glyphs };
+}
+
+function drawFlatText(canvas: HTMLCanvasElement, layout: Layout, cssW: number, cssH: number, scale: number) {
+  canvas.width = Math.max(2, Math.round(cssW * scale));
+  canvas.height = Math.max(2, Math.round(cssH * scale));
+  const ctx = canvas.getContext("2d")!;
+  ctx.fillStyle = "#000";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.scale(scale, scale);
+  ctx.fillStyle = "#fff";
+  ctx.font = layout.font;
+  ctx.textBaseline = "alphabetic";
+  for (const g of layout.glyphs) ctx.fillText(g.char, g.x, g.y);
 }
 
 interface Letter {
@@ -251,58 +303,6 @@ function insideDistance(mask: Float32Array, w: number, h: number): Float32Array 
   return out;
 }
 
-function layoutText(w: number, h: number, family: string): Layout {
-  const ctx = document.createElement("canvas").getContext("2d")!;
-  const lines = w / h < 1 ? LINES_NARROW : LINES_WIDE;
-  const fontAt = (s: number) => `900 ${s}px ${family}, Archivo, "Arial Black", sans-serif`;
-  const trackingEm = -0.035;
-
-  const lineWidth = (line: string, s: number) => {
-    ctx.font = fontAt(s);
-    let total = 0;
-    for (const ch of line) total += ctx.measureText(ch).width + trackingEm * s;
-    return total - trackingEm * s;
-  };
-
-  const pad = Math.max(w * 0.0125, 12);
-  const lineHeight = 0.86;
-  const widest = Math.max(...lines.map((l) => lineWidth(l, 100)));
-  let size = ((w - pad * 2) / widest) * 100;
-  size = Math.min(size, (h * 0.62) / (lines.length * lineHeight));
-
-  const font = fontAt(size);
-  ctx.font = font;
-  const capH = ctx.measureText("E").actualBoundingBoxAscent || size * 0.72;
-  const step = size * lineHeight;
-  const blockH = capH + step * (lines.length - 1);
-  const tracking = trackingEm * size;
-
-  const glyphs: Glyph[] = [];
-  let y = (h - blockH) / 2 + capH;
-  for (const line of lines) {
-    let x = (w - lineWidth(line, size)) / 2;
-    for (const ch of line) {
-      glyphs.push({ char: ch, x, y });
-      x += ctx.measureText(ch).width + tracking;
-    }
-    y += step;
-  }
-  return { size, font, glyphs };
-}
-
-function drawFlatText(canvas: HTMLCanvasElement, layout: Layout, cssW: number, cssH: number, scale: number) {
-  canvas.width = Math.max(2, Math.round(cssW * scale));
-  canvas.height = Math.max(2, Math.round(cssH * scale));
-  const ctx = canvas.getContext("2d")!;
-  ctx.fillStyle = "#000";
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-  ctx.scale(scale, scale);
-  ctx.fillStyle = "#fff";
-  ctx.font = layout.font;
-  ctx.textBaseline = "alphabetic";
-  for (const g of layout.glyphs) ctx.fillText(g.char, g.x, g.y);
-}
-
 /**
  * Builds an inflated "balloon" mesh for one glyph: a grid displaced by the
  * square root of the distance to the glyph outline, cut out with an alpha map.
@@ -327,7 +327,7 @@ function buildLetter(
   const y1 = glyph.y + m.actualBoundingBoxDescent + pad;
   if (!(x1 > x0 && y1 > y0)) return null;
 
-  // Sample spacing in CSS px: ~200 rows per letter keeps the surface smooth.
+  // Sample spacing in CSS px: ~150 rows per letter keeps the surface smooth.
   const step = Math.max(1, (y1 - y0) / 150);
   const gw = Math.ceil((x1 - x0) / step) + 1;
   const gh = Math.ceil((y1 - y0) / step) + 1;
@@ -403,6 +403,105 @@ function buildLetter(
   };
 }
 
+// "Idea nebula": a spiral galaxy of particles in the ECell palette. Inner
+// stars orbit faster than outer ones, so the arms wind as it spins.
+const GALAXY_VERT = /* glsl */ `
+attribute float aRadius;
+attribute float aAngle;
+attribute float aHeight;
+attribute float aSize;
+attribute float aSeed;
+attribute vec3 aColor;
+uniform float uSpin;
+uniform float uTime;
+uniform float uSizeScale;
+varying vec3 vColor;
+void main() {
+  float ang = aAngle + uSpin / (aRadius * 1.6 + 0.35);
+  vec3 pos = vec3(cos(ang) * aRadius, aHeight, sin(ang) * aRadius);
+  vec4 mv = modelViewMatrix * vec4(pos, 1.0);
+  gl_Position = projectionMatrix * mv;
+  float twinkle = 0.65 + 0.35 * sin(uTime * (1.5 + aSeed * 3.0) + aSeed * 40.0);
+  gl_PointSize = aSize * uSizeScale * twinkle / -mv.z;
+  vColor = aColor * twinkle;
+}
+`;
+
+const GALAXY_FRAG = /* glsl */ `
+varying vec3 vColor;
+void main() {
+  float d = length(gl_PointCoord - 0.5);
+  float a = pow(max(0.0, 1.0 - d * 2.0), 2.2);
+  gl_FragColor = vec4(vColor, a);
+}
+`;
+
+function buildGalaxy(count: number): THREE.BufferGeometry {
+  const radius = new Float32Array(count);
+  const angle = new Float32Array(count);
+  const height = new Float32Array(count);
+  const size = new Float32Array(count);
+  const seed = new Float32Array(count);
+  const color = new Float32Array(count * 3);
+
+  const core = new THREE.Color("#fff1d6");
+  const red = new THREE.Color("#ff001a");
+  const blue = new THREE.Color("#2f45ff");
+  const cream = new THREE.Color("#bab5a6");
+  const c = new THREE.Color();
+  const branches = 4;
+  const haloCount = Math.floor(count * 0.12);
+  const signed = () => (Math.random() < 0.5 ? -1 : 1);
+
+  for (let i = 0; i < count; i++) {
+    let x: number;
+    let z: number;
+    let y: number;
+    if (i < haloCount) {
+      // Sparse dust far outside the disc, so the reveal is never empty.
+      const r = 1.2 + Math.random() * 3;
+      const a = Math.random() * Math.PI * 2;
+      x = Math.cos(a) * r;
+      z = Math.sin(a) * r;
+      y = (Math.random() - 0.5) * 2.4;
+      c.copy(cream).multiplyScalar(0.35 + Math.random() * 0.4);
+      size[i] = 0.6 + Math.random() * 0.8;
+    } else {
+      const r = Math.pow(Math.random(), 1.6);
+      const branch = ((i % branches) / branches) * Math.PI * 2;
+      const spin = r * 5;
+      const spread = 0.32 * (0.25 + r);
+      x = Math.cos(branch + spin) * r + Math.pow(Math.random(), 3) * signed() * spread;
+      z = Math.sin(branch + spin) * r + Math.pow(Math.random(), 3) * signed() * spread;
+      y = Math.pow(Math.random(), 3) * signed() * 0.12 * (1.2 - r);
+      if (r < 0.4) c.copy(core).lerp(red, r / 0.4);
+      else c.copy(red).lerp(blue, (r - 0.4) / 0.6);
+      if (Math.random() < 0.12) c.setRGB(1, 1, 1);
+      c.multiplyScalar(r < 0.08 ? 2.2 : 1.1);
+      size[i] = 0.8 + Math.random() * 1.6;
+    }
+    radius[i] = Math.hypot(x, z);
+    angle[i] = Math.atan2(z, x);
+    height[i] = y;
+    seed[i] = Math.random();
+    color[i * 3] = c.r;
+    color[i * 3 + 1] = c.g;
+    color[i * 3 + 2] = c.b;
+  }
+
+  const geometry = new THREE.BufferGeometry();
+  // Positions are computed in the shader; this attribute only sets the count.
+  geometry.setAttribute("position", new THREE.BufferAttribute(new Float32Array(count * 3), 3));
+  geometry.setAttribute("aRadius", new THREE.BufferAttribute(radius, 1));
+  geometry.setAttribute("aAngle", new THREE.BufferAttribute(angle, 1));
+  geometry.setAttribute("aHeight", new THREE.BufferAttribute(height, 1));
+  geometry.setAttribute("aSize", new THREE.BufferAttribute(size, 1));
+  geometry.setAttribute("aSeed", new THREE.BufferAttribute(seed, 1));
+  geometry.setAttribute("aColor", new THREE.BufferAttribute(color, 3));
+  geometry.boundingSphere = new THREE.Sphere(new THREE.Vector3(), 5);
+  return geometry;
+}
+
 export default function HeroReveal(): React.ReactElement {
   const hostRef = useRef<HTMLDivElement | null>(null);
 
@@ -429,34 +528,65 @@ export default function HeroReveal(): React.ReactElement {
     const quadCamera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
     const quad = new THREE.PlaneGeometry(2, 2);
 
-    // --- 3D balloon letters ---
+    // --- Nebula ---
     const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(50, 1, 0.1, 50);
+    const galaxyGeometry = buildGalaxy(coarse ? 18000 : 42000);
+    const galaxyMaterial = new THREE.ShaderMaterial({
+      vertexShader: GALAXY_VERT,
+      fragmentShader: GALAXY_FRAG,
+      uniforms: {
+        uSpin: { value: 0 },
+        uTime: { value: 0 },
+        uSizeScale: { value: 1 },
+      },
+      transparent: true,
+      depthWrite: false,
+      blending: THREE.AdditiveBlending,
+    });
+    const galaxy = new THREE.Points(galaxyGeometry, galaxyMaterial);
+    galaxy.rotation.z = 0.28;
+    galaxy.scale.setScalar(1.6);
+    scene.add(galaxy);
+    let spin = 0;
+
+    // --- Glass balloon letters, drawn over the nebula ---
+    const letterScene = new THREE.Scene();
     const pmrem = new THREE.PMREMGenerator(renderer);
     const room = new RoomEnvironment();
     const envTexture = pmrem.fromScene(room, 0.04).texture;
     room.dispose();
     pmrem.dispose();
-    scene.environment = envTexture;
-    scene.environmentIntensity = 1.1;
+    letterScene.environment = envTexture;
+    letterScene.environmentIntensity = 1.1;
 
     const key = new THREE.DirectionalLight(0xffffff, 2.2);
     key.position.set(-0.6, 0.9, 1);
-    scene.add(key);
+    letterScene.add(key);
     const rim = new THREE.DirectionalLight(0xffffff, 1.2);
     rim.position.set(1, -0.4, 0.6);
-    scene.add(rim);
+    letterScene.add(rim);
 
+    // Tinted glass: the shaded colour (reflections, highlights) is added at
+    // full strength while only `opacity` of the nebula behind is blocked.
     const letterMaterial = new THREE.MeshPhysicalMaterial({
       color: 0x151515,
       metalness: 1,
-      roughness: 0.22,
-      alphaTest: 0.5,
+      roughness: 0.18,
+      // alphaTest runs after opacity is applied: half of 0.3 trims at the outline.
+      alphaTest: 0.15,
       side: THREE.DoubleSide,
+      transparent: true,
+      opacity: 0.3,
+      blending: THREE.CustomBlending,
+      blendEquation: THREE.AddEquation,
+      blendSrc: THREE.OneFactor,
+      blendDst: THREE.OneMinusSrcAlphaFactor,
     });
 
-    const camera = new THREE.PerspectiveCamera(30, 1, 1, 20000);
+    const letterCamera = new THREE.PerspectiveCamera(30, 1, 1, 20000);
     const letterGroup = new THREE.Group();
-    scene.add(letterGroup);
+    letterScene.add(letterGroup);
     let letters: Letter[] = [];
     let layoutSize = 100;
 
@@ -480,13 +610,8 @@ export default function HeroReveal(): React.ReactElement {
     };
     let simA = new THREE.WebGLRenderTarget(1, 1, rtOpts);
     let simB = new THREE.WebGLRenderTarget(1, 1, rtOpts);
-    const sceneRT = new THREE.WebGLRenderTarget(1, 1, {
-      type: THREE.HalfFloatType,
-      minFilter: THREE.LinearFilter,
-      magFilter: THREE.LinearFilter,
-      depthBuffer: true,
-      samples: 2,
-    });
+    const sceneRT = new THREE.WebGLRenderTarget(1, 1, { ...rtOpts, depthBuffer: true, samples: 2 });
+    renderer.autoClear = false;
 
     const textCanvas = document.createElement("canvas");
     const textTexture = new THREE.CanvasTexture(textCanvas);
@@ -500,9 +625,9 @@ export default function HeroReveal(): React.ReactElement {
         uPrev: { value: null },
         uMouse: { value: new THREE.Vector2(-10, -10) },
         uPrevMouse: { value: new THREE.Vector2(-10, -10) },
-        uAspect: { value: 1 },
         uMouseVel: { value: new THREE.Vector2() },
         uTexel: { value: new THREE.Vector2(1, 1) },
+        uAspect: { value: 1 },
         uRadius: { value: 0.1 },
         uStrength: { value: 0 },
         uDecay: { value: 0.97 },
@@ -530,6 +655,9 @@ export default function HeroReveal(): React.ReactElement {
     let fontFamily = getComputedStyle(host).getPropertyValue("--font-archivo").trim() || "Archivo";
     let cssW = 0;
     let cssH = 0;
+    // Once the ink has fully faded there is nothing to draw, so the loop idles.
+    let quiet = 0;
+    let dirty = true;
 
     const buildText = () => {
       if (!cssW || !cssH) return;
@@ -537,6 +665,7 @@ export default function HeroReveal(): React.ReactElement {
       layoutSize = layout.size;
       drawFlatText(textCanvas, layout, cssW, cssH, Math.min(dpr, 2560 / cssW));
       textTexture.needsUpdate = true;
+      dirty = true;
 
       disposeLetters();
       layout.glyphs.forEach((g, i) => {
@@ -563,7 +692,6 @@ export default function HeroReveal(): React.ReactElement {
       simA.setSize(sw, sh);
       simB.setSize(sw, sh);
       simMaterial.uniforms.uTexel.value.set(1 / sw, 1 / sh);
-      dirty = true;
       renderer.setClearColor(0x000000, 1);
       renderer.setRenderTarget(simA);
       renderer.clear();
@@ -571,12 +699,18 @@ export default function HeroReveal(): React.ReactElement {
       renderer.clear();
       renderer.setRenderTarget(null);
 
-      // World units are CSS pixels at z = 0, so meshes line up with the flat text.
       camera.aspect = w / h;
-      camera.position.set(0, 0, h / 2 / Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)));
-      camera.near = camera.position.z * 0.1;
-      camera.far = camera.position.z * 4;
+      // Pull back on narrow screens so the disc still reads as a spiral.
+      camera.position.setLength(w / h < 1 ? 4.2 : 2.9);
       camera.updateProjectionMatrix();
+      galaxyMaterial.uniforms.uSizeScale.value = h * dpr * 0.0045;
+
+      // World units are CSS pixels at z = 0, so letters line up with the flat text.
+      letterCamera.aspect = w / h;
+      letterCamera.position.set(0, 0, h / 2 / Math.tan(THREE.MathUtils.degToRad(letterCamera.fov / 2)));
+      letterCamera.near = letterCamera.position.z * 0.1;
+      letterCamera.far = letterCamera.position.z * 4;
+      letterCamera.updateProjectionMatrix();
 
       simMaterial.uniforms.uAspect.value = w / h;
       finalMaterial.uniforms.uAspect.value = w / h;
@@ -592,10 +726,8 @@ export default function HeroReveal(): React.ReactElement {
     const wander = new THREE.Vector2();
     const rawVel = new THREE.Vector2();
     const vel = new THREE.Vector2();
+    const orbit = new THREE.Spherical();
     let hasPointer = false;
-    // Once the ink has fully faded there is nothing to draw, so the loop idles.
-    let quiet = 0;
-    let dirty = true;
 
     const onPointerMove = (e: PointerEvent) => {
       const rect = host.getBoundingClientRect();
@@ -622,6 +754,7 @@ export default function HeroReveal(): React.ReactElement {
       resizeTimer = window.setTimeout(resize, cssW ? 150 : 0);
     });
     ro.observe(host);
+    camera.position.set(0, 1, 1);
     resize();
 
     let disposed = false;
@@ -629,7 +762,6 @@ export default function HeroReveal(): React.ReactElement {
       if (disposed) return;
       fontFamily = getComputedStyle(host).getPropertyValue("--font-archivo").trim() || fontFamily;
       buildText();
-      dirty = true;
     }).catch(() => {});
 
     const timer = new THREE.Timer();
@@ -662,7 +794,6 @@ export default function HeroReveal(): React.ReactElement {
       vel.lerp(rawVel, 1 - Math.pow(0.0005, dt));
       const speed = Math.hypot(vel.x * aspect, vel.y);
       const flow = THREE.MathUtils.smoothstep(speed, 0.03, 1.0);
-      const active = hasPointer;
 
       quiet = flow > 0.01 ? 0 : quiet + dt;
       if (quiet > 4 && !dirty) {
@@ -677,7 +808,7 @@ export default function HeroReveal(): React.ReactElement {
       simMaterial.uniforms.uMouse.value.copy(smoothed);
       simMaterial.uniforms.uMouseVel.value.copy(vel).multiplyScalar(0.45);
       simMaterial.uniforms.uRadius.value = 0.07 + Math.min(speed * 0.06, 0.15);
-      simMaterial.uniforms.uStrength.value = active ? flow * Math.min(dt * 60, 1.5) * 0.5 : 0;
+      simMaterial.uniforms.uStrength.value = hasPointer ? flow * Math.min(dt * 60, 1.5) * 0.5 : 0;
       simMaterial.uniforms.uDecay.value = Math.pow(0.982, dt * 60);
       simMaterial.uniforms.uVelDecay.value = Math.pow(0.93, dt * 60);
       simMaterial.uniforms.uDt.value = dt;
@@ -687,12 +818,20 @@ export default function HeroReveal(): React.ReactElement {
       [simA, simB] = [simB, simA];
       lastStamp.copy(smoothed);
 
-      // Balloon letters: tilt toward the cursor, puff up as it passes.
+      // Nebula: spins faster while the ink is moving, camera leans to the cursor.
       const motion = reduceMotion ? 0 : 1;
-      tilt.lerp(tiltTarget.set(smoothed.x - 0.5, smoothed.y - 0.5), 1 - Math.pow(0.02, dt));
+      spin += dt * (0.12 + flow * 1.1) * motion;
+      galaxyMaterial.uniforms.uSpin.value = spin;
+      galaxyMaterial.uniforms.uTime.value = t * motion;
+      tilt.lerp(tiltTarget.set(smoothed.x - 0.5, smoothed.y - 0.5), 1 - Math.pow(0.05, dt));
+      const dist = camera.position.length();
+      orbit.set(dist, 1.0 - tilt.y * 0.5 * motion, tilt.x * 0.9 * motion);
+      camera.position.setFromSpherical(orbit);
+      camera.lookAt(0, 0, 0);
+
+      // Letters: tilt toward the cursor, puff up as it passes.
       letterGroup.rotation.y = tilt.x * 0.35 * motion;
       letterGroup.rotation.x = -tilt.y * 0.3 * motion;
-
       const px = smoothed.x * cssW;
       const py = (1 - smoothed.y) * cssH;
       for (const l of letters) {
@@ -722,6 +861,8 @@ export default function HeroReveal(): React.ReactElement {
       renderer.setClearColor(0x000000, 1);
       renderer.clear();
       renderer.render(scene, camera);
+      renderer.clearDepth();
+      renderer.render(letterScene, letterCamera);
       renderer.setRenderTarget(null);
 
       finalMaterial.uniforms.uMask.value = simA.texture;
@@ -741,6 +882,8 @@ export default function HeroReveal(): React.ReactElement {
       disposeLetters();
       letterMaterial.dispose();
       envTexture.dispose();
+      galaxyGeometry.dispose();
+      galaxyMaterial.dispose();
       simA.dispose();
       simB.dispose();
       sceneRT.dispose();
@@ -748,8 +891,8 @@ export default function HeroReveal(): React.ReactElement {
       simMaterial.dispose();
       finalMaterial.dispose();
       quad.dispose();
-      renderer.dispose();
       timer.dispose();
+      renderer.dispose();
       renderer.domElement.remove();
     };
   }, []);
