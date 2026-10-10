@@ -24,6 +24,18 @@ let consumerCount = 0;
 
 const classifyWheel = createWheelClassifier();
 
+let windowsPlatform: boolean | null = null;
+/** Windows (any browser). Memoised; false during SSR. */
+function isWindows(): boolean {
+  if (windowsPlatform === null) {
+    if (typeof navigator === "undefined") return false;
+    const nav = navigator as Navigator & { userAgentData?: { platform?: string } };
+    const platform = nav.userAgentData?.platform || nav.platform || nav.userAgent;
+    windowsPlatform = /win/i.test(platform);
+  }
+  return windowsPlatform;
+}
+
 const lenisOptions: LenisOptions = {
   // 0.1 provides responsive, natural damping that tracks touchpad swipes 1:1
   // without sluggish floaty lag, while keeping mouse wheel notches buttery smooth.
@@ -53,6 +65,21 @@ const lenisOptions: LenisOptions = {
 
     const wheelEvent = event as WheelEvent;
     const inputType = classifyWheel(wheelEvent, performance.now());
+
+    // Windows precision touchpads already deliver smooth, momentum-scrolled
+    // deltas. Smoothing them a second time with Lenis made scrolling feel
+    // floaty and inconsistent (worse on high-refresh displays), so hand
+    // touchpad gestures to the browser's native scrolling. Lenis follows
+    // native scroll and keeps ScrollTrigger in sync. Mouse wheels, and
+    // touchpads on other platforms, keep the Lenis smoothing.
+    if (inputType === "touchpad" && isWindows()) {
+      // If a mouse-wheel glide is still running, stop it at the current
+      // position so it doesn't fight the native scroll.
+      if (sharedLenis?.isScrolling === "smooth") {
+        sharedLenis.scrollTo(window.scrollY, { immediate: true, force: true });
+      }
+      return false;
+    }
 
     // Only yield to horizontal scrolling if it's genuinely a horizontal gesture,
     // not accidental diagonal wobble at the start of a vertical swipe.

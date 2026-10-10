@@ -89,3 +89,32 @@ describe("createWheelClassifier", () => {
     expect(classify(notch, TOUCHPAD_STICKY_MS + 1)).toBe("notch");
   });
 });
+
+describe("display scaling (Windows 125% / 150%)", () => {
+  it("treats a 125%-scaled notch (wheelDelta 150) as one notch", () => {
+    const e = wheel({ deltaY: 125, wheelDeltaY: -150 });
+    expect(isWheelNotch(e, 1.25)).toBe(true);
+    expect(normalizeWheelDelta(e, 125, 1.25)).toBe(WHEEL_NOTCH_PX);
+  });
+
+  it("scales multi-notch events at 125%", () => {
+    const e = wheel({ deltaY: 250, wheelDeltaY: -300 });
+    expect(normalizeWheelDelta(e, 250, 1.25)).toBe(WHEEL_NOTCH_PX * 2);
+  });
+
+  it("treats a 150%-scaled notch (wheelDelta 180) as one notch", () => {
+    const e = wheel({ deltaY: 150, wheelDeltaY: -180 });
+    expect(normalizeWheelDelta(e, 150, 1.5)).toBe(WHEEL_NOTCH_PX);
+  });
+
+  it("still passes scaled touchpad deltas through", () => {
+    const e = wheel({ deltaY: 9.4, wheelDeltaY: -28 });
+    expect(isWheelNotch(e, 1.25)).toBe(false);
+    expect(normalizeWheelDelta(e, 9.4, 1.25)).toBe(9.4);
+  });
+
+  it("classifies scaled notches as notch", () => {
+    const classify = createWheelClassifier();
+    expect(classify(wheel({ deltaY: 125, wheelDeltaY: -150 }), 0, 1.25)).toBe("notch");
+  });
+});

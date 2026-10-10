@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useRef } from "react";
 import { gsap, ScrollTrigger } from "../../utils/gsapSetup";
-import { smoothstep, lerp } from "../../utils/math";
+import { frameLerp, smoothstep, lerp } from "../../utils/math";
 import "./FloatingLogo.css";
 
 /* Ease-out cubic for a more natural deceleration feel */
@@ -117,19 +117,21 @@ export default function FloatingLogo(): React.ReactElement {
     // --- Animation loop ---
     updateLogo = () => {
       if (disposed) return;
+      // Frames elapsed at 60fps: keeps the smoothing identical on 144Hz screens.
+      const frames = gsap.ticker.deltaRatio(60);
 
       const heroDiff = Math.abs(heroSmoothed - heroTarget);
       if (heroDiff < 0.00005) {
         heroSmoothed = heroTarget;
       } else {
-        heroSmoothed = isMobile ? heroTarget : lerp(heroSmoothed, heroTarget, 0.1);
+        heroSmoothed = isMobile ? heroTarget : lerp(heroSmoothed, heroTarget, frameLerp(0.1, frames));
       }
 
       const transDiff = Math.abs(transSmoothed - transTarget);
       if (transDiff < 0.00005) {
         transSmoothed = transTarget;
       } else {
-        transSmoothed = isMobile ? transTarget : lerp(transSmoothed, transTarget, 0.05);
+        transSmoothed = isMobile ? transTarget : lerp(transSmoothed, transTarget, frameLerp(0.05, frames));
       }
 
       if (heroSmoothed === lastHeroApplied && transSmoothed === lastTransApplied) {

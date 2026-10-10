@@ -1,6 +1,6 @@
 import { RefObject } from "react";
 import { gsap, ScrollTrigger } from "../../utils/gsapSetup";
-import { lerp, smoothstep } from "../../utils/math";
+import { frameLerp, lerp, smoothstep } from "../../utils/math";
 
 export interface SetupHeroAnimationsOptions {
   heroRef: RefObject<HTMLElement | null>;
@@ -130,7 +130,8 @@ export function setupHeroAnimations({
         return;
       }
     } else {
-      heroSmoothed = lerp(heroSmoothed, targetProgress, 0.1);
+      // Same smoothing feel at 60Hz, 144Hz or anything else.
+      heroSmoothed = lerp(heroSmoothed, targetProgress, frameLerp(0.1, gsap.ticker.deltaRatio(60)));
     }
     lastAppliedProgress = heroSmoothed;
 

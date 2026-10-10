@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { clamp, degToRad, lerp, mapRange, normalize, radToDeg, smoothstep } from "@/src/utils/math";
+import { clamp, degToRad, frameLerp, lerp, mapRange, normalize, radToDeg, smoothstep } from "@/src/utils/math";
 
 describe("math utilities", () => {
   it("clamps values below, within, and above the range", () => {
@@ -26,5 +26,20 @@ describe("math utilities", () => {
   it("preserves the documented edge behavior for invalid ranges", () => {
     expect(normalize(1, 1, 1)).toBeNaN();
     expect(mapRange(1, 1, 1, 0, 10)).toBeNaN();
+  });
+
+  it("frameLerp matches a plain lerp for one 60fps frame", () => {
+    expect(frameLerp(0.1, 1)).toBeCloseTo(0.1);
+    expect(frameLerp(0.1, 0)).toBe(0);
+  });
+
+  it("frameLerp converges at the same speed at 60Hz and 144Hz", () => {
+    // Smooth toward 1 for one second at each refresh rate.
+    const run = (hz: number) => {
+      let v = 0;
+      for (let i = 0; i < hz; i++) v = lerp(v, 1, frameLerp(0.1, 60 / hz));
+      return v;
+    };
+    expect(run(144)).toBeCloseTo(run(60), 6);
   });
 });
