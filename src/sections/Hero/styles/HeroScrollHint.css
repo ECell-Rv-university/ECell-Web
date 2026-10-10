@@ -30,9 +30,78 @@
 }
 
 .hero__scroll-meta--right {
-  justify-self: end;
   text-align: right;
   font-variant-numeric: tabular-nums;
+}
+
+.hero__scroll-end {
+  display: flex;
+  align-items: flex-end;
+  justify-self: end;
+  gap: clamp(20px, 2.6vw, 44px);
+}
+
+/* "LINKEDIN / GITHUB / INSTAGRAM" — icons only on smaller screens. */
+.hero__socials {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 2px;
+  pointer-events: auto;
+}
+
+.hero__social {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: inherit;
+  font-family: var(--font-archivo), sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  line-height: 1;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: opacity 0.25s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.hero__social-icon {
+  display: inline-flex;
+  width: 16px;
+  height: 16px;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.hero__social-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.hero__social-sep {
+  font-family: var(--font-archivo), sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.hero__social:focus-visible {
+  outline: 1px solid currentColor;
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+@media (hover: hover) {
+  .hero__socials:hover .hero__social {
+    opacity: 0.45;
+  }
+
+  .hero__socials .hero__social:hover {
+    opacity: 1;
+  }
+
+  .hero__social:hover .hero__social-icon {
+    transform: translateY(-2px) rotate(-6deg);
+  }
 }
 
 .hero__scroll-badge {
@@ -143,6 +212,13 @@
     font-size: 12px;
   }
 
+  /* Not enough width beside the badge: stack icons above the time. */
+  .hero__scroll-end {
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+  }
+
   /* Launcher sits at 18px with a 54px button on small screens. */
   .hero__scroll-meta:first-child {
     padding-left: 60px;
@@ -163,14 +239,34 @@
   }
 }
 
+@media (max-width: 1100px) {
+  .hero__social-label,
+  .hero__social-sep {
+    display: none;
+  }
+
+  .hero__socials {
+    gap: 16px;
+  }
+
+  .hero__social-icon {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+/* Phones: badge in the middle, icons on the right, no text blocks. */
 @media (max-width: 420px) {
   .hero__scroll-meta {
     display: none;
   }
 
-  .hero__scroll-hint {
-    grid-template-columns: 1fr;
-    justify-items: center;
+  .hero__scroll-end {
+    align-self: center;
+  }
+
+  .hero__socials {
+    gap: 14px;
   }
 }
 

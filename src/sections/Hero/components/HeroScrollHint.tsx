@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useRef } from "react";
 import { ArrowDown } from "lucide-react";
+import HeroSocials from "./HeroSocials";
 import "../styles/HeroScrollHint.css";
 
 interface HeroScrollHintProps {
@@ -8,7 +9,7 @@ interface HeroScrollHintProps {
   onExplore: () => void;
 }
 
-/** Bottom bar: who we are, a spinning "scroll to explore" badge, local time. */
+/** Bottom bar: who we are, a spinning "scroll to explore" badge, socials and local time. */
 export default function HeroScrollHint({ ref, onExplore }: HeroScrollHintProps): React.ReactElement {
   const clockRef = useRef<HTMLSpanElement | null>(null);
 
@@ -58,11 +59,14 @@ export default function HeroScrollHint({ ref, onExplore }: HeroScrollHintProps):
         <span className="sr-only">Scroll to explore</span>
       </button>
 
-      <span className="hero__scroll-meta hero__scroll-meta--right">
-        Bengaluru, IN
-        <br />
-        <span ref={clockRef}>--:--</span> IST
-      </span>
+      <div className="hero__scroll-end">
+        <HeroSocials />
+        <span className="hero__scroll-meta hero__scroll-meta--right">
+          Bengaluru, IN
+          <br />
+          <span ref={clockRef}>--:--</span> IST
+        </span>
+      </div>
     </div>
   );
 }
