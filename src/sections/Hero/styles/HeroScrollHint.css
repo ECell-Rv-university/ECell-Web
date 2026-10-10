@@ -23,6 +23,12 @@
   letter-spacing: -0.01em;
 }
 
+/* Clear the fixed game launcher button in the bottom-left corner
+   (28px inset + 54px button on desktop). */
+.hero__scroll-meta:first-child {
+  padding-left: 78px;
+}
+
 .hero__scroll-meta--right {
   justify-self: end;
   text-align: right;
@@ -42,6 +48,7 @@
   color: inherit;
   cursor: pointer;
   pointer-events: auto;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .hero__scroll-badge:focus-visible {
@@ -85,13 +92,19 @@
   animation: heroScrollDrop 2.2s cubic-bezier(0.65, 0, 0.35, 1) infinite;
 }
 
-.hero__scroll-badge:hover .hero__scroll-core,
-.hero__scroll-badge:focus-visible .hero__scroll-core {
+.hero__scroll-badge:focus-visible .hero__scroll-core,
+.hero__scroll-badge:active .hero__scroll-core {
   transform: scale(1.18);
 }
 
-.hero__scroll-badge:hover .hero__scroll-ring {
-  animation-duration: 6s;
+@media (hover: hover) {
+  .hero__scroll-badge:hover .hero__scroll-core {
+    transform: scale(1.18);
+  }
+
+  .hero__scroll-badge:hover .hero__scroll-ring {
+    animation-duration: 6s;
+  }
 }
 
 @keyframes heroScrollSpin {
@@ -130,6 +143,11 @@
     font-size: 12px;
   }
 
+  /* Launcher sits at 18px with a 54px button on small screens. */
+  .hero__scroll-meta:first-child {
+    padding-left: 60px;
+  }
+
   .hero__scroll-badge {
     width: 88px;
     height: 88px;
@@ -153,5 +171,30 @@
   .hero__scroll-hint {
     grid-template-columns: 1fr;
     justify-items: center;
+  }
+}
+
+/* Landscape phones and short windows: a smaller badge. */
+@media (max-height: 560px) and (min-width: 569px) {
+  .hero__scroll-hint {
+    bottom: 10px;
+  }
+
+  .hero__scroll-badge {
+    width: 76px;
+    height: 76px;
+  }
+
+  .hero__scroll-ring text {
+    font-size: 13px;
+  }
+
+  .hero__scroll-core {
+    width: 34px;
+    height: 34px;
+  }
+
+  .hero__scroll-meta {
+    font-size: 12px;
   }
 }

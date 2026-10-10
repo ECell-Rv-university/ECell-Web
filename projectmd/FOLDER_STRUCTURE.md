@@ -30,7 +30,6 @@ ECell-Web/
 │   ├── robots.ts                   # robots.txt generator
 │   └── sitemap.ts                  # sitemap.xml generator
 ├── public/                         # Files served from stable public URLs
-│   ├── assets/videos/              # Responsive hero videos and poster
 │   ├── favicon*                    # Browser icons
 │   ├── logo-* / logo.webp          # Install/brand images
 │   └── og-image.webp               # Social sharing image
@@ -55,7 +54,10 @@ ECell-Web/
 │   │   ├── About/
 │   │   ├── Events/
 │   │   ├── Footer/
-│   │   ├── Hero/
+│   │   ├── Hero/                   # Hero.tsx + HeroAnimations.ts (scroll shrink)
+│   │   │   ├── components/         # HeroReveal (WebGL), HeroIntro, HeroScrollHint
+│   │   │   ├── webgl/              # Shaders, title layout, glass letters, nebula
+│   │   │   └── styles/             # Hero section CSS
 │   │   ├── Loader/
 │   │   ├── Nav/
 │   │   ├── Speakers/
