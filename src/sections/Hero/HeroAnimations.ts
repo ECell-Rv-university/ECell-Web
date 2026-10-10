@@ -77,7 +77,7 @@ export function setupHeroAnimations({
       .to(heading, { opacity: 0, ease: "none", duration: 0.18 }, 0.02);
 
     if (scrollHint) {
-      mobileTimeline.to(scrollHint, { opacity: 0, ease: "none", duration: 0.15 }, 0);
+      mobileTimeline.to(scrollHint, { autoAlpha: 0, ease: "none", duration: 0.15 }, 0);
     }
 
     return () => {
@@ -150,8 +150,11 @@ export function setupHeroAnimations({
     marqueeOpacity(reveal * marqueeMaxOpacity);
     labelOpacity(reveal);
     headingOpacity(1 - smoothstep(0.05, 0.25, progress));
-    if (scrollHintOpacity) {
-      scrollHintOpacity(1 - smoothstep(0.02, 0.18, progress));
+    if (scrollHintOpacity && scrollHint) {
+      const hintOpacity = 1 - smoothstep(0.02, 0.18, progress);
+      scrollHintOpacity(hintOpacity);
+      // Faded out, the clickable badge must not swallow clicks.
+      scrollHint.style.visibility = hintOpacity < 0.02 ? "hidden" : "visible";
     }
   };
 
