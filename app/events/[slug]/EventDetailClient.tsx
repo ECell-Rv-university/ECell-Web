@@ -4,113 +4,17 @@ import Image from "next/image";
 import Link from "next/link";
 import type { EventDetailData } from "@/src/data/eventsData";
 import { scrollToElement } from "@/src/utils/lenis";
-import InfiniteSpiral from "@/src/components/InfiniteSpiral/InfiniteSpiral";
-import spiralImg1 from "@/src/assets/Argonyx26/inaugration/ing1.webp";
-import spiralImg2 from "@/src/assets/Argonyx26/inaugration/eventLeads.webp";
-import spiralImg3 from "@/src/assets/Argonyx26/coding-session-1/image.webp";
-import spiralImg4 from "@/src/assets/Argonyx26/MentorsSessions/apoorv1.webp";
-import spiralImg5 from "@/src/assets/Argonyx26/judges/image.png";
-import spiralImg6 from "@/src/assets/Argonyx26/roun2/image.webp";
-import spiralImg7 from "@/src/assets/Argonyx26/round2Walk/image.webp";
-import spiralImg8 from "@/src/assets/Argonyx26/lunch/lunch1.webp";
-import spiralImg9 from "@/src/assets/Argonyx26/opening/image.png";
-import spiralImg10 from "@/src/assets/Argonyx26/inaugration/alok1.webp";
-import spiralImg11 from "@/src/assets/Argonyx26/dinner/mingos1.webp";
-import spiralImg12 from "@/src/assets/Argonyx26/judges/image copy.png";
-import spiralImg13 from "@/src/assets/Argonyx26/opening/image copy.png";
 import "./EventDetail.css";
 import SiteCredit from "@/src/components/SiteCredit/SiteCredit";
 
-const SPIRAL_GALLERY_IMAGES = [
-  { src: spiralImg9, alt: "Registration & Opening Arrival" },
-  { src: spiralImg1, alt: "Inauguration Keynote" },
-  { src: spiralImg2, alt: "Event Leads on Stage" },
-  { src: spiralImg3, alt: "Teams Coding Sprint" },
-  { src: spiralImg4, alt: "Mentor Review Session" },
-  { src: spiralImg5, alt: "Judging Panel & Evaluations" },
-  { src: spiralImg12, alt: "Jury Discussion & Defense" },
-  { src: spiralImg6, alt: "Round 2 Final Pitches" },
-  { src: spiralImg7, alt: "Demo Walkthrough" },
-  { src: spiralImg8, alt: "Lunch Break" },
-  { src: spiralImg13, alt: "Welcome Desk & Participants" },
-  { src: spiralImg10, alt: "Alok Murali Speaking" },
-  { src: spiralImg11, alt: "Celebration Dinner" },
-];
-
 interface EventDetailClientProps {
   event: EventDetailData;
-}
-
-/** Returns responsive spiral gallery dimensions based on window width */
-function useSpiralConfig() {
-  const [config, setConfig] = useState({
-    radius: 220,
-    cardWidth: 160,
-    cardHeight: 120,
-    verticalSpacing: 70,
-    perspective: 1000,
-    centerScale: 1.25,
-    cardsPerTurn: 8,
-  });
-
-  useEffect(() => {
-    function update() {
-      const w = window.innerWidth;
-      if (w <= 420) {
-        setConfig({
-          radius: 100,
-          cardWidth: 90,
-          cardHeight: 68,
-          verticalSpacing: 40,
-          perspective: 600,
-          centerScale: 1.15,
-          cardsPerTurn: 6,
-        });
-      } else if (w <= 640) {
-        setConfig({
-          radius: 130,
-          cardWidth: 110,
-          cardHeight: 82,
-          verticalSpacing: 50,
-          perspective: 700,
-          centerScale: 1.18,
-          cardsPerTurn: 7,
-        });
-      } else if (w <= 860) {
-        setConfig({
-          radius: 170,
-          cardWidth: 130,
-          cardHeight: 98,
-          verticalSpacing: 58,
-          perspective: 850,
-          centerScale: 1.22,
-          cardsPerTurn: 7,
-        });
-      } else {
-        setConfig({
-          radius: 220,
-          cardWidth: 160,
-          cardHeight: 120,
-          verticalSpacing: 70,
-          perspective: 1000,
-          centerScale: 1.25,
-          cardsPerTurn: 8,
-        });
-      }
-    }
-    update();
-    window.addEventListener("resize", update);
-    return () => window.removeEventListener("resize", update);
-  }, []);
-
-  return config;
 }
 
 export default function EventDetailClient({ event }: EventDetailClientProps): React.ReactElement {
   const [activeWinnerIndex, setActiveWinnerIndex] = useState<number>(0);
   const touchStartXRef = useRef<number | null>(null);
   const touchStartYRef = useRef<number | null>(null);
-  const spiralConfig = useSpiralConfig();
 
   const winnersList = event.winners || [];
   const safeWinnerIndex = activeWinnerIndex >= winnersList.length ? 0 : activeWinnerIndex;
@@ -808,28 +712,13 @@ export default function EventDetailClient({ event }: EventDetailClientProps): Re
                 </div>
               </div>
 
-              {/* 3D InfiniteSpiral Gallery Stage with centered View Images button */}
+              {/* Gallery images are coming soon; the button is a placeholder until then */}
               <div className="spiral-gallery-wrapper">
-                <InfiniteSpiral
-                  items={SPIRAL_GALLERY_IMAGES}
-                  animationMode="all"
-                  speed={0.55}
-                  radius={spiralConfig.radius}
-                  cardWidth={spiralConfig.cardWidth}
-                  cardHeight={spiralConfig.cardHeight}
-                  verticalSpacing={spiralConfig.verticalSpacing}
-                  perspective={spiralConfig.perspective}
-                  cardRadius={8}
-                  centerScale={spiralConfig.centerScale}
-                  edgeBlur={5}
-                  cardsPerTurn={spiralConfig.cardsPerTurn}
-                  pauseOnHover
-                />
-
                 {/* View Images button at the middle of this section */}
                 <div className="spiral-center-action">
-                  <Link
-                    href={`/events/${event.slug}/gallery`}
+                  <a
+                    href="#"
+                    onClick={(e) => e.preventDefault()}
                     className="btn btn--solid spiral-view-btn"
                     aria-label="View Images Gallery"
                   >
@@ -857,7 +746,7 @@ export default function EventDetailClient({ event }: EventDetailClientProps): Re
                     </svg>
                     <span>View Images</span>
                     <span className="spiral-view-btn__arrow">→</span>
-                  </Link>
+                  </a>
                 </div>
               </div>
             </div>

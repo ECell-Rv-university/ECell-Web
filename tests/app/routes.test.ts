@@ -21,7 +21,6 @@ describe("SEO routes", () => {
     expect(urls).toEqual(
       expect.arrayContaining([
         `${SITE_URL}/events`,
-        `${SITE_URL}/events/argonyx-26/gallery`,
         `${SITE_URL}/recruit`,
         ...getAllEventSlugs().map((slug) => `${SITE_URL}/events/${slug}`),
       ]),
