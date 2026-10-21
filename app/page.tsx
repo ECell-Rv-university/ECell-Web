@@ -17,6 +17,7 @@ import Speakers from "@/src/sections/Speakers/Speakers";
 import WhatsAppCommunity from "@/src/sections/WhatsAppCommunity/WhatsAppCommunity";
 import HalftoneWordmarkFooter, { type FooterColumn } from "@/src/components/HalftoneWordmarkFooter/HalftoneWordmarkFooter";
 import FloatingLogo from "@/src/components/FloatingLogo/FloatingLogo";
+import { CraftedWithLove } from "@/src/components/SiteCredit/SiteCredit";
 import GameLauncher from "@/src/components/GameLauncher/GameLauncher";
 import Team from "@/src/sections/Team";
 
@@ -46,7 +47,6 @@ const FOOTER_COLUMNS: FooterColumn[] = [
       { label: "WhatsApp", href: SITE_LINKS.whatsappGroup },
       { label: "Instagram", href: SITE_LINKS.instagram },
       { label: "LinkedIn", href: SITE_LINKS.linkedin },
-      { label: "GitHub", href: SITE_LINKS.github },
     ],
   },
 ];
@@ -102,7 +102,7 @@ export default function Home() {
           cta={{ label: SITE_LINKS.email, href: `mailto:${SITE_LINKS.email}` }}
           meta={
             <>
-              © 2026 ECell RVU · Crafted with <span style={{ color: "#ff4d6d", fontSize: "13px" }}>♥</span> by ECell Tech Team
+              © 2026 ECell RVU · <CraftedWithLove />
             </>
           }
           columns={FOOTER_COLUMNS}
