@@ -95,7 +95,7 @@ export default function Home() {
       {/* id="footer" is the nav Chapters → Footer target. */}
       <div id="footer">
         <HalftoneWordmarkFooter
-          wordmark="ecell"
+          wordmark="ECell"
           label="Entrepreneurship Cell · RV University"
           headline="Build what's next."
           tagline="A community of student founders turning ideas into ventures, one event, mentor and late-night build at a time."
