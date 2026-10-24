@@ -203,18 +203,22 @@ const HWF_CSS = `
 .hwf-col a { font-size: 15px; }
 .hwf-col a:hover, .hwf-up:hover { opacity: 1; color: var(--hwf-warm); background-size: 100% 1px; }
 .hwf-col a:focus-visible, .hwf-up:focus-visible, .hwf-cta:focus-visible { outline: 1px solid currentColor; outline-offset: 3px; opacity: 1; }
+/* Meta centred, back-to-top pinned right: equal side columns keep the middle true. */
 .hwf-rule {
-  display: flex; justify-content: space-between; align-items: center; gap: 16px;
+  display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; gap: 16px;
+  text-align: center;
   margin-top: clamp(28px, 5vh, 56px); padding-top: 16px;
   border-top: 1px solid color-mix(in srgb, var(--hwf-ink) 12%, transparent);
   font-family: var(--hwf-mono); font-size: 10.5px; letter-spacing: .18em; text-transform: uppercase;
 }
 /* Muted by colour, not opacity, so a coloured child (e.g. a heart) keeps full strength. */
-.hwf-rule > span { color: color-mix(in srgb, var(--hwf-ink) 45%, transparent); }
+.hwf-rule > span { grid-column: 2; color: color-mix(in srgb, var(--hwf-ink) 45%, transparent); }
+.hwf-rule > .hwf-up { grid-column: 3; justify-self: end; }
 .hwf-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 @media (max-width: 720px) {
   .hwf-top { grid-template-columns: minmax(0, 1fr); align-items: start; }
-  .hwf-rule { flex-direction: column; align-items: flex-start; letter-spacing: .12em; }
+  .hwf-rule { grid-template-columns: minmax(0, 1fr); justify-items: center; letter-spacing: .12em; }
+  .hwf-rule > span, .hwf-rule > .hwf-up { grid-column: 1; justify-self: center; }
 }
 @media (prefers-reduced-motion: reduce) {
   .hwf-col a, .hwf-up, .hwf-cta, .hwf-cta span { transition: none; }
