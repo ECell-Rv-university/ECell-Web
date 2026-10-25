@@ -19,8 +19,22 @@ const initialMessages: Message[] = [
   { id: "welcome", sender: "bot", text: "Hey! I’m the ECell guide. Type a question below to ask about ECell, events, joining, or building your idea.", time: "11:42" },
 ];
 
-const getAssistantReply = (message: string): string => {
+const KALPAVIKAS_SPELLING_REPLIES = [
+  "Almost! It's Kalpavikas—with an 'a' after 'p'. The little 'a' was on its way to the fest 😄",
+  "Kalpvikas? Close! It's Kalpavikas. The spelling bouncer says you're still on the guest list 😄",
+  "A tiny 'a' went missing! It's Kalpavikas—no search party needed, we found it 😄",
+  "Spell check says Kalpavikas. Your keyboard nearly launched a rival startup 😄",
+];
+
+const KALPAVIKAS_MISSPELLING = /\b(?:kalpvikas|kalp[\s-]+vikas|kalpavikass|kalpavikaas|kalpvikaas)\b/i;
+
+const getAssistantReply = (message: string, replyIndex = 0): string => {
   const query = message.toLowerCase().trim();
+  if (KALPAVIKAS_MISSPELLING.test(query)) {
+    return KALPAVIKAS_SPELLING_REPLIES[replyIndex % KALPAVIKAS_SPELLING_REPLIES.length];
+  }
+  const eventRule = COMMUNITY_QA_RULES.find((rule) => rule.id.startsWith("kalpavikas_") && rule.pattern.test(query));
+  if (eventRule) return eventRule.reply;
   const matchedRule = COMMUNITY_QA_RULES.find((rule) => rule.pattern.test(query));
   return matchedRule ? matchedRule.reply : COMMUNITY_DEFAULT_REPLY;
 };
@@ -34,6 +48,7 @@ const timeNow = (): string => new Intl.DateTimeFormat("en-IN", {
 export default function WhatsAppCommunity(): React.ReactElement {
   const sectionRef = useRef<HTMLElement | null>(null);
   const replyTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const replyIndexRef = useRef(0);
   const messagesRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [messages, setMessages] = useState<Message[]>(initialMessages);
@@ -84,6 +99,7 @@ export default function WhatsAppCommunity(): React.ReactElement {
     event.preventDefault();
     const text = draft.trim();
     if (!text || isTyping) return;
+    const replyText = getAssistantReply(text, replyIndexRef.current++);
 
     setMessages((current) => [...current, { id: `user-${Date.now()}`, sender: "user", text, time: timeNow() }]);
     setDraft("");
@@ -93,7 +109,7 @@ export default function WhatsAppCommunity(): React.ReactElement {
       setMessages((current) => [...current, {
         id: `bot-${Date.now()}`,
         sender: "bot",
-        text: getAssistantReply(text),
+        text: replyText,
         time: timeNow(),
       }]);
       setIsTyping(false);
