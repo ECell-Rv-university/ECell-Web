@@ -63,5 +63,7 @@ export const PREVIOUS_SPEAKERS: Speaker[] = [
     src: guhaPhoto,
     imagePosition: "56% 24%",
   },
-  { name: "Bharath KH ", designation: "Staff Software engineer", src: bharathPhoto },
+   { name: "Bharath KH",
+     designation: "Staff Software engineer", 
+     src: bharathPhoto },
 ];

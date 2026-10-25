@@ -32,7 +32,7 @@ const SPEAKER_LOGOS: Record<string, StaticImageData> = {
   "Abrar Ahmed": jpMorganLogo,
   "Neelam Godihal": jpMorganLogo,
   "Swaroop Ghosh": noidaLogo,
-  "Bharath KH ": ratchLogo,
+  "Bharath KH": ratchLogo,
   "Harpreet Sohan": wandLogo,
   "Mustafa Shariff": healthCommunityLogo,
   "Arshdeep Singh": edockLogo,
@@ -98,7 +98,7 @@ export default function Speakers(): ReactElement {
                 <div className="speaker-card-content">
                   <h3>{speaker.name}</h3>
                   <div className="speaker-card-role">
-                    {logo && <Image src={logo} alt="" className="speaker-company-logo" />}
+                    {logo && <Image src={logo} alt="" width={44} height={44} className="speaker-company-logo" />}
                     <p>{speaker.designation}</p>
                   </div>
                 </div>
