@@ -1,6 +1,7 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, within } from "@testing-library/react";
 import { act } from "react";
 import { afterEach, describe, expect, it, vi } from "vitest";
+import { PREVIOUS_SPEAKERS } from "@/src/content/speakers";
 import Speakers from "@/src/sections/Speakers/Speakers";
 
 const getCarousel = () => screen.getByRole("region", { name: "Previous speakers" });
@@ -27,7 +28,7 @@ afterEach(() => {
   vi.unstubAllGlobals();
 });
 
-describe("Speakers Section", () => {
+describe.skip("Retired speaker carousel", () => {
   it("renders the section heading and initial featured speaker", () => {
     render(<Speakers />);
 
@@ -131,5 +132,39 @@ describe("Speakers Section", () => {
     expect(
       screen.getByText(/^Building enduring tech products requires obsessing/, { selector: ".sr-only" }),
     ).toBeInTheDocument();
+  });
+});
+
+describe("Speakers card grid", () => {
+  it("renders the section heading and every speaker card", () => {
+    render(<Speakers />);
+
+    expect(screen.getByRole("heading", { name: "Previous Speakers" })).toBeInTheDocument();
+    expect(screen.getAllByRole("listitem")).toHaveLength(PREVIOUS_SPEAKERS.length);
+  });
+
+  it("renders the requested speaker sequence", () => {
+    render(<Speakers />);
+
+    expect(screen.getAllByRole("heading", { level: 3 }).map((heading) => heading.textContent)).toEqual(
+      PREVIOUS_SPEAKERS.map((speaker) => speaker.name),
+    );
+  });
+
+  it("shows Swaroop Ghosh's designation and company logo", () => {
+    render(<Speakers />);
+
+    const swaroopCard = screen.getByRole("heading", { name: "Swaroop Ghosh" }).closest("article");
+    expect(swaroopCard).not.toBeNull();
+    expect(within(swaroopCard!).getByText("COO, R&D Critical Information Protection Leader, Nokia")).toBeInTheDocument();
+    expect(swaroopCard!.querySelector(".speaker-company-logo")).toBeInTheDocument();
+  });
+
+  it("uses accessible names for every speaker portrait", () => {
+    render(<Speakers />);
+
+    PREVIOUS_SPEAKERS.forEach((speaker) => {
+      expect(screen.getByRole("img", { name: speaker.name })).toBeInTheDocument();
+    });
   });
 });

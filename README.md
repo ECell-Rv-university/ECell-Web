@@ -361,7 +361,7 @@ Designed, built and looked after by the **ECell RV University tech team**:
       <a href="https://github.com/AkshayS2020git"><img src="https://github.com/AkshayS2020git.png" width="72" alt="Akshay Sujesh" /><br /><b>Akshay Sujesh</b></a>
     </td>
     <td align="center" width="25%">
-      <a href="https://github.com/shrisha77-boop"><img src="https://github.com/shrisha77-boop.png" width="72" alt="Shrisha Poojary" /><br /><b>Shrisha Poojary</b></a>
+      <a href="https://github.com/dev-shrisha"><img src="https://github.com/dev-shrisha.png" width="72" alt="Shrisha" /><br /><b>Shrisha</b></a>
     </td>
     <td align="center" width="25%">
       <a href="https://github.com/Hootsworth"><img src="https://github.com/Hootsworth.png" width="72" alt="Aditya Dixit" /><br /><b>Aditya Dixit</b></a>
