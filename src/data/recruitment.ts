@@ -148,23 +148,11 @@ export const RECRUITMENT_TEAMS: RecruitmentTeam[] = [
         options: ["Very Comfortable", "Comfortable", "Somewhat Comfortable", "Not Comfortable"],
       },
       {
-        id: "visibilityStrategies",
-        label: "What strategies would you use to increase the visibility of ECell?",
-        type: "textarea",
-        required: true,
-      },
-      {
         id: "sponsorshipExperience",
         label: "Have you ever worked on sponsorship or partnership outreach before?",
         type: "select",
         required: true,
         options: ["Yes", "No"],
-      },
-      {
-        id: "sponsorCommunication",
-        label: "If yes, how would you handle professional communication with sponsors or partners?\n(If not, fill \"Nil.\")",
-        type: "textarea",
-        required: true,
       },
       {
         id: "outreachTools",
@@ -196,12 +184,6 @@ export const RECRUITMENT_TEAMS: RecruitmentTeam[] = [
     skills: ["Reels", "Copywriting", "Trends"],
     questions: [
       {
-        id: "eventPromo",
-        label: "A startup founder is speaking at ECell next week. How would you promote the talk on Instagram, and what would your hook be?",
-        type: "textarea",
-        required: true,
-      },
-      {
         id: "platforms",
         label: "Which social media platforms do you use frequently?",
         type: "checkboxes",
@@ -229,29 +211,17 @@ export const RECRUITMENT_TEAMS: RecruitmentTeam[] = [
         required: false,
       },
       {
-        id: "studentEngagement",
-        label: "How would you make ECell content more engaging for students?",
-        type: "textarea",
+        id: "metricsComfort",
+        label: "How comfortable are you with analyzing engagement metrics (reach, impressions, analytics)?",
+        type: "select",
         required: true,
-      },
-      {
-        id: "engagementStrategies",
-        label: "What strategies would you use to increase engagement on our social media pages?",
-        type: "textarea",
-        required: true,
+        options: ["Beginner", "Intermediate", "Advanced"],
       },
       {
         id: "studentContent",
         label: "What type of content do you think performs best for student communities?",
         type: "textarea",
         required: true,
-      },
-      {
-        id: "metricsComfort",
-        label: "How comfortable are you with analyzing engagement metrics (reach, impressions, analytics)?",
-        type: "select",
-        required: true,
-        options: ["Beginner", "Intermediate", "Advanced"],
       },
       {
         id: "brainstormingComfort",
@@ -332,24 +302,6 @@ export const RECRUITMENT_TEAMS: RecruitmentTeam[] = [
         ],
       },
       {
-        id: "design_principles",
-        label:
-          "What design principles do you think are important for social media creatives?",
-        type: "textarea",
-        required: true,
-        placeholder:
-          "Consider readability, visual hierarchy, colors, typography, and audience engagement.",
-      },
-      {
-        id: "brand_consistency",
-        label:
-          "How would you maintain consistency in design and branding across posts?",
-        type: "textarea",
-        required: true,
-        placeholder:
-          "Explain how you would maintain consistent colors, fonts, layouts, and branding.",
-      },
-      {
         id: "collaboration",
         label:
           "Are you comfortable collaborating with the Content Creation and Social Media teams for creative outputs?",
@@ -380,12 +332,6 @@ export const RECRUITMENT_TEAMS: RecruitmentTeam[] = [
     ],
     skills: ["Photography", "Composition", "Lightroom"],
     questions: [
-      {
-        id: "lowLight",
-        label: "How would you photograph a speaker on stage in a dimly lit auditorium? Mention any settings or techniques you would use.",
-        type: "textarea",
-        required: true,
-      },
       {
         id: "equipment",
         label: "What do you shoot with?",
@@ -427,12 +373,6 @@ export const RECRUITMENT_TEAMS: RecruitmentTeam[] = [
         options: ["Lightroom", "Photoshop", "Snapseed", "VSCO", "None", "Other"],
       },
       {
-        id: "eventApproach",
-        label: "How would you approach covering a 2-hour speaker session so that nothing important is missed?",
-        type: "textarea",
-        required: true,
-      },
-      {
         id: "turnaround",
         label: "How quickly can you usually deliver edited photos after an event?",
         type: "select",
@@ -463,12 +403,6 @@ export const RECRUITMENT_TEAMS: RecruitmentTeam[] = [
     skills: ["Premiere Pro", "Storytelling", "Reels"],
     questions: [
       {
-        id: "aftermoviePacing",
-        label: "How do you decide on the music, pacing and cuts for an event aftermovie?",
-        type: "textarea",
-        required: true,
-      },
-      {
         id: "tools",
         label: "Which editing tools are you familiar with?",
         type: "checkboxes",
@@ -496,12 +430,6 @@ export const RECRUITMENT_TEAMS: RecruitmentTeam[] = [
         type: "url",
         required: true,
         placeholder: "https://",
-      },
-      {
-        id: "reelIdea",
-        label: "You get 2 minutes of raw footage from an ECell event. How would you turn it into a 30-second reel?",
-        type: "textarea",
-        required: true,
       },
       {
         id: "deadline_comfort",
@@ -542,24 +470,17 @@ export const RECRUITMENT_TEAMS: RecruitmentTeam[] = [
       },
       {
         id: "experience",
-        label:
-          "Do you have experience in writing reports or maintaining documentation?",
+        label: "Do you have experience in writing reports or maintaining documentation?",
         type: "select",
         required: true,
         options: ["Yes", "No"],
       },
       {
         id: "writingComfort",
-        label:
-          "How comfortable are you with writing structured reports and summaries?",
+        label: "How comfortable are you with writing structured reports and summaries?",
         type: "select",
         required: true,
-        options: [
-          "Very Comfortable",
-          "Comfortable",
-          "Somewhat Comfortable",
-          "Not Comfortable",
-        ],
+        options: ["Very Comfortable", "Comfortable", "Somewhat Comfortable", "Not Comfortable"],
       },
       {
         id: "tools",
@@ -572,23 +493,6 @@ export const RECRUITMENT_TEAMS: RecruitmentTeam[] = [
           "Google Docs",
           "Other",
         ],
-      },
-      {
-        id: "accuracy",
-        label:
-          "How would you ensure accurate documentation of events and activities?",
-        type: "textarea",
-        required: true,
-        placeholder:
-          "Explain how you would record important details, verify information, and avoid missing key points.",
-      },
-      {
-        id: "reportStructure",
-        label: "How would you structure a post-event report?",
-        type: "textarea",
-        required: true,
-        placeholder:
-          "Describe the sections you would include, such as event details, attendance, highlights, outcomes, and feedback.",
       },
     ],
   },
@@ -606,12 +510,6 @@ export const RECRUITMENT_TEAMS: RecruitmentTeam[] = [
     ],
     skills: ["Web dev", "Automation", "Problem solving"],
     questions: [
-      {
-        id: "slowSite",
-        label: "A website feels slow to load. How would you find out why?",
-        type: "textarea",
-        required: true,
-      },
       {
         id: "built",
         label: "Tell us about something you've built or worked on: code, design, a club project, anything.",
@@ -634,13 +532,6 @@ export const RECRUITMENT_TEAMS: RecruitmentTeam[] = [
         type: "url",
         required: false,
         placeholder: "https://",
-      },
-      {
-        id: "openSource",
-        label: "Any open-source contributions?",
-        description: "Link the pull requests or repos and tell us what you changed. If you haven't made any yet, write \"None\".",
-        type: "textarea",
-        required: true,
       },
       {
         id: "stack",
@@ -686,13 +577,6 @@ export const RECRUITMENT_TEAMS: RecruitmentTeam[] = [
         ],
       },
       {
-        id: "websiteStack",
-        label: "If you were building the ECell website from scratch, what tech would you use, and why?",
-        description: "There's no right answer. We want to see how you think about the choices.",
-        type: "textarea",
-        required: true,
-      },
-      {
         id: "websiteLike",
         label: "What do you like about the current ECell website?",
         type: "textarea",
@@ -700,15 +584,10 @@ export const RECRUITMENT_TEAMS: RecruitmentTeam[] = [
       },
       {
         id: "websiteImprovement",
-        label: "What's one thing you would improve on the current ECell website?",
-        type: "textarea",
+        label: "What's one thing you'd improve on the current ECell website?",
+        type: "text",
         required: true,
-      },
-      {
-        id: "problem",
-        label: "Tell us about a bug or technical problem you solved, and how.",
-        type: "textarea",
-        required: true,
+        placeholder: "A short suggestion",
       },
       {
         id: "webRating",

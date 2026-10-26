@@ -27,17 +27,13 @@ function next() {
 
 /** Answers the Tech questions on step 2 and moves on to step 3. */
 function fillStepTwo() {
-  type(/feels slow to load/i, "Check the network tab for large images and slow requests.");
   type(/built or worked on/i, "A bot that tracks attendance for our club.");
   type(/github profile/i, "https://github.com/asha");
-  type(/open-source contributions/i, "None");
   fireEvent.click(screen.getByLabelText("React"));
   fireEvent.click(screen.getByLabelText("Frontend and UI"));
   type(/git and github/i, "Basic: clone, commit, push");
-  type(/from scratch/i, "Next.js, because the site is mostly static pages.");
   type(/like about the current/i, "The halftone footer.");
-  type(/improve on the current/i, "A search for past events.");
-  type(/bug or technical problem/i, "Fixed a race in the attendance bot.");
+  type(/one thing you'd improve/i, "A search for past events.");
   fireEvent.click(screen.getByLabelText("3"));
   fireEvent.click(screen.getByRole("button", { name: /next: final details/i }));
 }
@@ -238,7 +234,7 @@ describe("RecruitForm", () => {
 
     expect(screen.getByText("Step 2 of 3")).toBeInTheDocument();
     // One message per required Tech question.
-    expect(screen.getAllByText("Please answer this one.")).toHaveLength(12);
+    expect(screen.getAllByText("Please answer this one.")).toHaveLength(8);
   });
 
   it("asks every team the commitment and acknowledgement questions on step 3", () => {
