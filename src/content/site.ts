@@ -9,7 +9,6 @@ export const INSTAGRAM = {
 export const SITE_LINKS = {
   whatsappGroup: "https://chat.whatsapp.com/J0MfKUwIZ6J8WfemIBbdlJ",
   instagram: INSTAGRAM.url,
-  linkedin: "https://www.linkedin.com/company/ecell-rvu",
-  github: "https://github.com/ECell-Rv-university",
+  linkedin: "https://www.linkedin.com/company/ecell-rv-university/people/",
   email: "club_ecell@rvu.edu.in",
 } as const;
