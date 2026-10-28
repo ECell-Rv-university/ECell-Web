@@ -63,23 +63,24 @@ const lenisOptions: LenisOptions = {
     // `overflow: hidden`, so bail out and let the browser do nothing.
     if (document.body.style.overflow === "hidden") return false;
 
-    const wheelEvent = event as WheelEvent;
-    const inputType = classifyWheel(wheelEvent, performance.now());
-
-    // Windows precision touchpads already deliver smooth, momentum-scrolled
-    // deltas. Smoothing them a second time with Lenis made scrolling feel
-    // floaty and inconsistent (worse on high-refresh displays), so hand
-    // touchpad gestures to the browser's native scrolling. Lenis follows
-    // native scroll and keeps ScrollTrigger in sync. Mouse wheels, and
-    // touchpads on other platforms, keep the Lenis smoothing.
-    if (inputType === "touchpad" && isWindows()) {
-      // If a mouse-wheel glide is still running, stop it at the current
-      // position so it doesn't fight the native scroll.
+    // On Windows, use the browser's native path for both mouse wheels and
+    // precision touchpads. A precision touchpad can emit a momentum event
+    // whose shape is indistinguishable from a wheel notch, so deciding per
+    // event whether Lenis should take over creates a visible mid-gesture
+    // switch. Native scrolling keeps the two inputs on the same platform
+    // physics while Lenis continues to observe scroll events for GSAP.
+    if (isWindows()) {
+      // Stop an in-flight programmatic/mouse animation before native input
+      // takes over, otherwise Lenis can keep pulling the viewport away from
+      // the user's gesture.
       if (sharedLenis?.isScrolling === "smooth") {
         sharedLenis.scrollTo(window.scrollY, { immediate: true, force: true });
       }
       return false;
     }
+
+    const wheelEvent = event as WheelEvent;
+    const inputType = classifyWheel(wheelEvent, performance.now());
 
     // Only yield to horizontal scrolling if it's genuinely a horizontal gesture,
     // not accidental diagonal wobble at the start of a vertical swipe.
