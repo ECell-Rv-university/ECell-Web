@@ -6,7 +6,7 @@
 // applications without touching any page code.
 
 import type { StaticImageData } from "next/image";
-import hiringPoster from "../assets/joinus/hiring_poster.webp";
+import hiringPoster from "../assets/joinus/hiring_poster.png";
 
 export interface RecruitmentQuestion {
   /** Part of the form field name; keep it unique within its team. */
