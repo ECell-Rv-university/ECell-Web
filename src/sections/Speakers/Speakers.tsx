@@ -8,7 +8,7 @@ import jpMorganLogo from "@/src/assets/speaker-logo/jpmorgenchae.webp";
 import magnaLogo from "@/src/assets/speaker-logo/magna.webp";
 import morganStanleyLogo from "@/src/assets/speaker-logo/Morgan-Stanley.webp";
 import nasscomLogo from "@/src/assets/speaker-logo/nasscom.webp";
-import noidaLogo from "@/src/assets/speaker-logo/noida.webp";
+import noidaLogo from "@/src/assets/speaker-logo/nokia.png";
 import oracleLogo from "@/src/assets/speaker-logo/oracle.webp";
 import ratchLogo from "@/src/assets/speaker-logo/ratch-ai.webp";
 import stealthLogo from "@/src/assets/speaker-logo/stealth-Photoroom.webp";
