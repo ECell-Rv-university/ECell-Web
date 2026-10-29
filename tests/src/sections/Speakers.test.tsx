@@ -151,14 +151,27 @@ describe("Speakers card grid", () => {
     );
   });
 
-  it("shows Swaroop Ghosh's designation and company logo", () => {
-    render(<Speakers />);
+  
+it("shows Swaroop Ghosh's designation and company logo", () => {
+  render(<Speakers />);
 
-    const swaroopCard = screen.getByRole("heading", { name: "Swaroop Ghosh" }).closest("article");
-    expect(swaroopCard).not.toBeNull();
-    expect(within(swaroopCard!).getByText("COO, R&D Critical Information Protection Leader, Nokia")).toBeInTheDocument();
-    expect(swaroopCard!.querySelector(".speaker-company-logo")).toBeInTheDocument();
-  });
+  const swaroopCard = screen
+    .getByRole("heading", { name: "Swaroop Ghosh" })
+    .closest("article");
+
+  expect(swaroopCard).not.toBeNull();
+
+  expect(
+    within(swaroopCard!).getByText(
+      "COO, R&D Critical Information Protection Leader"
+    )
+  ).toBeInTheDocument();
+
+  expect(
+    swaroopCard!.querySelector(".speaker-company-logo")
+  ).toBeInTheDocument();
+});
+
 
   it("uses accessible names for every speaker portrait", () => {
     render(<Speakers />);

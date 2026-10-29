@@ -30,7 +30,7 @@ export const PREVIOUS_SPEAKERS: Speaker[] = [
   { name: "Neelam Godihal", designation: "Sr. Software Engineer", src: neelamPhoto, imagePosition: "center 32%" },
   {
     name: "Swaroop Ghosh",
-    designation: "COO, R&D Critical Information Protection Leader, Nokia",
+    designation: "COO, R&D Critical Information Protection Leader",
     src: swaroopPhoto,
   },
   {
