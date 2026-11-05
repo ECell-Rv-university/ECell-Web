@@ -47,6 +47,7 @@ const timeNow = (): string => new Intl.DateTimeFormat("en-IN", {
 
 export default function WhatsAppCommunity(): React.ReactElement {
   const sectionRef = useRef<HTMLElement | null>(null);
+  const cardRef = useRef<HTMLDivElement | null>(null);
   const replyTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const replyIndexRef = useRef(0);
   const messagesRef = useRef<HTMLDivElement | null>(null);
@@ -126,15 +127,27 @@ export default function WhatsAppCommunity(): React.ReactElement {
       {isDecorativeReady && (
         <div className="whatsapp-community-ambient-glow" aria-hidden="true" />
       )}
+      <div className="whatsapp-laser-flow" aria-hidden="true">
+        <LaserFlow
+          surfaceRef={cardRef}
+            beamPosition={0.58}
+            color="#5168ff"
+            intensity={2.1}
+            beamWidth={2}
+            flare={2.2}
+            spread={2}
+            spill={1.25}
+            fog={0.55}
+            dust={1.8}
+            streaks={2}
+            intro={false}
+            mouseInteraction
+          revealImage={undefined}
+            dpr={1.5}
+        />
+      </div>
       <div className="wrap whatsapp-community-wrap">
-        <div className="whatsapp-laser-header" aria-hidden="true">
-          <LaserFlow
-            horizontalBeamOffset={0.1}
-            verticalBeamOffset={0.0}
-            color="#8EDCFF"
-          />
-        </div>
-        <div className="whatsapp-community-card">
+        <div ref={cardRef} className="whatsapp-community-card">
           <div className="whatsapp-community-copy">
             <span className="whatsapp-community-eyebrow">
               THE ECELL INNER CIRCLE
