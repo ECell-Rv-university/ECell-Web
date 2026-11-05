@@ -58,10 +58,19 @@ export default function WhatsAppCommunity(): React.ReactElement {
   // Decorative DOM is mounted after hydration so browser extensions cannot
   // make the server-rendered tree differ from React's first client render.
   const [isDecorativeReady, setIsDecorativeReady] = useState<boolean>(false);
+  const [beamPosition, setBeamPosition] = useState<number>(0.58);
 
   useEffect(() => {
     const frame = requestAnimationFrame(() => setIsDecorativeReady(true));
-    return () => cancelAnimationFrame(frame);
+    const updateBeamPos = () => {
+      setBeamPosition(window.innerWidth <= 860 ? 0.5 : 0.58);
+    };
+    updateBeamPos();
+    window.addEventListener("resize", updateBeamPos, { passive: true });
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("resize", updateBeamPos);
+    };
   }, []);
 
   useEffect(() => {
@@ -130,20 +139,20 @@ export default function WhatsAppCommunity(): React.ReactElement {
       <div className="whatsapp-laser-flow" aria-hidden="true">
         <LaserFlow
           surfaceRef={cardRef}
-            beamPosition={0.58}
-            color="#5168ff"
-            intensity={2.1}
-            beamWidth={2}
-            flare={2.2}
-            spread={2}
-            spill={1.25}
-            fog={0.55}
-            dust={1.8}
-            streaks={2}
-            intro={false}
-            mouseInteraction
+          beamPosition={beamPosition}
+          color="#5168ff"
+          intensity={1.45}
+          beamWidth={1.1}
+          flare={1.25}
+          spread={1.8}
+          spill={1.05}
+          fog={0.06}
+          dust={1.0}
+          streaks={2.2}
+          intro={false}
+          mouseInteraction
           revealImage={undefined}
-            dpr={1.5}
+          dpr={1.5}
         />
       </div>
       <div className="wrap whatsapp-community-wrap">

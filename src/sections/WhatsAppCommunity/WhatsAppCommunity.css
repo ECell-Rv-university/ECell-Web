@@ -7,8 +7,7 @@
   justify-content: flex-end;
   padding: 180px 0 50px;
   background:
-    radial-gradient(ellipse 48% 62% at 58% 42%, rgba(81, 104, 255, 0.16), transparent 72%),
-    radial-gradient(ellipse 80% 55% at 50% 32%, rgba(142, 220, 255, 0.08), transparent 72%),
+    radial-gradient(ellipse 50% 45% at 58% 28%, rgba(81, 104, 255, 0.08), transparent 70%),
     var(--bg, #1a1a1a);
   color: var(--fg, #f4f4f2);
   isolation: isolate;
@@ -16,19 +15,7 @@
 }
 
 .whatsapp-community-ambient-glow {
-  position: absolute;
-  top: 15%;
-  left: 58%;
-  transform: translateX(-50%);
-  width: min(90vw, 800px);
-  height: 400px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(142, 220, 255, 0.05), transparent 70%);
-  filter: blur(60px);
-  pointer-events: none;
-  z-index: 0;
-  transition: opacity 300ms ease, transform 300ms ease;
-  will-change: opacity, transform;
+  display: none;
 }
 
 .whatsapp-community .wrap,
@@ -113,27 +100,13 @@
   grid-template-columns: minmax(0, 1.08fr) minmax(360px, 0.92fr);
   min-height: 520px;
   overflow: hidden;
-  border: 5px solid transparent;
-  border-radius: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-left-color: transparent;
+  border-radius: 28px;
   background:
-    linear-gradient(145deg, #141518 0%, #0d0e10 65%, #0e141a 100%) padding-box,
-    linear-gradient(
-      180deg,
-      rgba(142, 220, 255, 1.0) 0%,
-      rgba(142, 220, 255, 0.7) 8%,
-      rgba(142, 220, 255, 0.4) 20%,
-      rgba(142, 220, 255, 0.2) 40%,
-      rgba(142, 220, 255, 0.08) 70%,
-      rgba(142, 220, 255, 0.04) 100%
-    ) border-box;
-  /* The drop shadow stays within the section's 50px bottom padding; a longer
-     one was clipped by overflow: hidden and left a hard line above the footer. */
+    linear-gradient(160deg, #131419 0%, #0d0e12 60%, #0a0b0e 100%);
   box-shadow:
-    0 16px 34px rgba(0, 0, 0, 0.55),
-    0 -8px 40px rgba(142, 220, 255, 0.12),
-    0 -4px 20px rgba(142, 220, 255, 0.08),
-    inset 0 1px 0 rgba(142, 220, 255, 0.4),
-    inset 0 0 20px rgba(142, 220, 255, 0.03);
+    0 26px 54px -12px rgba(0, 0, 0, 0.8);
   transition: border-color 260ms ease, box-shadow 260ms ease, transform 260ms ease;
 }
 
@@ -148,40 +121,16 @@
   pointer-events: none;
 }
 
-/* Beam impact glow — radiates from top center where the beam hits */
+/* Beam impact glow — handled directly by LaserFlow WebGL shader */
 .whatsapp-community-card::after {
-  position: absolute;
-  top: -2px;
-  left: 58%;
-  transform: translateX(-50%);
-  width: 320px;
-  height: 180px;
-  border-radius: 0 0 50% 50%;
-  background: radial-gradient(
-    ellipse 160px 90px at 50% 0%,
-    rgba(142, 220, 255, 0.25) 0%,
-    rgba(142, 220, 255, 0.12) 30%,
-    rgba(142, 220, 255, 0.04) 60%,
-    transparent 100%
-  );
-  content: "";
-  pointer-events: none;
-  animation: beam-impact-pulse 3s ease-in-out infinite;
-}
-
-@keyframes beam-impact-pulse {
-  0%, 100% { opacity: 0.7; }
-  50% { opacity: 1; }
+  display: none;
 }
 
 .whatsapp-community-card:hover {
+  border-color: rgba(255, 255, 255, 0.14);
   box-shadow:
-    0 18px 32px rgba(0, 0, 0, 0.65),
-    0 -10px 60px rgba(142, 220, 255, 0.2),
-    0 -4px 24px rgba(142, 220, 255, 0.15),
-    0 0 50px rgba(142, 220, 255, 0.1),
-    inset 0 1px 0 rgba(142, 220, 255, 0.6),
-    inset 0 0 30px rgba(142, 220, 255, 0.06);
+    0 32px 64px -14px rgba(0, 0, 0, 0.85),
+    0 0 0 1px rgba(255, 255, 255, 0.06);
 }
 
 .whatsapp-community-copy {

@@ -181,15 +181,16 @@ void main() {
   float rise = max(hp - 17.9 * flare, 0.0);
   float skirtAmp = 16.6 * (exp(-sq(rise / (11.8 * flare))) + 0.3 * exp(-rise / (60.0 * flare)));
   float skirtSpread = mix(134.0, 155.0, side) * breathe * flare * flare * mix(0.35, 1.0, min(bloom, 1.0)) * max(bloom, 1.0);
-  float skirt = skirtAmp * exp(-psi / skirtSpread) * exp(-sq(adx / (max(layerLen, 60.0 * sqrt(uShape.z)) * 1.48))) * hug;
+  float leftCutoff = dx < 0.0 ? smoothstep(sl + 0.35 * reachL, bx, p.x) : 1.0;
+  float skirt = skirtAmp * exp(-psi / skirtSpread) * exp(-sq(adx / (max(layerLen, 60.0 * sqrt(uShape.z)) * 1.48))) * hug * leftCutoff;
   col += sideK * skirt * flowMask * min(bloom, 1.0);
 
-  float layer = 12.0 * exp(-adx / layerLen) * exp(-outline / (0.19 * layerLen)) * (1.0 + 0.4 * bead);
+  float layer = 12.0 * exp(-adx / layerLen) * exp(-outline / (0.19 * layerLen)) * (1.0 + 0.4 * bead) * leftCutoff;
   col += sideK * layer * hug * flowMask * min(bloom, 1.0);
   float washMask = smoothstep(sl - 60.0, sl + 6.0, p.x) * (1.0 - smoothstep(sr - 6.0, sr + 45.0, p.x));
-  float wash = 1.4 * exp(-adx / 100.0) * exp(-outline / 30.0);
+  float wash = 1.4 * exp(-adx / 100.0) * exp(-outline / 30.0) * leftCutoff;
   col += mix(BEAM, sideK, 0.25) * wash * hugWide * washMask * flowMask * min(bloom, 1.0);
-  float highWash = 0.7 * exp(-adx / 140.0) * exp(-outline / 60.0);
+  float highWash = 0.7 * exp(-adx / 140.0) * exp(-outline / 60.0) * leftCutoff;
   col += mix(BEAM, NAVY, 0.5) * highWash * hugWide * washMask * runMask * min(bloom, 1.0);
 
   float sideSign = dx < 0.0 ? 0.0 : 1.0;
@@ -207,29 +208,27 @@ void main() {
   float lineFlow = smoothstep(0.25, 0.85, noise(vec2(lineIndex * 5.3 + 2.0, along * 3.0 + t * 1.1)));
   float flareArea = 120.0 * flare * flare;
   float lineEnvelope = smoothstep(0.85 * flareArea, 1.4 * flareArea, psi) * (1.0 - smoothstep(3.2 * flareArea, 7.5 * flareArea, psi));
-  lineEnvelope *= exp(-adx / (layerLen * 1.5)) * hug * flowMask * (1.0 - smoothstep(35.0 * flare, 80.0 * flare, hp));
+  lineEnvelope *= exp(-adx / (layerLen * 1.5)) * hug * flowMask * (1.0 - smoothstep(35.0 * flare, 80.0 * flare, hp)) * leftCutoff;
   float lineBright = mix(0.35, 1.0, hash(vec2(lineIndex, 4.0)));
   col += mix(sideK, WHITE, 0.6) * lineShape * lineOn * lineFlow * lineEnvelope * lineBright * 2.6 * uAmount.w * min(bloom, 1.0);
 
   float edgeGlow = 22.8 * exp(-sq(adx / (150.0 * uShape.z))) * edgeMask * (1.0 + 0.9 * bead);
   float onTop = 1.0 - smoothstep(sy + radius, sy + radius + 10.0, p.y);
-  float edgeLine = (exp(-sq(max(sd, 0.0) / 0.9)) + 0.12 * exp(-max(sd, 0.0) / 3.0)) * edgeGlow * onTop;
+  float edgeLine = (exp(-sq(max(sd, 0.0) / 0.9)) + 0.12 * exp(-max(sd, 0.0) / 3.0)) * edgeGlow * onTop * leftCutoff;
   col += mix(sideK, WHITE, 0.6) * edgeLine * min(bloom, 1.0);
 
   float pour = uShape.w;
   float baseline = exp(-sq(130.0 / 150.0));
   float strengthR = exp(-sq(reachR / (150.0 * uShape.z))) * (1.0 - smoothstep(0.8 * spread, 1.25 * spread, reachR)) / baseline * pour;
-  float strengthL = exp(-sq(reachL / (150.0 * uShape.z))) * (1.0 - smoothstep(0.8 * spread, 1.25 * spread, reachL)) / baseline * pour;
+  float strengthL = 0.0;
   float fallY = p.y - sy - 0.3 * radius;
   float rightHalf = smoothstep(center.x - 4.0, center.x + 4.0, p.x);
   float haloR = exp(-length(p - vec2(sr - 0.3 * radius, sy + 0.3 * radius)) / 40.0) * sqrt(strengthR);
-  float haloL = exp(-length(p - vec2(sl + 0.3 * radius, sy + 0.3 * radius)) / 40.0) * sqrt(strengthL);
+  float haloL = 0.0;
   vec3 glowR;
-  vec3 glowL;
+  vec3 glowL = vec3(0.0);
   col += spill(sd, fallY, strengthR, uPour.y, t, glowR) * rightHalf;
-  col += spill(sd, fallY, strengthL, uPour.x, t, glowL) * (1.0 - rightHalf);
   col += easeLight(glowR * rightHalf + NAVY * 0.9 * haloR, uPour.w);
-  col += easeLight(glowL * (1.0 - rightHalf) + NAVY * 0.9 * haloL, uPour.z);
 
   vec2 toLens = frag - uLens.xy;
   float lens = exp(-dot(toLens, toLens) / sq(uLens.z)) * uLens.w;
@@ -671,14 +670,12 @@ export const LaserFlow = ({
       const { width, height } = state;
       const scale = Math.max(0.2, Math.min(width / 585, height / 507));
       let surface = measure(s, width, height);
-      let beamX = s.beamPosition * width;
+      let beamX = surface.real
+        ? surface.left + s.beamPosition * (surface.right - surface.left)
+        : s.beamPosition * width;
       if (surface.real) {
         const margin = surface.radius + 6;
-        if (beamX >= surface.left && beamX <= surface.right) {
-          beamX = clamp(beamX, surface.left + margin, surface.right - margin);
-        } else {
-          surface = { left: -width * 2, top: height, right: width * 3, bottom: height * 3, radius: 0, real: false };
-        }
+        beamX = clamp(beamX, surface.left + margin, surface.right - margin);
       }
       const startY = -0.15 * height;
       const span = surface.top - startY + 0.3 * height;
