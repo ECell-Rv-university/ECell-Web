@@ -22,7 +22,7 @@ export const EVENTS: EventSummary[] = [
     slug: "hacktoberfest-26",
     title: "Hacktoberfest '26",
     category: "Hackathons",
-    status: "upcoming",
+    status: "past",
     startDate: "2026-10-31",
     summary:
       "A hands-on mini-hackathon celebrating open source with open-source AI and open-weight models, hosted by ECell and AWS SBG RVU.",
