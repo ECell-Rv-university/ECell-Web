@@ -11,6 +11,15 @@ describe("WhatsAppCommunity", () => {
     expect(screen.getByPlaceholderText(/Type a question here.../i)).toBeInTheDocument();
   });
 
+  it("gives the laser layer the full section height above the community card", () => {
+    const { container } = render(<WhatsAppCommunity />);
+
+    const section = container.querySelector(".whatsapp-community");
+    const laserLayer = container.querySelector(".whatsapp-laser-flow");
+
+    expect(laserLayer?.parentElement).toBe(section);
+  });
+
   it("submits a message through the input field", () => {
     render(<WhatsAppCommunity />);
 

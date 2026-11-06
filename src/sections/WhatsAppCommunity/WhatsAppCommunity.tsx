@@ -47,6 +47,7 @@ const timeNow = (): string => new Intl.DateTimeFormat("en-IN", {
 
 export default function WhatsAppCommunity(): React.ReactElement {
   const sectionRef = useRef<HTMLElement | null>(null);
+  const cardRef = useRef<HTMLDivElement | null>(null);
   const replyTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const replyIndexRef = useRef(0);
   const messagesRef = useRef<HTMLDivElement | null>(null);
@@ -57,10 +58,19 @@ export default function WhatsAppCommunity(): React.ReactElement {
   // Decorative DOM is mounted after hydration so browser extensions cannot
   // make the server-rendered tree differ from React's first client render.
   const [isDecorativeReady, setIsDecorativeReady] = useState<boolean>(false);
+  const [beamPosition, setBeamPosition] = useState<number>(0.58);
 
   useEffect(() => {
     const frame = requestAnimationFrame(() => setIsDecorativeReady(true));
-    return () => cancelAnimationFrame(frame);
+    const updateBeamPos = () => {
+      setBeamPosition(window.innerWidth <= 860 ? 0.5 : 0.58);
+    };
+    updateBeamPos();
+    window.addEventListener("resize", updateBeamPos, { passive: true });
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("resize", updateBeamPos);
+    };
   }, []);
 
   useEffect(() => {
@@ -126,15 +136,28 @@ export default function WhatsAppCommunity(): React.ReactElement {
       {isDecorativeReady && (
         <div className="whatsapp-community-ambient-glow" aria-hidden="true" />
       )}
+      <div className="whatsapp-laser-flow" aria-hidden="true">
+        <LaserFlow
+          surfaceRef={cardRef}
+          beamPosition={beamPosition}
+          color="#5168ff"
+          intensity={1.5}
+          beamWidth={1.05}
+          flare={0.7}
+          spread={1.4}
+          spill={0.6}
+          fog={0}
+          dust={1.0}
+          streaks={1.6}
+          dots={1.0}
+          intro={false}
+          mouseInteraction={true}
+          revealImage={undefined}
+          dpr={1.5}
+        />
+      </div>
       <div className="wrap whatsapp-community-wrap">
-        <div className="whatsapp-laser-header" aria-hidden="true">
-          <LaserFlow
-            horizontalBeamOffset={0.1}
-            verticalBeamOffset={0.0}
-            color="#8EDCFF"
-          />
-        </div>
-        <div className="whatsapp-community-card">
+        <div ref={cardRef} className="whatsapp-community-card">
           <div className="whatsapp-community-copy">
             <span className="whatsapp-community-eyebrow">
               THE ECELL INNER CIRCLE
