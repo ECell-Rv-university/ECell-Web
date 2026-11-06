@@ -143,15 +143,15 @@ export default function WhatsAppCommunity(): React.ReactElement {
           color="#5168ff"
           intensity={1.5}
           beamWidth={1.05}
-          flare={0.9}
-          spread={1.5}
-          spill={0.75}
-          fog={0.02}
-          dust={0.6}
-          streaks={1.8}
-          dots={0.5}
+          flare={0.7}
+          spread={1.4}
+          spill={0.6}
+          fog={0}
+          dust={1.0}
+          streaks={1.6}
+          dots={1.0}
           intro={false}
-          mouseInteraction
+          mouseInteraction={true}
           revealImage={undefined}
           dpr={1.5}
         />

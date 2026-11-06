@@ -7,7 +7,7 @@
   justify-content: flex-end;
   padding: 180px 0 50px;
   background:
-    radial-gradient(ellipse 50% 45% at 58% 28%, rgba(81, 104, 255, 0.08), transparent 70%),
+    radial-gradient(ellipse 50% 45% at 58% 28%, rgba(81, 104, 255, 0.02), transparent 70%),
     var(--bg, #1a1a1a);
   color: var(--fg, #f4f4f2);
   isolation: isolate;
@@ -115,10 +115,8 @@
     ) border-box;
   box-shadow:
     0 26px 54px -12px rgba(0, 0, 0, 0.8),
-    0 -8px 36px rgba(81, 104, 255, 0.22),
-    0 -3px 18px rgba(115, 140, 255, 0.18),
-    inset 0 1px 0 rgba(190, 210, 255, 0.45),
-    inset 0 0 24px rgba(81, 104, 255, 0.05);
+    0 -2px 10px rgba(81, 104, 255, 0.16),
+    inset 0 1px 0 rgba(190, 210, 255, 0.45);
   transition: box-shadow 260ms ease, transform 260ms ease;
 }
 
@@ -139,13 +137,12 @@
 }
 
 .whatsapp-community-card:hover {
+  transform: translateY(-2px);
   box-shadow:
     0 32px 64px -14px rgba(0, 0, 0, 0.85),
-    0 -10px 48px rgba(81, 104, 255, 0.32),
-    0 -4px 24px rgba(140, 165, 255, 0.28),
-    0 0 45px rgba(81, 104, 255, 0.18),
-    inset 0 1px 0 rgba(210, 225, 255, 0.7),
-    inset 0 0 35px rgba(81, 104, 255, 0.08);
+    0 -6px 28px rgba(81, 104, 255, 0.35),
+    0 0 40px rgba(81, 104, 255, 0.2),
+    inset 0 1px 0 rgba(210, 225, 255, 0.75);
 }
 
 .whatsapp-community-copy {

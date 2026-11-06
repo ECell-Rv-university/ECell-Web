@@ -171,26 +171,26 @@ void main() {
   float falling = 1.0 - smoothstep(sy - 24.0, sy, front);
   float top = mix(0.3, 1.0, smoothstep(0.0, 0.3 * sy, p.y));
   float beamCore = 30.0 * exp(-adx / (2.0 * beamWidth));
-  float beamHalo = 2.0 * exp(-adx / (6.0 * beamWidth)) + 0.4 * exp(-adx / (16.0 * beamWidth));
-  vec3 haloK = mix(BEAM, sideK, exp(-hp / 70.0));
+  float beamHalo = 1.8 * exp(-adx / (5.0 * beamWidth)) + 0.25 * exp(-adx / (12.0 * beamWidth));
+  vec3 haloK = mix(BEAM, sideK, exp(-hp / 50.0));
   col += (BEAM * beamCore + haloK * beamHalo) * top * above * drop;
   float head = exp(-sq((p.y - front) / 24.0)) * falling;
   col += mix(WHITE, BEAM, 0.35) * head * (7.0 * exp(-adx / (2.6 * beamWidth)) + 1.0 * exp(-adx / (14.0 * beamWidth)));
 
   float psi = adx * (outline + 1.0);
   float rise = max(hp - 17.9 * flare, 0.0);
-  float skirtAmp = 9.0 * (exp(-sq(rise / (10.0 * flare))) + 0.08 * exp(-rise / (25.0 * flare)));
-  float skirtSpread = mix(80.0, 100.0, side) * breathe * flare * flare * mix(0.35, 1.0, min(bloom, 1.0)) * max(bloom, 1.0);
+  float skirtAmp = 5.0 * exp(-sq(rise / (8.0 * flare)));
+  float skirtSpread = mix(60.0, 75.0, side) * breathe * flare * flare * mix(0.35, 1.0, min(bloom, 1.0)) * max(bloom, 1.0);
   float leftCutoff = dx < 0.0 ? smoothstep(sl + 0.35 * reachL, bx, p.x) : 1.0;
   float skirt = skirtAmp * exp(-psi / skirtSpread) * exp(-sq(adx / (max(layerLen, 60.0 * sqrt(uShape.z)) * 1.48))) * hug * leftCutoff;
   col += sideK * skirt * flowMask * min(bloom, 1.0);
 
-  float layer = 8.5 * exp(-adx / layerLen) * exp(-outline / (0.19 * layerLen)) * (1.0 + 0.4 * bead) * leftCutoff;
+  float layer = 4.0 * exp(-adx / layerLen) * exp(-outline / (0.12 * layerLen)) * (1.0 + 0.4 * bead) * leftCutoff;
   col += sideK * layer * hug * flowMask * min(bloom, 1.0);
   float washMask = smoothstep(sl - 60.0, sl + 6.0, p.x) * (1.0 - smoothstep(sr - 6.0, sr + 45.0, p.x));
-  float wash = 0.5 * exp(-adx / 70.0) * exp(-outline / 20.0) * leftCutoff;
+  float wash = 0.2 * exp(-adx / 50.0) * exp(-outline / 12.0) * leftCutoff;
   col += mix(BEAM, sideK, 0.25) * wash * hugWide * washMask * flowMask * min(bloom, 1.0);
-  float highWash = 0.12 * exp(-adx / 80.0) * exp(-outline / 30.0) * leftCutoff;
+  float highWash = 0.0;
   col += mix(BEAM, NAVY, 0.5) * highWash * hugWide * washMask * runMask * min(bloom, 1.0);
 
   float sideSign = dx < 0.0 ? 0.0 : 1.0;
@@ -232,7 +232,7 @@ void main() {
 
   vec2 toLens = frag - uLens.xy;
   float lens = exp(-dot(toLens, toLens) / sq(uLens.z)) * uLens.w;
-  col *= 1.0 + 0.35 * lens * hug;
+  col *= 1.0 + 0.45 * lens * hug;
   float fogAmount = uAmount.y * uAtmosphere;
   float near = exp(-adx / 150.0);
   float envelope = near * (0.3 + 0.4 * exp(-hp / 50.0) + 1.2 * exp(-p.y / 120.0));
@@ -266,7 +266,7 @@ void main() {
 
   float haze = col.b;
   float dotGrid = 1.0 - smoothstep(0.16, 0.32, length(fract(frag / 3.0) - 0.5));
-  col += BEAM * dotGrid * clamp(haze, 0.0, 1.5) * (1.0 - smoothstep(1.5, 4.0, haze)) * (0.05 + 0.25 * lens) * uExtra.y;
+  col += BEAM * dotGrid * clamp(haze, 0.0, 1.5) * (1.0 - smoothstep(1.5, 4.0, haze)) * 0.015 * uExtra.y;
   if (lens > 0.002) {
     vec2 drift = frag - vec2(0.0, t * 14.0);
     vec2 sparkCell = floor(drift / 7.0);
@@ -274,7 +274,9 @@ void main() {
     float sparkDist = length(drift - sparkPos);
     float sparkOn = step(0.8, hash(sparkCell + 8.8));
     float sparkTwinkle = 0.5 + 0.5 * sin(t * 5.0 + hash(sparkCell + 3.7) * 6.283);
-    col += WHITE * exp(-sparkDist * sparkDist / 0.35) * sparkOn * sparkTwinkle * lens * clamp(haze * 1.5, 0.0, 1.0) * 1.6 * uAmount.z;
+    col += WHITE * exp(-sparkDist * sparkDist / 0.35) * sparkOn * sparkTwinkle * lens * 1.8 * max(uAmount.z, 0.8);
+    col += BEAM * dotGrid * lens * 0.3 * uExtra.y;
+    col += mix(BEAM, LAVENDER, 0.35) * 0.18 * lens;
   }
 
   float dustAmount = uAmount.z;
