@@ -141,14 +141,14 @@ export default function WhatsAppCommunity(): React.ReactElement {
           surfaceRef={cardRef}
           beamPosition={beamPosition}
           color="#5168ff"
-          intensity={1.45}
-          beamWidth={1.1}
-          flare={1.25}
-          spread={1.8}
-          spill={1.05}
-          fog={0.06}
-          dust={1.0}
-          streaks={2.2}
+          intensity={1.6}
+          beamWidth={1.0}
+          flare={1.1}
+          spread={1.6}
+          spill={0.85}
+          fog={0.04}
+          dust={0.8}
+          streaks={2.0}
           intro={false}
           mouseInteraction
           revealImage={undefined}

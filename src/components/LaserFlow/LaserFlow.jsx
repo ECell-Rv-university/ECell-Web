@@ -98,8 +98,8 @@ vec3 spill(float e, float fall, float strength, float front, float t, out vec3 g
   float soft = sqrt(strength);
   float warmth = smoothstep(90.0, 130.0, f);
   vec3 coreK = mix(WHITE, WARM, warmth * exp(-d / 9.0));
-  float core = mix(9.0, 2.6, warmth) * exp(-sq(d / (3.5 + 0.04 * f))) * exp(-sq(max(f - 130.0, 0.0) / 38.0));
-  float wall = 24.0 * exp(-sq(d / 1.1)) * exp(-sq(max(f - 100.0, 0.0) / 30.0));
+  float core = mix(5.0, 1.8, warmth) * exp(-sq(d / (3.5 + 0.04 * f))) * exp(-sq(max(f - 130.0, 0.0) / 38.0));
+  float wall = 14.0 * exp(-sq(d / 1.1)) * exp(-sq(max(f - 100.0, 0.0) / 30.0));
   float bandCenter = 0.7 - 0.3 * smoothstep(30.0, 110.0, f);
   float offset = u - bandCenter;
   float decay = (1.05 - bandCenter) / 1.31;
@@ -111,8 +111,8 @@ vec3 spill(float e, float fall, float strength, float front, float t, out vec3 g
   vec3 fanK = mix(bandA, bandB, smoothstep(0.06, 0.18, offset));
   fanK = mix(fanK, DEEP, smoothstep(0.22, 0.42, offset));
   vec3 thread = WHITE * wall * bright + coreK * core * streak * bright;
-  glow += fanK * 4.5 * profile * fade * streak * bright;
-  glow += MIST * 0.7 * exp(-max(u - 1.0, 0.0) / 0.9) * smoothstep(0.7, 1.2, u) * fade * soft;
+  glow += fanK * 2.5 * profile * fade * streak * bright;
+  glow += MIST * 0.4 * exp(-max(u - 1.0, 0.0) / 0.9) * smoothstep(0.7, 1.2, u) * fade * soft;
   glow += EMBER * 0.35 * exp(-sq((f - 165.0) / 22.0)) * exp(-d / 25.0) * bright;
   float lag = u * (6.0 + 0.28 * f) * 0.35;
   float reveal = 1.0 - smoothstep(front - 70.0, front + 8.0, f + lag);
@@ -170,7 +170,7 @@ void main() {
   float drop = smoothstep(front + 10.0, front - 110.0, p.y);
   float falling = 1.0 - smoothstep(sy - 24.0, sy, front);
   float top = mix(0.3, 1.0, smoothstep(0.0, 0.3 * sy, p.y));
-  float beamCore = 24.0 * exp(-adx / (2.0 * beamWidth));
+  float beamCore = 28.0 * exp(-adx / (2.0 * beamWidth));
   float beamHalo = 1.3 * exp(-adx / (6.0 * beamWidth)) + 0.3 * exp(-adx / (22.0 * beamWidth));
   vec3 haloK = mix(BEAM, sideK, exp(-hp / 80.0));
   col += (BEAM * beamCore + haloK * beamHalo) * top * above * drop;
@@ -179,18 +179,18 @@ void main() {
 
   float psi = adx * (outline + 1.0);
   float rise = max(hp - 17.9 * flare, 0.0);
-  float skirtAmp = 16.6 * (exp(-sq(rise / (11.8 * flare))) + 0.3 * exp(-rise / (60.0 * flare)));
+  float skirtAmp = 9.0 * (exp(-sq(rise / (11.8 * flare))) + 0.3 * exp(-rise / (60.0 * flare)));
   float skirtSpread = mix(134.0, 155.0, side) * breathe * flare * flare * mix(0.35, 1.0, min(bloom, 1.0)) * max(bloom, 1.0);
   float leftCutoff = dx < 0.0 ? smoothstep(sl + 0.35 * reachL, bx, p.x) : 1.0;
   float skirt = skirtAmp * exp(-psi / skirtSpread) * exp(-sq(adx / (max(layerLen, 60.0 * sqrt(uShape.z)) * 1.48))) * hug * leftCutoff;
   col += sideK * skirt * flowMask * min(bloom, 1.0);
 
-  float layer = 12.0 * exp(-adx / layerLen) * exp(-outline / (0.19 * layerLen)) * (1.0 + 0.4 * bead) * leftCutoff;
+  float layer = 7.0 * exp(-adx / layerLen) * exp(-outline / (0.19 * layerLen)) * (1.0 + 0.4 * bead) * leftCutoff;
   col += sideK * layer * hug * flowMask * min(bloom, 1.0);
   float washMask = smoothstep(sl - 60.0, sl + 6.0, p.x) * (1.0 - smoothstep(sr - 6.0, sr + 45.0, p.x));
-  float wash = 1.4 * exp(-adx / 100.0) * exp(-outline / 30.0) * leftCutoff;
+  float wash = 0.8 * exp(-adx / 100.0) * exp(-outline / 30.0) * leftCutoff;
   col += mix(BEAM, sideK, 0.25) * wash * hugWide * washMask * flowMask * min(bloom, 1.0);
-  float highWash = 0.7 * exp(-adx / 140.0) * exp(-outline / 60.0) * leftCutoff;
+  float highWash = 0.35 * exp(-adx / 140.0) * exp(-outline / 60.0) * leftCutoff;
   col += mix(BEAM, NAVY, 0.5) * highWash * hugWide * washMask * runMask * min(bloom, 1.0);
 
   float sideSign = dx < 0.0 ? 0.0 : 1.0;
@@ -212,7 +212,7 @@ void main() {
   float lineBright = mix(0.35, 1.0, hash(vec2(lineIndex, 4.0)));
   col += mix(sideK, WHITE, 0.6) * lineShape * lineOn * lineFlow * lineEnvelope * lineBright * 2.6 * uAmount.w * min(bloom, 1.0);
 
-  float edgeGlow = 22.8 * exp(-sq(adx / (150.0 * uShape.z))) * edgeMask * (1.0 + 0.9 * bead);
+  float edgeGlow = 12.0 * exp(-sq(adx / (150.0 * uShape.z))) * edgeMask * (1.0 + 0.9 * bead);
   float onTop = 1.0 - smoothstep(sy + radius, sy + radius + 10.0, p.y);
   float edgeLine = (exp(-sq(max(sd, 0.0) / 0.9)) + 0.12 * exp(-max(sd, 0.0) / 3.0)) * edgeGlow * onTop * leftCutoff;
   col += mix(sideK, WHITE, 0.6) * edgeLine * min(bloom, 1.0);
@@ -228,7 +228,7 @@ void main() {
   vec3 glowR;
   vec3 glowL = vec3(0.0);
   col += spill(sd, fallY, strengthR, uPour.y, t, glowR) * rightHalf;
-  col += easeLight(glowR * rightHalf + NAVY * 0.9 * haloR, uPour.w);
+  col += easeLight(glowR * rightHalf + NAVY * 0.5 * haloR, uPour.w);
 
   vec2 toLens = frag - uLens.xy;
   float lens = exp(-dot(toLens, toLens) / sq(uLens.z)) * uLens.w;
