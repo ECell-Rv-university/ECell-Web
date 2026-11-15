@@ -6,6 +6,7 @@ import { SITE_LINKS } from "@/src/content/site";
 
 // WebGL beam (three.js) far down the page: load it in its own chunk.
 const LaserFlow = dynamic(() => import("@/src/components/LaserFlow"), { ssr: false });
+import CosmicSectionBackdrop from "@/src/components/Cosmic/CosmicSectionBackdrop";
 import "./WhatsAppCommunity.css";
 
 export interface Message {
@@ -133,6 +134,23 @@ export default function WhatsAppCommunity(): React.ReactElement {
       id="community"
       aria-labelledby="community-heading"
     >
+      <CosmicSectionBackdrop
+        planet="blackhole"
+        planetPlacement={{
+          bottom: "6%",
+          right: "calc(var(--bh-w, 240px) * -0.22)",
+          width: "clamp(220px, 20vw, 320px)",
+        }}
+        starsCount={32}
+        seed={707}
+        constellation="vortex"
+        constellationPlacement={{
+          top: "40%",
+          left: "2%",
+          width: "clamp(85px, 8vw, 120px)",
+        }}
+        sectionId="community"
+      />
       {isDecorativeReady && (
         <div className="whatsapp-community-ambient-glow" aria-hidden="true" />
       )}

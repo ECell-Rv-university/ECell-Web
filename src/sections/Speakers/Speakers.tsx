@@ -14,9 +14,14 @@ import ratchLogo from "@/src/assets/speaker-logo/ratch-ai.webp";
 import stealthLogo from "@/src/assets/speaker-logo/stealth-Photoroom.webp";
 import edockLogo from "@/src/assets/speaker-logo/edock.webp";
 import wandLogo from "@/src/assets/speaker-logo/wand.webp";
+import flipkartLogo from "@/src/assets/speaker-logo/flipkart.webp";
+import githubLogo from "@/src/assets/speaker-logo/github.webp";
+import goldmanSachsLogo from "@/src/assets/speaker-logo/goldman-sachs.webp";
+import walmartLogo from "@/src/assets/speaker-logo/walmart.webp";
 import { useEffect, useRef, type ReactElement } from "react";
 import { PREVIOUS_SPEAKERS } from "@/src/content/speakers";
 import { gsap, SplitText } from "@/src/utils/gsapSetup";
+import CosmicSectionBackdrop from "@/src/components/Cosmic/CosmicSectionBackdrop";
 import "./styles/Speakers.css";
 
 export type { Speaker } from "@/src/content/speakers";
@@ -38,6 +43,12 @@ const SPEAKER_LOGOS: Record<string, StaticImageData> = {
   "Arshdeep Singh": edockLogo,
   "Ambika J": finastraLogo,
   "Biplab Guha": stealthLogo,
+  "Soham Jadhav": flipkartLogo,
+  "Dhiwakar Kusuma": githubLogo,
+  "Pratiksha Nayak": goldmanSachsLogo,
+  "Chandrama Bhowmik": morganStanleyLogo,
+  "Shubhank Hugar": jpMorganLogo,
+  "Prajwal Uppoor": walmartLogo,
 };
 
 export default function Speakers(): ReactElement {
@@ -79,6 +90,15 @@ export default function Speakers(): ReactElement {
 
   return (
     <section className="speakers-section" id="speakers" aria-labelledby="speakers-heading">
+      <CosmicSectionBackdrop
+        planet="giant"
+        planetPlacement={{ top: "14%", right: "2%", width: "clamp(130px, 12vw, 200px)" }}
+        starsCount={26}
+        seed={404}
+        constellation="vortex"
+        constellationPlacement={{ top: "48%", left: "2%", width: "clamp(85px, 8vw, 120px)" }}
+        sectionId="speakers"
+      />
       <div className="speakers-reveal-panel">
         <div className="wrap">
           <header ref={headerRef} className="speakers-header">

@@ -4,6 +4,7 @@ import React, { useLayoutEffect, useRef } from "react";
 import Timeline from "@/src/components/Timeline/Timeline";
 import { refreshScroll } from "@/src/utils/lenis";
 import { gsap } from "@/src/utils/gsapSetup";
+import CosmicSectionBackdrop from "@/src/components/Cosmic/CosmicSectionBackdrop";
 import "./About.css";
 
 export default function About(): React.ReactElement {
@@ -131,6 +132,17 @@ export default function About(): React.ReactElement {
 
   return (
     <section ref={sectionRef} className="about wrap" id="aboutSection">
+      <CosmicSectionBackdrop
+        planet="ringed"
+        planetPlacement={{ top: "14%", right: "5%", width: "clamp(115px, 11vw, 175px)" }}
+        starsCount={24}
+        seed={202}
+        constellation="cassiopeia"
+        constellationPlacement={{ top: "42%", right: "3%", width: "clamp(85px, 8vw, 120px)" }}
+        wordmark="ecell"
+        wordmarkPlacement={{ top: "8%", left: "4%" }}
+        sectionId="aboutSection"
+      />
       <div className="relative left-1/2 w-screen -translate-x-1/2">
         <Timeline
           intro={

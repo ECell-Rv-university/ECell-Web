@@ -15,6 +15,12 @@ import ravinPhoto from "@/src/assets/speakers/ravin.webp";
 import shariffPhoto from "@/src/assets/speakers/shariff.webp";
 import sunilPhoto from "@/src/assets/speakers/sunil.webp";
 import swaroopPhoto from "@/src/assets/speakers/swaroop-ghosh.webp";
+import sohamPhoto from "@/src/assets/speakers/soham.webp";
+import dhiwakarPhoto from "@/src/assets/speakers/dhiwakar.webp";
+import pratikshaPhoto from "@/src/assets/speakers/pratiksha.webp";
+import chandramaPhoto from "@/src/assets/speakers/chandrama.webp";
+import shubhankPhoto from "@/src/assets/speakers/shubhank.webp";
+import prajwalPhoto from "@/src/assets/speakers/prajwal.webp";
 
 export type Speaker = Omit<CircularTestimonial, "quote"> & { quote?: string };
 
@@ -66,4 +72,10 @@ export const PREVIOUS_SPEAKERS: Speaker[] = [
    { name: "Bharath KH",
      designation: "Staff Software engineer", 
      src: bharathPhoto },
+  { name: "Soham Jadhav", designation: "Software Development Engineer", src: sohamPhoto, imagePosition: "center 20%" },
+  { name: "Dhiwakar Kusuma", designation: "Technical Partner Manager", src: dhiwakarPhoto, imagePosition: "center 20%" },
+  { name: "Pratiksha Nayak", designation: "Software Development Engineer", src: pratikshaPhoto, imagePosition: "center 20%" },
+  { name: "Chandrama Bhowmik", designation: "Director", src: chandramaPhoto, imagePosition: "center 20%" },
+  { name: "Shubhank Hugar", designation: "Associate Vice President", src: shubhankPhoto, imagePosition: "center 20%" },
+  { name: "Prajwal Uppoor", designation: "SDE 3", src: prajwalPhoto, imagePosition: "center 20%" },
 ];

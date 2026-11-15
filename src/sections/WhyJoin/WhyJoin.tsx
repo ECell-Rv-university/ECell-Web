@@ -5,6 +5,7 @@ import { gsap } from "@/src/utils/gsapSetup";
 import { scrollToY } from "@/src/utils/lenis";
 import { SITE_LINKS } from "@/src/content/site";
 import { WHY_JOIN_REASONS } from "@/src/content/whyJoin";
+import CosmicSectionBackdrop from "@/src/components/Cosmic/CosmicSectionBackdrop";
 import "./WhyJoin.css";
 
 export default function WhyJoin(): React.ReactElement {
@@ -251,6 +252,15 @@ export default function WhyJoin(): React.ReactElement {
 
   return (
     <section ref={sectionRef} className="why-join" id="why-join">
+      <CosmicSectionBackdrop
+        planet="ice"
+        planetPlacement={{ top: "12%", right: "4%", width: "clamp(105px, 9.5vw, 155px)" }}
+        starsCount={24}
+        seed={505}
+        constellation="pegasus"
+        constellationPlacement={{ top: "45%", left: "3%", width: "clamp(85px, 8vw, 120px)" }}
+        sectionId="why-join"
+      />
       <div className="why-join__intro wrap">
         <p className="why-join__eyebrow">Why join ECell</p>
         <h2>Make your college years count.</h2>

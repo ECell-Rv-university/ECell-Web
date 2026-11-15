@@ -1,0 +1,498 @@
+/* ============================================================
+   Cosmic Theme — Awwwards-tier Global Celestial Design System
+   Planets, Starfields, Constellations & Scroll-Driven Spine
+   All animations target transform + opacity (GPU-accelerated)
+   ============================================================ */
+
+/* ── Star Field Canvas ───────────────────────────────────────── */
+.cosmic-star-field {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1;
+}
+
+/* Base twinkling star */
+.backdrop-star {
+  position: absolute;
+  border-radius: 50%;
+  background: #f4f4f2;
+  box-shadow: 0 0 6px rgba(244, 244, 242, 0.45);
+  animation: cosmicTwinkle ease-in-out infinite alternate;
+  will-change: opacity, transform;
+  pointer-events: none;
+}
+
+.backdrop-star.is-dim {
+  opacity: 0.22;
+  box-shadow: none;
+}
+
+@keyframes cosmicTwinkle {
+  0% {
+    opacity: 0.15;
+    transform: scale(0.75);
+  }
+  50% {
+    opacity: 0.85;
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 0.25;
+    transform: scale(0.85);
+  }
+}
+
+/* ── Planets & Celestial Bodies ─────────────────────────────── */
+/* Each planet owns multiple decoupled transform layers:
+   .bg-planet (entrance/placement) > .bg-planet__parallax (cursor/scroll parallax)
+   > .bg-planet__body (hover, click spin, solar/hole effects) > .bg-planet__art (drift) */
+.bg-planets {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.bg-planet {
+  position: absolute;
+  will-change: transform;
+}
+
+.bg-planet__parallax {
+  position: relative;
+  will-change: transform;
+  transition: filter 0.9s cubic-bezier(0.16, 1, 0.3, 1) var(--light-delay, 0s);
+}
+
+.bg-planet__body {
+  position: relative;
+  display: inline-block;
+  transition: scale 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s ease;
+  transform-origin: center center;
+}
+
+.bg-planet__art {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  pointer-events: none;
+  animation: cosmicPlanetDrift 16s ease-in-out infinite alternate;
+  transform-origin: center center;
+}
+
+/* Only the painted SVG shapes take pointer events, not empty box corners */
+.bg-planet__art > :not(defs) {
+  pointer-events: visiblePainted;
+  cursor: pointer;
+}
+
+.bg-planet__body:hover {
+  scale: 1.08;
+  filter: brightness(1.3) drop-shadow(0 0 16px rgba(244, 244, 242, 0.25));
+}
+
+@keyframes cosmicPlanetDrift {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  100% {
+    transform: translate3d(6px, -10px, 0) rotate(3deg);
+  }
+}
+
+/* ── 1. Sun (Radiant Stellar Core) ─────────────────────────── */
+.bg-planet--sun {
+  width: clamp(90px, 9vw, 150px);
+}
+
+.bg-planet--sun .bg-planet__art {
+  opacity: 0.9;
+  animation-duration: 20s;
+}
+
+.bg-planet--sun .bg-planet__body:hover {
+  scale: 1.1;
+  filter: brightness(1.3) drop-shadow(0 0 24px rgba(255, 241, 214, 0.55));
+}
+
+.bg-sun__rays {
+  transform-box: view-box;
+  transform-origin: 100px 100px;
+  animation: cosmicSunSpin 75s linear infinite;
+}
+
+.bg-sun__glow {
+  transform-box: view-box;
+  transform-origin: 100px 100px;
+  animation: cosmicSunPulse 5.5s ease-in-out infinite alternate;
+}
+
+@keyframes cosmicSunSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes cosmicSunPulse {
+  0% {
+    transform: scale(0.93);
+  }
+  100% {
+    transform: scale(1.08);
+  }
+}
+
+.bg-sun-wave {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 60px;
+  height: 60px;
+  margin: -30px 0 0 -30px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 241, 214, 0.65);
+  box-shadow: 0 0 14px rgba(255, 241, 214, 0.35);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ── 2. Ringed Planet (Saturnian Gas Giant) ─────────────────── */
+.bg-planet--ringed {
+  width: clamp(120px, 11vw, 180px);
+}
+
+.bg-planet--ringed .bg-planet__art {
+  opacity: 0.75;
+  animation-duration: 18s;
+  animation-delay: -3s;
+}
+
+.bg-planet--ringed .bg-planet__body:hover {
+  scale: 1.07;
+  filter: brightness(1.3) drop-shadow(0 0 18px rgba(255, 241, 214, 0.3));
+}
+
+/* ── 3. Moon (Cratered Lunar Satellite) ─────────────────────── */
+.bg-planet--moon {
+  width: clamp(40px, 3.8vw, 64px);
+}
+
+.bg-planet--moon .bg-planet__art {
+  opacity: 0.7;
+  animation-duration: 12s;
+  animation-delay: -5s;
+}
+
+.bg-moon__satellite {
+  transform-box: view-box;
+  transform-origin: 30px 30px;
+  animation: cosmicSatelliteOrbit 10s linear infinite;
+}
+
+@keyframes cosmicSatelliteOrbit {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ── 4. Gas Giant (Azure Storm World) ───────────────────────── */
+.bg-planet--giant {
+  width: clamp(150px, 14vw, 230px);
+}
+
+.bg-planet--giant .bg-planet__art {
+  opacity: 0.55;
+  animation-duration: 22s;
+  animation-delay: -7s;
+}
+
+.bg-planet--giant .bg-planet__body:hover {
+  scale: 1.06;
+  filter: brightness(1.35) drop-shadow(0 0 22px rgba(125, 140, 255, 0.35));
+}
+
+/* ── 5. Stellar Nexus (Golden Pulsar Anchor) ─────────────────── */
+.bg-planet--nexus {
+  width: clamp(90px, 8.5vw, 140px);
+}
+
+.bg-planet--nexus .bg-planet__art {
+  opacity: 0.85;
+  animation-duration: 16s;
+}
+
+.bg-nexus__ring {
+  transform-box: view-box;
+  transform-origin: 100px 100px;
+  animation: cosmicNexusPulse 4s ease-in-out infinite alternate;
+}
+
+.bg-nexus__spikes {
+  transform-box: view-box;
+  transform-origin: 100px 100px;
+  animation: cosmicSunSpin 60s linear infinite reverse;
+}
+
+@keyframes cosmicNexusPulse {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.4;
+  }
+  100% {
+    transform: scale(1.15);
+    opacity: 0.85;
+  }
+}
+
+/* ── 6. Ice Exoplanet (Crystalline Glacial World) ───────────── */
+.bg-planet--ice {
+  width: clamp(110px, 10vw, 160px);
+}
+
+.bg-planet--ice .bg-planet__art {
+  opacity: 0.7;
+  animation-duration: 15s;
+  animation-delay: -2s;
+}
+
+.bg-ice__aurora {
+  transform-box: view-box;
+  transform-origin: 100px 100px;
+  animation: cosmicAuroraPulse 4.5s ease-in-out infinite alternate;
+}
+
+@keyframes cosmicAuroraPulse {
+  0% {
+    opacity: 0.3;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 0.85;
+    transform: scale(1.08);
+  }
+}
+
+/* ── 7. Terran World (Ancient Contoured Planet) ──────────────── */
+.bg-planet--terran {
+  width: clamp(100px, 9vw, 150px);
+}
+
+.bg-planet--terran .bg-planet__art {
+  opacity: 0.65;
+  animation-duration: 20s;
+  animation-delay: -8s;
+}
+
+/* ── 8. Black Hole (Relativistic Singularity) ────────────────── */
+.bg-planet--blackhole {
+  --bh-w: clamp(220px, 20vw, 320px);
+  width: var(--bh-w);
+}
+
+.bg-planet--blackhole .bg-planet__art {
+  opacity: 0.9;
+  animation: none;
+  transition: filter 0.8s ease;
+}
+
+.bg-planet--blackhole .bg-planet__body:hover {
+  scale: 1.05;
+  filter: brightness(1.25) drop-shadow(0 0 20px rgba(255, 241, 214, 0.3));
+}
+
+.bg-bh__disk {
+  stroke-dasharray: 60 18;
+  animation: cosmicBhDiskFlow 6s linear infinite;
+}
+
+.bg-planets.is-devouring .bg-bh__disk,
+.is-devouring .bg-bh__disk {
+  animation-duration: 1.5s;
+}
+
+.bg-planets.is-devouring .bg-planet--blackhole .bg-planet__art,
+.is-devouring .bg-planet--blackhole .bg-planet__art {
+  filter: brightness(1.35) drop-shadow(0 0 24px rgba(255, 241, 214, 0.45));
+}
+
+.bg-bh-wave {
+  position: absolute;
+  top: 55%;
+  left: 50%;
+  width: 60px;
+  height: 60px;
+  margin: -30px 0 0 -30px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 241, 214, 0.7);
+  box-shadow: 0 0 16px rgba(255, 241, 214, 0.4);
+  opacity: 0;
+  pointer-events: none;
+}
+
+@keyframes cosmicBhDiskFlow {
+  to {
+    stroke-dashoffset: -156;
+  }
+}
+
+/* ── Light Transmission (Sun Toggle) ────────────────────────── */
+.is-sun-off .bg-planet:not(.bg-planet--blackhole) .bg-planet__parallax {
+  filter: brightness(0.28) saturate(0.35);
+}
+
+.is-sun-off .bg-planet--sun .bg-planet__parallax {
+  filter: grayscale(1) brightness(0.4);
+}
+
+.is-sun-off .bg-sun__glow,
+.is-sun-off .bg-sun__rays {
+  opacity: 0;
+  animation-play-state: paused;
+}
+
+.is-sun-off .backdrop-star {
+  filter: brightness(1.7);
+}
+
+/* ── Constellation Figures & Wordmarks ──────────────────────── */
+.bg-constellation {
+  position: absolute;
+  pointer-events: none;
+  overflow: visible;
+  opacity: 0.5;
+  transition: opacity 0.6s ease;
+}
+
+.bg-constellation:hover {
+  opacity: 0.9;
+}
+
+.bg-constellation-line {
+  stroke: rgba(244, 244, 242, 0.32);
+  stroke-width: 0.75;
+  stroke-dasharray: 4 2.5;
+  vector-effect: non-scaling-stroke;
+}
+
+.bg-constellation-star {
+  fill: #f4f4f2;
+  filter: drop-shadow(0 0 2px rgba(244, 244, 242, 0.8));
+}
+
+/* Wordmarks in Constellation Stars ("ECELL", "RVU") */
+.bg-wordmark {
+  position: absolute;
+  pointer-events: none;
+  overflow: visible;
+  opacity: 0.6;
+}
+
+.bg-wordmark-line {
+  stroke: rgba(244, 244, 242, 0.35);
+  stroke-width: 0.65;
+  vector-effect: non-scaling-stroke;
+}
+
+.bg-wordmark-star {
+  fill: #f4f4f2;
+  filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.9));
+}
+
+/* ── Section-Specific Offscreen Pause (60 FPS Performance) ──── */
+:is(
+  .sponsors-section,
+  .about,
+  .events-section,
+  .speakers-section,
+  .why-join,
+  .story-reveal,
+  .team,
+  .whatsapp-community,
+  .hero
+).is-offscreen :is(
+  .backdrop-star,
+  .bg-planet__art,
+  .bg-sun__rays,
+  .bg-sun__glow,
+  .bg-bh__disk,
+  .bg-nexus__ring,
+  .bg-nexus__spikes,
+  .bg-ice__aurora,
+  .bg-moon__satellite
+) {
+  animation-play-state: paused !important;
+}
+
+/* ── Responsive Adaptations ─────────────────────────────────── */
+@media (max-width: 1024px) {
+  .bg-planet--giant {
+    width: clamp(120px, 12vw, 170px);
+  }
+
+  .bg-planet--blackhole {
+    --bh-w: clamp(180px, 18vw, 240px);
+  }
+}
+
+@media (max-width: 768px) {
+  .bg-planet--sun {
+    width: 80px;
+  }
+
+  .bg-planet--ringed {
+    width: 95px;
+  }
+
+  .bg-planet--moon {
+    width: 40px;
+  }
+
+  .bg-planet--giant {
+    width: 110px;
+  }
+
+  .bg-planet--ice {
+    width: 85px;
+  }
+
+  .bg-planet--terran {
+    width: 80px;
+  }
+
+  .bg-planet--nexus {
+    width: 75px;
+  }
+
+  .bg-planet--blackhole {
+    --bh-w: 170px;
+  }
+
+  .bg-wordmark {
+    display: none; /* Hide marginal wordmarks on small mobile screens */
+  }
+}
+
+/* ── Accessibility: prefers-reduced-motion ───────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .backdrop-star,
+  .bg-planet__art,
+  .bg-sun__rays,
+  .bg-sun__glow,
+  .bg-bh__disk,
+  .bg-nexus__ring,
+  .bg-nexus__spikes,
+  .bg-ice__aurora,
+  .bg-moon__satellite {
+    animation: none !important;
+  }
+
+  .bg-planet__parallax {
+    transform: none !important;
+  }
+}
+

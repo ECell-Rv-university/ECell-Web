@@ -5,6 +5,7 @@ import { scrollToY } from "@/src/utils/lenis";
 import { setupHeroAnimations } from "./HeroAnimations";
 import HeroIntro from "./components/HeroIntro";
 import HeroScrollHint from "./components/HeroScrollHint";
+import CosmicSectionBackdrop from "@/src/components/Cosmic/CosmicSectionBackdrop";
 import "./styles/Hero.css";
 import "./styles/HeroStage.css";
 import "./styles/HeroMarquee.css";
@@ -53,6 +54,16 @@ export default function Hero(): React.ReactElement {
   return (
     <section ref={heroRef} className="hero">
       <div className="hero__sticky">
+        <CosmicSectionBackdrop
+          planet="sun"
+          planetPlacement={{ top: "10%", right: "8%", width: "clamp(100px, 9vw, 150px)" }}
+          starsCount={28}
+          seed={101}
+          constellation="pegasus"
+          constellationPlacement={{ top: "14%", left: "4%", width: "clamp(85px, 8vw, 120px)" }}
+          sectionId="hero"
+          scrollParallax={false}
+        />
         <div ref={marqueeRef} className="hero__marquee-group">
           <div className="hero__marquee-line hero__marquee-line--startups">
             <span>WHERE STARTUPS</span>
