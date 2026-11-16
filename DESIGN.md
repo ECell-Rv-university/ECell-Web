@@ -26,11 +26,11 @@ Screenshot:  The Helios Genesis core radiating coronal astrolabe flares above th
 |---|---|---|---|---|---|---|
 | **01** | Hero | Helios Genesis (Sun) | `00h 00m 00s` | `+00° 00' 00"` | `-26.74 MAG` | Primordial ignition: raw startup concepts spark into luminous existence. |
 | **02** | About | Orbitalis Chrono (Ringed) | `02h 42m 18s` | `+14° 12' 09"` | `+0.46 MAG` | Accretion disk & orbital order: structuring curiosity into venture foundations. |
-| **03** | Events | Jovian Kinetic (Giant) | `05h 18m 44s` | `+22° 31' 50"` | `-2.94 MAG` | Gravitational mass: hackathons, summits, and kinetic momentum. |
+| **03** | Events | — (Backdrop stars behind full-screen photo) | `05h 18m 44s` | `+22° 31' 50"` | `-2.94 MAG` | Full-screen photographic showcase: planets & constellations omitted so nothing overlaps photography. |
 | **04** | Speakers | Pulsar Beacon (Nexus) | `08h 35m 20s` | `-45° 10' 35"` | `-4.12 MAG` | Guiding lighthouse: founders and operators beaming experience across the void. |
-| **05** | Sponsors | Kryos Capital + Solar Ensemble | `11h 09m 51s` | `+06° 44' 12"` | `+5.38 MAG` | Capital infrastructure & full planetary system anchored by Helios light-travel physics and Sagittarius singularity. |
+| **05** | Sponsors | Kryos Capital + 3-Body Corner Ensemble | `11h 09m 51s` | `+06° 44' 12"` | `+5.38 MAG` | Capital infrastructure anchored in outer corners by Helios (`sun`), Kryos (`ice`), and Sagittarius (`blackhole`). |
 | **06** | Why Join | Terra Firma (Terran) | `14h 29m 42s` | `-62° 40' 46"` | `-1.45 MAG` | Grounding & atmosphere: real products taking root on fertile campus ground. |
-| **07** | Story | Selena Archive (Moon) | `17h 55m 10s` | `-19° 08' 22"` | `-12.74 MAG` | Cratered annals: every experiment a crater, every ship a ridge. |
+| **07** | Story | — (Backdrop stars behind full-screen photo) | `17h 55m 10s` | `-19° 08' 22"` | `-12.74 MAG` | Full-screen photographic narrative: planets & constellations omitted so typography and photo stay unobstructed. |
 | **08** | Team | Pleiades Syndicate (Cluster) | `03h 47m 24s` | `+24° 07' 00"` | `+1.60 MAG` | Open star cluster: builders coalescing into one leadership constellation. |
 | **09** | Community | Sagittarius ECell (Black Hole) | `17h 45m 40s` | `-29° 00' 28"` | `4.1M M☉` | Event horizon: community gravity pulling student builders together. |
 

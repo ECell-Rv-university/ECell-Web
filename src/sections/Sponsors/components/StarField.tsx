@@ -4,7 +4,7 @@ import CosmicSectionBackdrop from "@/src/components/Cosmic/CosmicSectionBackdrop
 
 /**
  * Sponsors Section Celestial Backdrop:
- * Houses the Helios solar ensemble (Sun, Cryo Exoplanet, Ringed Planet, Moon,
+ * Houses a clean, corner-balanced celestial ensemble (Sun, Cryo Exoplanet,
  * and Black Hole) with light-travel physics and interactive devouring behind
  * the partner constellation network.
  */
@@ -14,7 +14,7 @@ export default function StarField(): React.ReactElement {
       planet="sun"
       planetPlacement={{
         top: "7%",
-        left: "18%",
+        left: "16%",
         width: "clamp(90px, 8vw, 136px)",
       }}
       secondaryPlanets={[
@@ -22,24 +22,8 @@ export default function StarField(): React.ReactElement {
           type: "ice",
           placement: {
             top: "10%",
-            right: "8%",
+            right: "7%",
             width: "clamp(95px, 8.5vw, 140px)",
-          },
-        },
-        {
-          type: "ringed",
-          placement: {
-            top: "30%",
-            right: "5%",
-            width: "clamp(105px, 9.5vw, 155px)",
-          },
-        },
-        {
-          type: "moon",
-          placement: {
-            top: "26%",
-            left: "9%",
-            width: "clamp(38px, 3.4vw, 52px)",
           },
         },
         {

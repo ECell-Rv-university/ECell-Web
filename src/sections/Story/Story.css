@@ -120,15 +120,11 @@
 }
 
 /* Horizontal scrolling headline overlay */
-.story-reveal > .cosmic-star-field {
-  z-index: 3;
-}
-
 .story-reveal-text {
   position: absolute;
   top: 50%;
   left: 0;
-  z-index: 4;
+  z-index: 3;
   width: 100%;
   transform: translateY(-50%);
   overflow: hidden;

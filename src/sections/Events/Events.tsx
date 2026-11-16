@@ -330,16 +330,10 @@ export default function Events(): React.ReactElement {
   return (
     <section className="events-section" ref={sectionRef} id="eventsSection">
       <CosmicSectionBackdrop
-        planet="giant"
-        planetPlacement={{ top: "16%", right: "4%", width: "clamp(130px, 12vw, 190px)" }}
-        starsCount={28}
-        shootingStarsCount={3}
+        starsCount={20}
+        shootingStarsCount={0}
+        showOrbitTrack={false}
         seed={303}
-        nebula="azure"
-        constellation="cygnus"
-        constellationPlacement={{ top: "48%", left: "3%", width: "clamp(85px, 8vw, 120px)" }}
-        wordmark="rvu"
-        wordmarkPlacement={{ top: "10%", left: "5%" }}
         sectorLabel="SEC-03 JOVIAN KINETIC"
         sectionId="eventsSection"
       />

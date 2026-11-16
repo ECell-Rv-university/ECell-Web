@@ -11,10 +11,6 @@
   color: #fff;
 }
 
-.events-section > .cosmic-star-field {
-  z-index: 3;
-}
-
 /* --- Background Image Panel (like Story section) --- */
 .events-bg-panel {
   position: absolute;

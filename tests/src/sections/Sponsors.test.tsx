@@ -50,7 +50,7 @@ describe("Sponsors backdrop sun", () => {
         ".bg-planet:not(.bg-planet--sun):not(.bg-planet--blackhole) .bg-planet__parallax"
       )
     ).map((layer) => layer.style.getPropertyValue("--light-delay"));
-    expect(delays).toHaveLength(3);
+    expect(delays).toHaveLength(1);
     delays.forEach((delay) => expect(delay).toMatch(/^\d+(\.\d+)?s$/));
   });
 });
