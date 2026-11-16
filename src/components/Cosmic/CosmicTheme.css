@@ -973,8 +973,20 @@
     display: none;
   }
 
-  .bg-sector-watermark__coords {
+  .bg-sector-watermark__coords,
+  .bg-kepler-orbit,
+  .bg-wordmark {
     display: none;
+  }
+
+  .bg-planet--sirius,
+  .bg-planet--sun,
+  .bg-planet--ringed,
+  .bg-planet--ice,
+  .bg-planet--terran,
+  .bg-planet--nexus,
+  .bg-planet--cluster {
+    width: clamp(78px, 8.5vw, 125px);
   }
 
   .bg-planet--giant {
@@ -990,366 +1002,31 @@
   }
 }
 
-@media (max-width: 768px) {
-  /* Keep mobile fast & clean: static pinpoint star subset + non-interactive primary silhouette */
-  .bg-meteor,
-  .bg-nebula,
-  .bg-constellation,
-  .bg-wordmark,
-  .bg-sector-watermark,
-  .bg-kepler-orbit,
-  .bg-planet--secondary,
-  .bg-planet__reticle,
-  .bg-planet__telemetry {
-    display: none !important;
-  }
-
-  .cosmic-star-stratum {
-    animation: none !important;
-    transform: none !important;
-    will-change: auto;
-  }
-
-  .backdrop-star {
-    display: none !important;
-    animation: none !important;
-  }
-
-  .backdrop-star:nth-child(3n + 1) {
-    display: block !important;
-    opacity: 0.35;
-  }
-
-  .backdrop-star.is-glint::before,
-  .backdrop-star.is-glint::after {
-    display: none;
-  }
-
-  .bg-planets {
-    display: block !important;
-    opacity: 0.32;
-    pointer-events: none !important;
-  }
-
-  .bg-planet--primary {
-    pointer-events: none !important;
-  }
-
-  .bg-planet--primary .bg-planet__body {
-    pointer-events: none !important;
-    cursor: default;
-  }
-
-  .bg-planet--primary .bg-planet__art,
-  .bg-planet--primary :is(
-    .bg-sun__rays,
-    .bg-sun__flares,
-    .bg-sun__glow,
-    .bg-sirius__glow,
-    .bg-sirius__spikes,
-    .bg-sirius__companion,
-    .bg-bh__disk,
-    .bg-m87__disk,
-    .bg-m87__jet,
-    .bg-nexus__ring,
-    .bg-nexus__spikes,
-    .bg-nexus__beams,
-    .bg-ice__aurora,
-    .bg-moon__satellite,
-    .bg-cluster__star
-  ) {
-    animation: none !important;
-  }
-
-  /* Reveal sleek, zero-blur multi-stop radial mobile atmosphere glows */
-  .cosmic-mobile-glow {
-    display: block;
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    overflow: hidden;
-    z-index: 1;
-  }
-
-  .cosmic-mobile-glow__core {
-    position: absolute;
-    border-radius: 50%;
-    opacity: 0.85;
-  }
-
-  .cosmic-mobile-glow__corona {
-    position: absolute;
-    border-radius: 50%;
-    opacity: 0.65;
-  }
-
-  /* 1. Sun (Sponsors) */
-  .cosmic-mobile-glow--sun .cosmic-mobile-glow__core {
-    top: -60px;
-    right: -60px;
-    width: 340px;
-    height: 340px;
-    background: radial-gradient(
-      circle,
-      rgba(255, 241, 214, 0.28) 0%,
-      rgba(255, 170, 0, 0.14) 32%,
-      rgba(255, 0, 26, 0.04) 56%,
-      transparent 74%
-    );
-  }
-
-  .cosmic-mobile-glow--sun .cosmic-mobile-glow__corona {
-    top: -30px;
-    right: -30px;
-    width: 210px;
-    height: 210px;
-    background: radial-gradient(
-      circle,
-      rgba(255, 255, 255, 0.35) 0%,
-      rgba(255, 215, 0, 0.16) 40%,
-      transparent 72%
-    );
-  }
-
-  .cosmic-mobile-glow__solar-flare {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 220px;
-    height: 1.5px;
-    background: linear-gradient(90deg, transparent 0%, rgba(255, 215, 0, 0.4) 50%, rgba(255, 255, 255, 0.85) 100%);
-  }
-
-  /* 1b. Sirius (Hero) */
-  .cosmic-mobile-glow--sirius .cosmic-mobile-glow__core {
-    top: -60px;
-    right: -60px;
-    width: 340px;
-    height: 340px;
-    background: radial-gradient(
-      circle,
-      rgba(224, 242, 254, 0.28) 0%,
-      rgba(56, 189, 248, 0.14) 34%,
-      rgba(37, 99, 235, 0.04) 58%,
-      transparent 74%
-    );
-  }
-
-  .cosmic-mobile-glow--sirius .cosmic-mobile-glow__corona {
-    top: -30px;
-    right: -30px;
-    width: 210px;
-    height: 210px;
-    background: radial-gradient(
-      circle,
-      rgba(255, 255, 255, 0.36) 0%,
-      rgba(186, 230, 253, 0.16) 40%,
-      transparent 72%
-    );
-  }
-
-  /* 2. Ringed (About) */
-  .cosmic-mobile-glow--ringed .cosmic-mobile-glow__core {
-    top: -50px;
-    right: -50px;
-    width: 300px;
-    height: 300px;
-    background: radial-gradient(
-      circle,
-      rgba(255, 241, 214, 0.18) 0%,
-      rgba(203, 179, 153, 0.08) 40%,
-      transparent 72%
-    );
-  }
-
-  .cosmic-mobile-glow--ringed .cosmic-mobile-glow__corona {
-    top: 0;
-    right: 0;
-    width: 180px;
-    height: 180px;
-    border-top: 1px solid rgba(255, 241, 214, 0.22);
-    border-right: 1px solid rgba(255, 241, 214, 0.22);
-    border-radius: 0 100% 0 0;
-    opacity: 0.6;
-  }
-
-  /* 3. Giant (Events) */
-  .cosmic-mobile-glow--giant .cosmic-mobile-glow__core {
-    top: 20px;
-    right: -80px;
-    width: 340px;
-    height: 340px;
-    background: radial-gradient(
-      circle,
-      rgba(67, 97, 238, 0.2) 0%,
-      rgba(30, 41, 133, 0.09) 42%,
-      transparent 74%
-    );
-  }
-
-  /* 4. Nexus (Speakers) */
-  .cosmic-mobile-glow--nexus .cosmic-mobile-glow__core {
-    top: 0;
-    right: -50px;
-    width: 280px;
-    height: 280px;
-    background: radial-gradient(
-      circle,
-      rgba(255, 215, 0, 0.19) 0%,
-      rgba(255, 136, 0, 0.07) 42%,
-      transparent 72%
-    );
-  }
-
-  .cosmic-mobile-glow--nexus .cosmic-mobile-glow__corona {
-    top: 40px;
-    right: -10px;
-    width: 150px;
-    height: 150px;
-    background: radial-gradient(
-      circle,
-      rgba(255, 255, 255, 0.3) 0%,
-      rgba(255, 215, 0, 0.12) 45%,
-      transparent 72%
-    );
-  }
-
-  /* 5. Ice (Sponsors) */
-  .cosmic-mobile-glow--ice .cosmic-mobile-glow__core,
-  .cosmic-mobile-glow--sun .cosmic-mobile-glow__core {
-    pointer-events: none;
-  }
-
-  .cosmic-mobile-glow--ice .cosmic-mobile-glow__core {
-    top: -40px;
-    left: -40px;
-    width: 300px;
-    height: 300px;
-    background: radial-gradient(
-      circle,
-      rgba(34, 211, 238, 0.16) 0%,
-      rgba(8, 145, 178, 0.06) 42%,
-      transparent 72%
-    );
-  }
-
-  /* 6. Terran (Why Join) */
-  .cosmic-mobile-glow--terran .cosmic-mobile-glow__core {
-    top: -10px;
-    right: -60px;
-    width: 310px;
-    height: 310px;
-    background: radial-gradient(
-      circle,
-      rgba(249, 115, 22, 0.17) 0%,
-      rgba(154, 52, 18, 0.06) 42%,
-      transparent 72%
-    );
-  }
-
-  /* 7. Moon (Story) */
-  .cosmic-mobile-glow--moon .cosmic-mobile-glow__core {
-    top: 10px;
-    left: -50px;
-    width: 260px;
-    height: 260px;
-    background: radial-gradient(
-      circle,
-      rgba(255, 255, 255, 0.14) 0%,
-      rgba(196, 196, 200, 0.05) 38%,
-      transparent 70%
-    );
-  }
-
-  /* 8. Cluster (Team) */
-  .cosmic-mobile-glow--cluster .cosmic-mobile-glow__core {
-    top: -10px;
-    right: -50px;
-    width: 320px;
-    height: 320px;
-    background: radial-gradient(
-      circle,
-      rgba(129, 140, 248, 0.17) 0%,
-      rgba(56, 189, 248, 0.06) 42%,
-      transparent 72%
-    );
-  }
-
-  /* 9. Black Hole (Sagittarius A* & M87* Powehi) */
-  .cosmic-mobile-glow--blackhole .cosmic-mobile-glow__core,
-  .cosmic-mobile-glow--m87 .cosmic-mobile-glow__core {
-    bottom: -80px;
-    right: -80px;
-    width: 360px;
-    height: 360px;
-    background: radial-gradient(
-      circle,
-      rgba(251, 146, 60, 0.22) 0%,
-      rgba(220, 38, 38, 0.09) 38%,
-      transparent 70%
-    );
-  }
-
-  .cosmic-mobile-glow__event-horizon {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    width: 140px;
-    height: 140px;
-    border-radius: 100% 0 0 0;
-    border-top: 1.5px solid rgba(255, 241, 214, 0.35);
-    border-left: 1.5px solid rgba(255, 241, 214, 0.35);
-  }
-
-  /* Sleek Minimal Hidden-Detail Corner Tag */
-  .cosmic-mobile-glow__tag {
-    position: absolute;
-    top: 14px;
+@media (min-width: 769px) and (max-height: 760px) {
+  .bg-sector-watermark {
+    bottom: 14px;
     right: 18px;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 3px 8px;
-    border-radius: 12px;
-    background: rgba(10, 10, 14, 0.65);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    opacity: 0.65;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Mobile: pure black background instead of cosmic theme */
+  .cosmic-star-field {
+    display: none !important;
   }
 
-  .cosmic-mobile-glow__dot {
-    width: 4px;
-    height: 4px;
-    border-radius: 50%;
-    background: #ffd700;
-  }
-
-  .cosmic-mobile-glow--giant .cosmic-mobile-glow__dot {
-    background: #7d8cff;
-  }
-
-  .cosmic-mobile-glow--ice .cosmic-mobile-glow__dot {
-    background: #67e8f9;
-  }
-
-  .cosmic-mobile-glow--terran .cosmic-mobile-glow__dot {
-    background: #fb923c;
-  }
-
-  .cosmic-mobile-glow--sirius .cosmic-mobile-glow__dot {
-    background: #7dd3fc;
-  }
-
-  .cosmic-mobile-glow--blackhole .cosmic-mobile-glow__dot,
-  .cosmic-mobile-glow--m87 .cosmic-mobile-glow__dot {
-    background: #fb923c;
-  }
-
-  .cosmic-mobile-glow__code {
-    font-family: var(--font-inter), monospace, sans-serif;
-    font-size: 8.5px;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    color: rgba(244, 244, 242, 0.72);
+  body,
+  .hero,
+  .hero__sticky,
+  .about,
+  .events-section,
+  .speakers-section,
+  .sponsors-section,
+  .why-join,
+  .story-reveal,
+  .team,
+  .whatsapp-community {
+    background-color: #000000;
   }
 }
 

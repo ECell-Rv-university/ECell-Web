@@ -60,11 +60,14 @@ export default function WhatsAppCommunity(): React.ReactElement {
   // make the server-rendered tree differ from React's first client render.
   const [isDecorativeReady, setIsDecorativeReady] = useState<boolean>(false);
   const [beamPosition, setBeamPosition] = useState<number>(0.66);
+  const [dpr, setDpr] = useState<number>(1.5);
 
   useEffect(() => {
     const frame = requestAnimationFrame(() => setIsDecorativeReady(true));
     const updateBeamPos = () => {
-      setBeamPosition(window.innerWidth <= 860 ? 0.5 : 0.66);
+      const w = window.innerWidth;
+      setBeamPosition(w <= 860 ? 0.5 : 0.66);
+      setDpr(w <= 768 ? 1.25 : 1.5);
     };
     updateBeamPos();
     window.addEventListener("resize", updateBeamPos, { passive: true });
@@ -174,7 +177,7 @@ export default function WhatsAppCommunity(): React.ReactElement {
           intro={false}
           mouseInteraction={false}
           revealImage={undefined}
-          dpr={1.5}
+          dpr={dpr}
         />
       </div>
       <div className="wrap whatsapp-community-wrap">

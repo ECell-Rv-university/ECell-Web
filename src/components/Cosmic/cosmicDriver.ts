@@ -36,6 +36,13 @@ function isCoarsePointer(): boolean {
   return window.matchMedia("(pointer: coarse)").matches;
 }
 
+function isMobileViewport(): boolean {
+  if (typeof window === "undefined" || typeof window.matchMedia !== "function") {
+    return false;
+  }
+  return window.matchMedia("(max-width: 768px)").matches;
+}
+
 function onPointerMove(event: PointerEvent): void {
   const width = window.innerWidth || 1;
   const height = window.innerHeight || 1;
@@ -77,7 +84,8 @@ function hasVisibleSection(): boolean {
 function syncActiveLoop(): void {
   if (typeof window === "undefined") return;
 
-  const shouldRun = !isReducedMotion() && !isCoarsePointer() && hasVisibleSection();
+  const shouldRun =
+    !isReducedMotion() && !isCoarsePointer() && !isMobileViewport() && hasVisibleSection();
 
   if (shouldRun && !tickerActive && gsap.ticker?.add) {
     gsap.ticker.add(tickCosmic);

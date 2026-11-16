@@ -201,6 +201,12 @@ export default function CosmicSectionBackdrop({
     const root = rootRef.current;
     if (!root) return;
 
+    const isMobile =
+      typeof window !== "undefined" &&
+      typeof window.matchMedia === "function" &&
+      window.matchMedia("(max-width: 768px)").matches;
+    if (isMobile) return;
+
     const reduceMotion =
       typeof window !== "undefined" &&
       typeof window.matchMedia === "function" &&
