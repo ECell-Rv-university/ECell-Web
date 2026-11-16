@@ -570,7 +570,7 @@ export const LaserFlow = ({
     };
     let raf = 0;
     let last = 0;
-    let visible = true;
+    let visible = false;
     let alive = true;
 
     const toRgb = value => {
