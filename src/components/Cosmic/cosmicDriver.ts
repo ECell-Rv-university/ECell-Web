@@ -11,8 +11,6 @@ interface RegisteredSection {
   root: HTMLElement;
   parentSection: HTMLElement | null;
   layers: ParallaxLayer[];
-  farStratum: HTMLElement | null;
-  nearStratum: HTMLElement | null;
   isVisible: boolean;
 }
 
@@ -23,9 +21,6 @@ let pointerActive = false;
 
 const pointerAim = { x: 0, y: 0 };
 const pointerCurrent = { x: 0, y: 0 };
-let lastScrollY = 0;
-let scrollWarp = 0;
-let idleClock = 0;
 
 function isReducedMotion(): boolean {
   if (typeof window === "undefined" || typeof window.matchMedia !== "function") {
@@ -48,58 +43,26 @@ function onPointerMove(event: PointerEvent): void {
   pointerAim.y = event.clientY / height - 0.5;
 }
 
-function tickCosmic(_time: number, deltaTime: number): void {
-  const dt = Math.min(deltaTime / 1000, 0.05);
+function tickCosmic(): void {
   const ratio = gsap.ticker?.deltaRatio ? gsap.ticker.deltaRatio(60) : 1;
   const easeFactor = 1 - Math.pow(0.92, ratio);
 
-  pointerCurrent.x += (pointerAim.x - pointerCurrent.x) * easeFactor;
-  pointerCurrent.y += (pointerAim.y - pointerCurrent.y) * easeFactor;
+  const dx = pointerAim.x - pointerCurrent.x;
+  const dy = pointerAim.y - pointerCurrent.y;
+  if (Math.abs(dx) < 0.0002 && Math.abs(dy) < 0.0002) {
+    return;
+  }
 
-  const currentScrollY = window.scrollY || 0;
-  const scrollDelta = Math.abs(currentScrollY - lastScrollY);
-  lastScrollY = currentScrollY;
-
-  const targetWarp = Math.min(1, scrollDelta / 72);
-  const warpEase = targetWarp > scrollWarp ? 0.28 : 0.1;
-  scrollWarp += (targetWarp - scrollWarp) * Math.min(1, warpEase * ratio);
-  if (scrollWarp < 0.001) scrollWarp = 0;
-
-  idleClock += dt * 0.45;
-  const idleX = Math.sin(idleClock) * 0.085;
-  const idleY = Math.cos(idleClock * 0.78) * 0.065;
-
-  const combinedX = pointerCurrent.x + idleX;
-  const combinedY = pointerCurrent.y + idleY;
-
-  const farScaleY = (1 + scrollWarp * 0.85).toFixed(3);
-  const nearScaleY = (1 + scrollWarp * 1.6).toFixed(3);
+  pointerCurrent.x += dx * easeFactor;
+  pointerCurrent.y += dy * easeFactor;
 
   sections.forEach((sec) => {
     if (!sec.isVisible) return;
 
     for (const layer of sec.layers) {
-      const tx = (-combinedX * layer.depth).toFixed(2);
-      const ty = (-combinedY * layer.depth).toFixed(2);
+      const tx = (-pointerCurrent.x * layer.depth).toFixed(2);
+      const ty = (-pointerCurrent.y * layer.depth).toFixed(2);
       layer.el.style.transform = `translate3d(${tx}px, ${ty}px, 0)`;
-    }
-
-    if (sec.farStratum) {
-      const fx = (-combinedX * 4).toFixed(2);
-      const fy = (-combinedY * 4).toFixed(2);
-      sec.farStratum.style.transform =
-        scrollWarp > 0
-          ? `translate3d(${fx}px, ${fy}px, 0) scale3d(1, ${farScaleY}, 1)`
-          : `translate3d(${fx}px, ${fy}px, 0)`;
-    }
-
-    if (sec.nearStratum) {
-      const nx = (-combinedX * 10).toFixed(2);
-      const ny = (-combinedY * 10).toFixed(2);
-      sec.nearStratum.style.transform =
-        scrollWarp > 0
-          ? `translate3d(${nx}px, ${ny}px, 0) scale3d(1, ${nearScaleY}, 1)`
-          : `translate3d(${nx}px, ${ny}px, 0)`;
     }
   });
 }
@@ -117,7 +80,6 @@ function syncActiveLoop(): void {
   const shouldRun = !isReducedMotion() && !isCoarsePointer() && hasVisibleSection();
 
   if (shouldRun && !tickerActive && gsap.ticker?.add) {
-    lastScrollY = window.scrollY || 0;
     gsap.ticker.add(tickCosmic);
     tickerActive = true;
   } else if (!shouldRun && tickerActive) {
@@ -159,8 +121,8 @@ function ensureObserver(): IntersectionObserver | null {
 
 /**
  * Registers a CosmicSectionBackdrop instance with the single-clock cosmic driver.
- * Handles offscreen animation pausing, unified cursor parallax, scroll-velocity warp,
- * and subtle idle orbital drift with zero per-instance RAF loops.
+ * Handles offscreen animation pausing and smooth pointer parallax on celestial
+ * bodies while keeping background starfields static.
  */
 export function registerCosmicSection(root: HTMLElement): () => void {
   const parentSection = root.closest("section") || root.parentElement;
@@ -168,8 +130,6 @@ export function registerCosmicSection(root: HTMLElement): () => void {
     el,
     depth: Number(el.dataset.depth || 10),
   }));
-  const farStratum = root.querySelector<HTMLElement>(".cosmic-star-stratum--far");
-  const nearStratum = root.querySelector<HTMLElement>(".cosmic-star-stratum--near");
 
   const observer = ensureObserver();
   const observedEl = parentSection ?? root;
@@ -178,8 +138,6 @@ export function registerCosmicSection(root: HTMLElement): () => void {
     root,
     parentSection,
     layers,
-    farStratum,
-    nearStratum,
     isVisible: observer ? false : true,
   };
 

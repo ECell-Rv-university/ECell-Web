@@ -145,7 +145,7 @@ export default function CosmicSectionBackdrop({
   secondaryPlanets = [],
   starsCount = 26,
   shootingStarsCount = 2,
-  nebula,
+  nebula: _nebula,
   showOrbitTrack = true,
   sectorLabel,
   seed = 42,
@@ -551,10 +551,7 @@ export default function CosmicSectionBackdrop({
       className="cosmic-star-field"
       data-section-id={sectionId}
     >
-      {/* 1. Atmospheric Nebula Dust Glow (Zero-Blur Multi-Stop Radial Gradient) */}
-      {nebula && <div className={`bg-nebula bg-nebula--${nebula}`} aria-hidden="true" />}
-
-      {/* 2. Two-Stratum GPU Starfield (Far & Near with 4-Point Diffraction Glints) */}
+      {/* 1. Two-Stratum Static Deep-Space Starfield */}
       <div className="cosmic-star-stratum cosmic-star-stratum--far" aria-hidden="true">
         {farStars.map((star) => (
           <span

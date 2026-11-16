@@ -7,7 +7,7 @@
   justify-content: flex-end;
   padding: 180px 0 50px;
   background:
-    radial-gradient(ellipse 50% 45% at 58% 28%, rgba(81, 104, 255, 0.02), transparent 70%),
+    radial-gradient(ellipse 50% 45% at 67% 28%, rgba(81, 104, 255, 0.02), transparent 70%),
     var(--bg, #1a1a1a);
   color: var(--fg, #f4f4f2);
   isolation: isolate;
@@ -134,15 +134,6 @@
 /* Beam impact glow — handled directly by LaserFlow WebGL shader */
 .whatsapp-community-card::after {
   display: none;
-}
-
-.whatsapp-community-card:hover {
-  transform: translateY(-2px);
-  box-shadow:
-    0 32px 64px -14px rgba(0, 0, 0, 0.85),
-    0 -6px 28px rgba(81, 104, 255, 0.35),
-    0 0 40px rgba(81, 104, 255, 0.2),
-    inset 0 1px 0 rgba(210, 225, 255, 0.75);
 }
 
 .whatsapp-community-copy {

@@ -113,13 +113,12 @@
   }
 }
 
-/* ── Atmospheric Nebula Clouds (Zero-Blur Soft Radial Gradients) ── */
+/* ── Atmospheric Nebula Clouds (Static, Zero-Blur) ───────────── */
 .bg-nebula {
   position: absolute;
   border-radius: 50%;
   pointer-events: none;
-  opacity: 0.85;
-  animation: cosmicNebulaBreathe 16s ease-in-out infinite alternate;
+  opacity: 0.75;
 }
 
 .bg-nebula--solar {
@@ -190,17 +189,6 @@
     rgba(255, 0, 26, 0.012) 58%,
     transparent 74%
   );
-}
-
-@keyframes cosmicNebulaBreathe {
-  0% {
-    transform: scale(0.94) translate3d(0, 0, 0);
-    opacity: 0.72;
-  }
-  100% {
-    transform: scale(1.06) translate3d(10px, -6px, 0);
-    opacity: 1;
-  }
 }
 
 /* ── Keplerian Orbital Guide Ellipses ────────────────────────── */
@@ -1095,7 +1083,7 @@
     opacity: 0.65;
   }
 
-  /* 1. Sun (Hero) */
+  /* 1. Sun (Sponsors) */
   .cosmic-mobile-glow--sun .cosmic-mobile-glow__core {
     top: -60px;
     right: -60px;
@@ -1108,7 +1096,6 @@
       rgba(255, 0, 26, 0.04) 56%,
       transparent 74%
     );
-    animation: mobileSolarPulse 5.5s ease-in-out infinite alternate;
   }
 
   .cosmic-mobile-glow--sun .cosmic-mobile-glow__corona {
@@ -1122,7 +1109,6 @@
       rgba(255, 215, 0, 0.16) 40%,
       transparent 72%
     );
-    animation: mobileSolarPulse 4s ease-in-out infinite alternate reverse;
   }
 
   .cosmic-mobile-glow__solar-flare {
@@ -1147,7 +1133,6 @@
       rgba(37, 99, 235, 0.04) 58%,
       transparent 74%
     );
-    animation: mobileSolarPulse 5.2s ease-in-out infinite alternate;
   }
 
   .cosmic-mobile-glow--sirius .cosmic-mobile-glow__corona {
@@ -1161,7 +1146,6 @@
       rgba(186, 230, 253, 0.16) 40%,
       transparent 72%
     );
-    animation: mobileSolarPulse 4s ease-in-out infinite alternate reverse;
   }
 
   /* 2. Ringed (About) */
@@ -1176,7 +1160,6 @@
       rgba(203, 179, 153, 0.08) 40%,
       transparent 72%
     );
-    animation: mobileSubtlePulse 7s ease-in-out infinite alternate;
   }
 
   .cosmic-mobile-glow--ringed .cosmic-mobile-glow__corona {
@@ -1202,7 +1185,6 @@
       rgba(30, 41, 133, 0.09) 42%,
       transparent 74%
     );
-    animation: mobileSubtlePulse 6.5s ease-in-out infinite alternate;
   }
 
   /* 4. Nexus (Speakers) */
@@ -1217,7 +1199,6 @@
       rgba(255, 136, 0, 0.07) 42%,
       transparent 72%
     );
-    animation: mobileBeaconPulse 3.8s ease-in-out infinite alternate;
   }
 
   .cosmic-mobile-glow--nexus .cosmic-mobile-glow__corona {
@@ -1250,7 +1231,6 @@
       rgba(8, 145, 178, 0.06) 42%,
       transparent 72%
     );
-    animation: mobileSubtlePulse 6s ease-in-out infinite alternate;
   }
 
   /* 6. Terran (Why Join) */
@@ -1265,7 +1245,6 @@
       rgba(154, 52, 18, 0.06) 42%,
       transparent 72%
     );
-    animation: mobileSubtlePulse 7.5s ease-in-out infinite alternate;
   }
 
   /* 7. Moon (Story) */
@@ -1280,7 +1259,6 @@
       rgba(196, 196, 200, 0.05) 38%,
       transparent 70%
     );
-    animation: mobileSubtlePulse 8s ease-in-out infinite alternate;
   }
 
   /* 8. Cluster (Team) */
@@ -1295,7 +1273,6 @@
       rgba(56, 189, 248, 0.06) 42%,
       transparent 72%
     );
-    animation: mobileSubtlePulse 6.8s ease-in-out infinite alternate;
   }
 
   /* 9. Black Hole (Sagittarius A* & M87* Powehi) */
@@ -1311,7 +1288,6 @@
       rgba(220, 38, 38, 0.09) 38%,
       transparent 70%
     );
-    animation: mobileSolarPulse 5s ease-in-out infinite alternate;
   }
 
   .cosmic-mobile-glow__event-horizon {
@@ -1374,39 +1350,6 @@
     font-weight: 700;
     letter-spacing: 0.12em;
     color: rgba(244, 244, 242, 0.72);
-  }
-}
-
-@keyframes mobileSolarPulse {
-  0% {
-    transform: scale(0.92);
-    opacity: 0.65;
-  }
-  100% {
-    transform: scale(1.08);
-    opacity: 0.95;
-  }
-}
-
-@keyframes mobileSubtlePulse {
-  0% {
-    transform: scale(0.95);
-    opacity: 0.6;
-  }
-  100% {
-    transform: scale(1.05);
-    opacity: 0.85;
-  }
-}
-
-@keyframes mobileBeaconPulse {
-  0% {
-    transform: scale(0.88);
-    opacity: 0.5;
-  }
-  100% {
-    transform: scale(1.12);
-    opacity: 0.95;
   }
 }
 

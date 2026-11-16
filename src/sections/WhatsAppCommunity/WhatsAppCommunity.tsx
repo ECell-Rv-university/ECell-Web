@@ -59,12 +59,12 @@ export default function WhatsAppCommunity(): React.ReactElement {
   // Decorative DOM is mounted after hydration so browser extensions cannot
   // make the server-rendered tree differ from React's first client render.
   const [isDecorativeReady, setIsDecorativeReady] = useState<boolean>(false);
-  const [beamPosition, setBeamPosition] = useState<number>(0.58);
+  const [beamPosition, setBeamPosition] = useState<number>(0.67);
 
   useEffect(() => {
     const frame = requestAnimationFrame(() => setIsDecorativeReady(true));
     const updateBeamPos = () => {
-      setBeamPosition(window.innerWidth <= 860 ? 0.5 : 0.58);
+      setBeamPosition(window.innerWidth <= 860 ? 0.5 : 0.67);
     };
     updateBeamPos();
     window.addEventListener("resize", updateBeamPos, { passive: true });
@@ -172,7 +172,7 @@ export default function WhatsAppCommunity(): React.ReactElement {
           streaks={1.6}
           dots={1.0}
           intro={false}
-          mouseInteraction={true}
+          mouseInteraction={false}
           revealImage={undefined}
           dpr={1.5}
         />
