@@ -1,6 +1,11 @@
 "use client";
 import React, { useEffect, useRef, useId } from "react";
-import CosmicPlanet, { type CosmicPlanetType, PLANET_DEPTH } from "./CosmicPlanets";
+import CosmicPlanet, {
+  type CosmicPlanetType,
+  PLANET_DEPTH,
+  PLANET_TELEMETRY,
+} from "./CosmicPlanets";
+import { registerCosmicSection } from "./cosmicDriver";
 import { gsap } from "@/src/utils/gsapSetup";
 import "./CosmicTheme.css";
 
@@ -86,16 +91,29 @@ const WORDMARKS: Record<"ecell" | "rvu", { width: number; letters: WordmarkLette
   },
 };
 
+export interface PlanetPlacement {
+  top?: string;
+  bottom?: string;
+  left?: string;
+  right?: string;
+  width?: string;
+}
+
+export interface SecondaryPlanetConfig {
+  type: CosmicPlanetType;
+  placement: PlanetPlacement;
+  showTelemetry?: boolean;
+}
+
 export interface CosmicSectionBackdropProps {
   planet?: CosmicPlanetType;
-  planetPlacement?: {
-    top?: string;
-    bottom?: string;
-    left?: string;
-    right?: string;
-    width?: string;
-  };
+  planetPlacement?: PlanetPlacement;
+  secondaryPlanets?: SecondaryPlanetConfig[];
   starsCount?: number;
+  shootingStarsCount?: number;
+  nebula?: "solar" | "azure" | "violet" | "cyan" | "singularity";
+  showOrbitTrack?: boolean;
+  sectorLabel?: string;
   seed?: number;
   constellation?: ConstellationFigureType;
   constellationPlacement?: {
@@ -116,10 +134,20 @@ export interface CosmicSectionBackdropProps {
   scrollParallax?: boolean;
 }
 
+function resolveTelemetryAlign(placement: PlanetPlacement): "left" | "right" {
+  if (placement.left && !placement.right) return "right";
+  return "left";
+}
+
 export default function CosmicSectionBackdrop({
   planet,
   planetPlacement = { top: "15%", right: "8%" },
-  starsCount = 24,
+  secondaryPlanets = [],
+  starsCount = 26,
+  shootingStarsCount = 2,
+  nebula,
+  showOrbitTrack = true,
+  sectorLabel,
   seed = 42,
   constellation,
   constellationPlacement = { top: "45%", left: "2%" },
@@ -132,83 +160,68 @@ export default function CosmicSectionBackdrop({
   const reactId = useId().replace(/:/g, "");
   const rand = seededRandom(seed);
 
-  // Deterministic starfield generation
-  const stars = Array.from({ length: starsCount }, (_, i) => ({
+  // Deterministic starfield generation partitioned into two GPU-grouped strata
+  const allStars = Array.from({ length: starsCount }, (_, i) => {
+    const dim = rand() < 0.45;
+    const sizeVal = 1.1 + rand() * 1.6;
+    const top = (rand() * 96 + 2).toFixed(2);
+    const left = (rand() * 96 + 2).toFixed(2);
+    const delay = (rand() * 6).toFixed(2);
+    const duration = (3.2 + rand() * 4.5).toFixed(2);
+    return {
+      id: i,
+      top,
+      left,
+      size: sizeVal.toFixed(2),
+      delay,
+      duration,
+      dim,
+      bright: !dim && sizeVal > 2.25,
+    };
+  });
+
+  const farLimit = Math.ceil(allStars.length * 0.6);
+  const farStars = allStars.slice(0, farLimit);
+  let glintBudget = 0;
+  const nearStars = allStars.slice(farLimit).map((star) => {
+    const hasGlint = star.bright && glintBudget < 3;
+    if (hasGlint) glintBudget += 1;
+    return { ...star, glint: hasGlint };
+  });
+
+  // Deterministic shooting meteor streaks
+  const meteors = Array.from({ length: shootingStarsCount }, (_, i) => ({
     id: i,
-    top: (rand() * 96 + 2).toFixed(2),
-    left: (rand() * 96 + 2).toFixed(2),
-    size: (1.1 + rand() * 1.6).toFixed(2),
-    delay: (rand() * 6).toFixed(2),
-    duration: (3.2 + rand() * 4.5).toFixed(2),
-    dim: rand() < 0.45,
+    top: (rand() * 45 + 5).toFixed(1),
+    left: (rand() * 65 + 10).toFixed(1),
+    delay: (rand() * 7 + i * 5).toFixed(2),
+    duration: (1.2 + rand() * 0.8).toFixed(2),
   }));
 
   useEffect(() => {
     const root = rootRef.current;
     if (!root) return;
 
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const coarse = window.matchMedia("(pointer: coarse)").matches;
+    const reduceMotion =
+      typeof window !== "undefined" &&
+      typeof window.matchMedia === "function" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const cleanups: Array<() => void> = [];
 
-    // 1. Offscreen optimization: pause CSS keyframes when offscreen
+    // 1. Register with the single-clock cosmic driver (offscreen pause, parallax, warp, idle drift)
+    cleanups.push(registerCosmicSection(root));
+
     const parentSection = root.closest("section") || root.parentElement;
-    if (parentSection) {
-      const io = new IntersectionObserver(
-        ([entry]) => parentSection.classList.toggle("is-offscreen", !entry.isIntersecting),
-        { rootMargin: "150px 0px" }
-      );
-      io.observe(parentSection);
-      cleanups.push(() => io.disconnect());
-    }
 
-    // 2. Cursor Parallax (Only when section is visible, eased via requestAnimationFrame)
-    if (!reduceMotion && !coarse) {
-      const layers = Array.from(root.querySelectorAll<HTMLElement>("[data-depth]"));
-      if (layers.length > 0) {
-        const target = { x: 0, y: 0 };
-        const current = { x: 0, y: 0 };
-        let raf = 0;
-        let isVisible = false;
-
-        const tick = () => {
-          raf = 0;
-          current.x += (target.x - current.x) * 0.08;
-          current.y += (target.y - current.y) * 0.08;
-          for (const layer of layers) {
-            const depth = Number(layer.dataset.depth || 10);
-            layer.style.transform = `translate3d(${(-current.x * depth).toFixed(2)}px, ${(-current.y * depth).toFixed(2)}px, 0)`;
-          }
-          if (Math.abs(target.x - current.x) > 0.0005 || Math.abs(target.y - current.y) > 0.0005) {
-            raf = requestAnimationFrame(tick);
-          }
-        };
-
-        const onMove = (e: PointerEvent) => {
-          if (!isVisible) return;
-          const rect = root.getBoundingClientRect();
-          target.x = (e.clientX - rect.left) / rect.width - 0.5;
-          target.y = (e.clientY - rect.top) / rect.height - 0.5;
-          if (!raf) raf = requestAnimationFrame(tick);
-        };
-
-        const visIo = new IntersectionObserver(([entry]) => {
-          isVisible = entry.isIntersecting;
-        });
-        visIo.observe(root);
-
-        window.addEventListener("pointermove", onMove, { passive: true });
-        cleanups.push(() => {
-          window.removeEventListener("pointermove", onMove);
-          visIo.disconnect();
-          cancelAnimationFrame(raf);
-        });
-      }
-    }
-
-    // 3. Scroll-Driven Parallax on Planet using GSAP ScrollTrigger
-    if (!reduceMotion && scrollParallax && planet && parentSection) {
-      const planetEl = root.querySelector<HTMLElement>(".bg-planet");
+    // 2. Scroll-Driven Parallax on Primary Planet using GSAP ScrollTrigger
+    if (
+      !reduceMotion &&
+      scrollParallax &&
+      planet &&
+      parentSection &&
+      typeof gsap.context === "function"
+    ) {
+      const planetEl = root.querySelector<HTMLElement>(".bg-planet--primary");
       if (planetEl) {
         const depth = PLANET_DEPTH[planet] || 15;
         const ctx = gsap.context(() => {
@@ -232,32 +245,119 @@ export default function CosmicSectionBackdrop({
       }
     }
 
-    // 4. Planet Interactive Events
-    const planetBody = root.querySelector<HTMLElement>(".bg-planet__body");
-    const sunWave = root.querySelector<HTMLElement>(".bg-sun-wave");
-    const holeWave = root.querySelector<HTMLElement>(".bg-bh-wave");
+    // 3. Constellation Drawing Ingress on Scroll
+    if (!reduceMotion && parentSection && typeof gsap.context === "function") {
+      const constLines = root.querySelectorAll<SVGPathElement>(".bg-constellation-line, .bg-wordmark-line");
+      const constStars = root.querySelectorAll<SVGCircleElement>(".bg-constellation-star, .bg-wordmark-star");
 
-    if (planetBody) {
+      if (constLines.length > 0) {
+        const ctx = gsap.context(() => {
+          gsap.fromTo(
+            constLines,
+            { strokeDashoffset: 100, opacity: 0.1 },
+            {
+              strokeDashoffset: 0,
+              opacity: 0.45,
+              duration: 1.4,
+              stagger: 0.06,
+              ease: "power2.out",
+              scrollTrigger: {
+                trigger: parentSection,
+                start: "top 78%",
+                toggleActions: "play none none reverse",
+              },
+            }
+          );
+          if (constStars.length > 0) {
+            gsap.fromTo(
+              constStars,
+              { scale: 0, opacity: 0 },
+              {
+                scale: 1,
+                opacity: 1,
+                duration: 0.8,
+                stagger: 0.04,
+                ease: "back.out(2)",
+                scrollTrigger: {
+                  trigger: parentSection,
+                  start: "top 78%",
+                  toggleActions: "play none none reverse",
+                },
+              }
+            );
+          }
+        }, root);
+        cleanups.push(() => ctx.revert());
+      }
+    }
+
+    // 4. Planet Interactive Events (supports single & multi-planet ensembles)
+    const planetsContainer = root.querySelector<HTMLElement>(".bg-planets");
+    const planetEls = Array.from(root.querySelectorAll<HTMLElement>(".bg-planet"));
+
+    if (planetEls.length > 0) {
       const artOf = (body: HTMLElement) => body.querySelector<SVGSVGElement>(".bg-planet__art");
 
-      // Click to spin (any planet)
-      const onPlanetClick = (e: Event) => {
+      const onPlanetClick = (event: Event) => {
         if (reduceMotion) return;
-        gsap.to(e.currentTarget as HTMLElement, {
+        gsap.to(event.currentTarget as HTMLElement, {
           rotation: "+=360",
           duration: 1.4,
           ease: "power3.inOut",
         });
       };
 
-      // Sun Click: Send solar wave & toggle light transmission
-      let sunOn = true;
+      const sunPlanet = root.querySelector<HTMLElement>(".bg-planet--sun");
+      const sunBody = sunPlanet?.querySelector<HTMLElement>(".bg-planet__body") ?? null;
+      const sunWave = sunPlanet?.querySelector<HTMLElement>(".bg-sun-wave") ?? null;
+
+      let sunOn = !document.documentElement.classList.contains("is-sun-off");
       const onSunClick = () => {
+        if (!sunBody) return;
         sunOn = !sunOn;
+        planetsContainer?.classList.toggle("is-sun-off", !sunOn);
         document.documentElement.classList.toggle("is-sun-off", !sunOn);
 
-        const sunArt = artOf(planetBody);
-        if (sunOn && sunArt) {
+        const sunRect = sunBody.getBoundingClientRect();
+        const sx = sunRect.left + sunRect.width / 2;
+        const sy = sunRect.top + sunRect.height / 2;
+
+        const targetPlanets = Array.from(
+          root.querySelectorAll<HTMLElement>(
+            ".bg-planet:not(.bg-planet--sun):not(.bg-planet--blackhole)"
+          )
+        );
+
+        for (const targetPlanet of targetPlanets) {
+          const parallaxEl = targetPlanet.querySelector<HTMLElement>(".bg-planet__parallax");
+          const targetBody = targetPlanet.querySelector<HTMLElement>(".bg-planet__body");
+          if (!parallaxEl || !targetBody) continue;
+
+          const r = targetBody.getBoundingClientRect();
+          const dist = Math.hypot(r.left + r.width / 2 - sx, r.top + r.height / 2 - sy);
+          const delay = reduceMotion ? 0 : dist / 900;
+          parallaxEl.style.setProperty("--light-delay", `${delay.toFixed(2)}s`);
+
+          const targetArt = artOf(targetBody);
+          if (sunOn && targetArt && !reduceMotion) {
+            gsap.fromTo(
+              targetArt,
+              { filter: "brightness(1)" },
+              {
+                filter: "brightness(1.45) drop-shadow(0 0 18px rgba(255, 241, 214, 0.5))",
+                duration: 0.4,
+                delay,
+                yoyo: true,
+                repeat: 1,
+                ease: "power2.out",
+                clearProps: "filter",
+              }
+            );
+          }
+        }
+
+        const sunArt = artOf(sunBody);
+        if (sunOn && sunArt && !reduceMotion) {
           gsap.fromTo(
             sunArt,
             { filter: "brightness(1)" },
@@ -280,13 +380,19 @@ export default function CosmicSectionBackdrop({
         }
       };
 
-      // Black Hole Click: Devour stars & constellations in this field
+      const holePlanet = root.querySelector<HTMLElement>(".bg-planet--blackhole");
+      const holeBody = holePlanet?.querySelector<HTMLElement>(".bg-planet__body") ?? null;
+      const holeWave = holePlanet?.querySelector<HTMLElement>(".bg-bh-wave") ?? null;
+
       let devoured = false;
       let prey: Array<{ el: Element; opacity: number; twinkles: boolean }> = [];
       const onHoleClick = () => {
-        const holeArt = artOf(planetBody);
+        if (!holeBody) return;
+        const holeArt = artOf(holeBody);
         if (!holeArt) return;
+
         devoured = !devoured;
+        planetsContainer?.classList.toggle("is-devouring", devoured);
         root.classList.toggle("is-devouring", devoured);
 
         const a = holeArt.getBoundingClientRect();
@@ -329,7 +435,6 @@ export default function CosmicSectionBackdrop({
             });
           }
 
-          // Satisfied gulp
           gsap.fromTo(
             holeArt,
             { scale: 1 },
@@ -376,43 +481,119 @@ export default function CosmicSectionBackdrop({
         }
       };
 
-      const handler = planet === "sun" ? onSunClick : planet === "blackhole" ? onHoleClick : onPlanetClick;
-      planetBody.addEventListener("click", handler);
-      cleanups.push(() => planetBody.removeEventListener("click", handler));
+      for (const planetEl of planetEls) {
+        const body = planetEl.querySelector<HTMLElement>(".bg-planet__body");
+        if (!body) continue;
+
+        const handler = planetEl.classList.contains("bg-planet--sun")
+          ? onSunClick
+          : planetEl.classList.contains("bg-planet--blackhole")
+            ? onHoleClick
+            : onPlanetClick;
+
+        body.addEventListener("click", handler);
+        cleanups.push(() => body.removeEventListener("click", handler));
+      }
     }
 
     return () => {
       cleanups.forEach((fn) => fn());
+      if (!document.querySelector(".bg-planets.is-sun-off")) {
+        document.documentElement.classList.remove("is-sun-off");
+      }
     };
   }, [planet, scrollParallax]);
+
+  const hasPlanets = Boolean(planet) || secondaryPlanets.length > 0;
+  const sectorCode = sectorLabel ? sectorLabel.split(" ")[0] : "";
+  const sectorTitle = sectorLabel ? sectorLabel.split(" ").slice(1).join(" ") : "";
 
   return (
     <div
       ref={rootRef}
       className="cosmic-star-field"
-      aria-hidden="true"
       data-section-id={sectionId}
     >
-      {/* 1. Backdrop Stars */}
-      {stars.map((star) => (
+      {/* 1. Atmospheric Nebula Dust Glow (Zero-Blur Multi-Stop Radial Gradient) */}
+      {nebula && <div className={`bg-nebula bg-nebula--${nebula}`} aria-hidden="true" />}
+
+      {/* 2. Two-Stratum GPU Starfield (Far & Near with 4-Point Diffraction Glints) */}
+      <div className="cosmic-star-stratum cosmic-star-stratum--far" aria-hidden="true">
+        {farStars.map((star) => (
+          <span
+            key={star.id}
+            className={`backdrop-star${star.dim ? " is-dim" : ""}`}
+            style={{
+              top: `${star.top}%`,
+              left: `${star.left}%`,
+              width: `${star.size}px`,
+              height: `${star.size}px`,
+              animationDelay: `${star.delay}s`,
+              animationDuration: `${star.duration}s`,
+            }}
+          />
+        ))}
+      </div>
+
+      <div className="cosmic-star-stratum cosmic-star-stratum--near" aria-hidden="true">
+        {nearStars.map((star) => (
+          <span
+            key={star.id}
+            className={`backdrop-star${star.dim ? " is-dim" : ""}${star.bright ? " is-bright" : ""}${star.glint ? " is-glint" : ""}`}
+            style={{
+              top: `${star.top}%`,
+              left: `${star.left}%`,
+              width: `${star.size}px`,
+              height: `${star.size}px`,
+              animationDelay: `${star.delay}s`,
+              animationDuration: `${star.duration}s`,
+            }}
+          />
+        ))}
+      </div>
+
+      {/* 3. Shooting Meteor Streaks */}
+      {meteors.map((meteor) => (
         <span
-          key={star.id}
-          className={`backdrop-star${star.dim ? " is-dim" : ""}`}
+          key={`m-${meteor.id}`}
+          className="bg-meteor"
+          aria-hidden="true"
           style={{
-            top: `${star.top}%`,
-            left: `${star.left}%`,
-            width: `${star.size}px`,
-            height: `${star.size}px`,
-            animationDelay: `${star.delay}s`,
-            animationDuration: `${star.duration}s`,
+            top: `${meteor.top}%`,
+            left: `${meteor.left}%`,
+            animationDelay: `${meteor.delay}s`,
+            animationDuration: `${meteor.duration}s`,
           }}
         />
       ))}
 
-      {/* 2. Geometric Constellation Figures */}
+      {/* 4. Keplerian Orbital Guide Ellipses */}
+      {showOrbitTrack && planet && (
+        <div
+          className="bg-kepler-orbit"
+          style={{
+            top: planetPlacement.top,
+            bottom: planetPlacement.bottom,
+            left: planetPlacement.left,
+            right: planetPlacement.right,
+          }}
+          aria-hidden="true"
+        >
+          <svg className="bg-kepler-orbit__svg" viewBox="0 0 320 180" fill="none">
+            <ellipse cx="160" cy="90" rx="150" ry="70" className="bg-kepler-orbit__track" />
+            <ellipse cx="160" cy="90" rx="120" ry="54" className="bg-kepler-orbit__track-inner" />
+            <circle cx="310" cy="90" r="1.8" className="bg-kepler-orbit__node" />
+            <circle cx="10" cy="90" r="1.8" className="bg-kepler-orbit__node" />
+            <circle cx="160" cy="20" r="1.4" className="bg-kepler-orbit__node" />
+          </svg>
+        </div>
+      )}
+
+      {/* 5. Geometric Constellation Figures */}
       {constellation && CONSTELLATION_FIGURES[constellation] && (
         <svg
           className={`bg-constellation bg-constellation--${constellation}`}
+          aria-hidden="true"
           style={{
             top: constellationPlacement.top,
             bottom: constellationPlacement.bottom,
@@ -446,10 +627,11 @@ export default function CosmicSectionBackdrop({
         </svg>
       )}
 
-      {/* 3. Wordmarks in Constellation Stars ("ECELL", "RVU") */}
+      {/* 6. Wordmarks in Constellation Stars ("ECELL", "RVU") */}
       {wordmark && WORDMARKS[wordmark] && (
         <svg
           className={`bg-constellation bg-wordmark bg-wordmark--${wordmark}`}
+          aria-hidden="true"
           style={{
             top: wordmarkPlacement.top,
             bottom: wordmarkPlacement.bottom,
@@ -483,22 +665,67 @@ export default function CosmicSectionBackdrop({
         </svg>
       )}
 
-      {/* 4. Planet in its Designated Section Placement */}
+      {/* 7. Planetary Ensemble in Designated Section Placements */}
+      {hasPlanets && (
+        <div className="bg-planets">
+          {planet && (
+            <CosmicPlanet
+              type={planet}
+              className="bg-planet--primary"
+              style={planetPlacement}
+              idPrefix={`p-${reactId}`}
+              telemetryAlign={resolveTelemetryAlign(planetPlacement)}
+            />
+          )}
+          {secondaryPlanets.map((sec, idx) => (
+            <CosmicPlanet
+              key={`${sec.type}-${idx}`}
+              type={sec.type}
+              className="bg-planet--secondary"
+              style={sec.placement}
+              idPrefix={`p-${reactId}-s${idx}`}
+              showTelemetry={sec.showTelemetry ?? true}
+              telemetryAlign={resolveTelemetryAlign(sec.placement)}
+            />
+          ))}
+        </div>
+      )}
+
+      {/* 8. Astrometric Sector Watermark Badge */}
+      {sectorLabel && (
+        <aside className="bg-sector-watermark" aria-hidden="true">
+          <span className="bg-sector-watermark__num">{sectorCode}</span>
+          <span className="bg-sector-watermark__title">{sectorTitle}</span>
+          {planet && (
+            <span className="bg-sector-watermark__coords">
+              {PLANET_TELEMETRY[planet].ra} · {PLANET_TELEMETRY[planet].dec}
+            </span>
+          )}
+        </aside>
+      )}
+
+      {/* 9. Mobile Minimal Atmosphere Glow & Astrometric Tag */}
       {planet && (
         <div
-          className="bg-planets"
-          style={{
-            top: planetPlacement.top,
-            bottom: planetPlacement.bottom,
-            left: planetPlacement.left,
-            right: planetPlacement.right,
-            width: planetPlacement.width,
-          }}
+          className={`cosmic-mobile-glow cosmic-mobile-glow--${planet}`}
+          aria-hidden="true"
         >
-          <CosmicPlanet type={planet} idPrefix={`p-${reactId}`} />
+          <div className="cosmic-mobile-glow__core" />
+          <div className="cosmic-mobile-glow__corona" />
+          {planet === "sun" && (
+            <div className="cosmic-mobile-glow__solar-flare" />
+          )}
+          {planet === "blackhole" && (
+            <div className="cosmic-mobile-glow__event-horizon" />
+          )}
+          {sectorLabel && (
+            <div className="cosmic-mobile-glow__tag">
+              <span className="cosmic-mobile-glow__dot" />
+              <span className="cosmic-mobile-glow__code">{sectorCode}</span>
+            </div>
+          )}
         </div>
       )}
     </div>
   );
 }
-

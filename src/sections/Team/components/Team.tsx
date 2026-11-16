@@ -11,6 +11,7 @@ import {
   cleanupTeamAnimations,
 } from "@/src/sections/Team/animations/TeamAnimations";
 import { setupTeamInteractions } from "@/src/sections/Team/animations/TeamInteractions";
+import CosmicSectionBackdrop from "@/src/components/Cosmic/CosmicSectionBackdrop";
 import "@/src/sections/Team/styles/Team.css";
 import "@/src/sections/Team/styles/TeamLayout.css";
 import "@/src/sections/Team/styles/TeamResponsive.css";
@@ -215,6 +216,18 @@ export default function Team(): React.ReactElement {
           : getSpotlightAccent(teamMembers[spotlightIndex]),
       } as React.CSSProperties}
     >
+      <CosmicSectionBackdrop
+        planet="cluster"
+        planetPlacement={{ top: "8%", right: "6%", width: "clamp(130px, 12vw, 190px)" }}
+        starsCount={28}
+        shootingStarsCount={2}
+        seed={777}
+        constellation="phoenix"
+        constellationPlacement={{ top: "42%", left: "3%", width: "clamp(85px, 8vw, 120px)" }}
+        nebula="violet"
+        sectorLabel="SEC-08 PLEIADES"
+        sectionId="teamSection"
+      />
       <div className="team__transition-wipe" aria-hidden="true" />
       <div ref={containerRef} className="team__container">
         {/* Header bar with Slider Navigation Controls */}

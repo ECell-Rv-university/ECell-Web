@@ -239,12 +239,15 @@ export default function Story({
   return (
     <section className="story-reveal" ref={revealRef} id="storyReveal">
       <CosmicSectionBackdrop
-        planet="terran"
-        planetPlacement={{ top: "16%", left: "4%", width: "clamp(95px, 9vw, 145px)" }}
-        starsCount={24}
+        planet="moon"
+        planetPlacement={{ top: "16%", left: "4%", width: "clamp(55px, 4.8vw, 75px)" }}
+        starsCount={26}
+        shootingStarsCount={2}
         seed={606}
+        nebula="violet"
         constellation="phoenix"
         constellationPlacement={{ top: "48%", right: "3%", width: "clamp(85px, 8vw, 120px)" }}
+        sectorLabel="SEC-07 SELENA ARCHIVE"
         sectionId="storyReveal"
       />
       <div className="story-image-panel" ref={imagePanelRef} id="imagePanel">

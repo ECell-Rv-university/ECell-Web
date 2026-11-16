@@ -52,11 +52,10 @@ export default function About(): React.ReactElement {
         })
         .fromTo(
           headingLines,
-          { yPercent: 108, autoAlpha: 0, filter: "blur(9px)" },
+          { yPercent: 108, autoAlpha: 0 },
           {
             yPercent: 0,
             autoAlpha: 1,
-            filter: "blur(0px)",
             duration: 0.8,
             stagger: 0.13,
             ease: "power4.out",
@@ -64,11 +63,10 @@ export default function About(): React.ReactElement {
         )
         .fromTo(
           copyLines,
-          { yPercent: 110, autoAlpha: 0, filter: "blur(7px)" },
+          { yPercent: 110, autoAlpha: 0 },
           {
             yPercent: 0,
             autoAlpha: 1,
-            filter: "blur(0px)",
             duration: 0.58,
             stagger: 0.09,
             ease: "power4.out",
@@ -134,13 +132,16 @@ export default function About(): React.ReactElement {
     <section ref={sectionRef} className="about wrap" id="aboutSection">
       <CosmicSectionBackdrop
         planet="ringed"
-        planetPlacement={{ top: "14%", right: "5%", width: "clamp(115px, 11vw, 175px)" }}
-        starsCount={24}
+        planetPlacement={{ top: "14%", right: "5%", width: "clamp(125px, 11vw, 180px)" }}
+        starsCount={26}
+        shootingStarsCount={2}
         seed={202}
+        nebula="solar"
         constellation="cassiopeia"
         constellationPlacement={{ top: "42%", right: "3%", width: "clamp(85px, 8vw, 120px)" }}
         wordmark="ecell"
         wordmarkPlacement={{ top: "8%", left: "4%" }}
+        sectorLabel="SEC-02 ORBITALIS"
         sectionId="aboutSection"
       />
       <div className="relative left-1/2 w-screen -translate-x-1/2">

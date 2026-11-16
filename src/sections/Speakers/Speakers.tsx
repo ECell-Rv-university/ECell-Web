@@ -91,12 +91,15 @@ export default function Speakers(): ReactElement {
   return (
     <section className="speakers-section" id="speakers" aria-labelledby="speakers-heading">
       <CosmicSectionBackdrop
-        planet="giant"
-        planetPlacement={{ top: "14%", right: "2%", width: "clamp(130px, 12vw, 200px)" }}
-        starsCount={26}
+        planet="nexus"
+        planetPlacement={{ top: "14%", right: "3%", width: "clamp(110px, 10vw, 160px)" }}
+        starsCount={28}
+        shootingStarsCount={2}
         seed={404}
+        nebula="solar"
         constellation="vortex"
         constellationPlacement={{ top: "48%", left: "2%", width: "clamp(85px, 8vw, 120px)" }}
+        sectorLabel="SEC-04 PULSAR BEACON"
         sectionId="speakers"
       />
       <div className="speakers-reveal-panel">

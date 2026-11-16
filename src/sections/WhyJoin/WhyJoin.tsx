@@ -253,12 +253,15 @@ export default function WhyJoin(): React.ReactElement {
   return (
     <section ref={sectionRef} className="why-join" id="why-join">
       <CosmicSectionBackdrop
-        planet="ice"
-        planetPlacement={{ top: "12%", right: "4%", width: "clamp(105px, 9.5vw, 155px)" }}
-        starsCount={24}
+        planet="terran"
+        planetPlacement={{ top: "12%", right: "4%", width: "clamp(110px, 10vw, 160px)" }}
+        starsCount={26}
+        shootingStarsCount={2}
         seed={505}
+        nebula="solar"
         constellation="pegasus"
         constellationPlacement={{ top: "45%", left: "3%", width: "clamp(85px, 8vw, 120px)" }}
+        sectorLabel="SEC-06 TERRA FIRMA"
         sectionId="why-join"
       />
       <div className="why-join__intro wrap">

@@ -141,8 +141,11 @@ export default function WhatsAppCommunity(): React.ReactElement {
           right: "calc(var(--bh-w, 240px) * -0.22)",
           width: "clamp(220px, 20vw, 320px)",
         }}
-        starsCount={32}
+        starsCount={34}
+        shootingStarsCount={3}
         seed={707}
+        nebula="singularity"
+        sectorLabel="SEC-09 SINGULARITY"
         constellation="vortex"
         constellationPlacement={{
           top: "40%",

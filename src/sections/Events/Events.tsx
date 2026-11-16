@@ -330,21 +330,24 @@ export default function Events(): React.ReactElement {
   return (
     <section className="events-section" ref={sectionRef} id="eventsSection">
       <CosmicSectionBackdrop
-        planet="moon"
-        planetPlacement={{ top: "20%", left: "4%", width: "clamp(46px, 4.2vw, 68px)" }}
-        starsCount={26}
+        planet="giant"
+        planetPlacement={{ top: "16%", right: "4%", width: "clamp(130px, 12vw, 190px)" }}
+        starsCount={28}
+        shootingStarsCount={3}
         seed={303}
+        nebula="azure"
         constellation="cygnus"
-        constellationPlacement={{ top: "48%", left: "3%", width: "clamp(80px, 8vw, 120px)" }}
+        constellationPlacement={{ top: "48%", left: "3%", width: "clamp(85px, 8vw, 120px)" }}
         wordmark="rvu"
-        wordmarkPlacement={{ top: "10%", right: "5%" }}
+        wordmarkPlacement={{ top: "10%", left: "5%" }}
+        sectorLabel="SEC-03 JOVIAN KINETIC"
         sectionId="eventsSection"
       />
       {/* Background image panel — flies in from top-right */}
       <div
         className="events-bg-panel"
         ref={bgPanelRef}
-        style={{ position: "absolute" }}
+        style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}
       >
         <div
           className="events-bg-inner"

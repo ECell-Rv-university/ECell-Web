@@ -1,10 +1,9 @@
 /* ============================================================
    Cosmic Theme — Awwwards-tier Global Celestial Design System
-   Planets, Starfields, Constellations & Scroll-Driven Spine
-   All animations target transform + opacity (GPU-accelerated)
+   Single-clock GPU strata, astrometric telemetry, zero live blurs
    ============================================================ */
 
-/* ── Star Field Canvas ───────────────────────────────────────── */
+/* ── Star Field Canvas & Grouped Depth Strata ────────────────── */
 .cosmic-star-field {
   position: absolute;
   inset: 0;
@@ -13,41 +12,235 @@
   z-index: 1;
 }
 
-/* Base twinkling star */
+.cosmic-star-stratum {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  will-change: transform;
+  transform-origin: center center;
+}
+
+/* Base twinkling star (no per-element will-change or heavy box-shadow) */
 .backdrop-star {
   position: absolute;
   border-radius: 50%;
   background: #f4f4f2;
-  box-shadow: 0 0 6px rgba(244, 244, 242, 0.45);
   animation: cosmicTwinkle ease-in-out infinite alternate;
-  will-change: opacity, transform;
   pointer-events: none;
 }
 
 .backdrop-star.is-dim {
-  opacity: 0.22;
-  box-shadow: none;
+  opacity: 0.24;
+}
+
+.backdrop-star.is-bright {
+  box-shadow: 0 0 4px rgba(244, 244, 242, 0.55);
+}
+
+/* Subtle 4-point diffraction spikes for only the brightest 2-3 field stars */
+.backdrop-star.is-glint::before,
+.backdrop-star.is-glint::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  opacity: 0.65;
+}
+
+.backdrop-star.is-glint::before {
+  width: 11px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.9) 50%, transparent 100%);
+}
+
+.backdrop-star.is-glint::after {
+  width: 1px;
+  height: 11px;
+  background: linear-gradient(180deg, transparent 0%, rgba(255, 255, 255, 0.9) 50%, transparent 100%);
 }
 
 @keyframes cosmicTwinkle {
   0% {
-    opacity: 0.15;
-    transform: scale(0.75);
+    opacity: 0.18;
+    transform: scale(0.78);
   }
   50% {
-    opacity: 0.85;
-    transform: scale(1.1);
+    opacity: 0.88;
+    transform: scale(1.08);
   }
   100% {
-    opacity: 0.25;
-    transform: scale(0.85);
+    opacity: 0.28;
+    transform: scale(0.86);
   }
 }
 
+/* ── Transient Shooting Meteors ──────────────────────────────── */
+.bg-meteor {
+  position: absolute;
+  width: 110px;
+  height: 1.5px;
+  background: linear-gradient(
+    -45deg,
+    rgba(255, 255, 255, 0.95) 0%,
+    rgba(103, 232, 249, 0.6) 30%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: rotate(-35deg) scaleX(0);
+  transform-origin: right center;
+  opacity: 0;
+  animation: cosmicMeteorStreak ease-in infinite;
+  pointer-events: none;
+}
+
+@keyframes cosmicMeteorStreak {
+  0% {
+    opacity: 0;
+    transform: rotate(-35deg) translate3d(0, 0, 0) scaleX(0);
+  }
+  15% {
+    opacity: 0.85;
+    transform: rotate(-35deg) translate3d(-30px, 30px, 0) scaleX(1);
+  }
+  30% {
+    opacity: 0;
+    transform: rotate(-35deg) translate3d(-140px, 140px, 0) scaleX(1.4);
+  }
+  100% {
+    opacity: 0;
+    transform: rotate(-35deg) translate3d(-140px, 140px, 0) scaleX(0);
+  }
+}
+
+/* ── Atmospheric Nebula Clouds (Zero-Blur Soft Radial Gradients) ── */
+.bg-nebula {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0.85;
+  animation: cosmicNebulaBreathe 16s ease-in-out infinite alternate;
+}
+
+.bg-nebula--solar {
+  top: 2%;
+  right: -8%;
+  width: min(64vw, 720px);
+  height: min(64vw, 720px);
+  background: radial-gradient(
+    circle,
+    rgba(255, 170, 0, 0.11) 0%,
+    rgba(255, 92, 0, 0.05) 35%,
+    rgba(255, 0, 26, 0.015) 58%,
+    transparent 74%
+  );
+}
+
+.bg-nebula--azure {
+  top: 10%;
+  left: -10%;
+  width: min(68vw, 760px);
+  height: min(68vw, 760px);
+  background: radial-gradient(
+    circle,
+    rgba(67, 97, 238, 0.11) 0%,
+    rgba(30, 41, 133, 0.055) 38%,
+    rgba(13, 27, 42, 0.02) 60%,
+    transparent 75%
+  );
+}
+
+.bg-nebula--violet {
+  top: 6%;
+  right: 2%;
+  width: min(58vw, 660px);
+  height: min(58vw, 660px);
+  background: radial-gradient(
+    circle,
+    rgba(168, 85, 247, 0.095) 0%,
+    rgba(59, 130, 246, 0.04) 38%,
+    rgba(59, 130, 246, 0.01) 60%,
+    transparent 74%
+  );
+}
+
+.bg-nebula--cyan {
+  top: 8%;
+  left: 0%;
+  width: min(60vw, 680px);
+  height: min(60vw, 680px);
+  background: radial-gradient(
+    circle,
+    rgba(6, 182, 212, 0.095) 0%,
+    rgba(14, 116, 144, 0.04) 38%,
+    rgba(8, 47, 73, 0.015) 60%,
+    transparent 74%
+  );
+}
+
+.bg-nebula--singularity {
+  top: 14%;
+  right: -4%;
+  width: min(72vw, 800px);
+  height: min(72vw, 800px);
+  background: radial-gradient(
+    circle,
+    rgba(255, 241, 214, 0.075) 0%,
+    rgba(255, 0, 26, 0.045) 36%,
+    rgba(255, 0, 26, 0.012) 58%,
+    transparent 74%
+  );
+}
+
+@keyframes cosmicNebulaBreathe {
+  0% {
+    transform: scale(0.94) translate3d(0, 0, 0);
+    opacity: 0.72;
+  }
+  100% {
+    transform: scale(1.06) translate3d(10px, -6px, 0);
+    opacity: 1;
+  }
+}
+
+/* ── Keplerian Orbital Guide Ellipses ────────────────────────── */
+.bg-kepler-orbit {
+  position: absolute;
+  pointer-events: none;
+  transform: translate(-30%, -25%);
+  width: clamp(260px, 28vw, 420px);
+  height: auto;
+  opacity: 0.45;
+  transition: opacity 0.5s ease;
+}
+
+.bg-kepler-orbit__svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.bg-kepler-orbit__track {
+  stroke: rgba(244, 244, 242, 0.16);
+  stroke-width: 0.8;
+  stroke-dasharray: 5 6;
+  vector-effect: non-scaling-stroke;
+}
+
+.bg-kepler-orbit__track-inner {
+  stroke: rgba(244, 244, 242, 0.08);
+  stroke-width: 0.5;
+  stroke-dasharray: 2 5;
+  vector-effect: non-scaling-stroke;
+}
+
+.bg-kepler-orbit__node {
+  fill: #fff1d6;
+  opacity: 0.7;
+}
+
 /* ── Planets & Celestial Bodies ─────────────────────────────── */
-/* Each planet owns multiple decoupled transform layers:
-   .bg-planet (entrance/placement) > .bg-planet__parallax (cursor/scroll parallax)
-   > .bg-planet__body (hover, click spin, solar/hole effects) > .bg-planet__art (drift) */
 .bg-planets {
   position: absolute;
   inset: 0;
@@ -57,6 +250,7 @@
 .bg-planet {
   position: absolute;
   will-change: transform;
+  pointer-events: auto;
 }
 
 .bg-planet__parallax {
@@ -65,11 +259,49 @@
   transition: filter 0.9s cubic-bezier(0.16, 1, 0.3, 1) var(--light-delay, 0s);
 }
 
+.bg-planet__halo {
+  position: absolute;
+  inset: -20%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 241, 214, 0.16) 0%, transparent 68%);
+  pointer-events: none;
+  opacity: 0.6;
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.bg-planet__reticle {
+  position: absolute;
+  inset: -14%;
+  width: 128%;
+  height: 128%;
+  color: rgba(255, 241, 214, 0.72);
+  pointer-events: none;
+  opacity: 0;
+  transform: scale(1.16) rotate(-18deg);
+  transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.bg-planet__reticle.is-locked {
+  opacity: 0.85;
+  transform: scale(1) rotate(0deg);
+}
+
 .bg-planet__body {
   position: relative;
   display: inline-block;
+  width: 100%;
   transition: scale 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s ease;
   transform-origin: center center;
+  cursor: pointer;
+}
+
+.bg-planet__body:focus-visible {
+  outline: 1.5px dashed rgba(255, 241, 214, 0.82);
+  outline-offset: 8px;
+  border-radius: 50%;
+  scale: 1.08;
+  filter: brightness(1.28) drop-shadow(0 0 18px rgba(244, 244, 242, 0.28));
 }
 
 .bg-planet__art {
@@ -82,15 +314,26 @@
   transform-origin: center center;
 }
 
-/* Only the painted SVG shapes take pointer events, not empty box corners */
 .bg-planet__art > :not(defs) {
   pointer-events: visiblePainted;
   cursor: pointer;
 }
 
-.bg-planet__body:hover {
-  scale: 1.08;
-  filter: brightness(1.3) drop-shadow(0 0 16px rgba(244, 244, 242, 0.25));
+@media (hover: hover) {
+  .bg-planet:hover .bg-planet__halo {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+
+  .bg-planet:hover .bg-planet__body {
+    scale: 1.08;
+    filter: brightness(1.28) drop-shadow(0 0 20px rgba(244, 244, 242, 0.28));
+  }
+
+  .bg-planet:hover .bg-planet__telemetry {
+    opacity: 1;
+    transform: translateY(-50%) translate3d(0, 0, 0);
+  }
 }
 
 @keyframes cosmicPlanetDrift {
@@ -102,30 +345,186 @@
   }
 }
 
+/* ── Interactive Astrometric Telemetry HUD ───────────────────── */
+.bg-planet__telemetry {
+  position: absolute;
+  top: 50%;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 20;
+  white-space: nowrap;
+}
+
+.bg-planet__telemetry--right {
+  left: calc(100% + 14px);
+  right: auto;
+  transform: translateY(-50%) translate3d(8px, 0, 0);
+}
+
+.bg-planet__telemetry--left {
+  left: auto;
+  right: calc(100% + 14px);
+  transform: translateY(-50%) translate3d(-8px, 0, 0);
+}
+
+.bg-planet__telemetry.is-active {
+  opacity: 1;
+  transform: translateY(-50%) translate3d(0, 0, 0);
+}
+
+.bg-planet__telemetry-line {
+  position: absolute;
+  top: 50%;
+  width: 14px;
+  height: 1px;
+  background: rgba(244, 244, 242, 0.45);
+}
+
+.bg-planet__telemetry--right .bg-planet__telemetry-line {
+  left: -14px;
+  right: auto;
+}
+
+.bg-planet__telemetry--left .bg-planet__telemetry-line {
+  left: auto;
+  right: -14px;
+}
+
+.bg-planet__telemetry-line::before {
+  content: "";
+  position: absolute;
+  top: -2px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #fff1d6;
+  box-shadow: 0 0 4px #ffd700;
+}
+
+.bg-planet__telemetry--right .bg-planet__telemetry-line::before {
+  left: -2px;
+}
+
+.bg-planet__telemetry--left .bg-planet__telemetry-line::before {
+  right: -2px;
+}
+
+.bg-planet__telemetry-card {
+  padding: 10px 14px;
+  border-radius: 4px;
+  background: rgba(7, 7, 10, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  font-family: var(--font-inter), monospace, sans-serif;
+}
+
+.bg-planet__telemetry-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 4px;
+}
+
+.bg-planet__telemetry-sector {
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  font-weight: 700;
+  color: #ffd700;
+  text-transform: uppercase;
+}
+
+.bg-planet__telemetry-status {
+  font-size: 8px;
+  letter-spacing: 0.1em;
+  color: #67e8f9;
+  text-transform: uppercase;
+  opacity: 0.9;
+}
+
+.bg-planet__telemetry-name {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: #ffffff;
+  margin: 0 0 2px 0;
+  text-transform: uppercase;
+}
+
+.bg-planet__telemetry-spec {
+  font-size: 9.5px;
+  color: rgba(244, 244, 242, 0.68);
+  margin: 0;
+  letter-spacing: 0.02em;
+}
+
+.bg-planet__telemetry-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 4px 12px;
+  margin: 6px 0;
+  padding: 6px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.09);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+  font-variant-numeric: tabular-nums;
+}
+
+.bg-planet__telemetry-grid div {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+}
+
+.bg-planet__telemetry-grid span {
+  font-size: 8px;
+  letter-spacing: 0.1em;
+  color: rgba(244, 244, 242, 0.48);
+  text-transform: uppercase;
+}
+
+.bg-planet__telemetry-grid b {
+  font-size: 9px;
+  font-weight: 600;
+  color: rgba(244, 244, 242, 0.92);
+  letter-spacing: 0.03em;
+}
+
+.bg-planet__telemetry-desc {
+  font-size: 9px;
+  color: rgba(244, 244, 242, 0.56);
+  margin: 0;
+  letter-spacing: 0.01em;
+}
+
 /* ── 1. Sun (Radiant Stellar Core) ─────────────────────────── */
 .bg-planet--sun {
-  width: clamp(90px, 9vw, 150px);
+  width: clamp(100px, 10vw, 160px);
 }
 
 .bg-planet--sun .bg-planet__art {
-  opacity: 0.9;
+  opacity: 0.95;
   animation-duration: 20s;
-}
-
-.bg-planet--sun .bg-planet__body:hover {
-  scale: 1.1;
-  filter: brightness(1.3) drop-shadow(0 0 24px rgba(255, 241, 214, 0.55));
 }
 
 .bg-sun__rays {
   transform-box: view-box;
-  transform-origin: 100px 100px;
+  transform-origin: 110px 110px;
   animation: cosmicSunSpin 75s linear infinite;
+}
+
+.bg-sun__flares {
+  transform-box: view-box;
+  transform-origin: 110px 110px;
+  animation: cosmicSunFlares 8s ease-in-out infinite alternate;
 }
 
 .bg-sun__glow {
   transform-box: view-box;
-  transform-origin: 100px 100px;
+  transform-origin: 110px 110px;
   animation: cosmicSunPulse 5.5s ease-in-out infinite alternate;
 }
 
@@ -135,9 +534,20 @@
   }
 }
 
+@keyframes cosmicSunFlares {
+  0% {
+    transform: scale(0.96) rotate(0deg);
+    opacity: 0.45;
+  }
+  100% {
+    transform: scale(1.08) rotate(14deg);
+    opacity: 0.85;
+  }
+}
+
 @keyframes cosmicSunPulse {
   0% {
-    transform: scale(0.93);
+    transform: scale(0.94);
   }
   100% {
     transform: scale(1.08);
@@ -160,34 +570,29 @@
 
 /* ── 2. Ringed Planet (Saturnian Gas Giant) ─────────────────── */
 .bg-planet--ringed {
-  width: clamp(120px, 11vw, 180px);
+  width: clamp(130px, 12vw, 190px);
 }
 
 .bg-planet--ringed .bg-planet__art {
-  opacity: 0.75;
+  opacity: 0.82;
   animation-duration: 18s;
   animation-delay: -3s;
 }
 
-.bg-planet--ringed .bg-planet__body:hover {
-  scale: 1.07;
-  filter: brightness(1.3) drop-shadow(0 0 18px rgba(255, 241, 214, 0.3));
-}
-
 /* ── 3. Moon (Cratered Lunar Satellite) ─────────────────────── */
 .bg-planet--moon {
-  width: clamp(40px, 3.8vw, 64px);
+  width: clamp(45px, 4.2vw, 68px);
 }
 
 .bg-planet--moon .bg-planet__art {
-  opacity: 0.7;
+  opacity: 0.78;
   animation-duration: 12s;
   animation-delay: -5s;
 }
 
 .bg-moon__satellite {
   transform-box: view-box;
-  transform-origin: 30px 30px;
+  transform-origin: 35px 35px;
   animation: cosmicSatelliteOrbit 10s linear infinite;
 }
 
@@ -202,107 +607,147 @@
 
 /* ── 4. Gas Giant (Azure Storm World) ───────────────────────── */
 .bg-planet--giant {
-  width: clamp(150px, 14vw, 230px);
+  width: clamp(160px, 15vw, 240px);
 }
 
 .bg-planet--giant .bg-planet__art {
-  opacity: 0.55;
+  opacity: 0.68;
   animation-duration: 22s;
   animation-delay: -7s;
 }
 
-.bg-planet--giant .bg-planet__body:hover {
-  scale: 1.06;
-  filter: brightness(1.35) drop-shadow(0 0 22px rgba(125, 140, 255, 0.35));
-}
-
-/* ── 5. Stellar Nexus (Golden Pulsar Anchor) ─────────────────── */
+/* ── 5. Stellar Nexus (Pulsar Beacon Anchor) ────────────────── */
 .bg-planet--nexus {
-  width: clamp(90px, 8.5vw, 140px);
+  width: clamp(100px, 9.5vw, 150px);
 }
 
 .bg-planet--nexus .bg-planet__art {
-  opacity: 0.85;
+  opacity: 0.9;
   animation-duration: 16s;
 }
 
 .bg-nexus__ring {
   transform-box: view-box;
-  transform-origin: 100px 100px;
+  transform-origin: 110px 110px;
   animation: cosmicNexusPulse 4s ease-in-out infinite alternate;
 }
 
 .bg-nexus__spikes {
   transform-box: view-box;
-  transform-origin: 100px 100px;
+  transform-origin: 110px 110px;
   animation: cosmicSunSpin 60s linear infinite reverse;
+}
+
+.bg-nexus__beams {
+  transform-box: view-box;
+  transform-origin: 110px 110px;
+  animation: cosmicPulsarSweep 12s linear infinite;
+}
+
+@keyframes cosmicPulsarSweep {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @keyframes cosmicNexusPulse {
   0% {
     transform: scale(0.9);
-    opacity: 0.4;
+    opacity: 0.45;
   }
   100% {
     transform: scale(1.15);
-    opacity: 0.85;
+    opacity: 0.9;
   }
 }
 
 /* ── 6. Ice Exoplanet (Crystalline Glacial World) ───────────── */
 .bg-planet--ice {
-  width: clamp(110px, 10vw, 160px);
+  width: clamp(120px, 11vw, 175px);
 }
 
 .bg-planet--ice .bg-planet__art {
-  opacity: 0.7;
+  opacity: 0.78;
   animation-duration: 15s;
   animation-delay: -2s;
 }
 
 .bg-ice__aurora {
   transform-box: view-box;
-  transform-origin: 100px 100px;
+  transform-origin: 110px 90px;
   animation: cosmicAuroraPulse 4.5s ease-in-out infinite alternate;
 }
 
 @keyframes cosmicAuroraPulse {
   0% {
-    opacity: 0.3;
-    transform: scale(0.95);
+    opacity: 0.35;
+    transform: scale(0.94);
   }
   100% {
-    opacity: 0.85;
+    opacity: 0.9;
     transform: scale(1.08);
   }
 }
 
-/* ── 7. Terran World (Ancient Contoured Planet) ──────────────── */
+/* ── 7. Terran World (Terraforming Horizon) ─────────────────── */
 .bg-planet--terran {
-  width: clamp(100px, 9vw, 150px);
+  width: clamp(110px, 10vw, 160px);
 }
 
 .bg-planet--terran .bg-planet__art {
-  opacity: 0.65;
+  opacity: 0.74;
   animation-duration: 20s;
   animation-delay: -8s;
 }
 
-/* ── 8. Black Hole (Relativistic Singularity) ────────────────── */
+/* ── 8. Star Cluster (Pleiades Syndicate) ───────────────────── */
+.bg-planet--cluster {
+  width: clamp(140px, 13vw, 200px);
+}
+
+.bg-planet--cluster .bg-planet__art {
+  opacity: 0.85;
+  animation-duration: 24s;
+}
+
+.bg-cluster__star {
+  animation: cosmicClusterTwinkle 4s ease-in-out infinite alternate;
+}
+
+.bg-cluster__star:nth-child(2) {
+  animation-delay: -1.2s;
+}
+.bg-cluster__star:nth-child(3) {
+  animation-delay: -2.5s;
+}
+.bg-cluster__star:nth-child(4) {
+  animation-delay: -3.1s;
+}
+
+@keyframes cosmicClusterTwinkle {
+  0% {
+    opacity: 0.6;
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1.18);
+  }
+}
+
+/* ── 9. Black Hole (Relativistic Singularity) ────────────────── */
 .bg-planet--blackhole {
-  --bh-w: clamp(220px, 20vw, 320px);
+  --bh-w: clamp(230px, 21vw, 340px);
   width: var(--bh-w);
 }
 
 .bg-planet--blackhole .bg-planet__art {
-  opacity: 0.9;
+  opacity: 0.95;
   animation: none;
   transition: filter 0.8s ease;
-}
-
-.bg-planet--blackhole .bg-planet__body:hover {
-  scale: 1.05;
-  filter: brightness(1.25) drop-shadow(0 0 20px rgba(255, 241, 214, 0.3));
 }
 
 .bg-bh__disk {
@@ -313,11 +758,6 @@
 .bg-planets.is-devouring .bg-bh__disk,
 .is-devouring .bg-bh__disk {
   animation-duration: 1.5s;
-}
-
-.bg-planets.is-devouring .bg-planet--blackhole .bg-planet__art,
-.is-devouring .bg-planet--blackhole .bg-planet__art {
-  filter: brightness(1.35) drop-shadow(0 0 24px rgba(255, 241, 214, 0.45));
 }
 
 .bg-bh-wave {
@@ -341,22 +781,29 @@
 }
 
 /* ── Light Transmission (Sun Toggle) ────────────────────────── */
-.is-sun-off .bg-planet:not(.bg-planet--blackhole) .bg-planet__parallax {
+.is-sun-off .bg-planet:not(.bg-planet--blackhole) .bg-planet__parallax,
+.bg-planets.is-sun-off .bg-planet:not(.bg-planet--blackhole) .bg-planet__parallax {
   filter: brightness(0.28) saturate(0.35);
 }
 
-.is-sun-off .bg-planet--sun .bg-planet__parallax {
+.is-sun-off .bg-planet--sun .bg-planet__parallax,
+.bg-planets.is-sun-off .bg-planet--sun .bg-planet__parallax {
+  transition-delay: 0s;
   filter: grayscale(1) brightness(0.4);
 }
 
 .is-sun-off .bg-sun__glow,
-.is-sun-off .bg-sun__rays {
+.is-sun-off .bg-sun__rays,
+.is-sun-off .bg-sun__flares,
+.bg-planets.is-sun-off .bg-sun__glow,
+.bg-planets.is-sun-off .bg-sun__rays,
+.bg-planets.is-sun-off .bg-sun__flares {
   opacity: 0;
   animation-play-state: paused;
 }
 
 .is-sun-off .backdrop-star {
-  filter: brightness(1.7);
+  filter: brightness(1.65);
 }
 
 /* ── Constellation Figures & Wordmarks ──────────────────────── */
@@ -364,24 +811,20 @@
   position: absolute;
   pointer-events: none;
   overflow: visible;
-  opacity: 0.5;
+  opacity: 0.55;
   transition: opacity 0.6s ease;
 }
 
-.bg-constellation:hover {
-  opacity: 0.9;
-}
-
 .bg-constellation-line {
-  stroke: rgba(244, 244, 242, 0.32);
-  stroke-width: 0.75;
+  stroke: rgba(244, 244, 242, 0.38);
+  stroke-width: 0.8;
   stroke-dasharray: 4 2.5;
   vector-effect: non-scaling-stroke;
 }
 
 .bg-constellation-star {
   fill: #f4f4f2;
-  filter: drop-shadow(0 0 2px rgba(244, 244, 242, 0.8));
+  filter: drop-shadow(0 0 2.5px rgba(244, 244, 242, 0.9));
 }
 
 /* Wordmarks in Constellation Stars ("ECELL", "RVU") */
@@ -389,18 +832,62 @@
   position: absolute;
   pointer-events: none;
   overflow: visible;
-  opacity: 0.6;
+  opacity: 0.65;
 }
 
 .bg-wordmark-line {
-  stroke: rgba(244, 244, 242, 0.35);
-  stroke-width: 0.65;
+  stroke: rgba(244, 244, 242, 0.4);
+  stroke-width: 0.7;
   vector-effect: non-scaling-stroke;
 }
 
 .bg-wordmark-star {
   fill: #f4f4f2;
-  filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.9));
+  filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.95));
+}
+
+/* ── Astrometric Sector Watermark ────────────────────────────── */
+.bg-sector-watermark {
+  position: absolute;
+  bottom: 24px;
+  right: 28px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  pointer-events: none;
+  font-family: var(--font-inter), monospace, sans-serif;
+  opacity: 0.32;
+  user-select: none;
+}
+
+.bg-sector-watermark__num {
+  font-size: 11px;
+  font-weight: 800;
+  color: #ffd700;
+  letter-spacing: 0.15em;
+}
+
+.bg-sector-watermark__title {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #f4f4f2;
+}
+
+.bg-sector-watermark__coords {
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  color: rgba(244, 244, 242, 0.56);
+  font-variant-numeric: tabular-nums;
+  padding-left: 8px;
+  border-left: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+/* ── Mobile-Only Atmosphere Glows (Hidden on Desktop) ────────── */
+.cosmic-mobile-glow {
+  display: none;
 }
 
 /* ── Section-Specific Offscreen Pause (60 FPS Performance) ──── */
@@ -416,83 +903,444 @@
   .hero
 ).is-offscreen :is(
   .backdrop-star,
+  .bg-meteor,
+  .bg-nebula,
   .bg-planet__art,
   .bg-sun__rays,
+  .bg-sun__flares,
   .bg-sun__glow,
   .bg-bh__disk,
   .bg-nexus__ring,
   .bg-nexus__spikes,
+  .bg-nexus__beams,
   .bg-ice__aurora,
-  .bg-moon__satellite
+  .bg-moon__satellite,
+  .bg-cluster__star,
+  .cosmic-mobile-glow__core,
+  .cosmic-mobile-glow__corona
 ) {
   animation-play-state: paused !important;
 }
 
 /* ── Responsive Adaptations ─────────────────────────────────── */
 @media (max-width: 1024px) {
+  .bg-planet__telemetry {
+    display: none;
+  }
+
+  .bg-sector-watermark__coords {
+    display: none;
+  }
+
   .bg-planet--giant {
-    width: clamp(120px, 12vw, 170px);
+    width: clamp(130px, 13vw, 180px);
   }
 
   .bg-planet--blackhole {
-    --bh-w: clamp(180px, 18vw, 240px);
+    --bh-w: clamp(190px, 19vw, 250px);
   }
 }
 
 @media (max-width: 768px) {
-  .bg-planet--sun {
-    width: 80px;
+  /* Keep mobile fast & clean: static pinpoint star subset + non-interactive primary silhouette */
+  .bg-meteor,
+  .bg-nebula,
+  .bg-constellation,
+  .bg-wordmark,
+  .bg-sector-watermark,
+  .bg-kepler-orbit,
+  .bg-planet--secondary,
+  .bg-planet__reticle,
+  .bg-planet__telemetry {
+    display: none !important;
   }
 
-  .bg-planet--ringed {
-    width: 95px;
+  .cosmic-star-stratum {
+    animation: none !important;
+    transform: none !important;
+    will-change: auto;
   }
 
-  .bg-planet--moon {
-    width: 40px;
+  .backdrop-star {
+    display: none !important;
+    animation: none !important;
   }
 
-  .bg-planet--giant {
-    width: 110px;
+  .backdrop-star:nth-child(3n + 1) {
+    display: block !important;
+    opacity: 0.35;
   }
 
-  .bg-planet--ice {
-    width: 85px;
+  .backdrop-star.is-glint::before,
+  .backdrop-star.is-glint::after {
+    display: none;
   }
 
-  .bg-planet--terran {
-    width: 80px;
+  .bg-planets {
+    display: block !important;
+    opacity: 0.32;
+    pointer-events: none !important;
   }
 
-  .bg-planet--nexus {
-    width: 75px;
+  .bg-planet--primary {
+    pointer-events: none !important;
   }
 
-  .bg-planet--blackhole {
-    --bh-w: 170px;
+  .bg-planet--primary .bg-planet__body {
+    pointer-events: none !important;
+    cursor: default;
   }
 
-  .bg-wordmark {
-    display: none; /* Hide marginal wordmarks on small mobile screens */
+  .bg-planet--primary .bg-planet__art,
+  .bg-planet--primary :is(
+    .bg-sun__rays,
+    .bg-sun__flares,
+    .bg-sun__glow,
+    .bg-bh__disk,
+    .bg-nexus__ring,
+    .bg-nexus__spikes,
+    .bg-nexus__beams,
+    .bg-ice__aurora,
+    .bg-moon__satellite,
+    .bg-cluster__star
+  ) {
+    animation: none !important;
+  }
+
+  /* Reveal sleek, zero-blur multi-stop radial mobile atmosphere glows */
+  .cosmic-mobile-glow {
+    display: block;
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 1;
+  }
+
+  .cosmic-mobile-glow__core {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.85;
+  }
+
+  .cosmic-mobile-glow__corona {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.65;
+  }
+
+  /* 1. Sun (Hero) */
+  .cosmic-mobile-glow--sun .cosmic-mobile-glow__core {
+    top: -60px;
+    right: -60px;
+    width: 340px;
+    height: 340px;
+    background: radial-gradient(
+      circle,
+      rgba(255, 241, 214, 0.28) 0%,
+      rgba(255, 170, 0, 0.14) 32%,
+      rgba(255, 0, 26, 0.04) 56%,
+      transparent 74%
+    );
+    animation: mobileSolarPulse 5.5s ease-in-out infinite alternate;
+  }
+
+  .cosmic-mobile-glow--sun .cosmic-mobile-glow__corona {
+    top: -30px;
+    right: -30px;
+    width: 210px;
+    height: 210px;
+    background: radial-gradient(
+      circle,
+      rgba(255, 255, 255, 0.35) 0%,
+      rgba(255, 215, 0, 0.16) 40%,
+      transparent 72%
+    );
+    animation: mobileSolarPulse 4s ease-in-out infinite alternate reverse;
+  }
+
+  .cosmic-mobile-glow__solar-flare {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 220px;
+    height: 1.5px;
+    background: linear-gradient(90deg, transparent 0%, rgba(255, 215, 0, 0.4) 50%, rgba(255, 255, 255, 0.85) 100%);
+  }
+
+  /* 2. Ringed (About) */
+  .cosmic-mobile-glow--ringed .cosmic-mobile-glow__core {
+    top: -50px;
+    right: -50px;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(
+      circle,
+      rgba(255, 241, 214, 0.18) 0%,
+      rgba(203, 179, 153, 0.08) 40%,
+      transparent 72%
+    );
+    animation: mobileSubtlePulse 7s ease-in-out infinite alternate;
+  }
+
+  .cosmic-mobile-glow--ringed .cosmic-mobile-glow__corona {
+    top: 0;
+    right: 0;
+    width: 180px;
+    height: 180px;
+    border-top: 1px solid rgba(255, 241, 214, 0.22);
+    border-right: 1px solid rgba(255, 241, 214, 0.22);
+    border-radius: 0 100% 0 0;
+    opacity: 0.6;
+  }
+
+  /* 3. Giant (Events) */
+  .cosmic-mobile-glow--giant .cosmic-mobile-glow__core {
+    top: 20px;
+    right: -80px;
+    width: 340px;
+    height: 340px;
+    background: radial-gradient(
+      circle,
+      rgba(67, 97, 238, 0.2) 0%,
+      rgba(30, 41, 133, 0.09) 42%,
+      transparent 74%
+    );
+    animation: mobileSubtlePulse 6.5s ease-in-out infinite alternate;
+  }
+
+  /* 4. Nexus (Speakers) */
+  .cosmic-mobile-glow--nexus .cosmic-mobile-glow__core {
+    top: 0;
+    right: -50px;
+    width: 280px;
+    height: 280px;
+    background: radial-gradient(
+      circle,
+      rgba(255, 215, 0, 0.19) 0%,
+      rgba(255, 136, 0, 0.07) 42%,
+      transparent 72%
+    );
+    animation: mobileBeaconPulse 3.8s ease-in-out infinite alternate;
+  }
+
+  .cosmic-mobile-glow--nexus .cosmic-mobile-glow__corona {
+    top: 40px;
+    right: -10px;
+    width: 150px;
+    height: 150px;
+    background: radial-gradient(
+      circle,
+      rgba(255, 255, 255, 0.3) 0%,
+      rgba(255, 215, 0, 0.12) 45%,
+      transparent 72%
+    );
+  }
+
+  /* 5. Ice (Sponsors) */
+  .cosmic-mobile-glow--ice .cosmic-mobile-glow__core,
+  .cosmic-mobile-glow--sun .cosmic-mobile-glow__core {
+    pointer-events: none;
+  }
+
+  .cosmic-mobile-glow--ice .cosmic-mobile-glow__core {
+    top: -40px;
+    left: -40px;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(
+      circle,
+      rgba(34, 211, 238, 0.16) 0%,
+      rgba(8, 145, 178, 0.06) 42%,
+      transparent 72%
+    );
+    animation: mobileSubtlePulse 6s ease-in-out infinite alternate;
+  }
+
+  /* 6. Terran (Why Join) */
+  .cosmic-mobile-glow--terran .cosmic-mobile-glow__core {
+    top: -10px;
+    right: -60px;
+    width: 310px;
+    height: 310px;
+    background: radial-gradient(
+      circle,
+      rgba(249, 115, 22, 0.17) 0%,
+      rgba(154, 52, 18, 0.06) 42%,
+      transparent 72%
+    );
+    animation: mobileSubtlePulse 7.5s ease-in-out infinite alternate;
+  }
+
+  /* 7. Moon (Story) */
+  .cosmic-mobile-glow--moon .cosmic-mobile-glow__core {
+    top: 10px;
+    left: -50px;
+    width: 260px;
+    height: 260px;
+    background: radial-gradient(
+      circle,
+      rgba(255, 255, 255, 0.14) 0%,
+      rgba(196, 196, 200, 0.05) 38%,
+      transparent 70%
+    );
+    animation: mobileSubtlePulse 8s ease-in-out infinite alternate;
+  }
+
+  /* 8. Cluster (Team) */
+  .cosmic-mobile-glow--cluster .cosmic-mobile-glow__core {
+    top: -10px;
+    right: -50px;
+    width: 320px;
+    height: 320px;
+    background: radial-gradient(
+      circle,
+      rgba(129, 140, 248, 0.17) 0%,
+      rgba(56, 189, 248, 0.06) 42%,
+      transparent 72%
+    );
+    animation: mobileSubtlePulse 6.8s ease-in-out infinite alternate;
+  }
+
+  /* 9. Black Hole (Community) */
+  .cosmic-mobile-glow--blackhole .cosmic-mobile-glow__core {
+    bottom: -80px;
+    right: -80px;
+    width: 360px;
+    height: 360px;
+    background: radial-gradient(
+      circle,
+      rgba(255, 241, 214, 0.2) 0%,
+      rgba(255, 0, 26, 0.08) 38%,
+      transparent 70%
+    );
+    animation: mobileSolarPulse 5s ease-in-out infinite alternate;
+  }
+
+  .cosmic-mobile-glow__event-horizon {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 140px;
+    height: 140px;
+    border-radius: 100% 0 0 0;
+    border-top: 1.5px solid rgba(255, 241, 214, 0.35);
+    border-left: 1.5px solid rgba(255, 241, 214, 0.35);
+  }
+
+  /* Sleek Minimal Hidden-Detail Corner Tag */
+  .cosmic-mobile-glow__tag {
+    position: absolute;
+    top: 14px;
+    right: 18px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 3px 8px;
+    border-radius: 12px;
+    background: rgba(10, 10, 14, 0.65);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    opacity: 0.65;
+  }
+
+  .cosmic-mobile-glow__dot {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: #ffd700;
+  }
+
+  .cosmic-mobile-glow--giant .cosmic-mobile-glow__dot {
+    background: #7d8cff;
+  }
+
+  .cosmic-mobile-glow--ice .cosmic-mobile-glow__dot {
+    background: #67e8f9;
+  }
+
+  .cosmic-mobile-glow--terran .cosmic-mobile-glow__dot {
+    background: #fb923c;
+  }
+
+  .cosmic-mobile-glow--blackhole .cosmic-mobile-glow__dot {
+    background: #ff001a;
+  }
+
+  .cosmic-mobile-glow__code {
+    font-family: var(--font-inter), monospace, sans-serif;
+    font-size: 8.5px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: rgba(244, 244, 242, 0.72);
+  }
+}
+
+@keyframes mobileSolarPulse {
+  0% {
+    transform: scale(0.92);
+    opacity: 0.65;
+  }
+  100% {
+    transform: scale(1.08);
+    opacity: 0.95;
+  }
+}
+
+@keyframes mobileSubtlePulse {
+  0% {
+    transform: scale(0.95);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(1.05);
+    opacity: 0.85;
+  }
+}
+
+@keyframes mobileBeaconPulse {
+  0% {
+    transform: scale(0.88);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(1.12);
+    opacity: 0.95;
   }
 }
 
 /* ── Accessibility: prefers-reduced-motion ───────────────────── */
 @media (prefers-reduced-motion: reduce) {
   .backdrop-star,
+  .bg-meteor,
+  .bg-nebula,
   .bg-planet__art,
   .bg-sun__rays,
+  .bg-sun__flares,
   .bg-sun__glow,
   .bg-bh__disk,
   .bg-nexus__ring,
   .bg-nexus__spikes,
+  .bg-nexus__beams,
   .bg-ice__aurora,
-  .bg-moon__satellite {
+  .bg-moon__satellite,
+  .bg-cluster__star,
+  .cosmic-mobile-glow__core,
+  .cosmic-mobile-glow__corona {
     animation: none !important;
   }
 
-  .bg-planet__parallax {
+  .bg-planet__parallax,
+  .cosmic-star-stratum {
     transform: none !important;
   }
-}
 
+  .bg-planet__reticle,
+  .bg-planet__telemetry,
+  .bg-planet__body {
+    transition: none;
+  }
+
+  .bg-meteor {
+    display: none;
+  }
+}
