@@ -145,7 +145,6 @@ export default function CosmicSectionBackdrop({
   secondaryPlanets = [],
   starsCount = 26,
   shootingStarsCount = 2,
-  nebula: _nebula,
   showOrbitTrack = true,
   sectorLabel,
   seed = 42,

@@ -185,19 +185,19 @@ void main() {
   float psi = adx * (outline + 1.0);
   float rise = max(hp - 17.9 * flare, 0.0);
   float skirtAmp = 5.0 * exp(-sq(rise / (8.0 * flare)));
-  float skirtSpread = mix(max(85.0, reachL * 0.34), 75.0, side) * breathe * flare * flare * mix(0.35, 1.0, min(bloom, 1.0)) * max(bloom, 1.0);
-  float leftFade = dx < 0.0 ? smoothstep(sl - 6.0, sl + 0.58 * reachL, p.x) : 1.0;
-  float skirtDecay = dx < 0.0 ? exp(-sq(adx / max(reachL * 0.62, max(layerLen, 60.0 * sqrt(uShape.z)) * 1.48))) : exp(-sq(adx / (max(layerLen, 60.0 * sqrt(uShape.z)) * 1.48)));
+  float skirtSpread = mix(max(78.0, reachL * 0.28), 75.0, side) * breathe * flare * flare * mix(0.35, 1.0, min(bloom, 1.0)) * max(bloom, 1.0);
+  float leftFade = dx < 0.0 ? smoothstep(sl + 0.06 * reachL, sl + 0.64 * reachL, p.x) : 1.0;
+  float skirtDecay = dx < 0.0 ? exp(-sq(adx / max(reachL * 0.42, max(layerLen, 60.0 * sqrt(uShape.z)) * 1.25))) : exp(-sq(adx / (max(layerLen, 60.0 * sqrt(uShape.z)) * 1.48)));
   float skirt = skirtAmp * exp(-psi / skirtSpread) * skirtDecay * hug * leftFade;
   col += sideK * skirt * activeFlowMask * min(bloom, 1.0);
 
-  float layerDecay = dx < 0.0 ? exp(-adx / max(reachL * 0.55, layerLen)) : exp(-adx / layerLen);
-  float layerAmp = dx < 0.0 ? 2.4 : 4.0;
+  float layerDecay = dx < 0.0 ? exp(-adx / max(reachL * 0.34, layerLen * 0.95)) : exp(-adx / layerLen);
+  float layerAmp = dx < 0.0 ? 2.6 : 4.0;
   float layer = layerAmp * layerDecay * exp(-outline / (0.14 * layerLen)) * (1.0 + 0.4 * bead) * leftFade;
   col += sideK * layer * hug * activeFlowMask * min(bloom, 1.0);
   float washMask = smoothstep(sl - 60.0, sl + 6.0, p.x) * (1.0 - smoothstep(sr - 6.0, sr + 45.0, p.x));
-  float washDecay = dx < 0.0 ? exp(-adx / max(reachL * 0.48, 50.0)) : exp(-adx / 50.0);
-  float wash = 0.2 * washDecay * exp(-outline / 12.0) * leftFade;
+  float washDecay = dx < 0.0 ? exp(-adx / max(reachL * 0.34, 50.0)) : exp(-adx / 50.0);
+  float wash = 0.22 * washDecay * exp(-outline / 12.0) * leftFade;
   col += mix(BEAM, sideK, 0.25) * wash * hugWide * washMask * activeFlowMask * min(bloom, 1.0);
   float highWash = 0.0;
   col += mix(BEAM, NAVY, 0.5) * highWash * hugWide * washMask * runMask * min(bloom, 1.0);
@@ -217,12 +217,12 @@ void main() {
   float lineFlow = smoothstep(0.25, 0.85, noise(vec2(lineIndex * 5.3 + 2.0, along * 3.0 + t * 1.1)));
   float flareArea = 120.0 * flare * flare;
   float lineEnvelope = smoothstep(0.85 * flareArea, 1.4 * flareArea, psi) * (1.0 - smoothstep(3.2 * flareArea, 7.5 * flareArea, psi));
-  float lineDecay = dx < 0.0 ? exp(-adx / max(reachL * 0.58, layerLen * 1.5)) : exp(-adx / (layerLen * 1.5));
+  float lineDecay = dx < 0.0 ? exp(-adx / max(reachL * 0.38, layerLen * 1.25)) : exp(-adx / (layerLen * 1.5));
   lineEnvelope *= lineDecay * hug * activeFlowMask * (1.0 - smoothstep(35.0 * flare, 80.0 * flare, hp)) * leftFade;
   float lineBright = mix(0.35, 1.0, hash(vec2(lineIndex, 4.0)));
   col += mix(sideK, WHITE, 0.6) * lineShape * lineOn * lineFlow * lineEnvelope * lineBright * 2.6 * uAmount.w * min(bloom, 1.0);
 
-  float edgeDecay = dx < 0.0 ? exp(-sq(adx / max(reachL * 0.72, 150.0 * uShape.z))) : exp(-sq(adx / (150.0 * uShape.z)));
+  float edgeDecay = dx < 0.0 ? exp(-sq(adx / max(reachL * 0.46, 130.0 * uShape.z))) : exp(-sq(adx / (150.0 * uShape.z)));
   float edgeGlow = 15.0 * edgeDecay * activeEdgeMask * (1.0 + 0.9 * bead);
   float onTop = 1.0 - smoothstep(sy + radius, sy + radius + 10.0, p.y);
   float edgeLine = (exp(-sq(max(sd, 0.0) / 0.9)) + 0.12 * exp(-max(sd, 0.0) / 3.0)) * edgeGlow * onTop * leftFade;
