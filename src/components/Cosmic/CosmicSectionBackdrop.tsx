@@ -324,7 +324,7 @@ export default function CosmicSectionBackdrop({
 
         const targetPlanets = Array.from(
           root.querySelectorAll<HTMLElement>(
-            ".bg-planet:not(.bg-planet--sun):not(.bg-planet--blackhole)"
+            ".bg-planet:not(.bg-planet--sun):not(.bg-planet--blackhole):not(.bg-planet--m87)"
           )
         );
 
@@ -380,7 +380,41 @@ export default function CosmicSectionBackdrop({
         }
       };
 
-      const holePlanet = root.querySelector<HTMLElement>(".bg-planet--blackhole");
+      const siriusPlanet = root.querySelector<HTMLElement>(".bg-planet--sirius");
+      const siriusBody = siriusPlanet?.querySelector<HTMLElement>(".bg-planet__body") ?? null;
+      const siriusWave = siriusPlanet?.querySelector<HTMLElement>(".bg-sun-wave") ?? null;
+      const onSiriusClick = () => {
+        if (!siriusBody || reduceMotion) return;
+        const siriusArt = artOf(siriusBody);
+        gsap.to(siriusBody, {
+          rotation: "+=180",
+          duration: 1.2,
+          ease: "power3.inOut",
+        });
+        if (siriusArt) {
+          gsap.fromTo(
+            siriusArt,
+            { filter: "brightness(1)" },
+            {
+              filter: "brightness(1.7) drop-shadow(0 0 26px rgba(186, 230, 253, 0.75))",
+              duration: 0.45,
+              yoyo: true,
+              repeat: 1,
+              ease: "power2.out",
+              clearProps: "filter",
+            }
+          );
+        }
+        if (siriusWave) {
+          gsap.fromTo(
+            siriusWave,
+            { scale: 0.3, opacity: 0.9 },
+            { scale: 28, opacity: 0, duration: 2.0, ease: "power2.out" }
+          );
+        }
+      };
+
+      const holePlanet = root.querySelector<HTMLElement>(".bg-planet--blackhole, .bg-planet--m87");
       const holeBody = holePlanet?.querySelector<HTMLElement>(".bg-planet__body") ?? null;
       const holeWave = holePlanet?.querySelector<HTMLElement>(".bg-bh-wave") ?? null;
 
@@ -402,7 +436,7 @@ export default function CosmicSectionBackdrop({
         if (devoured) {
           prey = Array.from(
             root.querySelectorAll(
-              ".backdrop-star, .bg-constellation, .bg-wordmark, .bg-planet:not(.bg-planet--blackhole)"
+              ".backdrop-star, .bg-constellation, .bg-wordmark, .bg-planet:not(.bg-planet--blackhole):not(.bg-planet--m87)"
             )
           ).map((el) => ({
             el,
@@ -487,9 +521,12 @@ export default function CosmicSectionBackdrop({
 
         const handler = planetEl.classList.contains("bg-planet--sun")
           ? onSunClick
-          : planetEl.classList.contains("bg-planet--blackhole")
-            ? onHoleClick
-            : onPlanetClick;
+          : planetEl.classList.contains("bg-planet--sirius")
+            ? onSiriusClick
+            : planetEl.classList.contains("bg-planet--blackhole") ||
+                planetEl.classList.contains("bg-planet--m87")
+              ? onHoleClick
+              : onPlanetClick;
 
         body.addEventListener("click", handler);
         cleanups.push(() => body.removeEventListener("click", handler));
@@ -712,10 +749,10 @@ export default function CosmicSectionBackdrop({
         >
           <div className="cosmic-mobile-glow__core" />
           <div className="cosmic-mobile-glow__corona" />
-          {planet === "sun" && (
+          {(planet === "sun" || planet === "sirius") && (
             <div className="cosmic-mobile-glow__solar-flare" />
           )}
-          {planet === "blackhole" && (
+          {(planet === "blackhole" || planet === "m87") && (
             <div className="cosmic-mobile-glow__event-horizon" />
           )}
           {sectorLabel && (

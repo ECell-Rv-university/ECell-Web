@@ -738,25 +738,77 @@
   }
 }
 
-/* ── 9. Black Hole (Relativistic Singularity) ────────────────── */
+/* ── 1b. Sirius AB (Blue-White Binary Star) ─────────────────── */
+.bg-planet--sirius {
+  width: clamp(105px, 10vw, 165px);
+}
+
+.bg-planet--sirius .bg-planet__art {
+  opacity: 0.96;
+  animation-duration: 18s;
+}
+
+.bg-sirius__glow {
+  transform-box: view-box;
+  transform-origin: 110px 110px;
+  animation: cosmicSunPulse 5s ease-in-out infinite alternate;
+}
+
+.bg-sirius__spikes {
+  transform-box: view-box;
+  transform-origin: 110px 110px;
+  animation: cosmicSunSpin 95s linear infinite;
+}
+
+.bg-sirius__companion {
+  transform-box: view-box;
+  transform-origin: 110px 110px;
+  animation: cosmicSatelliteOrbit 14s linear infinite;
+}
+
+/* ── 9. Black Hole (Sagittarius A*) & M87* Powehi ───────────── */
 .bg-planet--blackhole {
   --bh-w: clamp(230px, 21vw, 340px);
   width: var(--bh-w);
 }
 
-.bg-planet--blackhole .bg-planet__art {
+.bg-planet--m87 {
+  --m87-w: clamp(230px, 21vw, 340px);
+  width: var(--m87-w);
+}
+
+.bg-planet--blackhole .bg-planet__art,
+.bg-planet--m87 .bg-planet__art {
   opacity: 0.95;
   animation: none;
   transition: filter 0.8s ease;
 }
 
-.bg-bh__disk {
+.bg-bh__disk,
+.bg-m87__disk {
   stroke-dasharray: 60 18;
   animation: cosmicBhDiskFlow 6s linear infinite;
 }
 
-.bg-planets.is-devouring .bg-bh__disk,
-.is-devouring .bg-bh__disk {
+.bg-m87__jet {
+  transform-box: view-box;
+  transform-origin: 170px 120px;
+  animation: cosmicJetPulse 3.6s ease-in-out infinite alternate;
+}
+
+@keyframes cosmicJetPulse {
+  0% {
+    opacity: 0.7;
+    transform: scaleY(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scaleY(1.06);
+  }
+}
+
+.bg-planets.is-devouring :is(.bg-bh__disk, .bg-m87__disk),
+.is-devouring :is(.bg-bh__disk, .bg-m87__disk) {
   animation-duration: 1.5s;
 }
 
@@ -781,8 +833,8 @@
 }
 
 /* ── Light Transmission (Sun Toggle) ────────────────────────── */
-.is-sun-off .bg-planet:not(.bg-planet--blackhole) .bg-planet__parallax,
-.bg-planets.is-sun-off .bg-planet:not(.bg-planet--blackhole) .bg-planet__parallax {
+.is-sun-off .bg-planet:not(.bg-planet--blackhole):not(.bg-planet--m87) .bg-planet__parallax,
+.bg-planets.is-sun-off .bg-planet:not(.bg-planet--blackhole):not(.bg-planet--m87) .bg-planet__parallax {
   filter: brightness(0.28) saturate(0.35);
 }
 
@@ -909,7 +961,12 @@
   .bg-sun__rays,
   .bg-sun__flares,
   .bg-sun__glow,
+  .bg-sirius__glow,
+  .bg-sirius__spikes,
+  .bg-sirius__companion,
   .bg-bh__disk,
+  .bg-m87__disk,
+  .bg-m87__jet,
   .bg-nexus__ring,
   .bg-nexus__spikes,
   .bg-nexus__beams,
@@ -938,6 +995,10 @@
 
   .bg-planet--blackhole {
     --bh-w: clamp(190px, 19vw, 250px);
+  }
+
+  .bg-planet--m87 {
+    --m87-w: clamp(190px, 19vw, 250px);
   }
 }
 
@@ -996,7 +1057,12 @@
     .bg-sun__rays,
     .bg-sun__flares,
     .bg-sun__glow,
+    .bg-sirius__glow,
+    .bg-sirius__spikes,
+    .bg-sirius__companion,
     .bg-bh__disk,
+    .bg-m87__disk,
+    .bg-m87__jet,
     .bg-nexus__ring,
     .bg-nexus__spikes,
     .bg-nexus__beams,
@@ -1066,6 +1132,36 @@
     width: 220px;
     height: 1.5px;
     background: linear-gradient(90deg, transparent 0%, rgba(255, 215, 0, 0.4) 50%, rgba(255, 255, 255, 0.85) 100%);
+  }
+
+  /* 1b. Sirius (Hero) */
+  .cosmic-mobile-glow--sirius .cosmic-mobile-glow__core {
+    top: -60px;
+    right: -60px;
+    width: 340px;
+    height: 340px;
+    background: radial-gradient(
+      circle,
+      rgba(224, 242, 254, 0.28) 0%,
+      rgba(56, 189, 248, 0.14) 34%,
+      rgba(37, 99, 235, 0.04) 58%,
+      transparent 74%
+    );
+    animation: mobileSolarPulse 5.2s ease-in-out infinite alternate;
+  }
+
+  .cosmic-mobile-glow--sirius .cosmic-mobile-glow__corona {
+    top: -30px;
+    right: -30px;
+    width: 210px;
+    height: 210px;
+    background: radial-gradient(
+      circle,
+      rgba(255, 255, 255, 0.36) 0%,
+      rgba(186, 230, 253, 0.16) 40%,
+      transparent 72%
+    );
+    animation: mobileSolarPulse 4s ease-in-out infinite alternate reverse;
   }
 
   /* 2. Ringed (About) */
@@ -1202,16 +1298,17 @@
     animation: mobileSubtlePulse 6.8s ease-in-out infinite alternate;
   }
 
-  /* 9. Black Hole (Community) */
-  .cosmic-mobile-glow--blackhole .cosmic-mobile-glow__core {
+  /* 9. Black Hole (Sagittarius A* & M87* Powehi) */
+  .cosmic-mobile-glow--blackhole .cosmic-mobile-glow__core,
+  .cosmic-mobile-glow--m87 .cosmic-mobile-glow__core {
     bottom: -80px;
     right: -80px;
     width: 360px;
     height: 360px;
     background: radial-gradient(
       circle,
-      rgba(255, 241, 214, 0.2) 0%,
-      rgba(255, 0, 26, 0.08) 38%,
+      rgba(251, 146, 60, 0.22) 0%,
+      rgba(220, 38, 38, 0.09) 38%,
       transparent 70%
     );
     animation: mobileSolarPulse 5s ease-in-out infinite alternate;
@@ -1262,8 +1359,13 @@
     background: #fb923c;
   }
 
-  .cosmic-mobile-glow--blackhole .cosmic-mobile-glow__dot {
-    background: #ff001a;
+  .cosmic-mobile-glow--sirius .cosmic-mobile-glow__dot {
+    background: #7dd3fc;
+  }
+
+  .cosmic-mobile-glow--blackhole .cosmic-mobile-glow__dot,
+  .cosmic-mobile-glow--m87 .cosmic-mobile-glow__dot {
+    background: #fb923c;
   }
 
   .cosmic-mobile-glow__code {
@@ -1317,7 +1419,12 @@
   .bg-sun__rays,
   .bg-sun__flares,
   .bg-sun__glow,
+  .bg-sirius__glow,
+  .bg-sirius__spikes,
+  .bg-sirius__companion,
   .bg-bh__disk,
+  .bg-m87__disk,
+  .bg-m87__jet,
   .bg-nexus__ring,
   .bg-nexus__spikes,
   .bg-nexus__beams,

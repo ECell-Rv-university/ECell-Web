@@ -8,7 +8,7 @@ Metaphor:    Deep-space astrophysics observatory & star-charting expedition — 
 Signature:   Single-Clock Celestial Telemetry & Hyperdrive Velocity Field — one unified `gsap.ticker` driver couples cursor parallax, scroll-velocity starfield elongation, idle orbital drift, interactive light-travel dimming from the Helios sun, and gravitational devouring by the Sagittarius black hole across 9 cosmic sectors.
 Emotion:     Awe, precision, boundless ambition — the quiet vastness of obsidian space punctuated by sharp astrometric instruments and human creation.
 Motion verb: "Drift in orbit, lock on trajectory, warp through deep space."
-Screenshot:  The Helios Genesis core radiating coronal astrolabe flares above the hero stage, paired with astrometric coordinates (`RA 00h 00m 00s · DEC +00° 00' 00"`) and Keplerian orbital tracks.
+Screenshot:  Sirius AB (Class A1V + white dwarf Sirius B) radiating sapphire diffraction spikes above the hero stage, paired with astrometric coordinates (`RA 06h 45m 09s · DEC -16° 42' 58"`) and Keplerian orbital tracks.
 ```
 
 ---
@@ -24,15 +24,15 @@ Screenshot:  The Helios Genesis core radiating coronal astrolabe flares above th
 
 | Sector | Section | Celestial Body | RA | DEC | MAG / Mass | Narrative Mapping |
 |---|---|---|---|---|---|---|
-| **01** | Hero | Helios Genesis (Sun) | `00h 00m 00s` | `+00° 00' 00"` | `-26.74 MAG` | Primordial ignition: raw startup concepts spark into luminous existence. |
+| **01** | Hero | Sirius AB (Class A1V + DA2 Binary) | `06h 45m 09s` | `-16° 42' 58"` | `-1.46 MAG` | Primordial ignition: brightest beacon in the night sky sparking startup ambition. |
 | **02** | About | Orbitalis Chrono (Ringed) | `02h 42m 18s` | `+14° 12' 09"` | `+0.46 MAG` | Accretion disk & orbital order: structuring curiosity into venture foundations. |
 | **03** | Events | — (Backdrop stars behind full-screen photo) | `05h 18m 44s` | `+22° 31' 50"` | `-2.94 MAG` | Full-screen photographic showcase: planets & constellations omitted so nothing overlaps photography. |
 | **04** | Speakers | Pulsar Beacon (Nexus) | `08h 35m 20s` | `-45° 10' 35"` | `-4.12 MAG` | Guiding lighthouse: founders and operators beaming experience across the void. |
-| **05** | Sponsors | Kryos Capital + 3-Body Corner Ensemble | `11h 09m 51s` | `+06° 44' 12"` | `+5.38 MAG` | Capital infrastructure anchored in outer corners by Helios (`sun`), Kryos (`ice`), and Sagittarius (`blackhole`). |
+| **05** | Sponsors | Helios Sol, Kryos Capital & Sagittarius A* | `11h 09m 51s` | `+06° 44' 12"` | `+5.38 MAG` | Capital infrastructure anchored in outer corners by Helios (`sun`), Kryos (`ice`), and Sagittarius A* (`blackhole`). |
 | **06** | Why Join | Terra Firma (Terran) | `14h 29m 42s` | `-62° 40' 46"` | `-1.45 MAG` | Grounding & atmosphere: real products taking root on fertile campus ground. |
 | **07** | Story | — (Backdrop stars behind full-screen photo) | `17h 55m 10s` | `-19° 08' 22"` | `-12.74 MAG` | Full-screen photographic narrative: planets & constellations omitted so typography and photo stay unobstructed. |
 | **08** | Team | Pleiades Syndicate (Cluster) | `03h 47m 24s` | `+24° 07' 00"` | `+1.60 MAG` | Open star cluster: builders coalescing into one leadership constellation. |
-| **09** | Community | Sagittarius ECell (Black Hole) | `17h 45m 40s` | `-29° 00' 28"` | `4.1M M☉` | Event horizon: community gravity pulling student builders together. |
+| **09** | Community | M87* Powehi (Supermassive BH + Jet) | `12h 30m 49s` | `+12° 23' 28"` | `6.5B M☉` | Event horizon & relativistic polar jet: community gravity pulling student builders together. |
 
 ---
 

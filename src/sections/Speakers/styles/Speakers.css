@@ -5,15 +5,22 @@
   position: relative;
   overflow: hidden;
   max-width: 100vw;
+  background: var(--bg, #1a1a1a);
 }
 
 .speakers-reveal-panel {
   position: relative;
+  z-index: 2;
   isolation: isolate;
   overflow: hidden;
   padding: clamp(100px, 12vw, 160px) 0 clamp(110px, 14vw, 180px);
-  background: var(--bg, #1a1a1a);
+  background: transparent;
   color: var(--fg);
+  pointer-events: none;
+}
+
+.speakers-reveal-panel .wrap {
+  pointer-events: auto;
 }
 
 .speakers-header {

@@ -55,15 +55,15 @@ export default function Hero(): React.ReactElement {
     <section ref={heroRef} className="hero">
       <div className="hero__sticky">
         <CosmicSectionBackdrop
-          planet="sun"
-          planetPlacement={{ top: "10%", right: "8%", width: "clamp(100px, 10vw, 160px)" }}
+          planet="sirius"
+          planetPlacement={{ top: "10%", right: "8%", width: "clamp(105px, 10vw, 165px)" }}
           starsCount={32}
           shootingStarsCount={2}
           seed={101}
-          nebula="solar"
+          nebula="cyan"
           constellation="pegasus"
           constellationPlacement={{ top: "14%", left: "4%", width: "clamp(85px, 8vw, 120px)" }}
-          sectorLabel="SEC-01 HELIOS GENESIS"
+          sectorLabel="SEC-01 SIRIUS AB"
           sectionId="hero"
           scrollParallax={false}
         />

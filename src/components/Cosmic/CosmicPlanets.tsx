@@ -3,6 +3,7 @@ import React, { useState } from "react";
 
 export type CosmicPlanetType =
   | "sun"
+  | "sirius"
   | "ringed"
   | "moon"
   | "giant"
@@ -10,10 +11,12 @@ export type CosmicPlanetType =
   | "ice"
   | "terran"
   | "cluster"
-  | "blackhole";
+  | "blackhole"
+  | "m87";
 
 export const PLANET_DEPTH: Record<CosmicPlanetType, number> = {
   sun: 12,
+  sirius: 12,
   ringed: 24,
   moon: 32,
   giant: 14,
@@ -22,6 +25,7 @@ export const PLANET_DEPTH: Record<CosmicPlanetType, number> = {
   terran: 16,
   cluster: 22,
   blackhole: 10,
+  m87: 10,
 };
 
 export interface PlanetTelemetry {
@@ -37,14 +41,24 @@ export interface PlanetTelemetry {
 
 export const PLANET_TELEMETRY: Record<CosmicPlanetType, PlanetTelemetry> = {
   sun: {
-    sector: "SEC-01",
-    name: "HELIOS GENESIS",
-    classification: "Class G2V · Primordial Core",
-    description: "Startup ignition & solar ambition",
+    sector: "SEC-05",
+    name: "HELIOS SOL",
+    classification: "Class G2V · Yellow Dwarf",
+    description: "Solar ignition & light-delay anchor",
     ra: "00h 00m 00s",
     dec: "+00° 00' 00\"",
     magnitude: "-26.74 MAG",
     distance: "1.00 AU",
+  },
+  sirius: {
+    sector: "SEC-01",
+    name: "SIRIUS AB",
+    classification: "Class A1V + DA2 · Binary Star",
+    description: "Brightest beacon in the night sky",
+    ra: "06h 45m 09s",
+    dec: "-16° 42' 58\"",
+    magnitude: "-1.46 MAG",
+    distance: "8.60 ly",
   },
   ringed: {
     sector: "SEC-02",
@@ -117,14 +131,24 @@ export const PLANET_TELEMETRY: Record<CosmicPlanetType, PlanetTelemetry> = {
     distance: "136.2 pc",
   },
   blackhole: {
-    sector: "SEC-09",
-    name: "SAGITTARIUS ECELL",
-    classification: "Singularity · 4.1M M☉",
-    description: "Infinite community gravitational pull",
+    sector: "SEC-05",
+    name: "SAGITTARIUS A*",
+    classification: "Galactic Core · 4.1M M☉",
+    description: "Gravitational anchor of the constellation",
     ra: "17h 45m 40s",
     dec: "-29° 00' 28\"",
     magnitude: "4.1M M☉",
     distance: "8.18 kpc",
+  },
+  m87: {
+    sector: "SEC-09",
+    name: "M87* POWEHI",
+    classification: "Supermassive BH · Relativistic Jet",
+    description: "Infinite community gravitational pull",
+    ra: "12h 30m 49s",
+    dec: "+12° 23' 28\"",
+    magnitude: "6.5B M☉",
+    distance: "53.5 Mly",
   },
 };
 
@@ -159,9 +183,11 @@ export default function CosmicPlanet({
   const actionHint =
     type === "sun"
       ? "Toggle solar illumination"
-      : type === "blackhole"
-        ? "Toggle gravitational singularity"
-        : "Spin celestial body";
+      : type === "sirius"
+        ? "Pulse Sirius binary flare"
+        : type === "blackhole" || type === "m87"
+          ? "Toggle gravitational singularity"
+          : "Spin celestial body";
 
   return (
     <div
@@ -171,8 +197,8 @@ export default function CosmicPlanet({
       onMouseLeave={() => setIsActive(false)}
     >
       <div className="bg-planet__parallax" data-depth={depth}>
-        {type === "sun" && <span className="bg-sun-wave" aria-hidden="true" />}
-        {type === "blackhole" && <span className="bg-bh-wave" aria-hidden="true" />}
+        {(type === "sun" || type === "sirius") && <span className="bg-sun-wave" aria-hidden="true" />}
+        {(type === "blackhole" || type === "m87") && <span className="bg-bh-wave" aria-hidden="true" />}
 
         {/* Ambient Atmospheric Halo */}
         <div className="bg-planet__halo" aria-hidden="true" />
@@ -326,6 +352,60 @@ function renderPlanetArtwork(type: CosmicPlanetType, p: string): React.ReactElem
           <circle cx="110" cy="110" r="46" fill={`url(#${p}-sun-core)`} />
           {/* High Energy Chromosphere Rim (last circle element for direct core hit-testing) */}
           <circle cx="110" cy="110" r="46" stroke="#ffffff" strokeWidth="1.5" strokeOpacity="0.82" />
+        </svg>
+      );
+
+    case "sirius":
+      return (
+        <svg className="bg-planet__art" viewBox="0 0 220 220" fill="none">
+          <defs>
+            <radialGradient id={`${p}-sirius-core`} cx="48%" cy="46%" r="55%">
+              <stop offset="0%" stopColor="#ffffff" />
+              <stop offset="28%" stopColor="#f0f9ff" />
+              <stop offset="65%" stopColor="#bae6fd" />
+              <stop offset="92%" stopColor="#38bdf8" />
+              <stop offset="100%" stopColor="#0284c7" />
+            </radialGradient>
+            <radialGradient id={`${p}-sirius-glow`} cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stopColor="#e0f2fe" stopOpacity="0.65" />
+              <stop offset="35%" stopColor="#38bdf8" stopOpacity="0.28" />
+              <stop offset="68%" stopColor="#2563eb" stopOpacity="0.09" />
+              <stop offset="100%" stopColor="#1d4ed8" stopOpacity="0" />
+            </radialGradient>
+          </defs>
+          {/* Sapphire Corona Halo */}
+          <circle className="bg-sirius__glow" cx="110" cy="110" r="105" fill={`url(#${p}-sirius-glow)`} />
+
+          {/* Binary Companion Orbit Track */}
+          <ellipse
+            cx="110"
+            cy="110"
+            rx="78"
+            ry="38"
+            transform="rotate(-24 110 110)"
+            stroke="#bae6fd"
+            strokeOpacity="0.24"
+            strokeWidth="0.7"
+            strokeDasharray="3 5"
+          />
+
+          {/* Razor-Sharp 8-Point Astrometric Diffraction Spikes */}
+          <g className="bg-sirius__spikes" stroke="#e0f2fe" strokeLinecap="round">
+            <line x1="110" y1="10" x2="110" y2="210" strokeWidth="1.3" strokeOpacity="0.78" />
+            <line x1="10" y1="110" x2="210" y2="110" strokeWidth="1.3" strokeOpacity="0.78" />
+            <line x1="48" y1="48" x2="172" y2="172" strokeWidth="0.8" strokeOpacity="0.48" />
+            <line x1="172" y1="48" x2="48" y2="172" strokeWidth="0.8" strokeOpacity="0.48" />
+          </g>
+
+          {/* Sirius A Photosphere */}
+          <circle cx="110" cy="110" r="34" fill={`url(#${p}-sirius-core)`} />
+          <circle cx="110" cy="110" r="34" stroke="#ffffff" strokeWidth="1.4" strokeOpacity="0.9" />
+
+          {/* Sirius B White Dwarf Companion */}
+          <g className="bg-sirius__companion">
+            <circle cx="176" cy="82" r="9" fill="#bae6fd" opacity="0.25" />
+            <circle cx="176" cy="82" r="3.4" fill="#ffffff" />
+          </g>
         </svg>
       );
 
@@ -686,6 +766,79 @@ function renderPlanetArtwork(type: CosmicPlanetType, p: string): React.ReactElem
               clipPath={`url(#${p}-bh-front)`}
             />
             <ellipse cx="170" cy="120" rx="112" ry="18" stroke="#ffffff" strokeOpacity="0.52" strokeWidth="1.5" clipPath={`url(#${p}-bh-front)`} />
+          </g>
+        </svg>
+      );
+
+    case "m87":
+      return (
+        <svg className="bg-planet__art" viewBox="0 0 340 240" fill="none">
+          <defs>
+            <radialGradient id={`${p}-m87-glow`} cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stopColor="#fb923c" stopOpacity="0.34" />
+              <stop offset="42%" stopColor="#dc2626" stopOpacity="0.14" />
+              <stop offset="100%" stopColor="#7f1d1d" stopOpacity="0" />
+            </radialGradient>
+            <linearGradient id={`${p}-m87-ring`} x1="0" y1="1" x2="1" y2="0">
+              <stop offset="0%" stopColor="#ea580c" stopOpacity="0.55" />
+              <stop offset="45%" stopColor="#fb923c" stopOpacity="0.95" />
+              <stop offset="85%" stopColor="#fff7ed" stopOpacity="1" />
+              <stop offset="100%" stopColor="#fdba74" stopOpacity="0.75" />
+            </linearGradient>
+            <linearGradient id={`${p}-m87-jet`} x1="0.5" y1="1" x2="0.5" y2="0">
+              <stop offset="0%" stopColor="#fff7ed" stopOpacity="0.85" />
+              <stop offset="35%" stopColor="#60a5fa" stopOpacity="0.5" />
+              <stop offset="100%" stopColor="#3b82f6" stopOpacity="0" />
+            </linearGradient>
+            <clipPath id={`${p}-m87-back`}>
+              <rect x="0" y="0" width="340" height="120" />
+            </clipPath>
+            <clipPath id={`${p}-m87-front`}>
+              <rect x="0" y="120" width="340" height="120" />
+            </clipPath>
+          </defs>
+          <g transform="rotate(24 170 120)">
+            {/* Relativistic Polar Plasma Jet */}
+            <g className="bg-m87__jet">
+              <polygon points="170,120 156,10 184,10" fill={`url(#${p}-m87-jet)`} opacity="0.65" />
+              <line x1="170" y1="120" x2="170" y2="12" stroke="#e0f2fe" strokeWidth="1.2" strokeDasharray="6 5" opacity="0.7" />
+              <polygon points="170,120 162,215 178,215" fill={`url(#${p}-m87-jet)`} opacity="0.32" />
+            </g>
+
+            {/* Crimson-Amber Lensing Aura */}
+            <ellipse cx="170" cy="120" rx="160" ry="105" fill={`url(#${p}-m87-glow)`} />
+
+            {/* Rear Accretion Torus */}
+            <ellipse
+              className="bg-m87__disk"
+              cx="170"
+              cy="120"
+              rx="136"
+              ry="26"
+              stroke={`url(#${p}-m87-ring)`}
+              strokeWidth="7.5"
+              opacity="0.6"
+              clipPath={`url(#${p}-m87-back)`}
+            />
+
+            {/* Asymmetric EHT-Inspired Photon Ring */}
+            <circle cx="170" cy="120" r="62" stroke={`url(#${p}-m87-ring)`} strokeWidth="6" opacity="0.88" />
+            <circle cx="170" cy="120" r="70" stroke="#fb923c" strokeOpacity="0.28" strokeWidth="0.8" strokeDasharray="4 9" />
+
+            {/* Event Horizon Shadow */}
+            <circle cx="170" cy="120" r="48" fill="#000000" stroke="#fdba74" strokeOpacity="0.72" strokeWidth="1.4" />
+
+            {/* Front Relativistic Doppler-Beamed Disk */}
+            <ellipse
+              className="bg-m87__disk"
+              cx="170"
+              cy="120"
+              rx="136"
+              ry="26"
+              stroke={`url(#${p}-m87-ring)`}
+              strokeWidth="10.5"
+              clipPath={`url(#${p}-m87-front)`}
+            />
           </g>
         </svg>
       );
