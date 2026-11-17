@@ -9,6 +9,7 @@ export type CosmicPlanetType =
   | "giant"
   | "nexus"
   | "ice"
+  | "dyson"
   | "terran"
   | "cluster"
   | "blackhole"
@@ -22,6 +23,7 @@ export const PLANET_DEPTH: Record<CosmicPlanetType, number> = {
   giant: 14,
   nexus: 18,
   ice: 20,
+  dyson: 18,
   terran: 16,
   cluster: 22,
   blackhole: 10,
@@ -99,6 +101,16 @@ export const PLANET_TELEMETRY: Record<CosmicPlanetType, PlanetTelemetry> = {
     dec: "+06° 44' 12\"",
     magnitude: "+5.38 MAG",
     distance: "19.2 AU",
+  },
+  dyson: {
+    sector: "SEC-05",
+    name: "HELIOS DYSON SWARM",
+    classification: "Type-II Megastructure · 1.00 AU",
+    description: "Captured stellar core & syndicate power grid",
+    ra: "11h 09m 51s",
+    dec: "+06° 44' 12\"",
+    magnitude: "-4.80 MAG",
+    distance: "1.42 AU",
   },
   terran: {
     sector: "SEC-06",
@@ -613,6 +625,130 @@ function renderPlanetArtwork(type: CosmicPlanetType, p: string): React.ReactElem
             <ellipse cx="110" cy="90" rx="98" ry="18" stroke={`url(#${p}-ice-ring)`} strokeWidth="2.5" opacity="0.95" />
             <ellipse cx="110" cy="90" rx="82" ry="14" stroke="#a5f3fc" strokeWidth="1.2" opacity="0.75" />
           </g>
+        </svg>
+      );
+
+    case "dyson":
+      return (
+        <svg className="bg-planet__art" viewBox="0 0 240 240" fill="none">
+          <defs>
+            <radialGradient id={`${p}-dyson-glow`} cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stopColor="#fff7ed" stopOpacity="0.58" />
+              <stop offset="32%" stopColor="#67e8f9" stopOpacity="0.26" />
+              <stop offset="68%" stopColor="#0891b2" stopOpacity="0.08" />
+              <stop offset="100%" stopColor="#082f49" stopOpacity="0" />
+            </radialGradient>
+            <radialGradient id={`${p}-dyson-core`} cx="46%" cy="44%" r="55%">
+              <stop offset="0%" stopColor="#ffffff" />
+              <stop offset="38%" stopColor="#e0f2fe" />
+              <stop offset="76%" stopColor="#ffd285" />
+              <stop offset="100%" stopColor="#06b6d4" />
+            </radialGradient>
+            <linearGradient id={`${p}-dyson-ring-a`} x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stopColor="#67e8f9" stopOpacity="0.88" />
+              <stop offset="50%" stopColor="#fff1d6" stopOpacity="0.95" />
+              <stop offset="100%" stopColor="#38bdf8" stopOpacity="0.65" />
+            </linearGradient>
+            <linearGradient id={`${p}-dyson-ring-b`} x1="1" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#ffd285" stopOpacity="0.82" />
+              <stop offset="50%" stopColor="#ffffff" stopOpacity="0.9" />
+              <stop offset="100%" stopColor="#22d3ee" stopOpacity="0.55" />
+            </linearGradient>
+          </defs>
+
+          {/* Ambient Photonic Harvest Halo */}
+          <circle cx="120" cy="120" r="112" fill={`url(#${p}-dyson-glow)`} />
+
+          {/* Outer Geodesic Collector Ring */}
+          <g className="bg-dyson__ring-outer">
+            <circle
+              cx="120"
+              cy="120"
+              r="98"
+              stroke={`url(#${p}-dyson-ring-a)`}
+              strokeWidth="1.2"
+              strokeDasharray="14 6 3 6"
+              opacity="0.72"
+            />
+            <ellipse
+              cx="120"
+              cy="120"
+              rx="106"
+              ry="42"
+              transform="rotate(-28 120 120)"
+              stroke={`url(#${p}-dyson-ring-b)`}
+              strokeWidth="2.2"
+              strokeDasharray="18 7 6 7"
+              opacity="0.82"
+            />
+            <circle cx="28" cy="120" r="2.6" fill="#fff1d6" />
+            <circle cx="212" cy="120" r="2.6" fill="#67e8f9" />
+            <circle cx="120" cy="22" r="2.2" fill="#ffffff" />
+            <circle cx="120" cy="218" r="2.2" fill="#ffd285" />
+          </g>
+
+          {/* Middle Inclined Collector Swarm */}
+          <g className="bg-dyson__ring-mid">
+            <ellipse
+              cx="120"
+              cy="120"
+              rx="86"
+              ry="34"
+              transform="rotate(34 120 120)"
+              stroke={`url(#${p}-dyson-ring-a)`}
+              strokeWidth="1.8"
+              strokeDasharray="10 5"
+              opacity="0.78"
+            />
+            <circle
+              cx="120"
+              cy="120"
+              r="70"
+              stroke="#ffd285"
+              strokeOpacity="0.34"
+              strokeWidth="0.9"
+              strokeDasharray="2 6"
+            />
+          </g>
+
+          {/* Inner Counter-Rotating Harvester Cage */}
+          <g className="bg-dyson__ring-inner">
+            <ellipse
+              cx="120"
+              cy="120"
+              rx="58"
+              ry="24"
+              transform="rotate(14 120 120)"
+              stroke="#ffffff"
+              strokeOpacity="0.8"
+              strokeWidth="1.4"
+              strokeDasharray="12 4"
+            />
+            <ellipse
+              cx="120"
+              cy="120"
+              rx="54"
+              ry="22"
+              transform="rotate(-76 120 120)"
+              stroke="#67e8f9"
+              strokeOpacity="0.68"
+              strokeWidth="1.1"
+              strokeDasharray="8 5"
+            />
+          </g>
+
+          {/* Axial Energy Transfer Conduits */}
+          <g stroke="#fff1d6" strokeOpacity="0.38" strokeWidth="0.9" strokeDasharray="3 4">
+            <line x1="120" y1="26" x2="120" y2="94" />
+            <line x1="120" y1="146" x2="120" y2="214" />
+            <line x1="26" y1="120" x2="94" y2="120" />
+            <line x1="146" y1="120" x2="214" y2="120" />
+          </g>
+
+          {/* Captured High-Energy Star Core */}
+          <circle cx="120" cy="120" r="24" fill={`url(#${p}-dyson-core)`} />
+          <circle cx="120" cy="120" r="24" stroke="#ffffff" strokeWidth="1.4" strokeOpacity="0.92" />
+          <circle cx="120" cy="120" r="10" fill="#ffffff" opacity="0.95" />
         </svg>
       );
 

@@ -5,7 +5,6 @@ interface SponsorsAnimationTargets {
   header: HTMLElement | null;
   constellation: HTMLElement | null;
   glow: HTMLElement | null;
-  wipeBar: HTMLElement | null;
 }
 
 /**
@@ -18,7 +17,6 @@ export function setupSponsorsAnimations({
   header,
   constellation,
   glow,
-  wipeBar,
 }: SponsorsAnimationTargets): (() => void) | undefined {
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   if (reduceMotion) {
@@ -27,37 +25,6 @@ export function setupSponsorsAnimations({
     if (glow) gsap.set(glow, { opacity: 0.35, scale: 1 });
     return;
   }
-
-  const wipeCtx = gsap.context(() => {
-    // ── Luminous Wipe Bar Sweep (Scroll Scrub) ──
-    if (wipeBar) {
-      gsap.fromTo(
-        wipeBar,
-        { scaleX: 0, opacity: 0 },
-        {
-          scaleX: 1,
-          opacity: 1,
-          ease: "power2.inOut",
-          scrollTrigger: {
-            trigger: section,
-            start: "top 90%",
-            end: "top 55%",
-            scrub: 0.5,
-          },
-        }
-      );
-      gsap.to(wipeBar, {
-        opacity: 0,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: section,
-          start: "top 50%",
-          end: "top 30%",
-          scrub: 0.5,
-        },
-      });
-    }
-  }, section);
 
   const headerCtx = gsap.context(() => {
     // ── Kinetic Typography: Partners slides from left, & stays center, Sponsors from right ──
@@ -69,14 +36,6 @@ export function setupSponsorsAnimations({
         scrub: 0.8,
       },
     });
-
-    // Badge enters from top
-    headerTl.fromTo(
-      ".sponsors-badge-container",
-      { y: -20, opacity: 0, scale: 0.92, filter: "blur(6px)" },
-      { y: 0, opacity: 1, scale: 1, filter: "blur(0px)", ease: "power3.out" },
-      0
-    );
 
     // "Partners" slides in with momentum from the left
     headerTl.fromTo(
@@ -155,89 +114,52 @@ export function setupSponsorsAnimations({
       });
     });
 
-    // ── PHASE 1: NODES (Seed Origin & Constellation Ignition) ──
-    // 1.1 Origin seed beacon dots ignite with scale bounce & shockwave ripple
+    // ── PHASE 1: NODES & ORRERY IGNITION (Barycenter, Orbits & Constellation Seed) ──
     const anchorNodes = gsap.utils.toArray<SVGElement>(".constellation-anchor-node");
     const junctionDots = gsap.utils.toArray<SVGElement>(".constellation-junction-dot");
     const pingRings = gsap.utils.toArray<SVGElement>(".node-ping-ring");
-    const stars = gsap.utils.toArray<HTMLElement>(".constellation-star");
+    const barycenter = gsap.utils.toArray<SVGElement>(".orrery-barycenter");
+    const orreryTracks = gsap.utils.toArray<SVGElement>(".orrery-track");
+    const solarPlanets = gsap.utils.toArray<SVGElement>(".solar-planet-node");
 
-    // Stars in backdrop awaken
-    if (stars.length > 0) {
+    if (barycenter.length > 0) {
       storyTl.fromTo(
-        stars,
-        { opacity: 0, scale: 0 },
-        { opacity: 0.7, scale: 1, duration: 0.4, stagger: 0.04, ease: "power2.out" },
+        barycenter,
+        { opacity: 0, scale: 0.72, transformOrigin: "50% 50%" },
+        { opacity: 1, scale: 1, duration: 0.75, ease: "power3.out" },
         0
       );
     }
 
-    // Extra backdrop stars fade up, and the faint margin constellations
-    // trace themselves in, behind the main network
-    const backdropStars = gsap.utils.toArray<HTMLElement>(".backdrop-star");
-    if (backdropStars.length > 0) {
+    if (orreryTracks.length > 0) {
       storyTl.fromTo(
-        backdropStars,
+        orreryTracks,
+        { opacity: 0, scale: 0.88, transformOrigin: "50% 50%" },
+        {
+          opacity: 0.48,
+          scale: 1,
+          duration: 0.85,
+          stagger: 0.07,
+          ease: "power3.out",
+          clearProps: "opacity,transform",
+        },
+        0.06
+      );
+    }
+
+    if (solarPlanets.length > 0) {
+      storyTl.fromTo(
+        solarPlanets,
         { opacity: 0 },
-        { opacity: 1, duration: 0.5, stagger: { amount: 0.8, from: "random" }, ease: "power2.out" },
-        0
+        {
+          opacity: 1,
+          duration: 0.7,
+          stagger: 0.08,
+          ease: "power2.out",
+        },
+        0.18
       );
     }
-
-    const planets = gsap.utils.toArray<HTMLElement>(".bg-planet");
-    if (planets.length > 0) {
-      storyTl.fromTo(
-        planets,
-        { opacity: 0, y: 24, scale: 0.92 },
-        { opacity: 1, y: 0, scale: 1, duration: 1, stagger: 0.15, ease: "power3.out" },
-        0
-      );
-    }
-
-    const backdropLines = gsap.utils.toArray<SVGPathElement>(".bg-constellation-line");
-    backdropLines.forEach((path) => {
-      const length = path.getTotalLength ? path.getTotalLength() : 40;
-      gsap.set(path, { strokeDasharray: length, strokeDashoffset: length });
-    });
-    const backdropFigureStars = gsap.utils.toArray<SVGElement>(".bg-constellation-star");
-    if (backdropFigureStars.length > 0) {
-      storyTl.fromTo(
-        backdropFigureStars,
-        { opacity: 0, scale: 0 },
-        { opacity: 1, scale: 1, duration: 0.4, stagger: { amount: 0.6, from: "random" }, ease: "back.out(2)" },
-        0.05
-      );
-    }
-    if (backdropLines.length > 0) {
-      storyTl.to(
-        backdropLines,
-        { strokeDashoffset: 0, duration: 0.6, stagger: { amount: 0.9 }, ease: "power2.inOut" },
-        0.2
-      );
-    }
-
-    // The ECELL RVU wordmark spells itself out: each letter's stars light up,
-    // then its strokes trace, before the next letter begins.
-    gsap.utils.toArray<SVGGElement>(".bg-wordmark-letter").forEach((letter, i) => {
-      const at = 0.15 + i * 0.28;
-      const letterStars = letter.querySelectorAll<SVGCircleElement>(".bg-wordmark-star");
-      const letterLines = Array.from(letter.querySelectorAll<SVGPathElement>(".bg-wordmark-line"));
-      letterLines.forEach((path) => {
-        const length = path.getTotalLength ? path.getTotalLength() : 20;
-        gsap.set(path, { strokeDasharray: length, strokeDashoffset: length });
-      });
-      storyTl.fromTo(
-        letterStars,
-        { opacity: 0, scale: 0 },
-        { opacity: 1, scale: 1, duration: 0.3, stagger: 0.04, ease: "back.out(2)" },
-        at
-      );
-      storyTl.to(
-        letterLines,
-        { strokeDashoffset: 0, duration: 0.22, stagger: 0.07, ease: "power1.inOut" },
-        at + 0.08
-      );
-    });
 
     // Top anchor nodes & central hub ignite first
     if (anchorNodes.length > 0) {
@@ -359,129 +281,26 @@ export function setupSponsorsAnimations({
     }
 
     // ── PHASE 3: CARDS (Materializing Along The Network) ──
-    // Once paths illuminate, cards blossom into existence row by row
-    const row1Cards = gsap.utils.toArray<HTMLElement>(".row-1 .sponsor-card-inner");
-    const row2Cards = gsap.utils.toArray<HTMLElement>(".row-2 .sponsor-card-inner");
-    const row3Cards = gsap.utils.toArray<HTMLElement>(".row-3 .sponsor-card-inner");
-    const row4Cards = gsap.utils.toArray<HTMLElement>(".row-4 .sponsor-card-inner");
-    const row5Cards = gsap.utils.toArray<HTMLElement>(".row-5 .sponsor-card-inner");
-
-    // Row 1 Cards (Pioneers) materialize
-    if (row1Cards.length > 0) {
+    // Rows dock in sequence, outside-in, on transform + opacity only (no
+    // per-card blur, so 23 glass cards stay cheap to composite).
+    [".row-1", ".row-2", ".row-3", ".row-4", ".row-5"].forEach((row, i) => {
+      const cards = gsap.utils.toArray<HTMLElement>(`${row} .sponsor-card-inner`);
+      if (cards.length === 0) return;
       storyTl.fromTo(
-        row1Cards,
-        {
-          opacity: 0,
-          scale: 0.84,
-          y: 18,
-          filter: "blur(8px)",
-          borderColor: "rgba(255, 255, 255, 0.45)",
-        },
+        cards,
+        { opacity: 0, scale: 0.9, y: 18 },
         {
           opacity: 1,
           scale: 1,
           y: 0,
-          filter: "blur(0px)",
-          borderColor: "rgba(244, 244, 242, 0.16)",
           duration: 0.55,
-          stagger: 0.08,
+          stagger: { each: 0.06, from: "center" },
           ease: "power3.out",
+          clearProps: "transform",
         },
-        0.55
+        0.55 + i * 0.2
       );
-    }
-
-    // Row 2 Cards materialize
-    if (row2Cards.length > 0) {
-      storyTl.fromTo(
-        row2Cards,
-        {
-          opacity: 0,
-          scale: 0.86,
-          y: 16,
-          filter: "blur(6px)",
-          borderColor: "rgba(255, 255, 255, 0.4)",
-        },
-        {
-          opacity: 1,
-          scale: 1,
-          y: 0,
-          filter: "blur(0px)",
-          borderColor: "rgba(244, 244, 242, 0.12)",
-          duration: 0.5,
-          stagger: 0.06,
-          ease: "power3.out",
-        },
-        0.8
-      );
-    }
-
-    // Row 3 Cards materialize
-    if (row3Cards.length > 0) {
-      storyTl.fromTo(
-        row3Cards,
-        {
-          opacity: 0,
-          scale: 0.88,
-          y: 14,
-          filter: "blur(6px)",
-          borderColor: "rgba(255, 255, 255, 0.35)",
-        },
-        {
-          opacity: 1,
-          scale: 1,
-          y: 0,
-          filter: "blur(0px)",
-          borderColor: "rgba(244, 244, 242, 0.12)",
-          duration: 0.45,
-          stagger: 0.06,
-          ease: "power3.out",
-        },
-        1.05
-      );
-    }
-
-    // Row 4 Cards materialize
-    if (row4Cards.length > 0) {
-      storyTl.fromTo(
-        row4Cards,
-        {
-          opacity: 0,
-          scale: 0.88,
-          y: 12,
-          filter: "blur(6px)",
-          borderColor: "rgba(255, 255, 255, 0.35)",
-        },
-        {
-          opacity: 1,
-          scale: 1,
-          y: 0,
-          filter: "blur(0px)",
-          borderColor: "rgba(244, 244, 242, 0.12)",
-          duration: 0.45,
-          stagger: 0.06,
-          ease: "power3.out",
-        },
-        1.25
-      );
-    }
-
-    if (row5Cards.length > 0) {
-      storyTl.fromTo(
-        row5Cards,
-        { opacity: 0, scale: 0.88, y: 12, filter: "blur(6px)" },
-        {
-          opacity: 1,
-          scale: 1,
-          y: 0,
-          filter: "blur(0px)",
-          duration: 0.45,
-          stagger: 0.06,
-          ease: "power3.out",
-        },
-        1.45
-      );
-    }
+    });
 
     // ══════════════════════════════════════════════════════════════
     // ── PHASE 4: LOGOS (Living Signal Lock-In) ──
@@ -510,7 +329,7 @@ export function setupSponsorsAnimations({
 
   const exitCtx = gsap.context(() => {
     // ═══════════════════════════════════════════════════════════════
-    // ── MORPHIC TRANSITION: ONLY FIRES ON SECTION EXIT ──
+    // ── MORPHIC TRANSITION: FIRES ON SECTION EXIT ──
     // ══════════════════════════════════════════════════════════════
     const exitTl = gsap.timeline({
       scrollTrigger: {
@@ -522,14 +341,13 @@ export function setupSponsorsAnimations({
       },
     });
 
-    // 1. Left and right cards collapse towards center axis with blur & scale down
+    // 1. Left and right cards collapse towards the center axis
     exitTl.to(
       ".constellation-col:nth-child(odd)",
       {
         x: 140,
         scale: 0.2,
         opacity: 0,
-        filter: "blur(10px)",
         duration: 0.5,
         ease: "power2.in",
       },
@@ -542,18 +360,16 @@ export function setupSponsorsAnimations({
         x: -140,
         scale: 0.2,
         opacity: 0,
-        filter: "blur(10px)",
         duration: 0.5,
         ease: "power2.in",
       },
       0
     );
 
-    // 2. Nodes and dots implode to center
+    // 2. Nodes, dots and solar orrery implode/fade to center
     exitTl.to(
-      ".constellation-anchor-node, .constellation-junction-dot, .node-ping-ring, .constellation-star, .backdrop-star, .bg-constellation, .bg-planet:not(.bg-planet--blackhole)",
+      ".constellation-anchor-node, .constellation-junction-dot, .node-ping-ring, .sponsors-orrery",
       {
-        scale: 0,
         opacity: 0,
         duration: 0.35,
         ease: "power2.in",
@@ -573,38 +389,9 @@ export function setupSponsorsAnimations({
       },
       0.05
     );
-
-    // 4. Central vertical spine ignites and shoots down rapidly into bottom boundary
-    exitTl.fromTo(
-      ".morphic-central-spine",
-      { scaleY: 0, opacity: 0 },
-      {
-        scaleY: 1,
-        opacity: 1,
-        duration: 0.25,
-        ease: "power2.out",
-        transformOrigin: "top center",
-      },
-      0.05
-    );
-
-    // 5. The spine strikes the bottom and immediately erupts horizontally into the horizon divider
-    exitTl.fromTo(
-      ".morphic-horizon-divider",
-      { scaleX: 0, opacity: 0 },
-      {
-        scaleX: 1,
-        opacity: 1,
-        duration: 0.35,
-        ease: "power3.out",
-        transformOrigin: "center center",
-      },
-      0.25
-    );
   }, section);
 
   return () => {
-    wipeCtx.revert();
     headerCtx.revert();
     glowCtx.revert();
     storyCtx.revert();

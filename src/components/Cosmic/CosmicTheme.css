@@ -669,6 +669,28 @@
   animation: cosmicAuroraPulse 4.5s ease-in-out infinite alternate;
 }
 
+/* ── 6b. Helios Dyson Swarm (Sponsors Exclusive Megastructure) ─ */
+.bg-planet--dyson {
+  width: clamp(118px, 11vw, 175px);
+}
+
+.bg-planet--dyson .bg-planet__art {
+  opacity: 0.9;
+  animation-duration: 24s;
+}
+
+.bg-dyson__ring-outer {
+  transform-box: view-box;
+  transform-origin: 120px 120px;
+  animation: cosmicSunSpin 44s linear infinite;
+}
+
+.bg-dyson__ring-inner {
+  transform-box: view-box;
+  transform-origin: 120px 120px;
+  animation: cosmicSunSpin 28s linear infinite reverse;
+}
+
 @keyframes cosmicAuroraPulse {
   0% {
     opacity: 0.35;
@@ -959,6 +981,8 @@
   .bg-nexus__spikes,
   .bg-nexus__beams,
   .bg-ice__aurora,
+  .bg-dyson__ring-outer,
+  .bg-dyson__ring-inner,
   .bg-moon__satellite,
   .bg-cluster__star,
   .cosmic-mobile-glow__core,
@@ -983,6 +1007,7 @@
   .bg-planet--sun,
   .bg-planet--ringed,
   .bg-planet--ice,
+  .bg-planet--dyson,
   .bg-planet--terran,
   .bg-planet--nexus,
   .bg-planet--cluster {
@@ -1049,6 +1074,8 @@
   .bg-nexus__spikes,
   .bg-nexus__beams,
   .bg-ice__aurora,
+  .bg-dyson__ring-outer,
+  .bg-dyson__ring-inner,
   .bg-moon__satellite,
   .bg-cluster__star,
   .cosmic-mobile-glow__core,

@@ -144,7 +144,6 @@ export default function CosmicSectionBackdrop({
   planetPlacement = { top: "15%", right: "8%" },
   secondaryPlanets = [],
   starsCount = 26,
-  shootingStarsCount = 2,
   showOrbitTrack = true,
   sectorLabel,
   seed = 42,
@@ -187,15 +186,6 @@ export default function CosmicSectionBackdrop({
     if (hasGlint) glintBudget += 1;
     return { ...star, glint: hasGlint };
   });
-
-  // Deterministic shooting meteor streaks
-  const meteors = Array.from({ length: shootingStarsCount }, (_, i) => ({
-    id: i,
-    top: (rand() * 45 + 5).toFixed(1),
-    left: (rand() * 65 + 10).toFixed(1),
-    delay: (rand() * 7 + i * 5).toFixed(2),
-    duration: (1.2 + rand() * 0.8).toFixed(2),
-  }));
 
   useEffect(() => {
     const root = rootRef.current;
@@ -591,22 +581,7 @@ export default function CosmicSectionBackdrop({
         ))}
       </div>
 
-      {/* 3. Shooting Meteor Streaks */}
-      {meteors.map((meteor) => (
-        <span
-          key={`m-${meteor.id}`}
-          className="bg-meteor"
-          aria-hidden="true"
-          style={{
-            top: `${meteor.top}%`,
-            left: `${meteor.left}%`,
-            animationDelay: `${meteor.delay}s`,
-            animationDuration: `${meteor.duration}s`,
-          }}
-        />
-      ))}
-
-      {/* 4. Keplerian Orbital Guide Ellipses */}
+      {/* 2. Keplerian Orbital Guide Ellipses */}
       {showOrbitTrack && planet && (
         <div
           className="bg-kepler-orbit"
