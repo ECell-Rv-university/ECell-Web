@@ -7,7 +7,7 @@
   justify-content: flex-end;
   padding: 180px 0 50px;
   background:
-    radial-gradient(ellipse 50% 45% at 58% 28%, rgba(81, 104, 255, 0.02), transparent 70%),
+    radial-gradient(ellipse 50% 45% at 67% 28%, rgba(81, 104, 255, 0.02), transparent 70%),
     var(--bg, #1a1a1a);
   color: var(--fg, #f4f4f2);
   isolation: isolate;
@@ -94,30 +94,61 @@
   animation: community-ripple 2.8s ease-out infinite;
 }
 
+@property --wa-border-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+@keyframes whatsapp-border-flow {
+  to {
+    --wa-border-angle: 360deg;
+  }
+}
+
 .whatsapp-community-card {
   position: relative;
   display: grid;
   grid-template-columns: minmax(0, 1.08fr) minmax(360px, 0.92fr);
   min-height: 520px;
   overflow: hidden;
-  border: 3px solid transparent;
+  border: 2px solid transparent;
   border-radius: 28px;
   background:
     linear-gradient(160deg, #131419 0%, #0d0e12 60%, #0a0b0e 100%) padding-box,
-    linear-gradient(
-      180deg,
-      rgba(175, 195, 255, 1) 0%,
-      rgba(115, 140, 255, 0.85) 6%,
-      rgba(81, 104, 255, 0.5) 18%,
-      rgba(81, 104, 255, 0.22) 38%,
-      rgba(81, 104, 255, 0.08) 65%,
-      rgba(81, 104, 255, 0.02) 100%
+    conic-gradient(
+      from var(--wa-border-angle) at 66% 38%,
+      rgba(81, 104, 255, 0.12) 0deg,
+      rgba(142, 220, 255, 0.9) 46deg,
+      rgba(255, 255, 255, 0.95) 64deg,
+      rgba(115, 140, 255, 0.82) 92deg,
+      rgba(168, 85, 247, 0.42) 142deg,
+      rgba(81, 104, 255, 0.16) 215deg,
+      rgba(81, 104, 255, 0.08) 295deg,
+      rgba(81, 104, 255, 0.12) 360deg
+    ) border-box,
+    radial-gradient(
+      85% 110% at 66% 0%,
+      rgba(205, 224, 255, 0.85) 0%,
+      rgba(105, 136, 255, 0.48) 34%,
+      rgba(81, 104, 255, 0.18) 68%,
+      rgba(81, 104, 255, 0.06) 100%
     ) border-box;
   box-shadow:
     0 26px 54px -12px rgba(0, 0, 0, 0.8),
-    0 -2px 10px rgba(81, 104, 255, 0.16),
-    inset 0 1px 0 rgba(190, 210, 255, 0.45);
-  transition: box-shadow 260ms ease, transform 260ms ease;
+    0 0 28px rgba(81, 104, 255, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  animation: whatsapp-border-flow 6s linear infinite;
+}
+
+.whatsapp-community.is-offscreen .whatsapp-community-card {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .whatsapp-community-card {
+    animation: none;
+  }
 }
 
 /* Dot pattern overlay */
@@ -134,15 +165,6 @@
 /* Beam impact glow — handled directly by LaserFlow WebGL shader */
 .whatsapp-community-card::after {
   display: none;
-}
-
-.whatsapp-community-card:hover {
-  transform: translateY(-2px);
-  box-shadow:
-    0 32px 64px -14px rgba(0, 0, 0, 0.85),
-    0 -6px 28px rgba(81, 104, 255, 0.35),
-    0 0 40px rgba(81, 104, 255, 0.2),
-    inset 0 1px 0 rgba(210, 225, 255, 0.75);
 }
 
 .whatsapp-community-copy {
@@ -678,6 +700,26 @@
   .whatsapp-community-card {
     grid-template-columns: 1fr;
     min-height: 0;
+    background:
+      linear-gradient(160deg, #131419 0%, #0d0e12 60%, #0a0b0e 100%) padding-box,
+      conic-gradient(
+        from var(--wa-border-angle) at 50% 38%,
+        rgba(81, 104, 255, 0.12) 0deg,
+        rgba(142, 220, 255, 0.9) 46deg,
+        rgba(255, 255, 255, 0.95) 64deg,
+        rgba(115, 140, 255, 0.82) 92deg,
+        rgba(168, 85, 247, 0.42) 142deg,
+        rgba(81, 104, 255, 0.16) 215deg,
+        rgba(81, 104, 255, 0.08) 295deg,
+        rgba(81, 104, 255, 0.12) 360deg
+      ) border-box,
+      radial-gradient(
+        85% 110% at 50% 0%,
+        rgba(205, 224, 255, 0.85) 0%,
+        rgba(105, 136, 255, 0.48) 34%,
+        rgba(81, 104, 255, 0.18) 68%,
+        rgba(81, 104, 255, 0.06) 100%
+      ) border-box;
   }
 
   .whatsapp-community-copy {
@@ -699,6 +741,12 @@
 
   .whatsapp-community-bubble {
     display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .whatsapp-community {
+    background: #000000;
   }
 }
 
@@ -732,11 +780,11 @@
   .whatsapp-community-card {
     min-height: 0;
     border-radius: 24px;
-    border-width: 3.5px;
+    border-width: 2px;
     box-shadow:
       0 20px 60px rgba(0, 0, 0, 0.6),
-      0 -6px 30px rgba(81, 104, 255, 0.2),
-      inset 0 1px 0 rgba(190, 210, 255, 0.45);
+      0 0 22px rgba(81, 104, 255, 0.14),
+      inset 0 1px 0 rgba(255, 255, 255, 0.06);
   }
 
   .whatsapp-community-card::after {

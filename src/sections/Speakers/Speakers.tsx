@@ -21,6 +21,7 @@ import walmartLogo from "@/src/assets/speaker-logo/walmart.webp";
 import { useEffect, useRef, type ReactElement } from "react";
 import { PREVIOUS_SPEAKERS } from "@/src/content/speakers";
 import { gsap, SplitText } from "@/src/utils/gsapSetup";
+import CosmicSectionBackdrop from "@/src/components/Cosmic/CosmicSectionBackdrop";
 import "./styles/Speakers.css";
 
 export type { Speaker } from "@/src/content/speakers";
@@ -89,6 +90,18 @@ export default function Speakers(): ReactElement {
 
   return (
     <section className="speakers-section" id="speakers" aria-labelledby="speakers-heading">
+      <CosmicSectionBackdrop
+        planet="nexus"
+        planetPlacement={{ top: "14%", right: "3%", width: "clamp(110px, 10vw, 160px)" }}
+        starsCount={28}
+        shootingStarsCount={2}
+        seed={404}
+        nebula="solar"
+        constellation="vortex"
+        constellationPlacement={{ top: "48%", left: "2%", width: "clamp(85px, 8vw, 120px)" }}
+        sectorLabel="SEC-04 PULSAR BEACON"
+        sectionId="speakers"
+      />
       <div className="speakers-reveal-panel">
         <div className="wrap">
           <header ref={headerRef} className="speakers-header">

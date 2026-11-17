@@ -3,9 +3,55 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { fireEvent, render } from "@testing-library/react";
 import Sponsors from "@/src/sections/Sponsors/Sponsors";
 
+const { scrollTriggerKillMock, scrollTriggerCreateMock } = vi.hoisted(() => {
+  const kill = vi.fn();
+  return {
+    scrollTriggerKillMock: kill,
+    scrollTriggerCreateMock: vi.fn(() => ({ kill })),
+  };
+});
+
 vi.mock("next/image", () => ({
   default: ({ alt }: { alt: string }) => <span role="img" aria-label={alt} />,
 }));
+
+vi.mock("@/src/utils/gsapSetup", () => {
+  const timelineMock = () => ({
+    fromTo: vi.fn().mockReturnThis(),
+    to: vi.fn().mockReturnThis(),
+    set: vi.fn().mockReturnThis(),
+    kill: vi.fn(),
+  });
+
+  return {
+    gsap: {
+      context: (fn: () => void) => {
+        fn();
+        return { revert: vi.fn() };
+      },
+      timeline: vi.fn(timelineMock),
+      fromTo: vi.fn(),
+      to: vi.fn(),
+      set: vi.fn(),
+      utils: {
+        toArray: <T,>(target: string | T[]): T[] =>
+          typeof target === "string"
+            ? (Array.from(document.querySelectorAll(target)) as unknown as T[])
+            : Array.from(target),
+      },
+      ticker: {
+        add: vi.fn(),
+        remove: vi.fn(),
+        deltaRatio: vi.fn(() => 1),
+      },
+    },
+    ScrollTrigger: {
+      create: scrollTriggerCreateMock,
+      getAll: () => [],
+      getById: () => null,
+    },
+  };
+});
 
 class ObserverStub {
   observe() {}
@@ -13,80 +59,87 @@ class ObserverStub {
   disconnect() {}
 }
 
-describe("Sponsors backdrop sun", () => {
+function stubMatchMedia(mobile = false) {
+  vi.stubGlobal(
+    "matchMedia",
+    vi.fn((query: string) => ({
+      matches: mobile && query.includes("max-width: 768px"),
+      media: query,
+      onchange: null,
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+      addListener: vi.fn(),
+      removeListener: vi.fn(),
+      dispatchEvent: vi.fn(),
+    }))
+  );
+}
+
+describe("Sponsors section & StarField orrery", () => {
   beforeEach(() => {
     vi.stubGlobal("IntersectionObserver", ObserverStub);
     vi.stubGlobal("ResizeObserver", ObserverStub);
+    stubMatchMedia(false);
+    scrollTriggerCreateMock.mockClear();
+    scrollTriggerKillMock.mockClear();
   });
 
   afterEach(() => {
     vi.unstubAllGlobals();
   });
 
-  it("switches off on click and lights up again on the next click", () => {
+  it("renders the solar system orrery with three orbital tracks, planets, and rocket", () => {
     const { container } = render(<Sponsors />);
-    const planets = container.querySelector(".bg-planets")!;
-    // Click the painted core, as a user would, so the event bubbles to the body.
-    const sunCore = container.querySelector(".bg-planet--sun .bg-planet__art > circle:last-of-type")!;
 
-    expect(planets).not.toHaveClass("is-sun-off");
-
-    fireEvent.click(sunCore);
-    expect(planets).toHaveClass("is-sun-off");
-
-    fireEvent.click(sunCore);
-    expect(planets).not.toHaveClass("is-sun-off");
-
-    fireEvent.click(sunCore);
-    expect(planets).toHaveClass("is-sun-off");
+    expect(container.querySelector(".sponsors-orrery")).toBeInTheDocument();
+    expect(container.querySelectorAll(".orrery-track")).toHaveLength(3);
+    expect(container.querySelectorAll(".solar-planet-node")).toHaveLength(3);
+    expect(container.querySelector(".solar-planet-node--earth")).toBeInTheDocument();
+    expect(container.querySelector(".orrery-rocket")).toBeInTheDocument();
+    expect(container.querySelector(".orrery-crash-burst")).toBeInTheDocument();
   });
 
-  it("gives every planet a light-travel delay that grows with distance", () => {
+  it("resonates the orrery when a sponsor card is hovered and clears on leave", () => {
     const { container } = render(<Sponsors />);
-    fireEvent.click(container.querySelector(".bg-planet--sun .bg-planet__art > circle:last-of-type")!);
+    const orrery = container.querySelector(".sponsors-orrery")!;
+    const card = container.querySelector(".sponsor-card-inner")!;
 
-    const delays = Array.from(
-      container.querySelectorAll<HTMLElement>(
-        ".bg-planet:not(.bg-planet--sun):not(.bg-planet--blackhole) .bg-planet__parallax"
-      )
-    ).map((layer) => layer.style.getPropertyValue("--light-delay"));
-    expect(delays).toHaveLength(3);
-    delays.forEach((delay) => expect(delay).toMatch(/^\d+(\.\d+)?s$/));
-  });
-});
+    expect(orrery).not.toHaveClass("is-resonating");
 
-describe("Sponsors black hole", () => {
-  beforeEach(() => {
-    vi.stubGlobal("IntersectionObserver", ObserverStub);
-    vi.stubGlobal("ResizeObserver", ObserverStub);
+    fireEvent.mouseEnter(card);
+    expect(orrery).toHaveClass("is-resonating");
+
+    fireEvent.mouseLeave(card);
+    expect(orrery).not.toHaveClass("is-resonating");
   });
 
-  afterEach(() => {
-    vi.unstubAllGlobals();
-  });
-
-  const clickHole = (container: HTMLElement) =>
-    fireEvent.click(container.querySelector(".bg-planet--blackhole .bg-planet__art circle")!);
-
-  it("swallows the backdrop on click and spits it back out on the next", () => {
+  it("renders the sponsorship CTA button as the docking target", () => {
     const { container } = render(<Sponsors />);
-    const planets = container.querySelector(".bg-planets")!;
-    const star = container.querySelector<HTMLElement>(".backdrop-star")!;
+    const cta = container.querySelector<HTMLAnchorElement>(".sponsors-cta");
 
-    clickHole(container);
-    expect(planets).toHaveClass("is-devouring");
-    // Twinkling is paused so it cannot override the fall into the hole.
-    expect(star.style.animation).toBe("none");
-
-    clickHole(container);
-    expect(planets).not.toHaveClass("is-devouring");
+    expect(cta).toBeInTheDocument();
+    expect(cta).toHaveAttribute("href", expect.stringContaining("mailto:"));
+    expect(cta).toHaveTextContent("Want to sponsor us?");
   });
 
-  it("is not darkened when the sun switches off", () => {
+  it("hides the orrery on mobile viewports", () => {
+    stubMatchMedia(true);
     const { container } = render(<Sponsors />);
-    fireEvent.click(container.querySelector(".bg-planet--sun .bg-planet__art > circle:last-of-type")!);
 
-    const hole = container.querySelector<HTMLElement>(".bg-planet--blackhole .bg-planet__parallax")!;
-    expect(hole.style.getPropertyValue("--light-delay")).toBe("");
+    expect(container.querySelector(".sponsors-orrery")).not.toBeInTheDocument();
+  });
+
+  it("registers and cleans up the ScrollTrigger pin without DOM unmount errors", () => {
+    const { unmount } = render(<Sponsors />);
+
+    expect(scrollTriggerCreateMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        pin: true,
+        start: "top top",
+      })
+    );
+
+    unmount();
+    expect(scrollTriggerKillMock).toHaveBeenCalled();
   });
 });

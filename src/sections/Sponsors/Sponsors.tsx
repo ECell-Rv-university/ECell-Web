@@ -1,6 +1,9 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
+import { ArrowUpRight } from "lucide-react";
+import { SITE_LINKS } from "@/src/content/site";
 import { SPONSORS } from "@/src/content/sponsors";
+import { gsap } from "@/src/utils/gsapSetup";
 import { setupSponsorsAnimations } from "./animations/SponsorsAnimations";
 import ConstellationNetwork from "./components/ConstellationNetwork";
 import SponsorCard from "./components/SponsorCard";
@@ -21,7 +24,7 @@ export default function Sponsors(): React.ReactElement {
   const glowRef = useRef<HTMLDivElement | null>(null);
   const headerRef = useRef<HTMLDivElement | null>(null);
   const constellationRef = useRef<HTMLDivElement | null>(null);
-  const wipeBarRef = useRef<HTMLDivElement | null>(null);
+  const gridRef = useRef<HTMLDivElement | null>(null);
 
   // Decorative CSS loops (twinkling stars, planet drift, sun rays) pause
   // whenever the section is off screen, so they cost nothing elsewhere.
@@ -44,28 +47,77 @@ export default function Sponsors(): React.ReactElement {
       header: headerRef.current,
       constellation: constellationRef.current,
       glow: glowRef.current,
-      wipeBar: wipeBarRef.current,
     });
+  }, []);
+
+  // Starlight sweep: one light follows the pointer across the whole grid and
+  // catches the border of every card it passes, so neighbouring partners glow
+  // together. Fine pointers above tablet only; writes run on the GSAP ticker.
+  useEffect(() => {
+    const grid = gridRef.current;
+    if (!grid || typeof window.matchMedia !== "function") return;
+    if (!window.matchMedia("(hover: hover) and (pointer: fine) and (min-width: 769px)").matches) return;
+
+    const cards = Array.from(grid.querySelectorAll<HTMLElement>(".sponsor-card-inner"));
+    let offsets: Array<{ x: number; y: number }> = [];
+    let px = 0;
+    let py = 0;
+    let dirty = false;
+
+    const measure = () => {
+      const g = grid.getBoundingClientRect();
+      offsets = cards.map((card) => {
+        const r = card.getBoundingClientRect();
+        return { x: r.left - g.left, y: r.top - g.top };
+      });
+    };
+
+    const tick = () => {
+      if (!dirty) return;
+      dirty = false;
+      cards.forEach((card, i) => {
+        const o = offsets[i];
+        if (!o) return;
+        card.style.setProperty("--mx", `${(px - o.x).toFixed(1)}px`);
+        card.style.setProperty("--my", `${(py - o.y).toFixed(1)}px`);
+      });
+    };
+
+    const onEnter = () => {
+      measure();
+      grid.classList.add("is-lit");
+      gsap.ticker.add(tick);
+    };
+    const onMove = (event: PointerEvent) => {
+      const g = grid.getBoundingClientRect();
+      px = event.clientX - g.left;
+      py = event.clientY - g.top;
+      dirty = true;
+    };
+    const onLeave = () => {
+      grid.classList.remove("is-lit");
+      gsap.ticker.remove(tick);
+    };
+
+    grid.addEventListener("pointerenter", onEnter);
+    grid.addEventListener("pointermove", onMove, { passive: true });
+    grid.addEventListener("pointerleave", onLeave);
+    return () => {
+      grid.removeEventListener("pointerenter", onEnter);
+      grid.removeEventListener("pointermove", onMove);
+      grid.removeEventListener("pointerleave", onLeave);
+      gsap.ticker.remove(tick);
+    };
   }, []);
 
   return (
     <section ref={sponsorsSectionRef} className="sponsors-section" id="sponsors">
-      {/* Constellation Emergence transition elements */}
-      <div ref={wipeBarRef} className="section-wipe-bar" aria-hidden="true" />
       <div ref={glowRef} className="sponsors-glow" />
-      <div className="sponsors-divider-line" />
 
-      {/* Morphic Conduit Spine & Horizon Divider */}
-      <div className="morphic-central-spine" aria-hidden="true" />
-      <div className="morphic-horizon-divider" aria-hidden="true" />
-
-      {/* Constellation Backdrop Star Field */}
-      <StarField />
+      {/* Heliocentric Solar System Orrery revolving around the partner constellation */}
+      <StarField hoveredNode={hoveredNode} />
 
       <div ref={headerRef} className="wrap sponsors-header">
-        <div className="sponsors-badge-container">
-          <span className="sponsors-kicker">SUPPORTED BY</span>
-        </div>
         <h2 className="sponsors-headline" aria-label="Partners &amp; Sponsors">
           <span className="sponsors-headline-word sponsors-word-left">Partners</span>
           <span className="sponsors-headline-amp" aria-hidden="true">&amp;</span>
@@ -80,8 +132,8 @@ export default function Sponsors(): React.ReactElement {
         {/* Constellation Vector Network mapped across the grid */}
         <ConstellationNetwork hoveredNode={hoveredNode} />
 
-        {/* Sponsor rows: 3 / 5 / 6 / 5 / 3 logos */}
-        <div className="constellation-grid">
+        {/* Sponsor rows: 3 / 5 / 7 / 5 / 3 logos */}
+        <div ref={gridRef} className="constellation-grid">
           {SPONSOR_ROWS.map((row, rowIndex) => (
             <div className={`constellation-row row-${rowIndex + 1}`} key={rowIndex}>
               {row.map((item) => (
@@ -98,6 +150,25 @@ export default function Sponsors(): React.ReactElement {
               ))}
             </div>
           ))}
+        </div>
+
+        {/* Bottom Sponsorship Call-To-Action (Spacecraft Docking Target) */}
+        <div className="sponsors-cta-wrap">
+          <a
+            href={`mailto:${SITE_LINKS.email}?subject=Sponsorship%20Inquiry%20%E2%80%94%20ECell%20RVU`}
+            className="sponsors-cta"
+          >
+            <span className="sponsors-cta__dock-beacon" aria-hidden="true">
+              <span className="sponsors-cta__dock-core" />
+            </span>
+            <span className="sponsors-cta__label">
+              <span>Want to sponsor us?</span>
+              <span aria-hidden="true">Partner with ECell</span>
+            </span>
+            <span className="sponsors-cta__icon" aria-hidden="true">
+              <ArrowUpRight size={15} strokeWidth={1.75} />
+            </span>
+          </a>
         </div>
       </div>
     </section>

@@ -31,11 +31,31 @@
 
 .chapters-dropdown a {
   position: relative;
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
   padding: 12px 14px;
   font-size: 13px;
   border-radius: 7px;
   transition: background 180ms ease, padding-left 180ms ease, color 180ms ease;
+}
+
+.chapter-label {
+  flex: 1;
+}
+
+.chapter-sector {
+  font-family: var(--font-inter), monospace, sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: rgba(244, 244, 242, 0.4);
+  transition: color 180ms ease;
+}
+
+.chapters-dropdown a:hover .chapter-sector {
+  color: #ffd700;
 }
 
 .chapters-dropdown a:hover {

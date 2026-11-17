@@ -5,6 +5,7 @@ import { gsap } from "@/src/utils/gsapSetup";
 import { refreshScroll } from "@/src/utils/lenis";
 
 import storyBackground from "@/src/assets/home/story-background.webp";
+import CosmicSectionBackdrop from "@/src/components/Cosmic/CosmicSectionBackdrop";
 import "./Story.css";
 
 export interface StoryProps {
@@ -237,6 +238,14 @@ export default function Story({
 
   return (
     <section className="story-reveal" ref={revealRef} id="storyReveal">
+      <CosmicSectionBackdrop
+        starsCount={18}
+        shootingStarsCount={0}
+        showOrbitTrack={false}
+        seed={606}
+        sectorLabel="SEC-07 SELENA ARCHIVE"
+        sectionId="storyReveal"
+      />
       <div className="story-image-panel" ref={imagePanelRef} id="imagePanel">
         <div ref={imageRef} className="story-image-inner" style={{ position: "relative", width: "100%", height: "100%" }}>
           <Image src={storyBackground} alt="Story background" fill sizes="100vw" quality={85} style={{ objectFit: "cover" }} />

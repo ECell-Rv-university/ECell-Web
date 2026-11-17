@@ -151,8 +151,13 @@ void main() {
   float run = uRun.x;
   float runMask = 1.0 - smoothstep(run - 34.0, run + 6.0, adx);
   float bead = exp(-sq((adx - run + 16.0) / (18.0 + 0.04 * run))) * uRun.y;
+  float spreadL = max(spread, reachL * 1.05);
   float flowMask = (1.0 - smoothstep(0.75 * spread, 1.1 * spread, adx)) * runMask;
+  float flowMaskL = (1.0 - smoothstep(0.62 * spreadL, 1.02 * spreadL, adx)) * runMask;
   float edgeMask = (1.0 - smoothstep(0.8 * spread, 1.25 * spread, adx)) * runMask;
+  float edgeMaskL = (1.0 - smoothstep(0.65 * spreadL, 1.05 * spreadL, adx)) * runMask;
+  float activeFlowMask = dx < 0.0 ? flowMaskL : flowMask;
+  float activeEdgeMask = dx < 0.0 ? edgeMaskL : edgeMask;
   float bloom = uIntro.y;
   vec2 center = vec2((sl + sr) * 0.5, (sy + sb) * 0.5);
   vec2 halfSize = vec2((sr - sl) * 0.5, (sb - sy) * 0.5);
@@ -180,17 +185,20 @@ void main() {
   float psi = adx * (outline + 1.0);
   float rise = max(hp - 17.9 * flare, 0.0);
   float skirtAmp = 5.0 * exp(-sq(rise / (8.0 * flare)));
-  float skirtSpread = mix(60.0, 75.0, side) * breathe * flare * flare * mix(0.35, 1.0, min(bloom, 1.0)) * max(bloom, 1.0);
-  float stopL = sl + 0.15 * reachL;
-  float leftCutoff = dx < 0.0 ? smoothstep(stopL - 12.0, stopL + 18.0, p.x) : 1.0;
-  float skirt = skirtAmp * exp(-psi / skirtSpread) * exp(-sq(adx / (max(layerLen, 60.0 * sqrt(uShape.z)) * 1.48))) * hug * leftCutoff;
-  col += sideK * skirt * flowMask * min(bloom, 1.0);
+  float skirtSpread = mix(max(78.0, reachL * 0.28), 75.0, side) * breathe * flare * flare * mix(0.35, 1.0, min(bloom, 1.0)) * max(bloom, 1.0);
+  float leftFade = dx < 0.0 ? smoothstep(sl + 0.06 * reachL, sl + 0.64 * reachL, p.x) : 1.0;
+  float skirtDecay = dx < 0.0 ? exp(-sq(adx / max(reachL * 0.42, max(layerLen, 60.0 * sqrt(uShape.z)) * 1.25))) : exp(-sq(adx / (max(layerLen, 60.0 * sqrt(uShape.z)) * 1.48)));
+  float skirt = skirtAmp * exp(-psi / skirtSpread) * skirtDecay * hug * leftFade;
+  col += sideK * skirt * activeFlowMask * min(bloom, 1.0);
 
-  float layer = 4.0 * exp(-adx / layerLen) * exp(-outline / (0.12 * layerLen)) * (1.0 + 0.4 * bead) * leftCutoff;
-  col += sideK * layer * hug * flowMask * min(bloom, 1.0);
+  float layerDecay = dx < 0.0 ? exp(-adx / max(reachL * 0.34, layerLen * 0.95)) : exp(-adx / layerLen);
+  float layerAmp = dx < 0.0 ? 2.6 : 4.0;
+  float layer = layerAmp * layerDecay * exp(-outline / (0.14 * layerLen)) * (1.0 + 0.4 * bead) * leftFade;
+  col += sideK * layer * hug * activeFlowMask * min(bloom, 1.0);
   float washMask = smoothstep(sl - 60.0, sl + 6.0, p.x) * (1.0 - smoothstep(sr - 6.0, sr + 45.0, p.x));
-  float wash = 0.2 * exp(-adx / 50.0) * exp(-outline / 12.0) * leftCutoff;
-  col += mix(BEAM, sideK, 0.25) * wash * hugWide * washMask * flowMask * min(bloom, 1.0);
+  float washDecay = dx < 0.0 ? exp(-adx / max(reachL * 0.34, 50.0)) : exp(-adx / 50.0);
+  float wash = 0.22 * washDecay * exp(-outline / 12.0) * leftFade;
+  col += mix(BEAM, sideK, 0.25) * wash * hugWide * washMask * activeFlowMask * min(bloom, 1.0);
   float highWash = 0.0;
   col += mix(BEAM, NAVY, 0.5) * highWash * hugWide * washMask * runMask * min(bloom, 1.0);
 
@@ -209,13 +217,15 @@ void main() {
   float lineFlow = smoothstep(0.25, 0.85, noise(vec2(lineIndex * 5.3 + 2.0, along * 3.0 + t * 1.1)));
   float flareArea = 120.0 * flare * flare;
   float lineEnvelope = smoothstep(0.85 * flareArea, 1.4 * flareArea, psi) * (1.0 - smoothstep(3.2 * flareArea, 7.5 * flareArea, psi));
-  lineEnvelope *= exp(-adx / (layerLen * 1.5)) * hug * flowMask * (1.0 - smoothstep(35.0 * flare, 80.0 * flare, hp)) * leftCutoff;
+  float lineDecay = dx < 0.0 ? exp(-adx / max(reachL * 0.38, layerLen * 1.25)) : exp(-adx / (layerLen * 1.5));
+  lineEnvelope *= lineDecay * hug * activeFlowMask * (1.0 - smoothstep(35.0 * flare, 80.0 * flare, hp)) * leftFade;
   float lineBright = mix(0.35, 1.0, hash(vec2(lineIndex, 4.0)));
   col += mix(sideK, WHITE, 0.6) * lineShape * lineOn * lineFlow * lineEnvelope * lineBright * 2.6 * uAmount.w * min(bloom, 1.0);
 
-  float edgeGlow = 15.0 * exp(-sq(adx / (150.0 * uShape.z))) * edgeMask * (1.0 + 0.9 * bead);
+  float edgeDecay = dx < 0.0 ? exp(-sq(adx / max(reachL * 0.46, 130.0 * uShape.z))) : exp(-sq(adx / (150.0 * uShape.z)));
+  float edgeGlow = 15.0 * edgeDecay * activeEdgeMask * (1.0 + 0.9 * bead);
   float onTop = 1.0 - smoothstep(sy + radius, sy + radius + 10.0, p.y);
-  float edgeLine = (exp(-sq(max(sd, 0.0) / 0.9)) + 0.12 * exp(-max(sd, 0.0) / 3.0)) * edgeGlow * onTop * leftCutoff;
+  float edgeLine = (exp(-sq(max(sd, 0.0) / 0.9)) + 0.12 * exp(-max(sd, 0.0) / 3.0)) * edgeGlow * onTop * leftFade;
   col += mix(sideK, WHITE, 0.6) * edgeLine * min(bloom, 1.0);
 
   float pour = uShape.w;
@@ -246,7 +256,7 @@ void main() {
     float fogMask = smoothstep(-2.0, 20.0, h);
     float reached = smoothstep(front + 80.0, front - 40.0, p.y);
     vec3 fog = (HAZE * 0.45 + BEAM * 6.0 * lit * reached) * density * envelope * fogMask;
-    float surfaceLit = exp(-adx / (layerLen * 1.3)) * exp(-outline / 28.0) * hugWide * flowMask * washMask * min(bloom, 1.0);
+    float surfaceLit = exp(-adx / (layerLen * 1.3)) * exp(-outline / 28.0) * hugWide * activeFlowMask * washMask * min(bloom, 1.0);
     fog += sideK * 2.2 * surfaceLit * (smoothstep(0.38, 0.72, cloud) - 0.35) * fogMask;
     float smoke = smoothstep(0.3, 0.75, cloud);
     fog += BEAM * 0.35 * exp(-adx / (22.0 * beamWidth)) * (0.35 + 0.9 * smoke) * fogMask * top * drop;
@@ -294,7 +304,7 @@ void main() {
     float particleDist = length(vec2(adx - particleX, hp - particleH)) * uScale;
     float particleOn = step(0.62, hash(cellId + 3.1));
     float particleTwinkle = 0.5 + 0.5 * sin(t * 5.0 + hash(cellId + 9.2) * 6.283);
-    float dustZone = exp(-sq(log(max(psi, 1.0) / (200.0 * flare * flare)) / 0.55)) * hug * flowMask * smoothstep(0.0, 6.0, outline);
+    float dustZone = exp(-sq(log(max(psi, 1.0) / (200.0 * flare * flare)) / 0.55)) * hug * activeFlowMask * leftFade * smoothstep(0.0, 6.0, outline);
     col += WHITE * exp(-particleDist * particleDist / 0.3) * particleOn * particleTwinkle * dustZone * 3.0 * dustAmount * min(bloom, 1.0);
 
     vec2 glitterCell = vec2(dx / 3.0, (p.y - t * 26.0) / 9.0);
@@ -560,7 +570,7 @@ export const LaserFlow = ({
     };
     let raf = 0;
     let last = 0;
-    let visible = true;
+    let visible = false;
     let alive = true;
 
     const toRgb = value => {

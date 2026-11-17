@@ -7,6 +7,7 @@ import desktopTeamBg from "@/src/assets/home/events-background-desktop.webp";
 import mobileTeamBg from "@/src/assets/home/events-background-mobile.webp";
 import { EVENTS, formatEventDays, formatEventMonth } from "@/src/content/events";
 import { padNumber } from "@/src/utils/math";
+import CosmicSectionBackdrop from "@/src/components/Cosmic/CosmicSectionBackdrop";
 import "./Events.css";
 import Image, { StaticImageData } from "next/image";
 import Link from "next/link";
@@ -328,11 +329,19 @@ export default function Events(): React.ReactElement {
 
   return (
     <section className="events-section" ref={sectionRef} id="eventsSection">
+      <CosmicSectionBackdrop
+        starsCount={20}
+        shootingStarsCount={0}
+        showOrbitTrack={false}
+        seed={303}
+        sectorLabel="SEC-03 JOVIAN KINETIC"
+        sectionId="eventsSection"
+      />
       {/* Background image panel — flies in from top-right */}
       <div
         className="events-bg-panel"
         ref={bgPanelRef}
-        style={{ position: "absolute" }}
+        style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}
       >
         <div
           className="events-bg-inner"

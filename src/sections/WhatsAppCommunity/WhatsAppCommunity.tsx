@@ -6,6 +6,7 @@ import { SITE_LINKS } from "@/src/content/site";
 
 // WebGL beam (three.js) far down the page: load it in its own chunk.
 const LaserFlow = dynamic(() => import("@/src/components/LaserFlow"), { ssr: false });
+import CosmicSectionBackdrop from "@/src/components/Cosmic/CosmicSectionBackdrop";
 import "./WhatsAppCommunity.css";
 
 export interface Message {
@@ -58,12 +59,15 @@ export default function WhatsAppCommunity(): React.ReactElement {
   // Decorative DOM is mounted after hydration so browser extensions cannot
   // make the server-rendered tree differ from React's first client render.
   const [isDecorativeReady, setIsDecorativeReady] = useState<boolean>(false);
-  const [beamPosition, setBeamPosition] = useState<number>(0.58);
+  const [beamPosition, setBeamPosition] = useState<number>(0.66);
+  const [dpr, setDpr] = useState<number>(1.5);
 
   useEffect(() => {
     const frame = requestAnimationFrame(() => setIsDecorativeReady(true));
     const updateBeamPos = () => {
-      setBeamPosition(window.innerWidth <= 860 ? 0.5 : 0.58);
+      const w = window.innerWidth;
+      setBeamPosition(w <= 860 ? 0.5 : 0.66);
+      setDpr(w <= 768 ? 1.25 : 1.5);
     };
     updateBeamPos();
     window.addEventListener("resize", updateBeamPos, { passive: true });
@@ -133,6 +137,26 @@ export default function WhatsAppCommunity(): React.ReactElement {
       id="community"
       aria-labelledby="community-heading"
     >
+      <CosmicSectionBackdrop
+        planet="m87"
+        planetPlacement={{
+          bottom: "6%",
+          right: "calc(var(--m87-w, 240px) * -0.22)",
+          width: "clamp(220px, 20vw, 320px)",
+        }}
+        starsCount={34}
+        shootingStarsCount={3}
+        seed={707}
+        nebula="singularity"
+        sectorLabel="SEC-09 M87* POWEHI"
+        constellation="vortex"
+        constellationPlacement={{
+          top: "40%",
+          left: "2%",
+          width: "clamp(85px, 8vw, 120px)",
+        }}
+        sectionId="community"
+      />
       {isDecorativeReady && (
         <div className="whatsapp-community-ambient-glow" aria-hidden="true" />
       )}
@@ -141,19 +165,19 @@ export default function WhatsAppCommunity(): React.ReactElement {
           surfaceRef={cardRef}
           beamPosition={beamPosition}
           color="#5168ff"
-          intensity={1.5}
-          beamWidth={1.05}
-          flare={0.7}
-          spread={1.4}
-          spill={0.6}
-          fog={0}
+          intensity={1.65}
+          beamWidth={1.25}
+          flare={1.25}
+          spread={1.45}
+          spill={0.85}
+          fog={0.12}
           dust={1.0}
           streaks={1.6}
           dots={1.0}
           intro={false}
-          mouseInteraction={true}
+          mouseInteraction={false}
           revealImage={undefined}
-          dpr={1.5}
+          dpr={dpr}
         />
       </div>
       <div className="wrap whatsapp-community-wrap">
