@@ -1,11 +1,12 @@
 .sponsors-section {
   position: relative;
-  min-height: 100vh;
-  min-height: 100svh;
+  height: 100vh;
+  height: 100svh;
+  min-height: 680px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: clamp(52px, 5.5vh, 84px) 0 clamp(56px, 6vh, 92px);
+  padding: clamp(28px, 3.8vh, 52px) 0 clamp(28px, 4vh, 56px);
   background: var(--bg);
   overflow: hidden;
   will-change: transform, opacity;
@@ -81,16 +82,16 @@
   position: relative;
   z-index: 1;
   text-align: center;
-  margin-bottom: clamp(20px, 2.8vh, 32px);
+  margin-bottom: clamp(14px, 2.2vh, 24px);
   pointer-events: none;
 }
 
 .sponsors-headline {
   font-family: var(--font-archivo), sans-serif;
   font-weight: 900;
-  font-size: clamp(32px, 5.2vw, 60px);
+  font-size: clamp(30px, 4.4vw, 52px);
   letter-spacing: -0.03em;
-  line-height: 1.04;
+  line-height: 1.02;
   color: var(--fg);
   display: flex;
   align-items: center;
@@ -120,21 +121,21 @@
 
 .sponsors-intro {
   max-width: 440px;
-  margin: 12px auto 0;
+  margin: 8px auto 0;
   color: var(--fg-dim);
-  font-size: clamp(14.5px, 1.5vw, 16px);
+  font-size: clamp(13.5px, 1.35vw, 15.5px);
   font-weight: 400;
-  line-height: 1.55;
+  line-height: 1.5;
   letter-spacing: -0.01em;
   text-wrap: balance;
 }
 
 /* Constellation Container */
 .constellation-container {
-  /* Rectangular (~2:1) cards; sized so all 5 rows + header fit inside 100svh with orbital margin. */
-  --sponsor-card-w: clamp(130px, 10.6vw, 158px);
-  --sponsor-card-h: clamp(58px, 6.4vh, 72px);
-  --sponsor-gap-x: clamp(18px, 1.8vw, 26px);
+  /* Rectangular (~2:1) cards; sized so all 5 rows + header + bottom CTA fit inside 100svh. */
+  --sponsor-card-w: clamp(126px, 10.4vw, 154px);
+  --sponsor-card-h: clamp(50px, 5.5vh, 64px);
+  --sponsor-gap-x: clamp(16px, 1.7vw, 24px);
   position: relative;
   z-index: 1;
   width: 100%;
@@ -228,7 +229,7 @@
   z-index: 1;
   display: flex;
   flex-direction: column;
-  gap: clamp(18px, 2.5vh, 30px);
+  gap: clamp(13px, 1.85vh, 22px);
 }
 
 .constellation-row {
@@ -528,8 +529,167 @@
   transform: scale(1.47);
 }
 
+/* ── Bottom Sponsorship CTA & Spacecraft Docking Port ────────── */
+.sponsors-cta-wrap {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  margin-top: clamp(18px, 2.5vh, 30px);
+}
+
+.sponsors-cta {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 18px 10px 14px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(244, 244, 242, 0.14);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: var(--fg);
+  font-family: var(--font-inter), sans-serif;
+  font-size: 13.5px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+  transition: border-color 0.35s ease,
+    background 0.35s ease,
+    box-shadow 0.35s ease,
+    transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.sponsors-cta__dock-beacon {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1px dashed rgba(244, 244, 242, 0.36);
+  transition: border-color 0.35s ease, transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.sponsors-cta__dock-core {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(244, 244, 242, 0.55);
+  transition: background 0.35s ease, box-shadow 0.35s ease, transform 0.35s ease;
+}
+
+.sponsors-cta.is-docked {
+  border-color: rgba(255, 241, 214, 0.52);
+  background: rgba(255, 255, 255, 0.075);
+  box-shadow: 0 0 28px rgba(255, 241, 214, 0.16), 0 0 14px rgba(125, 211, 252, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.22);
+}
+
+.sponsors-cta.is-crashed {
+  animation: sponsorsCtaCrashImpact 0.52s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes sponsorsCtaCrashImpact {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  20% {
+    transform: translate3d(-6px, -3px, 0) scale(1.06);
+  }
+  45% {
+    transform: translate3d(3px, 2px, 0) scale(0.97);
+  }
+  70% {
+    transform: translate3d(-1.5px, -1px, 0) scale(1.01);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+.sponsors-cta.is-docked .sponsors-cta__dock-beacon {
+  border-color: rgba(125, 211, 252, 0.85);
+  border-style: solid;
+  transform: scale(1.12);
+}
+
+.sponsors-cta.is-docked .sponsors-cta__dock-core {
+  background: #7dd3fc;
+  box-shadow: 0 0 8px rgba(125, 211, 252, 0.9);
+  transform: scale(1.15);
+}
+
+/* Awwwards dual-layer label roll on hover / focus-visible */
+.sponsors-cta__label {
+  display: inline-grid;
+  overflow: clip;
+  line-height: 1.25;
+}
+
+.sponsors-cta__label > span {
+  grid-area: 1 / 1;
+  transition: translate 0.48s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.sponsors-cta__label > span + span {
+  translate: 0 115%;
+  color: #ffffff;
+}
+
+.sponsors-cta__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--fg-dim);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), color 0.35s ease;
+}
+
+@media (hover: hover) {
+  .sponsors-cta:hover {
+    border-color: rgba(244, 244, 242, 0.45);
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  }
+
+  .sponsors-cta:hover .sponsors-cta__label > span {
+    translate: 0 -115%;
+  }
+
+  .sponsors-cta:hover .sponsors-cta__label > span + span {
+    translate: 0 0;
+  }
+
+  .sponsors-cta:hover .sponsors-cta__icon {
+    color: #ffffff;
+    transform: translate(2px, -2px);
+  }
+}
+
+.sponsors-cta:focus-visible {
+  outline: 1.5px solid rgba(244, 244, 242, 0.8);
+  outline-offset: 4px;
+  border-color: rgba(244, 244, 242, 0.5);
+}
+
+.sponsors-cta:focus-visible .sponsors-cta__label > span {
+  translate: 0 -115%;
+}
+
+.sponsors-cta:focus-visible .sponsors-cta__label > span + span {
+  translate: 0 0;
+}
+
 /* Responsive Adaptations */
 @media (max-width: 1024px) {
+  .sponsors-section {
+    height: auto;
+    min-height: 100svh;
+    padding: 84px 0 92px;
+  }
+
   .constellation-svg {
     display: none;
   }
@@ -551,6 +711,7 @@
 
 @media (max-width: 768px) {
   .sponsors-section {
+    height: auto;
     min-height: auto;
     display: block;
     padding: 68px 0 76px;
@@ -624,11 +785,19 @@
     animation: none;
   }
 
-  .constellation-node {
+  .constellation-node,
+  .sponsor-card-inner,
+  .sponsors-cta,
+  .sponsors-cta__label > span,
+  .sponsors-cta__icon {
     transition: none;
   }
 
-  .sponsor-card-inner {
-    transition: none;
+  .sponsors-cta__label > span {
+    translate: none !important;
+  }
+
+  .sponsors-cta__label > span + span {
+    visibility: hidden;
   }
 }

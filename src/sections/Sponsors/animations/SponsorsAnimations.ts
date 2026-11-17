@@ -303,7 +303,7 @@ export function setupSponsorsAnimations({
     });
 
     // ══════════════════════════════════════════════════════════════
-    // ── PHASE 4: LOGOS (Living Signal Lock-In) ──
+    // ── PHASE 4: LOGOS & BOTTOM CTA (Living Signal Lock-In) ──
     // Logos surge with exposure/contrast before settling into crisp clarity
     const logos = gsap.utils.toArray<HTMLElement>(".sponsor-logo");
     if (logos.length > 0) {
@@ -325,76 +325,21 @@ export function setupSponsorsAnimations({
         0.9
       );
     }
-  }, section);
 
-  const exitCtx = gsap.context(() => {
-    // ═══════════════════════════════════════════════════════════════
-    // ── MORPHIC TRANSITION: FIRES ON SECTION EXIT ──
-    // ══════════════════════════════════════════════════════════════
-    const exitTl = gsap.timeline({
-      scrollTrigger: {
-        trigger: section,
-        start: "bottom 85%",
-        end: "bottom 10%",
-        scrub: 0.8,
-        invalidateOnRefresh: true,
-      },
-    });
-
-    // 1. Left and right cards collapse towards the center axis
-    exitTl.to(
-      ".constellation-col:nth-child(odd)",
-      {
-        x: 140,
-        scale: 0.2,
-        opacity: 0,
-        duration: 0.5,
-        ease: "power2.in",
-      },
-      0
-    );
-
-    exitTl.to(
-      ".constellation-col:nth-child(even)",
-      {
-        x: -140,
-        scale: 0.2,
-        opacity: 0,
-        duration: 0.5,
-        ease: "power2.in",
-      },
-      0
-    );
-
-    // 2. Nodes, dots and solar orrery implode/fade to center
-    exitTl.to(
-      ".constellation-anchor-node, .constellation-junction-dot, .node-ping-ring, .sponsors-orrery",
-      {
-        opacity: 0,
-        duration: 0.35,
-        ease: "power2.in",
-      },
-      0
-    );
-
-    // 3. Constellation network lines stretch and collapse into center vertical conduit
-    exitTl.to(
-      ".constellation-line-path",
-      {
-        scaleX: 0.02,
-        transformOrigin: "50% 50%",
-        opacity: 0.7,
-        duration: 0.45,
-        ease: "power2.inOut",
-      },
-      0.05
-    );
+    const ctaWrap = gsap.utils.toArray<HTMLElement>(".sponsors-cta-wrap");
+    if (ctaWrap.length > 0) {
+      storyTl.fromTo(
+        ctaWrap,
+        { opacity: 0, y: 14 },
+        { opacity: 1, y: 0, duration: 0.5, ease: "power3.out", clearProps: "transform" },
+        1.15
+      );
+    }
   }, section);
 
   return () => {
     headerCtx.revert();
     glowCtx.revert();
     storyCtx.revert();
-    exitCtx.revert();
   };
 }

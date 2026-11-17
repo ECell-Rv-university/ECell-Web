@@ -1,5 +1,7 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
+import { ArrowUpRight } from "lucide-react";
+import { SITE_LINKS } from "@/src/content/site";
 import { SPONSORS } from "@/src/content/sponsors";
 import { gsap } from "@/src/utils/gsapSetup";
 import { setupSponsorsAnimations } from "./animations/SponsorsAnimations";
@@ -130,7 +132,7 @@ export default function Sponsors(): React.ReactElement {
         {/* Constellation Vector Network mapped across the grid */}
         <ConstellationNetwork hoveredNode={hoveredNode} />
 
-        {/* Sponsor rows: 3 / 5 / 6 / 5 / 3 logos */}
+        {/* Sponsor rows: 3 / 5 / 7 / 5 / 3 logos */}
         <div ref={gridRef} className="constellation-grid">
           {SPONSOR_ROWS.map((row, rowIndex) => (
             <div className={`constellation-row row-${rowIndex + 1}`} key={rowIndex}>
@@ -148,6 +150,25 @@ export default function Sponsors(): React.ReactElement {
               ))}
             </div>
           ))}
+        </div>
+
+        {/* Bottom Sponsorship Call-To-Action (Spacecraft Docking Target) */}
+        <div className="sponsors-cta-wrap">
+          <a
+            href={`mailto:${SITE_LINKS.email}?subject=Sponsorship%20Inquiry%20%E2%80%94%20ECell%20RVU`}
+            className="sponsors-cta"
+          >
+            <span className="sponsors-cta__dock-beacon" aria-hidden="true">
+              <span className="sponsors-cta__dock-core" />
+            </span>
+            <span className="sponsors-cta__label">
+              <span>Want to sponsor us?</span>
+              <span aria-hidden="true">Partner with ECell</span>
+            </span>
+            <span className="sponsors-cta__icon" aria-hidden="true">
+              <ArrowUpRight size={15} strokeWidth={1.75} />
+            </span>
+          </a>
         </div>
       </div>
     </section>
