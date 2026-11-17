@@ -66,7 +66,7 @@ export const EVENTS: EventSummary[] = [
   },
   {
     slug: "argonyx-hackathon",
-    title: "Argonyx Hackathon",
+    title: "Argonyx '25",
     category: "Hackathons",
     status: "past",
     startDate: "2025-09-18",
