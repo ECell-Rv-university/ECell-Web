@@ -33,6 +33,12 @@ vi.mock("@/src/utils/gsapSetup", () => {
       fromTo: vi.fn(),
       to: vi.fn(),
       set: vi.fn(),
+      utils: {
+        toArray: <T,>(target: string | T[]): T[] =>
+          typeof target === "string"
+            ? (Array.from(document.querySelectorAll(target)) as unknown as T[])
+            : Array.from(target),
+      },
       ticker: {
         add: vi.fn(),
         remove: vi.fn(),
@@ -96,7 +102,7 @@ describe("Sponsors section & StarField orrery", () => {
   it("resonates the orrery when a sponsor card is hovered and clears on leave", () => {
     const { container } = render(<Sponsors />);
     const orrery = container.querySelector(".sponsors-orrery")!;
-    const card = container.querySelector(".constellation-node")!.firstElementChild!;
+    const card = container.querySelector(".sponsor-card-inner")!;
 
     expect(orrery).not.toHaveClass("is-resonating");
 
