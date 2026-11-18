@@ -25,11 +25,6 @@ const nextConfig: NextConfig = {
         permanent: false,
       },
       {
-        source: "/Pitch-e-thon",
-        destination: "/events/pitch-e-thon",
-        permanent: false,
-      },
-      {
         source: "/E-Summit",
         destination: "/events/e-summit",
         permanent: false,
@@ -42,16 +37,6 @@ const nextConfig: NextConfig = {
       {
         source: "/hacktoberfest",
         destination: "/events/hacktoberfest-26",
-        permanent: false,
-      },
-      {
-        source: "/join",
-        destination: "/recruit",
-        permanent: false,
-      },
-      {
-        source: "/recruitment",
-        destination: "/recruit",
         permanent: false,
       },
     ];

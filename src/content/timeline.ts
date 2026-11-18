@@ -42,16 +42,8 @@ export const TIMELINE: TimelineItem[] = [
       "Experienced founders share practical lessons from problem discovery through the first pitch.",
   },
   {
-    id: "pitch-e-thon-26",
-    order: 5,
-    dateLabel: "2026 · Upcoming",
-    title: "Pitch-e-thon ’26",
-    content:
-      "Ideas move from problem discovery to the stage through pitching, feedback, and founder-focused competition.",
-  },
-  {
     id: "e-summit-26",
-    order: 6,
+    order: 5,
     dateLabel: "2026 · Upcoming",
     title: "E-Summit ’26",
     content:
@@ -59,7 +51,7 @@ export const TIMELINE: TimelineItem[] = [
   },
   {
     id: "argonyx-26",
-    order: 7,
+    order: 6,
     dateLabel: "Sep 2026",
     title: "Argonyx ’26",
     content:

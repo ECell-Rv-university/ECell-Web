@@ -51,13 +51,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     ...eventEntries,
     {
-      url: `${SITE_URL}/recruit`,
-      lastModified,
-      changeFrequency: "weekly",
-      priority: 0.8,
-      images: [`${SITE_URL}/og-image.webp`],
-    },
-    {
       url: `${SITE_URL}/opportunities`,
       lastModified,
       changeFrequency: "monthly",

@@ -134,36 +134,6 @@
   outline-offset: 5px;
 }
 
-/* Doodled arrow under "Join us" on the home hero. Its tip sits 32px in from
-   the box's right edge, so this puts the tip under the link's centre. Hidden
-   until the hero sets --hero-intro-alpha, and fades out with the intro. */
-.nav-nudge {
-  position: absolute;
-  top: 100%;
-  right: calc(50% - 32px);
-  width: 300px;
-  height: 84px;
-  overflow: visible;
-  color: var(--fg);
-  opacity: var(--hero-intro-alpha, 0);
-  pointer-events: none;
-}
-
-.nav-nudge text {
-  fill: currentColor;
-  font-family: var(--font-fraunces), Georgia, serif;
-  font-size: 16px;
-  font-style: italic;
-  letter-spacing: 0.01em;
-  text-transform: none;
-}
-
-/* The nav collapses to a menu on narrow screens; no room for it there. */
-@media (max-width: 768px) {
-  .nav-nudge {
-    display: none;
-  }
-}
 .nav-home-link::after {
   content: "";
   position: absolute;
@@ -281,9 +251,8 @@
   }
 }
 
-/* Phones can't fit Events, Opportunities, Join Us and Chapters on one line.
-   Keep only the Join Us call to action in the bar; the menu icon opens the
-   chapters menu, which also carries Events and Opportunities at this size. */
+/* Phones can't fit Events, Opportunities and Chapters on one line.
+   The menu icon opens the chapters menu, which also carries Events and Opportunities. */
 @media (max-width: 540px) {
   .chapters-toggle,
   .nav-collapsible {

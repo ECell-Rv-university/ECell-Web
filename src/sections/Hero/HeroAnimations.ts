@@ -43,16 +43,6 @@ export function setupHeroAnimations({
     inkBlend = on;
     hero.classList.toggle("hero--ink-blend", on);
   };
-  // The nav's arrow to "Join us" fades out with the intro, but lives in the
-  // fixed nav outside the hero, so it reads the fade from this variable.
-  let navNudgeAlpha = -1;
-  const setNavNudgeAlpha = (alpha: number) => {
-    const rounded = Math.round(alpha * 100) / 100;
-    if (rounded === navNudgeAlpha) return;
-    navNudgeAlpha = rounded;
-    document.documentElement.style.setProperty("--hero-intro-alpha", String(rounded));
-  };
-  const clearNavNudgeAlpha = () => document.documentElement.style.removeProperty("--hero-intro-alpha");
   // Fade the intro's children, not the intro itself: an intro with opacity
   // becomes its own group and the heading could no longer blend with the ink.
   const introParts = intro ? Array.from(intro.children) : [];
@@ -67,17 +57,7 @@ export function setupHeroAnimations({
     gsap.set(marquee, { clearProps: "all", opacity: marqueeMaxOpacity });
     setCardShown(true);
     setInkBlend(true);
-    // Nothing fades here, so just drop the arrow once the hero scrolls on.
-    setNavNudgeAlpha(1);
-    const nudgeTrigger = ScrollTrigger.create({
-      trigger: heroRef.current,
-      start: "top top",
-      end: "bottom bottom",
-      onUpdate: (self) => setNavNudgeAlpha(self.progress < 0.15 ? 1 : 0),
-    });
     return () => {
-      nudgeTrigger.kill();
-      clearNavNudgeAlpha();
       setCardShown(false);
       setInkBlend(false);
     };
@@ -94,7 +74,6 @@ export function setupHeroAnimations({
     gsap.set([marquee, label], { opacity: 0 });
     gsap.set(introParts, { opacity: 1 });
     if (scrollHint) gsap.set(scrollHint, { opacity: 1 });
-    setNavNudgeAlpha(1);
     // The trigger's onUpdate only fires once the page scrolls, so turn the
     // blend on now or the tagline stays black under the ink at the top.
     setInkBlend(true);
@@ -109,7 +88,6 @@ export function setupHeroAnimations({
         onUpdate: (self) => {
           setCardShown(self.progress > 0.04);
           setInkBlend(self.progress < 0.4);
-          setNavNudgeAlpha(1 - smoothstep(0.02, 0.2, self.progress));
         },
       },
     });
@@ -138,7 +116,6 @@ export function setupHeroAnimations({
     return () => {
       if (mobileTimeline.scrollTrigger) mobileTimeline.scrollTrigger.kill();
       mobileTimeline.kill();
-      clearNavNudgeAlpha();
       setCardShown(false);
       setInkBlend(false);
     };
@@ -214,7 +191,6 @@ export function setupHeroAnimations({
     labelOpacity(reveal);
     const introAlpha = 1 - smoothstep(0.05, 0.25, progress);
     introOpacity(introAlpha);
-    setNavNudgeAlpha(introAlpha);
     // Once faded, the "Join now" link must not catch clicks.
     if (intro) intro.style.visibility = introAlpha < 0.02 ? "hidden" : "visible";
     if (scrollHintOpacity && scrollHint) {
@@ -231,7 +207,6 @@ export function setupHeroAnimations({
     disposed = true;
     gsap.ticker.remove(updateHero);
     trigger.kill();
-    clearNavNudgeAlpha();
     setCardShown(false);
     setInkBlend(false);
   };
