@@ -131,8 +131,6 @@ export default function About(): React.ReactElement {
   return (
     <section ref={sectionRef} className="about wrap" id="aboutSection">
       <CosmicSectionBackdrop
-        planet="ringed"
-        planetPlacement={{ top: "14%", right: "5%", width: "clamp(125px, 11vw, 180px)" }}
         starsCount={26}
         shootingStarsCount={2}
         seed={202}
@@ -141,7 +139,7 @@ export default function About(): React.ReactElement {
         constellationPlacement={{ top: "42%", right: "3%", width: "clamp(85px, 8vw, 120px)" }}
         wordmark="ecell"
         wordmarkPlacement={{ top: "8%", left: "4%" }}
-        sectorLabel="SEC-02 ORBITALIS"
+        sectorLabel="SEC-02 HELIOS"
         sectionId="aboutSection"
       />
       <div className="relative left-1/2 w-screen -translate-x-1/2">

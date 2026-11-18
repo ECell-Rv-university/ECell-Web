@@ -98,7 +98,8 @@
 
 .about-word:nth-child(3) {
   top: 60%;
-  color: #8bce5d;
+  color: #f6b94e;
+  text-shadow: 0 0 42px rgba(246, 185, 78, 0.24);
   text-align: right;
 }
 
