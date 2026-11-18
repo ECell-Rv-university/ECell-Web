@@ -1,11 +1,12 @@
 .whatsapp-community {
   position: relative;
-  overflow: hidden;
+  overflow-x: clip;
+  overflow-y: visible;
   width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  padding: 180px 0 50px;
+  padding: 180px 0 0;
   background:
     radial-gradient(ellipse 50% 45% at 67% 28%, rgba(81, 104, 255, 0.02), transparent 70%),
     var(--bg, #1a1a1a);
@@ -22,6 +23,9 @@
 .whatsapp-community-wrap {
   position: relative;
   z-index: 1;
+  width: 100%;
+  max-width: min(1280px, 94vw);
+  margin-bottom: calc(var(--wa-card-overlap, 260px) * -1);
 }
 
 .whatsapp-laser-flow {
@@ -31,6 +35,8 @@
   z-index: 2;
   overflow: visible;
   mix-blend-mode: screen;
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 74%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 74%, transparent 100%);
   will-change: transform, opacity;
   transition: opacity 180ms ease;
 }
@@ -109,8 +115,8 @@
 .whatsapp-community-card {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1.08fr) minmax(360px, 0.92fr);
-  min-height: 520px;
+  grid-template-columns: minmax(0, 1.08fr) minmax(380px, 0.92fr);
+  min-height: clamp(520px, 60vh, 580px);
   overflow: hidden;
   border: 2px solid transparent;
   border-radius: 28px;
@@ -174,7 +180,7 @@
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
-  padding: 68px clamp(36px, 6vw, 82px);
+  padding: clamp(56px, 6.5vh, 76px) clamp(40px, 6vw, 84px);
 }
 
 .whatsapp-community-eyebrow {
@@ -281,7 +287,7 @@
 .whatsapp-community-visual {
   position: relative;
   z-index: 1;
-  min-height: 520px;
+  min-height: clamp(520px, 60vh, 580px);
   cursor: pointer;
 }
 
@@ -752,10 +758,8 @@
 
 @media (max-width: 600px) {
   .whatsapp-community {
-    padding: 100px 0 max(40px, env(safe-area-inset-bottom));
+    padding: 100px 0 0;
   }
-
-  .whatsapp-laser-flow { inset: 0; }
 
   .whatsapp-community-ambient-glow {
     width: min(94vw, 500px);
@@ -834,9 +838,7 @@
 
   .whatsapp-community-visual {
     position: relative;
-    /* Let the chat preview give up height on short phones so the whole
-       card fits one pinned screen. */
-    min-height: clamp(210px, calc(100dvh - 500px), 380px);
+    min-height: clamp(260px, 38dvh, 360px);
     margin: 0 12px 18px;
   }
 
@@ -971,7 +973,7 @@
 
 @media (max-width: 360px) {
   .whatsapp-community {
-    padding: 85px 0 max(30px, env(safe-area-inset-bottom));
+    padding: 85px 0 0;
   }
 
   .whatsapp-community-copy {

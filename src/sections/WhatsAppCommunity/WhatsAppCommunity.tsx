@@ -140,15 +140,14 @@ export default function WhatsAppCommunity(): React.ReactElement {
       <CosmicSectionBackdrop
         planet="m87"
         planetPlacement={{
-          bottom: "6%",
-          right: "calc(var(--m87-w, 240px) * -0.22)",
+          top: "14%",
+          right: "calc(var(--m87-w, 240px) * -0.18)",
           width: "clamp(220px, 20vw, 320px)",
         }}
         starsCount={34}
         shootingStarsCount={3}
         seed={707}
         nebula="singularity"
-        sectorLabel="SEC-09 M87* POWEHI"
         constellation="vortex"
         constellationPlacement={{
           top: "40%",

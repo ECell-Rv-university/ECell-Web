@@ -13,6 +13,19 @@
   --columns: 20;
   --line: rgba(255, 255, 255, 0.14);
   --line-strong: rgba(255, 255, 255, 0.28);
+  --wa-card-overlap: clamp(250px, 29vh, 295px);
+}
+
+@media (max-width: 860px) {
+  :root {
+    --wa-card-overlap: clamp(270px, 40dvh, 350px);
+  }
+}
+
+@media (max-height: 500px) and (orientation: landscape) {
+  :root {
+    --wa-card-overlap: 130px;
+  }
 }
 
 * {
