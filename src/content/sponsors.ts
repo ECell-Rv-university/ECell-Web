@@ -22,6 +22,7 @@ import tazishLogo from "@/src/assets/sponsors/tazish.webp";
 import technosportLogo from "@/src/assets/sponsors/technosport.webp";
 import ccLogo from "@/src/assets/sponsors/codechef.webp";
 import wafflingStationLogo from "@/src/assets/sponsors/waffling-station.webp";
+import benipoonaLogo from "@/src/assets/sponsors/benipoona.webp";
 
 export interface SponsorItem {
   id: string;
@@ -58,6 +59,7 @@ export const SPONSORS: SponsorItem[] = [
   // Additional partner logos — add each respective URL here when available.
   { id: "node-fit-muscle", name: "Fit Muscle", logo: fitMuscleLogo, tier: "core", row: 3, url: "https://www.fitmusclepremiumfitness.store/" },
   { id: "node-ark", name: "ARK", logo: arkLogo, tier: "core", row: 4, url:"https://www.arkinfo.in/" },
+  { id: "node-benipoona", name: "BeNipoona", logo: benipoonaLogo, logoKey: "benipoona", tier: "core", row: 3 },
   { id: "node-fivespeed", name: "FiveSpeed Bike Rental", logo: fiveSpeedLogo, tier: "core", row: 5, url: "https://fivespeedbike.com/" },
   { id: "node-hp", name: "HP", logo: hpLogo, tier: "core", row: 5, url: "https://www.hp.com/in-en/home.html" },
   { id: "node-ixigo", name: "ixigo", logo: ixigoLogo, tier: "core", row: 5, url: "https://www.ixigo.com/" },

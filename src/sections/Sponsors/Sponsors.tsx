@@ -13,9 +13,9 @@ import "./Sponsors.css";
 const SPONSOR_ROWS = [
   SPONSORS.slice(0, 3),
   SPONSORS.slice(3, 8),
-  SPONSORS.slice(8, 15),
-  SPONSORS.slice(15, 20),
-  SPONSORS.slice(20, 23),
+  SPONSORS.slice(8, 16),
+  SPONSORS.slice(16, 21),
+  SPONSORS.slice(21, 24),
 ];
 
 export default function Sponsors(): React.ReactElement {
@@ -132,7 +132,7 @@ export default function Sponsors(): React.ReactElement {
         {/* Constellation Vector Network mapped across the grid */}
         <ConstellationNetwork hoveredNode={hoveredNode} />
 
-        {/* Sponsor rows: 3 / 5 / 7 / 5 / 3 logos */}
+        {/* Sponsor rows: 3 / 5 / 8 / 5 / 3 logos */}
         <div ref={gridRef} className="constellation-grid">
           {SPONSOR_ROWS.map((row, rowIndex) => (
             <div className={`constellation-row row-${rowIndex + 1}`} key={rowIndex}>

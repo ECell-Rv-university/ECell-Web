@@ -253,10 +253,10 @@
 .row-5 { grid-template-columns: repeat(3, var(--sponsor-card-w)); }
 .row-2,
 .row-4 { grid-template-columns: repeat(5, var(--sponsor-card-w)); }
-/* Seven partners belong in row 3. Scale only this row's cards as needed so
+/* Eight partners belong in row 3. Scale only this row's cards as needed so
    they remain on a single line within the constellation container. */
 .row-3 {
-  grid-template-columns: repeat(7, min(var(--sponsor-card-w), calc((100% - 6 * var(--sponsor-gap-x)) / 7)));
+  grid-template-columns: repeat(8, min(var(--sponsor-card-w), calc((100% - 7 * var(--sponsor-gap-x)) / 8)));
 }
 
 /* Subtle micro-offsets for organic constellation feeling while preserving grid alignment */
@@ -301,6 +301,10 @@
 }
 
 .node-mile {
+  transform: translateY(-2px);
+}
+
+.node-benipoona {
   transform: translateY(-2px);
 }
 
@@ -527,6 +531,15 @@
 .sponsor-card-inner:hover .sponsor-logo--herody,
 .sponsor-card-inner.is-hovered .sponsor-logo--herody {
   transform: scale(1.47);
+}
+
+.sponsor-logo--benipoona {
+  transform: scale(1.08);
+}
+
+.sponsor-card-inner:hover .sponsor-logo--benipoona,
+.sponsor-card-inner.is-hovered .sponsor-logo--benipoona {
+  transform: scale(1.14);
 }
 
 /* ── Bottom Sponsorship CTA & Spacecraft Docking Port ────────── */
@@ -769,7 +782,8 @@
   .node-cube,
   .node-justvend,
   .node-easybites,
-  .node-mile {
+  .node-mile,
+  .node-benipoona {
     transform: none;
   }
 
