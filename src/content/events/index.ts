@@ -5,7 +5,6 @@ import hacktoberPoster from "@/src/assets/events/hacktoberfest-26/poster.png";
 import talkStartupWithMePhoto from "@/src/assets/events/talk-startup-with-me/photo.webp";
 import winterTechTalkPhoto from "@/src/assets/events/winter-tech-talk/photo.webp";
 import { argonyx26Event } from "./argonyx26";
-import { pitchEThonEvent } from "./pitchEThon";
 import { eSummitEvent } from "./eSummit";
 import { hacktoberfest26Event } from "./hacktoberfest26";
 import type { EventDetailData, EventSummary } from "./types";
@@ -30,15 +29,6 @@ export const EVENTS: EventSummary[] = [
     poster: hacktoberPoster,
     aliases: ["hacktoberfest", "hacktoberfest26", "hackobterfest-26", "hackobterfest26", "hackobterfest"],
     detail: hacktoberfest26Event,
-  },
-  {
-    slug: "pitch-e-thon",
-    title: "Pitch-e-thon",
-    category: "Competitions",
-    status: "upcoming",
-    summary: "Pitch your idea, get real feedback, and take your next step as a builder.",
-    image: argonyxPhoto,
-    detail: pitchEThonEvent,
   },
   {
     slug: "e-summit",

@@ -59,21 +59,10 @@ describe("Nav (home)", () => {
     fireEvent.click(screen.getByRole("button", { name: "View our logo symbolism" }));
     expect(within(screen.getByRole("dialog")).getByText("OUR LOGO")).toBeInTheDocument();
   });
-});
 
-describe("Join Us link", () => {
-  it("hands navigation to the page transition curtain instead of jumping straight to /recruit", () => {
+  it("does not render the removed Join Us link", () => {
     render(<Nav />);
-    const onTransition = vi.fn();
-    window.addEventListener(PAGE_TRANSITION_EVENT, onTransition);
-
-    const joinLink = screen.getByRole("link", { name: "Join Us" });
-    expect(joinLink).toHaveAttribute("href", "/recruit");
-    fireEvent.click(joinLink);
-
-    window.removeEventListener(PAGE_TRANSITION_EVENT, onTransition);
-    expect(onTransition).toHaveBeenCalledTimes(1);
-    expect((onTransition.mock.calls[0][0] as CustomEvent).detail).toEqual({ path: "/recruit" });
+    expect(screen.queryByRole("link", { name: "Join Us" })).toBeNull();
   });
 });
 

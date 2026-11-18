@@ -29,11 +29,6 @@ const TRANSITION_COPY = {
     lines: ["Where ideas", "get moving."],
     meta: "Loading events",
   },
-  "/recruit": {
-    eyebrow: "Recruitment",
-    lines: ["Your seat", "is waiting."],
-    meta: "Loading recruitment",
-  },
   "/opportunities": {
     eyebrow: "Opportunities",
     lines: ["Go build", "somewhere."],

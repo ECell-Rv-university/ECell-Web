@@ -25,13 +25,13 @@ export const COMMUNITY_QA_RULES: QAEntry[] = [
     id: "join",
     chipLabel: "How to join?",
     pattern: /\b(join|register|registration|membership|how to join|where to register|sign up|volunteer)\b/i,
-    reply: "Tap 'Join the community' above to join our official WhatsApp group! We share event registrations, core team recruitments, and collaboration opportunities directly in the community.",
+    reply: "Tap 'Join the community' above to join our official WhatsApp group! We share event registrations and collaboration opportunities directly in the community.",
   },
   {
     id: "events",
     chipLabel: "Upcoming events",
     pattern: /\b(event|events|workshop|workshops|talk|talks|session|sessions)\b/i,
-    reply: "We're the driving force behind top entrepreneurial events at RVU! This year's lineup includes Kalpavikas, Pitch-e-thon, founder sessions, and workshops. Join our WhatsApp community to lock in your spot and never miss an update!",
+    reply: "We're the driving force behind top entrepreneurial events at RVU! This year's lineup includes Kalpavikas, founder sessions, and workshops. Join our WhatsApp community to lock in your spot and never miss an update!",
   },
     {
     id: "eligibility",
@@ -53,21 +53,15 @@ export const COMMUNITY_QA_RULES: QAEntry[] = [
   },
   {
     id: "kalpavikas_dates",
-    chipLabel: "Kalpavikas & Pitch-e-thon dates",
-    pattern: /\b(when|date|dates|schedule|timing)\b.*\b(kalpavikas|pitch[-\s]?e[-\s]?thon)\b|\b(kalpavikas|pitch[-\s]?e[-\s]?thon)\b.*\b(when|date|dates|schedule|timing)\b/i,
+    chipLabel: "Kalpavikas dates",
+    pattern: /\b(when|date|dates|schedule|timing)\b.*\bkalpavikas\b|\bkalpavikas\b.*\b(when|date|dates|schedule|timing)\b/i,
     reply: "Event dates haven't been announced yet. Join our WhatsApp community for the latest dates and updates!",
   },
   {
-  id: "kalpavikas_details",
-  chipLabel: "About Kalpavikas",
-  pattern: /\b(what is|about|tell me about)\b.*\bkalpavikas\b|\bkalpavikas\b.*\b(summit|event|fest)\b/i,
-  reply: "Kalpavikas is RV University's flagship tech fest. It runs for two days and features events such as hackathons, founder talks, and much more. ECell hosts several of the events!",
-  },
-  {
-  id: "pitchethon_details",
-  chipLabel: "About Pitch-e-thon",
-  pattern: /\b(what is pitch[-\s]?e[-\s]?thon|pitch competition|pitch contest|pitch event)\b/i,
-  reply: "Pitch-e-thon is our high-energy startup pitch competition! Students pitch their ideas to a panel of founders and investors. It's a great way to test your idea, win prizes, and get real feedback. Exact dates will be announced in our WhatsApp community!",
+    id: "kalpavikas_details",
+    chipLabel: "About Kalpavikas",
+    pattern: /\b(what is|about|tell me about)\b.*\bkalpavikas\b|\bkalpavikas\b.*\b(summit|event|fest)\b/i,
+    reply: "Kalpavikas is RV University's flagship tech fest. It runs for two days and features events such as hackathons, founder talks, and much more. ECell hosts several of the events!",
   },
   {
     id: "cost",

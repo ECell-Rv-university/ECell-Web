@@ -12,7 +12,7 @@ describe("Events dynamic routes data", () => {
   it("returns all expected event slugs", () => {
     const slugs = getAllEventSlugs();
     expect(slugs).toContain("argonyx-26");
-    expect(slugs).toContain("pitch-e-thon");
+    expect(slugs).not.toContain("pitch-e-thon");
     expect(slugs).toContain("e-summit");
     expect(slugs).toContain("hacktoberfest-26");
   });
@@ -31,13 +31,6 @@ describe("Events dynamic routes data", () => {
   it("supports case-insensitive and alias resolution for Argonyx", () => {
     expect(getEventBySlug("ARGONYX-26")?.slug).toBe("argonyx-26");
     expect(getEventBySlug("argonyx")?.slug).toBe("argonyx-26");
-  });
-
-  it("retrieves Pitch-e-thon data", () => {
-    const event = getEventBySlug("pitch-e-thon");
-    expect(event).toBeDefined();
-    expect(event?.title).toContain("Pitch-e-thon");
-    expect(event?.venue).toBe("RV University, Bengaluru");
   });
 
   it("retrieves E-Summit data", () => {
@@ -94,8 +87,8 @@ describe("Events dynamic routes data", () => {
     expect(formatEventMonth(bySlug("hacktoberfest-26"))).toBe("OCT 2026");
     expect(formatEventDays(bySlug("argonyx-26"))).toBe("25–26");
     expect(formatEventMonth(bySlug("argonyx-26"))).toBe("SEP 2026");
-    expect(formatEventDays(bySlug("pitch-e-thon"))).toBeUndefined();
-    expect(formatEventMonth(bySlug("pitch-e-thon"))).toBe("DATE TBA");
+    expect(formatEventDays(bySlug("e-summit"))).toBeUndefined();
+    expect(formatEventMonth(bySlug("e-summit"))).toBe("DATE TBA");
   });
 
   it("renders EventDetailClient for completed Argonyx 26 with closed status, winners, and view images", async () => {
@@ -157,12 +150,12 @@ describe("Events dynamic routes data", () => {
   it("renders EventDetailClient for upcoming event with registration CTA", async () => {
     const { render, screen } = await import("@testing-library/react");
     const EventDetailClient = (await import("@/app/events/[slug]/EventDetailClient")).default;
-    const event = getEventBySlug("pitch-e-thon");
+    const event = getEventBySlug("e-summit");
     expect(event).toBeDefined();
 
     render(<EventDetailClient event={event!} />);
     expect(screen.getByText("Register now")).toBeInTheDocument();
-    expect(screen.getByText("Join WhatsApp for Updates ↗")).toBeInTheDocument();
+    expect(screen.getByText("Join WhatsApp for Passes ↗")).toBeInTheDocument();
   });
 
   it("renders EventsArchive with clickable event links", async () => {
@@ -174,7 +167,7 @@ describe("Events dynamic routes data", () => {
     const links = screen.getAllByRole("link");
     const hrefs = links.map((l) => l.getAttribute("href"));
     expect(hrefs).toContain("/events/argonyx-26");
-    expect(hrefs).toContain("/events/pitch-e-thon");
+    expect(hrefs).not.toContain("/events/pitch-e-thon");
     expect(hrefs).toContain("/events/e-summit");
     expect(hrefs).toContain("/events/hacktoberfest-26");
   });

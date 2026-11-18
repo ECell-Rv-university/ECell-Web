@@ -21,11 +21,11 @@ describe("SEO routes", () => {
     expect(urls).toEqual(
       expect.arrayContaining([
         `${SITE_URL}/events`,
-        `${SITE_URL}/recruit`,
         `${SITE_URL}/opportunities`,
         ...getAllEventSlugs().map((slug) => `${SITE_URL}/events/${slug}`),
       ]),
     );
+    expect(urls).not.toContain(`${SITE_URL}/recruit`);
     expect(new Set(urls).size).toBe(urls.length);
     expect(entries[0]).toMatchObject({ changeFrequency: "weekly", priority: 1 });
 

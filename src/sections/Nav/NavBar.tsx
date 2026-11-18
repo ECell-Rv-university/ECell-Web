@@ -2,7 +2,6 @@
 import React from "react";
 import Link from "next/link";
 import { startPageTransition, type TransitionPath } from "@/src/components/PageTransition/PageTransition";
-import { RECRUITMENT } from "@/src/data/recruitment";
 import ChaptersDropdown from "./ChaptersDropdown";
 import { useChaptersMenu } from "./hooks/useChaptersMenu";
 import { useSectionNavigation } from "./hooks/useSectionNavigation";
@@ -87,49 +86,6 @@ export default function NavBar({ onLogoClick, logoHint, logoReady = true }: NavB
             onNavigate={navigateWithCurtain("/opportunities")}
           >
             Opportunities
-          </Link>
-          <Link
-            href="/recruit"
-            className={`nav-events-link ${pathname === "/recruit" ? "is-active" : ""}`}
-            aria-current={pathname === "/recruit" ? "page" : undefined}
-            onNavigate={navigateWithCurtain("/recruit")}
-          >
-            Join Us
-            {/* Home only, while recruiting: a doodled arrow curling up to
-                this link. Fades out with the hero intro (see
-                --hero-intro-alpha in HeroAnimations). Decorative only. */}
-            {!isSubNav && RECRUITMENT.isOpen && !isOpen && (
-              <svg className="nav-nudge" viewBox="0 0 300 84" aria-hidden="true" focusable="false">
-                <defs>
-                  <marker
-                    id="nav-nudge-head"
-                    viewBox="0 0 10 10"
-                    refX="5"
-                    refY="5"
-                    markerWidth="8"
-                    markerHeight="8"
-                    orient="auto"
-                  >
-                    <path d="M1 1 L9 5 L1 9" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
-                  </marker>
-                </defs>
-                <path
-                  id="nav-nudge-line"
-                  d="M 8 58 C 80 92, 222 86, 268 10"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.4"
-                  strokeLinecap="round"
-                  strokeDasharray="5 6"
-                  markerEnd="url(#nav-nudge-head)"
-                />
-                <text dy="-8">
-                  <textPath href="#nav-nudge-line" startOffset="6%">
-                    psst… we&apos;re recruiting
-                  </textPath>
-                </text>
-              </svg>
-            )}
           </Link>
           <button
             ref={toggleRef}

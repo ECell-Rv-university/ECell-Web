@@ -40,7 +40,7 @@ export const EVENT_ITEMS: EventItem[] = EVENTS.map((event) => ({
   link: getEventHref(event),
 }));
 
-export const FILTERS = ["All", "Hackathons", "Talks", "Competitions"] as const;
+export const FILTERS = ["All", "Hackathons", "Talks"] as const;
 
 /* =====================================================
    HELPERS
