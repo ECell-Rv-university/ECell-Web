@@ -54,7 +54,7 @@ const ORBITING_BODIES: MinimalOrbitBody[] = [
     rx: 735,
     ry: 332,
     tiltDeg: -3.5,
-    initialAngle: 0.22,
+    initialAngle: -1.05,
     angularSpeed: 0.015,
     hasMoon: true,
     moonRadius: 24,
@@ -118,7 +118,7 @@ export default function StarField({ hoveredNode = null }: StarFieldProps): React
 
     // Exact CTA button center in SVG coordinate space (measured from DOM)
     const targetSvgPos = { x: 800, y: 635 };
-    const earthPos = { x: 1480, y: 515 };
+    const earthPos = { x: 1148, y: 155 };
 
     const measureDockTarget = () => {
       const parentSection = root.closest("section");
@@ -199,12 +199,12 @@ export default function StarField({ hoveredNode = null }: StarFieldProps): React
       const p3x = targetSvgPos.x;
       const p3y = targetSvgPos.y;
 
-      // Sweeping arc that dips below the constellation and curves directly into the CTA button
-      const arcDrop = Math.max(95, (p3y - p0y) * 0.85 + 75);
-      const p1x = p0x - (p0x - p3x) * 0.18;
-      const p1y = p0y + arcDrop;
-      const p2x = p3x + (p0x - p3x) * 0.38;
-      const p2y = p3y + 42;
+      // Sweeping arc from Earth at the top, swinging cleanly outside the right
+      // edge of the constellation and curving directly into the CTA button
+      const p1x = Math.max(p0x + 90, 1480);
+      const p1y = p0y + Math.max(120, (p3y - p0y) * 0.58);
+      const p2x = p3x + Math.max(200, (p0x - p3x) * 0.65);
+      const p2y = p3y + 48;
 
       const pathD = `M ${p0x.toFixed(1)} ${p0y.toFixed(1)} C ${p1x.toFixed(1)} ${p1y.toFixed(1)}, ${p2x.toFixed(1)} ${p2y.toFixed(1)}, ${p3x.toFixed(1)} ${p3y.toFixed(1)}`;
 
