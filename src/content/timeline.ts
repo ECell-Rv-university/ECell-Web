@@ -18,43 +18,59 @@ export const TIMELINE: TimelineItem[] = [
       "A student-led home for founders, builders, and ambitious ideas begins at RV University.",
   },
   {
-    id: "argonyx-hackathon",
+    id: "hack-to-hackathon",
     order: 2,
-    dateLabel: "18 Sep 2025",
-    title: "Argonyx Hackathon",
+    dateLabel: "30 Aug 2023",
+    title: "Hack to Hackathon",
+    content:
+      "Our first campus hackathon sparks hands-on building, rapid prototyping, and peer collaboration at RVU.",
+  },
+  {
+    id: "argonyx-hackathon",
+    order: 3,
+    dateLabel: "10 Oct 2025",
+    title: "Argonyx ’25",
     content:
       "Students and builders gather to explore, build, and deploy ambitious technical solutions.",
   },
   {
-    id: "winter-tech-talk",
-    order: 3,
-    dateLabel: "12 Dec 2025",
-    title: "Winter Tech Talk",
-    content:
-      "Students come together to explore emerging technologies and the frameworks shaping what comes next.",
-  },
-  {
     id: "talk-startup-with-me",
     order: 4,
-    dateLabel: "24 Mar 2026",
+    dateLabel: "17 Oct 2025",
     title: "Talk Startup With Me",
     content:
       "Experienced founders share practical lessons from problem discovery through the first pitch.",
   },
   {
-    id: "e-summit-26",
+    id: "winter-tech-talk",
     order: 5,
-    dateLabel: "2026 · Upcoming",
-    title: "E-Summit ’26",
+    dateLabel: "20 Feb 2026",
+    title: "Winter Tech Talk",
     content:
-      "The campus entrepreneurship community comes together for conversations, connections, and new ventures.",
+      "Students come together to explore emerging technologies and the frameworks shaping what comes next.",
   },
   {
     id: "argonyx-26",
     order: 6,
-    dateLabel: "Sep 2026",
+    dateLabel: "25 Sep 2026",
     title: "Argonyx ’26",
     content:
       "The flagship hackathon returns for another high-energy build sprint for student creators and engineers.",
+  },
+  {
+    id: "hacktoberfest-26",
+    order: 7,
+    dateLabel: "31 Oct 2026",
+    title: "Hacktoberfest Hack Day",
+    content:
+      "25 teams gather with ECell and AWS SBG RVU to build real solutions with open-source AI tools and open-weight models.",
+  },
+  {
+    id: "e-summit-26",
+    order: 8,
+    dateLabel: "2026 · Upcoming",
+    title: "E-Summit ’26",
+    content:
+      "The campus entrepreneurship community comes together for conversations, connections, and new ventures.",
   },
 ];

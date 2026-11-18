@@ -59,7 +59,7 @@ export const EVENTS: EventSummary[] = [
     title: "Argonyx '25",
     category: "Hackathons",
     status: "past",
-    startDate: "2025-09-18",
+    startDate: "2025-10-10",
     summary:
       "A technical hackathon bringing students and builders together to explore, build, and deploy ambitious solutions.",
     image: argonyxPhoto,
@@ -69,7 +69,7 @@ export const EVENTS: EventSummary[] = [
     title: "Winter Tech Talk",
     category: "Talks",
     status: "past",
-    startDate: "2025-12-12",
+    startDate: "2026-02-20",
     summary:
       "A technical session bringing students together to explore emerging technologies and frameworks shaping the future.",
     image: winterTechTalkPhoto,
@@ -79,7 +79,7 @@ export const EVENTS: EventSummary[] = [
     title: "Talk Startup With Me",
     category: "Talks",
     status: "past",
-    startDate: "2026-03-24",
+    startDate: "2025-10-17",
     summary:
       "From problem discovery to your first pitch — learn practical venture building directly from experienced founders.",
     image: talkStartupWithMePhoto,
