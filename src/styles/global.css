@@ -13,6 +13,14 @@
   --columns: 20;
   --line: rgba(255, 255, 255, 0.14);
   --line-strong: rgba(255, 255, 255, 0.28);
+  --wa-card-overlap: clamp(220px, 29vh, 280px);
+}
+
+/* Mobile and sideways phones keep the original full-card layout without overhang. */
+@media (max-width: 860px), (max-height: 500px) and (orientation: landscape) {
+  :root {
+    --wa-card-overlap: 0px;
+  }
 }
 
 * {

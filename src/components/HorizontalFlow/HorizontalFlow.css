@@ -1,8 +1,10 @@
 .horizontal-flow-section {
   position: relative;
+  z-index: 2;
   width: 100%;
   background: var(--bg, #1a1a1a);
-  overflow: hidden;
+  overflow-x: clip;
+  overflow-y: visible;
 }
 
 .horizontal-flow-track {
@@ -58,9 +60,22 @@
   mask-image: linear-gradient(to bottom, transparent, #000 40vh);
 }
 
+/* Allow the WhatsApp community card's bottom half to extend cleanly below
+   the fold on desktop and flow directly into the footer below. */
+@media (min-width: 861px) and (min-height: 501px) {
+  .horizontal-flow-panel:has(> .whatsapp-community) {
+    overflow: visible;
+  }
+
+  .horizontal-flow-panel .whatsapp-community {
+    padding: clamp(84px, 11vh, 104px) 0 0;
+  }
+}
+
 .horizontal-flow-panel .whatsapp-community {
   width: 100%;
   min-height: 100%;
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -75,6 +90,10 @@
 }
 
 @media (max-width: 768px) {
+  .horizontal-flow-section {
+    background: #000000;
+  }
+
   .horizontal-flow-panel .whatsapp-community {
     padding: 80px 0 max(24px, env(safe-area-inset-bottom));
     justify-content: flex-end;

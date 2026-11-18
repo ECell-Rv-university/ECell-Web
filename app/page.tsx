@@ -15,7 +15,7 @@ import Sponsors from "@/src/sections/Sponsors/Sponsors";
 import HorizontalFlow from "@/src/components/HorizontalFlow/HorizontalFlow";
 import Speakers from "@/src/sections/Speakers/Speakers";
 import WhatsAppCommunity from "@/src/sections/WhatsAppCommunity/WhatsAppCommunity";
-import HalftoneWordmarkFooter, { type FooterColumn } from "@/src/components/HalftoneWordmarkFooter/HalftoneWordmarkFooter";
+import CommunityFooter, { type CommunityFooterColumn } from "@/src/components/CommunityFooter/CommunityFooter";
 import FloatingLogo from "@/src/components/FloatingLogo/FloatingLogo";
 import { CraftedWithLove } from "@/src/components/SiteCredit/SiteCredit";
 import GameLauncher from "@/src/components/GameLauncher/GameLauncher";
@@ -36,7 +36,7 @@ const sectionLink = (label: string, target: string) => ({
   },
 });
 
-const FOOTER_COLUMNS: FooterColumn[] = [
+const FOOTER_COLUMNS: CommunityFooterColumn[] = [
   {
     title: "Explore",
     links: [sectionLink("About", "aboutSection"), sectionLink("Events", "eventsSection"), sectionLink("Speakers", "speakers")],
@@ -94,25 +94,15 @@ export default function Home() {
       </HorizontalFlow>
       {/* id="footer" is the nav Chapters → Footer target. */}
       <div id="footer">
-        <HalftoneWordmarkFooter
-          wordmark="ECell"
+        <CommunityFooter
           label="Entrepreneurship Cell · RV University"
-          headline="Build what's next."
+          headlinePrimary="Build"
+          headlineAccent="what's next."
           tagline="A community of student founders turning ideas into ventures, one event, mentor and late-night build at a time."
           cta={{ label: SITE_LINKS.email, href: `mailto:${SITE_LINKS.email}` }}
-          meta={
-            <>
-              © 2026 ECell RVU · <CraftedWithLove />
-            </>
-          }
+          copyright="© 2026 ECell RVU"
+          meta={<CraftedWithLove />}
           columns={FOOTER_COLUMNS}
-          // Same as --bg (src/styles/global.css); the canvas needs a literal colour, not a var.
-          palette={{ background: "#1a1a1a", ink: "#f4f4f2", warm: "#8edcff" }}
-          fontFamily="var(--font-archivo), sans-serif"
-          fontWeight={900}
-          crop={0.18}
-          bodyFamily="var(--font-inter), sans-serif"
-          height="100dvh"
         />
       </div>
     </main>
