@@ -21,7 +21,7 @@
 .community-footer__inner {
   position: relative;
   z-index: 1;
-  max-width: min(1280px, 94vw);
+  max-width: min(1220px, 82vw);
 }
 
 .community-footer__main {
@@ -205,6 +205,10 @@
 }
 
 @media (max-width: 860px) {
+  .community-footer__inner {
+    max-width: 1180px;
+  }
+
   .community-footer__main {
     grid-template-columns: minmax(0, 1fr);
     align-items: start;

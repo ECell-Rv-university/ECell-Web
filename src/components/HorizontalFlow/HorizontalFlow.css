@@ -61,9 +61,15 @@
 }
 
 /* Allow the WhatsApp community card's bottom half to extend cleanly below
-   the fold and flow directly into the footer below. */
-.horizontal-flow-panel:has(> .whatsapp-community) {
-  overflow: visible;
+   the fold on desktop and flow directly into the footer below. */
+@media (min-width: 861px) and (min-height: 501px) {
+  .horizontal-flow-panel:has(> .whatsapp-community) {
+    overflow: visible;
+  }
+
+  .horizontal-flow-panel .whatsapp-community {
+    padding: clamp(84px, 11vh, 104px) 0 0;
+  }
 }
 
 .horizontal-flow-panel .whatsapp-community {
@@ -74,7 +80,7 @@
   flex-direction: column;
   justify-content: flex-end;
   box-sizing: border-box;
-  padding: clamp(84px, 11vh, 104px) 0 0;
+  padding: clamp(84px, 11vh, 104px) 0 clamp(24px, 5vh, 50px);
 }
 
 .horizontal-flow-panel .community-bridge {
@@ -89,16 +95,16 @@
   }
 
   .horizontal-flow-panel .whatsapp-community {
-    padding: 80px 0 0;
+    padding: 80px 0 max(24px, env(safe-area-inset-bottom));
     justify-content: flex-end;
   }
 }
 
-/* Sideways phones: keep the top half visible and let the bottom flow into footer. */
+/* Sideways phones: only ~60px of height is spare once the nav is cleared. */
 @media (max-height: 500px) and (orientation: landscape) {
   .horizontal-flow-panel .whatsapp-community {
-    padding: 56px 0 0;
-    justify-content: flex-end;
+    padding: 64px 0 12px;
+    justify-content: center;
   }
 }
 
