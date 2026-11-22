@@ -20,6 +20,41 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
+        source: "/recruit",
+        destination: "/",
+        permanent: true,
+      },
+      {
+        source: "/recruit/:path*",
+        destination: "/",
+        permanent: true,
+      },
+      {
+        source: "/recuirt",
+        destination: "/",
+        permanent: true,
+      },
+      {
+        source: "/join",
+        destination: "/",
+        permanent: true,
+      },
+      {
+        source: "/recruitment",
+        destination: "/",
+        permanent: true,
+      },
+      {
+        source: "/Pitch-e-thon",
+        destination: "/events",
+        permanent: true,
+      },
+      {
+        source: "/events/pitch-e-thon",
+        destination: "/events",
+        permanent: true,
+      },
+      {
         source: "/Argonyx-26",
         destination: "/events/argonyx-26",
         permanent: false,

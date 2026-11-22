@@ -39,7 +39,12 @@ const sectionLink = (label: string, target: string) => ({
 const FOOTER_COLUMNS: CommunityFooterColumn[] = [
   {
     title: "Explore",
-    links: [sectionLink("About", "aboutSection"), sectionLink("Events", "eventsSection"), sectionLink("Speakers", "speakers")],
+    links: [
+      sectionLink("About", "aboutSection"),
+      { label: "All Events", href: "/events" },
+      { label: "Opportunities", href: "/opportunities" },
+      sectionLink("Speakers", "speakers"),
+    ],
   },
   {
     title: "Community",

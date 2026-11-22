@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import SubNav from "@/src/sections/Nav/SubNav";
 import EventsArchive from "@/src/components/EventsArchive/EventsArchive";
 import { SITE_URL } from "@/src/utils/constants";
+import { buildBreadcrumbJsonLd } from "@/src/utils/seo";
 
 export const metadata: Metadata = {
   title: "Events & Workshops",
@@ -33,9 +34,18 @@ export const metadata: Metadata = {
   },
 };
 
+const breadcrumbJsonLd = buildBreadcrumbJsonLd([
+  { name: "Home", path: "/" },
+  { name: "Events & Workshops", path: "/events" },
+]);
+
 export default function EventsPage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       <SubNav />
       <EventsArchive />
     </>

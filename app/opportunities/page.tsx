@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import SubNav from "@/src/sections/Nav/SubNav";
 import SiteCredit from "@/src/components/SiteCredit/SiteCredit";
 import { SITE_URL } from "@/src/utils/constants";
+import { buildBreadcrumbJsonLd } from "@/src/utils/seo";
 import Globe, { type GlobeMarker } from "./_components/Globe";
 import "./Opportunities.css";
 
@@ -51,9 +52,18 @@ const POINTS = [
   { label: "Honest prizes", text: "Prize money is shown only when the organisers publish it." },
 ];
 
+const breadcrumbJsonLd = buildBreadcrumbJsonLd([
+  { name: "Home", path: "/" },
+  { name: "Opportunities", path: "/opportunities" },
+]);
+
 export default function OpportunitiesPage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       <SubNav />
       <main className="op-page">
         <section className="op-hero">

@@ -71,14 +71,17 @@ export default function NavBar({ onLogoClick, logoHint, logoReady = true }: NavB
         </div>
 
         <div className="nav-right">
-          <button
+          <Link
+            href="/events"
             className={`nav-events-link nav-collapsible ${pathname === "/events" ? "is-active" : ""}`}
-            onClick={openEvents}
-            type="button"
             aria-current={pathname === "/events" ? "page" : undefined}
+            onNavigate={(event) => {
+              event.preventDefault();
+              openEvents();
+            }}
           >
             Events
-          </button>
+          </Link>
           <Link
             href="/opportunities"
             className={`nav-events-link nav-collapsible ${pathname === "/opportunities" ? "is-active" : ""}`}

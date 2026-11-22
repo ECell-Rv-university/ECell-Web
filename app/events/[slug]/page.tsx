@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getEventBySlug, getAllEventSlugs } from "@/src/content/events";
 import { SITE_URL } from "@/src/utils/constants";
+import { buildBreadcrumbJsonLd } from "@/src/utils/seo";
 import EventDetailClient from "./EventDetailClient";
 
 interface Props {
@@ -60,5 +61,19 @@ export default async function EventPage({ params }: Props) {
     notFound();
   }
 
-  return <EventDetailClient event={event} />;
+  const breadcrumbJsonLd = buildBreadcrumbJsonLd([
+    { name: "Home", path: "/" },
+    { name: "Events", path: "/events" },
+    { name: event.title, path: `/events/${event.slug}` },
+  ]);
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
+      <EventDetailClient event={event} />
+    </>
+  );
 }
