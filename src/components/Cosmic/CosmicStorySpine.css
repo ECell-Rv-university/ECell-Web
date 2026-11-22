@@ -1,0 +1,253 @@
+/* ==========================================================================
+   CosmicStorySpine — Desktop-Only Cinematic Astrometric Flight Recorder
+   Strictly hidden below 1024px or on coarse/touch pointers so mobile stays
+   100% untouched.
+   ========================================================================== */
+
+.cosmic-story-spine {
+  display: none;
+}
+
+@media (min-width: 1024px) and (hover: hover) and (pointer: fine) {
+  .cosmic-story-spine {
+    position: fixed;
+    top: 50%;
+    right: 22px;
+    z-index: 42;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    gap: 16px;
+    translate: 0 -50%;
+    pointer-events: none;
+    transition: opacity 420ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .cosmic-story-spine.is-quiet {
+    opacity: 0.34;
+  }
+
+  .cosmic-story-spine.is-quiet:hover,
+  .cosmic-story-spine.is-quiet:focus-within {
+    opacity: 0.96;
+  }
+
+  .cosmic-story-spine.is-hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  /* Vertical Keplerian Trajectory Rail */
+  .cosmic-story-spine__rail {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px 6px;
+    pointer-events: auto;
+  }
+
+  .cosmic-story-spine__track {
+    position: absolute;
+    top: 14px;
+    bottom: 14px;
+    left: 50%;
+    width: 1px;
+    translate: -50% 0;
+    background: rgba(255, 255, 255, 0.14);
+    pointer-events: none;
+  }
+
+  .cosmic-story-spine__track-fill {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      rgba(142, 220, 255, 0.85) 0%,
+      rgba(255, 215, 0, 0.85) 55%,
+      rgba(125, 140, 255, 0.9) 100%
+    );
+    transform-origin: top center;
+    transform: scaleY(0);
+    will-change: transform;
+  }
+
+  .cosmic-story-spine__ship {
+    position: absolute;
+    top: 0%;
+    left: 50%;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    translate: -50% -50%;
+    background: #ffffff;
+    box-shadow:
+      0 0 0 3px rgba(142, 220, 255, 0.22),
+      0 0 12px rgba(142, 220, 255, 0.85);
+    pointer-events: none;
+    will-change: top;
+  }
+
+  .cosmic-story-spine__nodes {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .cosmic-story-spine__node-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .cosmic-story-spine__node {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    color: rgba(244, 244, 242, 0.45);
+    transition: color 240ms ease;
+  }
+
+  .cosmic-story-spine__node:focus-visible {
+    outline: 1.5px solid #8edcff;
+    outline-offset: 2px;
+    border-radius: 999px;
+  }
+
+  .cosmic-story-spine__dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: rgba(244, 244, 242, 0.34);
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    transition:
+      transform 320ms cubic-bezier(0.16, 1, 0.3, 1),
+      background-color 240ms ease,
+      border-color 240ms ease,
+      box-shadow 240ms ease;
+  }
+
+  .cosmic-story-spine__node.is-passed .cosmic-story-spine__dot {
+    background: rgba(142, 220, 255, 0.65);
+    border-color: rgba(142, 220, 255, 0.85);
+  }
+
+  .cosmic-story-spine__node.is-active .cosmic-story-spine__dot,
+  .cosmic-story-spine__node:hover .cosmic-story-spine__dot {
+    transform: scale(1.65);
+    background: #ffffff;
+    border-color: #8edcff;
+    box-shadow: 0 0 10px rgba(142, 220, 255, 0.75);
+  }
+
+  .cosmic-story-spine__code {
+    position: absolute;
+    right: 26px;
+    font-family: var(--font-inter), ui-monospace, SFMono-Regular, monospace;
+    font-size: 9px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.14em;
+    color: rgba(244, 244, 242, 0.72);
+    opacity: 0;
+    translate: 6px 0;
+    pointer-events: none;
+    transition:
+      opacity 220ms ease,
+      translate 260ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .cosmic-story-spine__node:hover .cosmic-story-spine__code,
+  .cosmic-story-spine__node:focus-visible .cosmic-story-spine__code {
+    opacity: 1;
+    translate: 0 0;
+  }
+
+  /* Architectural Story Readout Card */
+  .cosmic-story-spine__card {
+    width: 248px;
+    padding: 13px 15px 14px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 6px;
+    background: rgba(10, 11, 15, 0.82);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 18px 46px rgba(0, 0, 0, 0.48);
+    color: var(--fg, #f4f4f2);
+    opacity: 0;
+    translate: 14px 0;
+    pointer-events: none;
+    transition:
+      opacity 380ms cubic-bezier(0.16, 1, 0.3, 1),
+      translate 440ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .cosmic-story-spine.is-expanded .cosmic-story-spine__card {
+    opacity: 1;
+    translate: 0 0;
+  }
+
+  .cosmic-story-spine__card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding-bottom: 7px;
+    margin-bottom: 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    font-family: var(--font-inter), ui-monospace, SFMono-Regular, monospace;
+    font-size: 9.5px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .cosmic-story-spine__act {
+    color: #8edcff;
+  }
+
+  .cosmic-story-spine__au {
+    color: rgba(255, 215, 0, 0.88);
+    white-space: nowrap;
+  }
+
+  .cosmic-story-spine__body {
+    margin: 0 0 5px;
+    font-family: var(--font-archivo), sans-serif;
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #ffffff;
+    line-height: 1.15;
+  }
+
+  .cosmic-story-spine__narrative {
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.48;
+    color: rgba(244, 244, 242, 0.72);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cosmic-story-spine,
+  .cosmic-story-spine__card,
+  .cosmic-story-spine__dot,
+  .cosmic-story-spine__code {
+    transition: none !important;
+  }
+}
