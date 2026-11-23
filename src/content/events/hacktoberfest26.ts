@@ -1,8 +1,9 @@
 import type { EventDetailData } from "./types";
 import hacktoberPoster from "@/src/assets/events/hacktoberfest-26/poster.png";
-import winnerPhoto from "@/src/assets/events/hacktoberfest-26/winners/winner.jpeg";
+import winnerPhoto from "@/src/assets/events/hacktoberfest-26/winners/2nd_runner_up.jpeg";
 import runnerUpPhoto from "@/src/assets/events/hacktoberfest-26/winners/1st_runner_up.jpeg";
-import secondRunnerUpPhoto from "@/src/assets/events/hacktoberfest-26/winners/2nd_runner_up.jpeg";
+import secondRunnerUpPhoto from "@/src/assets/events/hacktoberfest-26/winners/winner.jpeg";
+
 
 export const hacktoberfest26Event: EventDetailData = {
   slug: "hacktoberfest-26",
