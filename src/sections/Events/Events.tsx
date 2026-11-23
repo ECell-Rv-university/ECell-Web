@@ -5,7 +5,12 @@ import { gsap } from "@/src/utils/gsapSetup";
 import moreEvents from "@/src/assets/events/hacktoberfest-26/poster.png";
 import desktopTeamBg from "@/src/assets/home/events-background-desktop.webp";
 import mobileTeamBg from "@/src/assets/home/events-background-mobile.webp";
-import { EVENTS, formatEventDays, formatEventMonth } from "@/src/content/events";
+import {
+  EVENTS,
+  formatEventDays,
+  formatEventMonth,
+  getEventHref,
+} from "@/src/content/events";
 import { padNumber } from "@/src/utils/math";
 import CosmicSectionBackdrop from "@/src/components/Cosmic/CosmicSectionBackdrop";
 import "./Events.css";
@@ -21,6 +26,7 @@ export interface GalleryItem {
   venue: string;
   src?: StaticImageData | string;
   alt?: string;
+  href?: string;
   isCta?: boolean;
 }
 
@@ -39,6 +45,7 @@ const GALLERY_ITEMS: GalleryItem[] = [
     venue: "RV UNIVERSITY",
     src: event.image,
     alt: event.title,
+    href: getEventHref(event),
   })),
   {
     number: padNumber(PAST_EVENTS.length + 1),
@@ -432,7 +439,7 @@ export default function Events(): React.ReactElement {
                           ECELL RVU · ARCHIVE
                         </span>
                         <div className="events-cta-card-button">
-                          <span>VIEW ARCHIVE</span>
+                          <span>VIEW MORE</span>
                           <span
                             className="events-cta-btn-icon"
                             aria-hidden="true"
@@ -443,18 +450,37 @@ export default function Events(): React.ReactElement {
                       </div>
                     </Link>
                   ) : (
-                    item.src && (
-                      <Image
-                        src={item.src}
-                        alt={item.alt || ""}
-                        fill
-                        sizes="(max-width: 768px) 85vw, 36vw"
-                        quality={85}
-                        priority
-                        loading="eager"
-                        draggable={false}
-                      />
-                    )
+                    <>
+                      {item.src && (
+                        <Image
+                          src={item.src}
+                          alt={item.alt || ""}
+                          fill
+                          sizes="(max-width: 768px) 85vw, 36vw"
+                          quality={85}
+                          priority
+                          loading="eager"
+                          draggable={false}
+                        />
+                      )}
+
+                      {item.href && (
+                        <div className="events-cta-card-inner">
+                          <Link
+                            href={item.href}
+                            className="events-cta-card-button"
+                          >
+                            <span>VIEW EVENT</span>
+                            <span
+                              className="events-cta-btn-icon"
+                              aria-hidden="true"
+                            >
+                              ↗
+                            </span>
+                          </Link>
+                        </div>
+                      )}
+                    </>
                   )}
                 </div>
               </div>
