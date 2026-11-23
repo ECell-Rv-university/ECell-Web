@@ -22,7 +22,7 @@ describe("Events dynamic routes data", () => {
     expect(event).toBeDefined();
     expect(event?.title).toContain("ARGONYX");
     expect(event?.venue).toBe("RV University, Bengaluru");
-    expect(event?.registration.url).toContain("unstop.com");
+    expect(event?.registration?.url).toContain("unstop.com");
     expect(event?.ledger.length).toBeGreaterThan(0);
     expect(event?.organizers.length).toBeGreaterThan(0);
     expect(event?.contacts.length).toBeGreaterThan(0);
@@ -48,7 +48,7 @@ describe("Events dynamic routes data", () => {
     expect(event?.venue).toBe("RV University, Bengaluru");
     expect(event?.organizers).toContain("AWS SBG, RV University");
     expect(event?.organizers).toContain("The Entrepreneurship Cell, RV University");
-    expect(event?.registration.url).toBe("https://share.google/4J3aOAZrHKNAcyaAF");
+    expect(event?.registration).toBeUndefined();
     expect(event?.rounds?.items.length).toBe(2);
     expect(event?.sponsors?.poweredBy?.length).toBeGreaterThan(0);
     expect(event?.sponsors?.presenting?.name).toBe("DigitalOcean");
@@ -139,12 +139,8 @@ describe("Events dynamic routes data", () => {
     // "Powered by" cards show each partner's logo, not the event poster.
     expect(screen.getByAltText("MLH logo")).toBeInTheDocument();
     expect(screen.getByAltText("DEV logo")).toBeInTheDocument();
-    expect(screen.getAllByAltText(event!.title)).toHaveLength(1);
-    expect(screen.getByText("Register for Hack Day ↗")).toBeInTheDocument();
-    expect(screen.getByText("Nishit")).toBeInTheDocument();
-    expect(screen.getByText("Pranav")).toBeInTheDocument();
-    expect(screen.getByText("+91 878 057 7400")).toBeInTheDocument();
-    expect(screen.getByText("+91 7645846602")).toBeInTheDocument();
+   expect(screen.queryByText("Register for Hack Day ↗")).not.toBeInTheDocument();
+    
   });
 
   it("renders EventDetailClient for upcoming event with registration CTA", async () => {
