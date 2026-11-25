@@ -20,7 +20,8 @@ interface EventDetailClientProps {
 }
 
 export default function EventDetailClient({ event }: EventDetailClientProps): React.ReactElement {
-  const { rounds, sponsors } = event;
+  const { rounds, sponsors, winners } = event;
+  const hasWinners = Boolean(winners && winners.items.length > 0);
 
   useEffect(() => {
     // Scroll reset on navigation is owned by RouteScrollManager. The three-wave
@@ -64,7 +65,7 @@ export default function EventDetailClient({ event }: EventDetailClientProps): Re
             {sponsors && <a href="#sponsors">Sponsors</a>}
             {event.isCompleted ? (
               <>
-                <a href="#winners">Winners</a>
+                {hasWinners && <a href="#winners">Winners</a>}
                 <a href="#gallery">View Images</a>
               </>
             ) : (
@@ -88,10 +89,10 @@ export default function EventDetailClient({ event }: EventDetailClientProps): Re
 
         <EventDetails event={event} />
 
-        {event.isCompleted ? (
-          <EventWinners winners={event.winners} />
+        {hasWinners ? (
+          <EventWinners winners={winners} />
         ) : (
-          <EventRegister registration={event.registration} />
+          !event.isCompleted && <EventRegister registration={event.registration} />
         )}
 
         {sponsors && sponsors.list.length > 0 && <EventSponsors sponsors={sponsors} />}

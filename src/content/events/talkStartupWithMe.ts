@@ -49,6 +49,21 @@ export const talkStartupWithMeEvent: EventDetailData = {
       value: "Fit Muscle",
     },
   ],
+  sponsors: {
+    headline: "Event",
+    accent: " Sponsors.",
+    subhead:
+      "Supporting Talk Start-Up To Me at RV University.",
+    list: [
+      {
+        name: "EDOCK",
+      },
+      {
+        name: "Fit Muscle",
+        tag: "In-Kind Sponsor",
+      },
+    ],
+  },
   organizers: [
     "The Entrepreneurship Cell, RV University",
     "EDOCK",
