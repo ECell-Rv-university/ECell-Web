@@ -86,7 +86,7 @@ export interface EventDetailData {
   organizers: string[];
   contacts: ContactItem[];
   /** Shown while the event is upcoming. */
-  registration: {
+  registration?: {
     url: string;
     ctaText: string;
     headline: string;

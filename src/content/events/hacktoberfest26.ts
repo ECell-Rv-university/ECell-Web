@@ -1,38 +1,35 @@
 import type { EventDetailData } from "./types";
 import hacktoberPoster from "@/src/assets/events/hacktoberfest-26/poster.png";
+import winnerPhoto from "@/src/assets/events/hacktoberfest-26/winners/2nd_runner_up.jpeg";
+import runnerUpPhoto from "@/src/assets/events/hacktoberfest-26/winners/1st_runner_up.jpeg";
+import secondRunnerUpPhoto from "@/src/assets/events/hacktoberfest-26/winners/winner.jpeg";
+
 
 export const hacktoberfest26Event: EventDetailData = {
   slug: "hacktoberfest-26",
   title: "Hacktoberfest '26 Hack Day",
+  isCompleted: true,
   hero: {
-    eyebrow: "Global Open Source Celebration · Mini-Hackathon",
+    eyebrow: "Global Open Source Celebration · Concluded",
     headline: "Learn & build with",
     accent: " open-source AI.",
     body:
-      "Hacktoberfest Hack Days are hands-on mini-hackathons based on Major League Hacking (MLH)'s Hack Days program. Organized by ECell and AWS SBG at RV University, 25 offline teams of 4 assemble on 31 October 2026 to build real solutions with open-source AI tools and open-weight models.",
+      "Hacktoberfest Hack Days are hands-on mini-hackathons based on Major League Hacking (MLH)'s Hack Days program. Organized by ECell and AWS SBG at RV University, 25 offline teams of 4 assembled on 31 October 2026 to build real solutions with open-source AI tools and open-weight models.",
   },
   about: {
     eyebrow: "About Hacktoberfest Hack Day",
     headline: "A month-long celebration of",
     accent: " open source.",
     description:
-      "Hacktoberfest is a month-long celebration of open source throughout October. In 2026, the focus is on learning and building with open-source AI and open-weight models, both through in-person and online activities. MLH and DEV are managing the event this year in partnership with our friends at DigitalOcean.\n\nThe event will be open to students from all universities. Participants will work in small teams on projects involving open-source AI tools, open-weight AI models, AI-assisted developer tools, and practical applications of open-source technologies. Key themes may include: Generative AI, AI agents, developer productivity, and other practical applications of open-source AI.",
+      "Hacktoberfest is a month-long celebration of open source throughout October. In 2026, the focus was on learning and building with open-source AI and open-weight models, both through in-person and online activities. MLH and DEV managed the event this year in partnership with our friends at DigitalOcean.\n\nThe event was open to students from all universities. Participants worked in small teams on projects involving open-source AI tools, open-weight AI models, AI-assisted developer tools, and practical applications of open-source technologies. Key themes included: Generative AI, AI agents, developer productivity, and other practical applications of open-source AI.",
     note:
-      "Organized by The Entrepreneurship Cell (ECell) and AWS SBG at RV University. 25 participating teams of 4 members each (100 participants in total). Problem Statement: TBD. Conducted in two rounds: Round 1 Online PPT Submission and Round 2 Offline Presentation & Judging on 31 October 2026 at RV University. Free lunch provided to registered participants.",
+      "This edition of Hacktoberfest Hack Day has successfully concluded. Organized by The Entrepreneurship Cell (ECell) and AWS SBG at RV University with 25 participating teams of 4 members each on 31 October 2026.",
   },
   format: "Two rounds — Online PPT Submission followed by Offline Presentation & Judging (25 teams of 4, 100 participants)",
   date: "31 October 2026",
-  dateBadge: "31 OCT 2026 · RV UNIVERSITY, BENGALURU",
+  dateBadge: "COMPLETED · 31 OCT 2026 · RV UNIVERSITY, BENGALURU",
   venue: "RV University, Bengaluru",
   prizePool: "Swag, Prizes & Open Source Recognition",
-  registration: {
-    url: "https://share.google/4J3aOAZrHKNAcyaAF",
-    ctaText: "Register for Hack Day ↗",
-    headline: "Build the future with",
-    accent: "open-source AI.",
-    hint:
-      "Limited to 25 offline teams (4 members per team / 100 participants total). Free lunch provided to registered participants.",
-  },
   image: hacktoberPoster,
   imageIsPoster: true,
   ledger: [
@@ -53,30 +50,25 @@ export const hacktoberfest26Event: EventDetailData = {
     },
     {
       number: "04",
-      label: "Problem Statement",
-      value: "PS: TBD (Announced prior to Round 1)",
-    },
-    {
-      number: "05",
       label: "Dates",
       value: "31 October 2026",
     },
     {
-      number: "06",
+      number: "05",
       label: "Venue",
       value: "RV University, Bengaluru (Offline Round 2)",
     },
     {
-      number: "07",
-      label: "Perks & Meals",
-      value: "Complimentary lunch provided for registered participants",
+      number: "06",
+      label: "Best UI/UX Award",
+      value: "Hop Sync",
     },
   ],
   rounds: {
     headline: "Event Progression &",
     accent: " Format.",
     subhead:
-      "Hacktoberfest Hack Day is conducted in two focused rounds designed to take ideas from concept to live defense.",
+      "Hacktoberfest Hack Day was conducted in two focused rounds designed to take ideas from concept to live defense.",
     items: [
       {
         number: "ROUND 01",
@@ -84,7 +76,7 @@ export const hacktoberfest26Event: EventDetailData = {
         title: "Online PPT Submission",
         type: "Online Submission",
         description:
-          "Participants/teams will submit their project ideas and proposed solutions in the prescribed PPT format through the designated online submission platform. The submissions will be evaluated by the organizing and judging team, and shortlisted teams will be selected for the next round.",
+          "Participants/teams submitted their project ideas and proposed solutions in the prescribed PPT format through the designated online submission platform. The submissions were evaluated by the organizing and judging team, and shortlisted teams advanced to the next round.",
       },
       {
         number: "ROUND 02",
@@ -92,7 +84,7 @@ export const hacktoberfest26Event: EventDetailData = {
         title: "Offline Presentation & Judging",
         type: "Offline at RV University",
         description:
-          "Shortlisted teams will report to RV University build and present their projects in person before the judging panel. Teams will demonstrate their solutions and explain their implementation, approach, impact, and scalability.",
+          "Shortlisted teams reported to RV University to build and present their projects in person before the judging panel. Teams demonstrated their solutions and explained their implementation, approach, impact, and scalability.",
       },
     ],
     expectedOutcomes: [
@@ -102,13 +94,52 @@ export const hacktoberfest26Event: EventDetailData = {
       "Interacting with peers and mentors, and fostering a stronger local developer community around open-source AI.",
     ],
     logisticsNotice:
-      "Participants are required to follow the RV University Code of Conduct and applicable event guidelines. Photography and videography will be conducted for event documentation. Complimentary lunch will be provided to all registered participants.",
+      "Participants followed the RV University Code of Conduct and applicable event guidelines. Complimentary lunch was provided to all registered participants.",
+  },
+  winners: {
+    headline: "Champions of",
+    accent: " Hacktoberfest '26.",
+    subhead:
+      "Honoring the builders and teams who shipped standout open-source AI solutions at RV University.",
+    items: [
+      {
+        place: "1ST PLACE",
+        badge: "Grand Champion",
+        teamName: "Pixel Forge",
+        projectTitle: "Hacktoberfest '26 Grand Winners",
+        description:
+          "Secured first place with a standout open-source AI build — demoed and defended in front of the judging panel.",
+        photoCaption: "Pixel Forge — 1st Place",
+        photo: winnerPhoto,
+      },
+      {
+        place: "2ND PLACE",
+        badge: "First Runner-Up",
+        teamName: "Niviko",
+        projectTitle: "Hacktoberfest '26 First Runner-Up",
+        description:
+          "Delivered an impressive working solution during Hack Day, earning second place from the jury panel.",
+        photoCaption: "Niviko — 2nd Place",
+        photo: runnerUpPhoto,
+      },
+      {
+        place: "3RD PLACE",
+        badge: "Second Runner-Up",
+        teamName: "Clover Dynamics",
+        projectTitle: "Hacktoberfest '26 Second Runner-Up",
+        description:
+          "Secured third place with a strong open-source AI prototype built and presented at RV University.",
+        photoCaption: "Clover Dynamics — 3rd Place",
+        photo: secondRunnerUpPhoto,
+      },
+    ],
+    badges: ["HACKTOBERFEST '26", "OPEN-SOURCE AI HACK DAY"],
   },
   sponsors: {
     headline: "Global Ecosystem &",
     accent: " Partners.",
     subhead:
-      "Hacktoberfest is presented in partnership with industry leaders advancing open-source software and open-weight AI.",
+      "Hacktoberfest was presented in partnership with industry leaders advancing open-source software and open-weight AI.",
     poweredBy: [
       {
         name: "MLH",
@@ -178,6 +209,6 @@ export const hacktoberfest26Event: EventDetailData = {
   meta: {
     title: "Hacktoberfest '26 Hack Day | ECell RV University",
     description:
-      "Hacktoberfest '26 Hack Day at RV University — hands-on mini-hackathon with open-source AI and open-weight models, managed by MLH, DEV, and DigitalOcean.",
+      "Hacktoberfest '26 Hack Day at RV University — hands-on mini-hackathon with open-source AI and open-weight models. Winners announced, event concluded.",
   },
 };

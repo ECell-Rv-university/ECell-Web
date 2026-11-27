@@ -5,7 +5,11 @@ interface EventRegisterProps {
   registration: EventDetailData["registration"];
 }
 
-export default function EventRegister({ registration }: EventRegisterProps): React.ReactElement {
+export default function EventRegister({ registration }: EventRegisterProps): React.ReactElement | null {
+  if (!registration) {
+    return null;
+  }
+
   return (
     <section className="register" id="register">
       <p className="eyebrow eyebrow--onwhite">
@@ -33,4 +37,4 @@ export default function EventRegister({ registration }: EventRegisterProps): Rea
       <p className="register__hint">{registration.hint}</p>
     </section>
   );
-}
+} 
