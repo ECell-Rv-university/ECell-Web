@@ -3,6 +3,9 @@ import Image from "next/image";
 import type { EventDetailData } from "@/src/content/events";
 
 export default function EventHero({ event }: { event: EventDetailData }): React.ReactElement {
+  const hasWinners = Boolean(event.winners);
+  const completedTarget = hasWinners ? "#winners" : "#about";
+
   return (
     <section className="hero" id="top">
       <div className="hero__grid">
@@ -25,9 +28,11 @@ export default function EventHero({ event }: { event: EventDetailData }): React.
                 <a className="btn btn--solid" href="#gallery">
                   View Images
                 </a>
-                <a className="btn btn--ghost" href="#winners">
-                  View Winners
-                </a>
+                {hasWinners && (
+                  <a className="btn btn--ghost" href="#winners">
+                    View Winners
+                  </a>
+                )}
               </>
             ) : (
               <>
@@ -44,10 +49,12 @@ export default function EventHero({ event }: { event: EventDetailData }): React.
 
         <a
           className={`event-card ${event.isCompleted ? "event-card--completed" : ""}`}
-          href={event.isCompleted ? "#winners" : "#register"}
+          href={event.isCompleted ? completedTarget : "#register"}
           aria-label={
             event.isCompleted
-              ? `View winners for ${event.title}`
+              ? hasWinners
+                ? `View winners for ${event.title}`
+                : `About ${event.title}`
               : `Register for ${event.title}`
           }
         >

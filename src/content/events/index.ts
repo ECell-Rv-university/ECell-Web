@@ -2,11 +2,13 @@ import argonyxPhoto from "@/src/assets/events/argonyx-hackathon/photo.webp";
 import argonyx26Photo from "@/src/assets/events/argonyx-26/photo.webp";
 import argonyx26Poster from "@/src/assets/events/argonyx-26/poster.webp";
 import hacktoberPoster from "@/src/assets/events/hacktoberfest-26/poster.png";
+import talkStartupPoster from "@/src/assets/events/talk-startup-with-me/TechStartUpToMe.jpg";
 import talkStartupWithMePhoto from "@/src/assets/events/talk-startup-with-me/photo.webp";
 import winterTechTalkPhoto from "@/src/assets/events/winter-tech-talk/photo.webp";
 import { argonyx26Event } from "./argonyx26";
 import { eSummitEvent } from "./eSummit";
 import { hacktoberfest26Event } from "./hacktoberfest26";
+import { talkStartupWithMeEvent } from "./talkStartupWithMe";
 import type { EventDetailData, EventSummary } from "./types";
 
 export * from "./types";
@@ -83,6 +85,9 @@ export const EVENTS: EventSummary[] = [
     summary:
       "From problem discovery to your first pitch — learn practical venture building directly from experienced founders.",
     image: talkStartupWithMePhoto,
+    poster: talkStartupPoster,
+    aliases: ["talk-startup", "talk-start-up-to-me", "talkstartupwithme"],
+    detail: talkStartupWithMeEvent,
   },
 ];
 
