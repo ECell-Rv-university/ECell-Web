@@ -1,4 +1,5 @@
 import argonyxPhoto from "@/src/assets/events/argonyx-hackathon/photo.webp";
+import Esummit from "@/src/assets/events/argonyx-hackathon/Esummit.webp";
 import argonyx26Photo from "@/src/assets/events/argonyx-26/photo.webp";
 import argonyx26Poster from "@/src/assets/events/argonyx-26/poster.webp";
 import hacktoberPoster from "@/src/assets/events/hacktoberfest-26/poster.png";
@@ -39,7 +40,7 @@ export const EVENTS: EventSummary[] = [
     status: "upcoming",
     summary:
       "A flagship gathering for ideas, founders, and the people building what comes next.",
-    image: argonyxPhoto,
+    image: Esummit,
     detail: eSummitEvent,
   },
   {
